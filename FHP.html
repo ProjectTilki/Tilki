@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>Fox Haberleşme Protokolü</title>
+<meta charset="utf-8"> 
+<style>
+body {
+  padding-left: 10px;
+}
+table {
+  border-collapse: collapse;
+}
+th {
+  text-align: center;
+}
+td {
+  text-align: center;
+}
+td.full-border {
+  border: 1px solid black;
+}
+td.side-border {
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+td.right-border {
+  border-right: 1px solid black;
+}
+td.top-and-side-border {
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+td.bottom-and-side-border {
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+}
+p {
+  margin: 5px;
+}
+</style>
+</head>
+<body>
+
+<table>
+  <tr>
+    <th colspan="34">Fox Haberleşme Protokolü (FHP)</th>
+  </tr>
+  <tr>
+    <td class="full-border">Offsets</td>
+    <td class="full-border">Octet</td>
+    <td class="full-border" colspan="8">0</td>
+    <td class="full-border" colspan="8">1</td>
+    <td class="full-border" colspan="8">2</td>
+    <td class="full-border" colspan="8">3</td>
+  </tr>
+  <tr>
+    <td class="full-border">Octet</td>
+    <td class="full-border">Bit</td>
+    <td class="full-border">&nbsp;&nbsp;0</td>
+    <td class="full-border">&nbsp;&nbsp;1</td>
+    <td class="full-border">&nbsp;&nbsp;2</td>
+    <td class="full-border">&nbsp;&nbsp;3</td>
+    <td class="full-border">&nbsp;&nbsp;4</td>
+    <td class="full-border">&nbsp;&nbsp;5</td>
+    <td class="full-border">&nbsp;&nbsp;6</td>
+    <td class="full-border">&nbsp;&nbsp;7</td>
+    <td class="full-border">&nbsp;&nbsp;8</td>
+    <td class="full-border">&nbsp;&nbsp;9</td>
+    <td class="full-border">10</td>
+    <td class="full-border">11</td>
+    <td class="full-border">12</td>
+    <td class="full-border">13</td>
+    <td class="full-border">14</td>
+    <td class="full-border">15</td>
+    <td class="full-border">16</td>
+    <td class="full-border">17</td>
+    <td class="full-border">18</td>
+    <td class="full-border">19</td>
+    <td class="full-border">20</td>
+    <td class="full-border">21</td>
+    <td class="full-border">22</td>
+    <td class="full-border">23</td>
+    <td class="full-border">24</td>
+    <td class="full-border">25</td>
+    <td class="full-border">26</td>
+    <td class="full-border">27</td>
+    <td class="full-border">28</td>
+    <td class="full-border">29</td>
+    <td class="full-border">30</td>
+    <td class="full-border">31</td>
+  </tr>
+  <tr>
+    <td class="full-border">0</td>
+    <td class="full-border">0</td>
+    <td class="full-border" colspan="4">BK</td>
+    <td class="full-border" colspan="28">Bağlantı Kodu</td>
+  </tr>
+  <tr>
+    <td class="full-border">4</td>
+    <td class="full-border">4</td>
+    <td class="full-border" colspan="32">Öğrenci Numarası</td>
+  </tr>
+  <tr>
+    <td class="top-and-side-border">8</td>
+    <td class="top-and-side-border">8</td>
+    <td class="top-and-side-border" colspan="32"></td>
+  </tr>
+  <tr>
+    <td class="side-border">.</td>
+    <td class="side-border">.</td>
+    <td class="side-border" colspan="32">Ad</td>
+  </tr>
+  <tr>
+    <td class="bottom-and-side-border">24</td>
+    <td class="bottom-and-side-border">24</td>
+    <td class="bottom-and-side-border" colspan="32"></td>
+  </tr>
+  <tr>
+    <td class="side-border">28</td>
+    <td class="side-border">28</td>
+    <td class="right-border" colspan="32"></td>
+  </tr>
+  <tr>
+    <td class="side-border">.</td>
+    <td class="side-border">.</td>
+    <td class="side-border" colspan="32">Soyad</td>
+  </tr>
+  <tr>
+    <td class="bottom-and-side-border">44</td>
+    <td class="bottom-and-side-border">44</td>
+    <td class="bottom-and-side-border" colspan="32"></td>
+  </tr>
+</table>
+
+<p><b>BK (4 bit)</b></p>
+<p style="text-indent:20px"> Bağlantı türünü tanimlamada kullanılacaktır.</p>
+<p><b>Bağlantı Kodu (28 bit)</b></p>
+<p style="text-indent:20px"> Güvenlik amacı ile tanımlanmış olan bağlantı kodu,
+istemciye zararlı olabilecek bağlantıları ayırt etmekte kullanılacaktır.</p>
+<p><b>Öğrenci Numarası (32 bit)</b></p>
+<p style="text-indent:20px"> Bağlantı kuran öğrencinin numarasını ikiye tümleyen formatında içermektedir.</p>
+<p><b>Ad (160 bit)</b></p>
+<p style="text-indent:20px"> Bağlantı kuran öğrencinin adını 20 karakter ISO/IEC 8859-9 kodlanmış formatında içermektedir.</p>
+<p style="text-indent:20px"> Öğrencinin adı 20 karakterden uzun ise 20 karakterlik kısmını içerecektir.</p>
+<p><b>Soyad (160 bit)</b></p>
+<p style="text-indent:20px"> Bağlantı kuran öğrencinin soyadını 20 karakter ISO/IEC 8859-9 kodlanmış formatında içermektedir.</p>
+<p style="text-indent:20px"> Öğrencinin soyadı 20 karakterden uzun ise 20 karakterlik kısmını içerecektir.</p>
+
+</body>
+</html>   
