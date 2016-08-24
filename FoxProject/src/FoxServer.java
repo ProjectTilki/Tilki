@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * and receives data. This class uses {@link java.net.ServerSocket} class to accept
  * incoming connections. Every incoming connection will be handled by a thread.
  * The maximum queue length for incoming connection is 200. If a connection arrives
- * when the queue is full, the connection refused.
+ * when the queue is full, the connection is refused.
  */
 public class FoxServer {
     private static ServerSocket serverSocket = null;

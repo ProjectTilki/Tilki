@@ -25,13 +25,13 @@ public class FoxClientEnrollment {
     }
     
     /**
-     * 
+     * Enrolls a student.
      * @param name student name
      * @param surname student surname
      * @param id student id
      * @param exam exam name
      * @param instructorKey instructor key for authorization step.
-     * @return returns the status of the enrollment; returns 0 if enrollment accepted, 1 if authorization is failed
+     * @return returns the status of the enrollment; returns 0 if enrollment accepted, 1 if authorization is failed,
      * 2 if connection is recovered, returns null if an error occurred.
      */
     public String enroll(String name, String surname, String id, String exam, String instructorKey) {
@@ -56,8 +56,8 @@ public class FoxClientEnrollment {
                 Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.INFO, "Instructor key is not accepted.");
             else if(status.equals("2"))
                 Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.INFO, "Connection is recovered.");
-            else
-                Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, "An error has occured.");
+            else if(status.equals("3"))
+                Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, "Exam not found.");
         try {
             socket.close();
         } catch(IOException ex) {

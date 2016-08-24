@@ -8,10 +8,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,8 +48,6 @@ public class FoxServiceThread implements Runnable {
             fileManager();
         else if(data.equals("List exams."))
             examListManager();
-        else if(data.equals("Exam description."))
-            examDescriptionManager();
         else
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, "An error has occured.");
         try {
@@ -77,6 +77,10 @@ public class FoxServiceThread implements Runnable {
         File logFile = new File(examFolder, id + "_logfile.txt");
         BufferedReader fileIn = null;
         try {
+            if(!examKeyFile.exists()) {
+                out.println("3");
+                return;
+            }
             fileIn = new BufferedReader(new FileReader(examKeyFile));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,9 +98,9 @@ public class FoxServiceThread implements Runnable {
         PrintWriter fileOut = null;
         try {
             while((lines = fileIn.readLine()) != null) {
-                fileOut = new PrintWriter(new FileOutputStream(logFile, true));
                 if(lines.trim().equals(instructorKey)) {
                     if(logFile.exists()) {
+                        fileOut = new PrintWriter(new FileOutputStream(logFile, true));
                         fileOut.print(id + " | ");
                         fileOut.print(name + " ");
                         fileOut.print(surname + " | ");
@@ -105,6 +109,7 @@ public class FoxServiceThread implements Runnable {
                         out.println("2");
                     }
                     else {
+                        fileOut = new PrintWriter(new FileOutputStream(logFile, true));
                         fileOut.print(id + " | ");
                         fileOut.print(name + " ");
                         fileOut.print(surname + " | ");
@@ -171,7 +176,6 @@ public class FoxServiceThread implements Runnable {
         for(int i = 0; i < rawChecksum.length; i++)
             md5hex.append(Integer.toString((rawChecksum[i] & 0xff) + 0x100, 16).substring(1));
         out.println(md5hex.toString());
-
         try {
             fileIn.close();
             fileOut.close();
@@ -187,43 +191,38 @@ public class FoxServiceThread implements Runnable {
         } catch(FileNotFoundException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String exam;
+        ArrayList<Exam> examList = new ArrayList<Exam>();
         try {
+            String exam;
             while((exam = fileIn.readLine()) != null) {
-                out.println(exam);
+                BufferedReader description = new BufferedReader(new FileReader(new File(exam, "exam_description.txt")));
+                String examDescription = "";
+                String s;
+                while((s = description.readLine()) != null)
+                    examDescription += s;
+                examList.add(new Exam(exam, examDescription));
             }
         } catch(IOException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-        out.println("Done.");
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(socket.getOutputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             fileIn.close();
         } catch (IOException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void examDescriptionManager() {
-        BufferedReader fileIn = null;
-        String exam;
+        Exam[] exams = new Exam[examList.size()];
+        for(int i = 0; i < examList.size(); i++)
+            exams[i] = examList.get(i);
         try {
-            exam = br_in.readLine();
-            fileIn = new BufferedReader(new FileReader(new File(exam, "exam_description.txt")));
-        } catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String description;
-        try { 
-            while((description = fileIn.readLine()) != null) {
-                System.out.println(description);
-                out.println(description);
-            }
-        } catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        out.println("Done.");
-        try {
-            fileIn.close();
+            oos.writeObject(exams);
+            oos.flush();
+            socket.close();
         } catch (IOException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
