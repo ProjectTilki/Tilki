@@ -67,7 +67,7 @@ public class FoxServer {
                 System.exit(0);
             }
             if(safe) {
-                threadList.add(new Thread(new FoxClientService(clientSocket)));
+                threadList.add(new Thread(new FoxServiceThread(clientSocket)));
                 threadList.get(threadList.size() - 1).start();
             }
         }
