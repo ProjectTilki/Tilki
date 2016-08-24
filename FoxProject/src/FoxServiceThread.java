@@ -22,6 +22,7 @@ public class FoxServiceThread implements Runnable {
     private PrintWriter out;
     private BufferedReader br_in;
     private InputStream os_in;
+    private ObjectOutputStream oos;
 
     public FoxServiceThread(Socket socket) {
         try {
@@ -29,6 +30,7 @@ public class FoxServiceThread implements Runnable {
             out = new PrintWriter(socket.getOutputStream(), true);
             br_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             os_in = socket.getInputStream();
+            oos = new ObjectOutputStream(socket.getOutputStream());
         } catch(IOException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -203,12 +205,6 @@ public class FoxServiceThread implements Runnable {
                 examList.add(new Exam(exam, examDescription));
             }
         } catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        ObjectOutputStream oos = null;
-        try {
-            oos = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {

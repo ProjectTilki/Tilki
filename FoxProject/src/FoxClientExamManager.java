@@ -27,6 +27,7 @@ public class FoxClientExamManager {
             Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, null, ex);
         }
         out.println("List exams.");
+        out.flush();
         
         Object examListObject = null;
         try {

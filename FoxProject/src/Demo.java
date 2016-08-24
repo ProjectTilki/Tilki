@@ -5,9 +5,9 @@
 public class Demo {
 
     public static void main(String[] args) {
-        FoxClientEnrollment fce = new FoxClientEnrollment();
+        /*FoxClientEnrollment fce = new FoxClientEnrollment();
         String status = fce.enroll("name", "surname", "0", "Exam1", "key");
-        System.out.println(status);
+        System.out.println(status);*/
         
         FoxClientExamManager fcem = new FoxClientExamManager();
         Exam exams[] = fcem.availableExams();
