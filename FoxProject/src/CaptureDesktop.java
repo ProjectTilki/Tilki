@@ -15,6 +15,7 @@ import java.io.File;
  *
  * @author Serge Piletsky
  */
+@Deprecated
 public class CaptureDesktop {
 
     VideoCapture videoCapture = VideoCapture.create();
