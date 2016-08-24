@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.awt.event.ActionEvent;
-
+@Deprecated
 public class GirisEkrani extends JFrame {
 	private CaptureDesktop cam;
 	private String path;

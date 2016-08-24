@@ -13,6 +13,7 @@ import java.util.Arrays;
  * The class FoxClient contains a method for connecting and sending data to a
  * predefined host.
  */
+@Deprecated
 public class FoxClient {
 
     private static int errorType;

@@ -11,22 +11,35 @@ public class FoxClientEnrollment {
     private PrintWriter out;
     private BufferedReader in;
 
+    /**
+     * Constructor for initializing instance variables.
+     */
     public FoxClientEnrollment() {
         try {
-            socket = new Socket("10.5.146.7", 50101);
+            socket = new Socket("localhost", 50101);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch(IOException ex) {
             Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public String Enroll(String name, String surname, String id, String examCode, String instructorKey) {
+    
+    /**
+     * 
+     * @param name student name
+     * @param surname student surname
+     * @param id student id
+     * @param exam exam name
+     * @param instructorKey instructor key for authorization step.
+     * @return returns the status of the enrollment; returns 0 if enrollment accepted, 1 if authorization is failed
+     * 2 if connection is recovered, returns null if an error occurred.
+     */
+    public String enroll(String name, String surname, String id, String exam, String instructorKey) {
         out.println("Enrollment.");
         out.println(name);
         out.println(surname);
         out.println(id);
-        out.println(examCode);
+        out.println(exam);
         out.println(instructorKey);
         if(out.checkError())
             Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, "IOException");

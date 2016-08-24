@@ -30,6 +30,15 @@ public class FoxClientFileManager {
         }
     }
 
+    /**
+     * Method for zipping files. On success files will be moved in to a zip.
+     * The name of the zip file will be same with the first {@link java.io.File} object
+     * specified with the files parameter.
+     * @param files array list of {@link java.io.File} objects, which will be zipped.
+     * @return returns the name of zip file
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public String createZipFile(File[] files) throws FileNotFoundException,
                                                      IOException {
         String zipFileName = files[0].getName();
@@ -57,6 +66,13 @@ public class FoxClientFileManager {
         return zipFileName;
     }
 
+    /**
+     * Sends a file to a predefined host. On success returns the MD5 checksum of the file.
+     * 
+     * @param fileName file to be sent.
+     * @param id student id
+     * @return checksum of the file
+     */
     public String sendFiles(String fileName, String id) {
         FileInputStream fileIn = null;
         pw_out.println("Sending file.");

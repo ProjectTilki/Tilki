@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.io.File;
 import javax.swing.*;
 
+@Deprecated
 public class YuklemeEkrani extends JFrame {
     CaptureDesktop cam;
     JLabel time;

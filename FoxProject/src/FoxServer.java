@@ -40,7 +40,7 @@ public class FoxServer {
         });
         
         try {
-            serverSocket = new ServerSocket(44101, 200);
+            serverSocket = new ServerSocket(50101, 200);
         }catch(IOException ioe) {
             ioe.printStackTrace();
             System.err.println("An I/O error occured when opening the socket.");
@@ -54,7 +54,6 @@ public class FoxServer {
         while(true) {
             Socket clientSocket = null;
             boolean safe = false;
-            
             try {
                 clientSocket = serverSocket.accept();
                 safe = true;
