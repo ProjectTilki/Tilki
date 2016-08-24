@@ -17,27 +17,16 @@ public class FoxClientExamManager {
      * 
      * @return Each element of the array list represents an exam's name.
      */
-    public Exam[] availableExams() {
-        try {
+    public Exam[] availableExams() throws ClassNotFoundException, IOException{
             socket = new Socket("localhost", 50101);
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             ois = new ObjectInputStream(socket.getInputStream());
-        } catch(IOException ex) {
-            Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, null, ex);
-        }
         out.println("List exams.");
         out.flush();
         
         Object examListObject = null;
-        try {
-            examListObject = ois.readObject();
-        } catch (IOException ex) {
-            Logger.getLogger(FoxClientExamManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FoxClientExamManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+            examListObject = ois.readObject();        
         Exam[] examList = (Exam[]) examListObject;
         return examList;
     }
