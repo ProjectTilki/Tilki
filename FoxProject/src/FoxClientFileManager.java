@@ -60,6 +60,7 @@ public class FoxClientFileManager {
     public String sendFiles(String fileName, String id) {
         FileInputStream fileIn = null;
         pw_out.println("Sending file.");
+        pw_out.println(fileName);
         pw_out.println(id);
         if(pw_out.checkError()) {
             Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, "IOException");

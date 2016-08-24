@@ -101,6 +101,13 @@ public class FoxClientService implements Runnable {
         for(int i = 0; i < rawChecksum.length; i++)
             md5hex.append(Integer.toString((rawChecksum[i] & 0xff) + 0x100, 16).substring(1));
         out.println(md5hex.toString());
+
+        try {
+            fileIn.close();
+            fileOut.close();
+        } catch (IOException ex) {
+            Logger.getLogger(FoxClientService.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void examListManager() {
@@ -118,8 +125,8 @@ public class FoxClientService implements Runnable {
             Logger.getLogger(FoxClientService.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            socket.close();
-        } catch(IOException ex) {
+            fileIn.close();
+        } catch (IOException ex) {
             Logger.getLogger(FoxClientService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -141,8 +148,8 @@ public class FoxClientService implements Runnable {
             Logger.getLogger(FoxClientService.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            socket.close();
-        } catch(IOException ex) {
+            fileIn.close();
+        } catch (IOException ex) {
             Logger.getLogger(FoxClientService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
