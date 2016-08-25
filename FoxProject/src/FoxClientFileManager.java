@@ -8,28 +8,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class FoxClientFileManager {
-    private Socket socket;
-    private PrintWriter pw_out;
-    private BufferedReader in;
-    private OutputStream os_out;
-
-    public FoxClientFileManager() {
-        try {
-            socket = new Socket("10.5.146.7", 50101);
-            pw_out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            os_out = socket.getOutputStream();
-        } catch(IOException ex) {
-            Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     /**
      * Method for zipping files. On success files will be moved in to a zip.
      * The name of the zip file will be same with the first {@link java.io.File} object
@@ -48,8 +31,8 @@ public class FoxClientFileManager {
         FileOutputStream fos = new FileOutputStream(zipFileName);
         ZipOutputStream zos = new ZipOutputStream(fos);
         String fileName;
-        for(int i = 0; i < files.length; i++) {
-            fileName = files[i].getName();
+        for(File file1 : files) {
+            fileName = file1.getName();
             File file = new File(fileName);
             FileInputStream fis = new FileInputStream(file);
             ZipEntry zipEntry = new ZipEntry(fileName);
@@ -72,51 +55,28 @@ public class FoxClientFileManager {
      * @param fileName file to be sent.
      * @param id student id
      * @return checksum of the file
+     * @throws java.io.IOException
      */
-    public String sendFiles(String fileName, String id) {
-        FileInputStream fileIn = null;
+    public String sendFiles(String fileName, String id) throws IOException {
+        Socket socket = new Socket("localhost", 50101);
+        PrintWriter pw_out = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        OutputStream os_out = socket.getOutputStream();
         pw_out.println("Sending file.");
         pw_out.println(fileName);
         pw_out.println(id);
-        if(pw_out.checkError()) {
-            Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, "IOException");
-            return null;
-        }
-        try {
-            fileIn = new FileInputStream(fileName);
-        } catch(FileNotFoundException ex) {
-            Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-        int bytesCount = 0;
+        FileInputStream fileIn = new FileInputStream(fileName);
+        int bytesCount;
         byte[] fileData = new byte[1024];
         do {
-            try {
-                bytesCount = fileIn.read(fileData);
-                if(bytesCount > 0)
-                    os_out.write(fileData, 0, bytesCount);
-            } catch(IOException ex) {
-                Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            }
+            bytesCount = fileIn.read(fileData);
+            if(bytesCount > 0)
+                os_out.write(fileData, 0, bytesCount);
         } while(bytesCount > 0);
         String checksum;
-        try {
-            checksum = in.readLine();
-        } catch(IOException ex) {
-            Logger.getLogger(FoxClientEnrollment.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-        try {
-            fileIn.close();
-        } catch(IOException ex) {
-            Logger.getLogger(FoxClientFileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            socket.close();
-        } catch(IOException ex) {
-            Logger.getLogger(FoxClientFileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        checksum = in.readLine();
+        fileIn.close();
+        socket.close();
         return checksum;
     }
 }
