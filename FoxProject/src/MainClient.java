@@ -293,13 +293,13 @@ public class MainClient extends javax.swing.JFrame {
         String password = new String(jPasswordField1.getPassword());
         if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.equals("Lütfen bir sınav seçiniz!")) && !(password.isEmpty())){
             FoxClientEnrollment fce = new FoxClientEnrollment();
-            String status = null;
+            int status = -1;
             try {
                 status = fce.enroll(name,surname ,number ,className ,password );
             } catch (IOException ex) {
                 Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if(status ==null)
+            if(status == -1)
             System.out.println("null");
             else{
                 System.out.println(status);
