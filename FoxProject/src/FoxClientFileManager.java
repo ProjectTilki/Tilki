@@ -57,7 +57,7 @@ public class FoxClientFileManager {
      * @return checksum of the file
      * @throws java.io.IOException
      */
-    public String sendFiles(String fileName, String id) throws IOException {
+    public String sendFile(String fileName, String id, String exam) throws IOException {
         Socket socket = new Socket("localhost", 50101);
         PrintWriter pw_out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -65,6 +65,7 @@ public class FoxClientFileManager {
         pw_out.println("Sending file.");
         pw_out.println(fileName);
         pw_out.println(id);
+        pw_out.println(exam);
         FileInputStream fileIn = new FileInputStream(fileName);
         int bytesCount;
         byte[] fileData = new byte[1024];
@@ -73,10 +74,11 @@ public class FoxClientFileManager {
             if(bytesCount > 0)
                 os_out.write(fileData, 0, bytesCount);
         } while(bytesCount > 0);
+        os_out.flush();
+        socket.shutdownOutput();
         String checksum;
         checksum = in.readLine();
         fileIn.close();
-        socket.close();
         return checksum;
     }
 }
