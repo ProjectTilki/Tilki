@@ -1,3 +1,8 @@
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * Demo class for testing.
@@ -10,7 +15,14 @@ public class Demo {
         System.out.println(status);*/
         
         FoxClientExamManager fcem = new FoxClientExamManager();
-        Exam exams[] = fcem.availableExams();
+        Exam exams[] = null;
+        try {
+            exams = fcem.availableExams();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for(int i = 0; i < exams.length; i++)
             System.out.println(exams[i].getName() + " " + exams[i].getDescription());
     }
