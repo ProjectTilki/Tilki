@@ -1,7 +1,6 @@
 
+import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -9,21 +8,17 @@ import java.util.logging.Logger;
  */
 public class Demo {
 
-    public static void main(String[] args) {
-        /*FoxClientEnrollment fce = new FoxClientEnrollment();
-        String status = fce.enroll("name", "surname", "0", "Exam1", "key");
-        System.out.println(status);*/
+    public static void main(String[] args) throws IOException {
+        FoxClientEnrollment fce = new FoxClientEnrollment();
         
-        FoxClientExamManager fcem = new FoxClientExamManager();
-        Exam exams[] = null;
-        try {
-            exams = fcem.availableExams();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Demo.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        for(int i = 0; i < exams.length; i++)
-            System.out.println(exams[i].getName() + " " + exams[i].getDescription());
+        File[] files = new File[3];
+        files[0] = new File("10101111_asd.txt");
+        files[1] = new File("Get Started with Dropbox.pdf");
+        files[2] = new File("Lab4_foy_2016_1.doc");
+        
+        FoxClientFileManager fcfm = new FoxClientFileManager();
+        String zipFileName = fcfm.createZipFile(files);
+        String checksum = fcfm.sendFile(zipFileName, "20202222", "Exam1");
+        System.out.println(checksum);
     }
 }
