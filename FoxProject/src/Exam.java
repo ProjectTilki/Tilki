@@ -6,6 +6,7 @@ import java.io.Serializable;
  */
 public class Exam implements Serializable{
     private final String name;
+    // Description will set to null in case of exam description does not exists.
     private final String description;
     
     public Exam(String name, String description) {
@@ -23,7 +24,7 @@ public class Exam implements Serializable{
     
     /**
      * 
-     * @return description of exam
+     * @return description of the exam
      */
     public String getDescription() {
         return description;

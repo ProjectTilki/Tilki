@@ -10,7 +10,7 @@ public class FoxClientExamManager {
     /**
      * Fetches the available exam list from a predefined server.
      * 
-     * @return Each element of the array list represents an exam's name.
+     * @return Each element of the array list represents an exam. Returns null if there is no exam.
      * @throws java.lang.ClassNotFoundException
      * @throws java.io.IOException
      */
@@ -18,10 +18,10 @@ public class FoxClientExamManager {
         Socket socket = new Socket("localhost", 50101);
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
         out.println("List exams.");
         out.flush();
         
+        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
         Object examListObject = ois.readObject();        
         Exam[] examList = (Exam[]) examListObject;
         return examList;

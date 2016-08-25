@@ -21,14 +21,11 @@ public class FoxServiceThread implements Runnable {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader br_in;
-    private InputStream os_in;
-
     public FoxServiceThread(Socket socket) {
         try {
             this.socket = socket;
             out = new PrintWriter(socket.getOutputStream());
             br_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            os_in = socket.getInputStream();
         } catch(IOException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -112,6 +109,15 @@ public class FoxServiceThread implements Runnable {
                 }
                 break;
             }
+            else {
+                fileOut = new PrintWriter(new FileOutputStream(logFile, true));
+                fileOut.print(id + " | ");
+                fileOut.print(name + " ");
+                fileOut.print(surname + " | ");
+                fileOut.print(instructorKey + " --> ");
+                fileOut.println("Instructor key is not accepted.");
+                out.println("3");
+            }
         }
         fileIn.close();
         fileOut.close();
@@ -127,6 +133,7 @@ public class FoxServiceThread implements Runnable {
         FileOutputStream fileOut = new FileOutputStream(incomingFile);
         int byteCount;
         byte[] data = new byte[1024];
+        InputStream os_in = socket.getInputStream();
         while((byteCount = os_in.read(data)) > 0)
             fileOut.write(data, 0, byteCount);
         fileOut.flush();
@@ -147,10 +154,19 @@ public class FoxServiceThread implements Runnable {
 
     private void examListManager() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        if(!new File("exam_list.txt").exists()) {
+            oos.writeObject(null);
+            oos.flush();
+            return;
+        }
         BufferedReader fileIn = new BufferedReader(new FileReader("exam_list.txt"));
         ArrayList<Exam> examList = new ArrayList<>();
         String exam;
         while((exam = fileIn.readLine()) != null) {
+            if(!new File(exam, "exam_description.txt").exists()) {
+                examList.add(new Exam(exam, null));
+                continue;
+            }
             BufferedReader description = new BufferedReader(new FileReader(new File(exam, "exam_description.txt")));
             String examDescription = "";
             String s;

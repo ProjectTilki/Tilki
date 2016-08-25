@@ -61,12 +61,12 @@ public class FoxClientFileManager {
         Socket socket = new Socket("localhost", 50101);
         PrintWriter pw_out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        OutputStream os_out = socket.getOutputStream();
         pw_out.println("Sending file.");
         pw_out.println(fileName);
         pw_out.println(id);
         pw_out.println(exam);
         FileInputStream fileIn = new FileInputStream(fileName);
+        OutputStream os_out = socket.getOutputStream();
         int bytesCount;
         byte[] fileData = new byte[1024];
         do {
