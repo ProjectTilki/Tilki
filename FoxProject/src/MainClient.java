@@ -17,7 +17,7 @@ import javax.swing.ListModel;
  * @author talha
  */
 public class MainClient extends javax.swing.JFrame {
-        private CaptureDesktop cam;
+        //private CaptureDesktop cam;
         private Exam[] examList;
     /**
      * Creates new form MainClient
@@ -42,9 +42,9 @@ public class MainClient extends javax.swing.JFrame {
             jLabel2.setVisible(true);
         }
     }
-    public CaptureDesktop getCam(){
+    /*public CaptureDesktop getCam(){
 		return cam;
-    }
+    }*/
         
     
     /**
@@ -301,8 +301,13 @@ public class MainClient extends javax.swing.JFrame {
         String password = new String(jPasswordField1.getPassword());
         if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.equals("Lütfen soldan bir sınav seçiniz.")) && !(password.isEmpty())){
             FoxClientEnrollment fce = new FoxClientEnrollment();
-            String status = fce.enroll(name,surname ,number ,className ,password );
-            if(status ==null)
+            String status = null;
+            try {
+                status = fce.enroll(name,surname ,number ,className ,password );
+            } catch (IOException ex) {
+                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(status == null)
                 System.out.println("null");
             System.out.println(status);
         }

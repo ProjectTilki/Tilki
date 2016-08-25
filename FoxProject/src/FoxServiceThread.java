@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipOutputStream;
 
 public class FoxServiceThread implements Runnable {
     private Socket socket;
@@ -126,10 +127,9 @@ public class FoxServiceThread implements Runnable {
         FileOutputStream fileOut = new FileOutputStream(incomingFile);
         int byteCount;
         byte[] data = new byte[1024];
-                System.out.println("asd");
-
         while((byteCount = os_in.read(data)) > 0)
             fileOut.write(data, 0, byteCount);
+        fileOut.flush();
         fileOut.close();
         FileInputStream fileIn = new FileInputStream(incomingFile);
         byte[] fileData = new byte[1024];
