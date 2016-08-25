@@ -17,7 +17,6 @@ import javax.swing.ListModel;
  * @author talha
  */
 public class MainClient extends javax.swing.JFrame {
-        //private CaptureDesktop cam;
         private Exam[] examList;
     /**
      * Creates new form MainClient
@@ -42,10 +41,6 @@ public class MainClient extends javax.swing.JFrame {
             jLabel2.setVisible(true);
         }
     }
-    /*public CaptureDesktop getCam(){
-		return cam;
-    }*/
-        
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,7 +51,7 @@ public class MainClient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLayeredPane1 = new javax.swing.JLayeredPane();
+        jFileChooser1 = new javax.swing.JFileChooser();
         GirisEkrani = new javax.swing.JPanel();
         SolPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -74,17 +69,15 @@ public class MainClient extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(512, 500));
-        setPreferredSize(new java.awt.Dimension(512, 500));
         setResizable(false);
-
-        jLayeredPane1.setMinimumSize(new java.awt.Dimension(512, 500));
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -152,12 +145,14 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Lütfen soldan bir sınav seçiniz.");
-
         jLabel7.setText("Ad");
 
         jLabel8.setText("Durum2");
         jLabel8.setVisible(false);
+
+        jTextField4.setEditable(false);
+        jTextField4.setText("Lütfen bir sınav seçiniz!");
+        jTextField4.setFocusable(false);
 
         javax.swing.GroupLayout SagPanelLayout = new javax.swing.GroupLayout(SagPanel);
         SagPanel.setLayout(SagPanelLayout);
@@ -170,17 +165,20 @@ public class MainClient extends javax.swing.JFrame {
                     .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jTextField1)
                         .addComponent(jButton2)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField2)
                         .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SagPanelLayout.createSequentialGroup()
-                            .addGap(12, 12, 12)
                             .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SagPanelLayout.createSequentialGroup()
+                                    .addGap(12, 12, 12)
+                                    .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGap(37, 37, 37)))
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
             .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(SagPanelLayout.createSequentialGroup()
@@ -204,8 +202,8 @@ public class MainClient extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,39 +235,83 @@ public class MainClient extends javax.swing.JFrame {
             .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jLayeredPane1.setLayer(GirisEkrani, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jPanel1.setPreferredSize(new java.awt.Dimension(526, 500));
 
-        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
-        jLayeredPane1.setLayout(jLayeredPane1Layout);
-        jLayeredPane1Layout.setHorizontalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(GirisEkrani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 526, Short.MAX_VALUE)
         );
-        jLayeredPane1Layout.setVerticalGroup(
-            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(GirisEkrani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(GirisEkrani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 524, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(GirisEkrani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
+
+        jPanel1.setVisible(false);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-        int location = jList1.locationToIndex(evt.getPoint());
-        jTextArea1.setText(examList[location].getDescription());
-        jLabel6.setText(examList[location].getName());
-    }//GEN-LAST:event_jList1MouseClicked
+        String name = jTextField2.getText();
+        String surname = jTextField3.getText();
+        String number = jTextField1.getText();
+        String className = jTextField4.getText();
+        String password = new String(jPasswordField1.getPassword());
+        if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.equals("Lütfen bir sınav seçiniz!")) && !(password.isEmpty())){
+            FoxClientEnrollment fce = new FoxClientEnrollment();
+            String status = null;
+            try {
+                status = fce.enroll(name,surname ,number ,className ,password );
+            } catch (IOException ex) {
+                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(status ==null)
+            System.out.println("null");
+            else{
+                System.out.println(status);
+                GirisEkrani.setVisible(false);
+                jPanel1.setVisible(true);
+            }
+        }
+        else{
+            jLabel8.setText("Eksik bilgi var.");
+            jLabel8.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
@@ -292,30 +334,13 @@ public class MainClient extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
-        String name = jTextField2.getText();
-        String surname = jTextField3.getText();
-        String number = jTextField1.getText();
-        String className = jLabel6.getText();
-        String password = new String(jPasswordField1.getPassword());
-        if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.equals("Lütfen soldan bir sınav seçiniz.")) && !(password.isEmpty())){
-            FoxClientEnrollment fce = new FoxClientEnrollment();
-            String status = null;
-            try {
-                status = fce.enroll(name,surname ,number ,className ,password );
-            } catch (IOException ex) {
-                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            if(status == null)
-                System.out.println("null");
-            System.out.println(status);
-        }
-        else{
-            jLabel8.setText("Eksik bilgi var.");
-            jLabel8.setVisible(true);
-        }
-    }//GEN-LAST:event_jButton2MouseClicked
+        int location = jList1.locationToIndex(evt.getPoint());
+        jTextArea1.setText(examList[location].getDescription());
+        jTextField4.setText(examList[location].getName());
+    }//GEN-LAST:event_jList1MouseClicked
+                              
 
     /**
      * @param args the command line arguments
@@ -358,16 +383,16 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JPanel SolPanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -375,6 +400,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
 }
