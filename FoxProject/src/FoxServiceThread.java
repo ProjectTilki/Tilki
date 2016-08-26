@@ -121,17 +121,38 @@ public class FoxServiceThread implements Runnable {
             }
         }
         fileIn.close();
-        fileOut.close();
+        if(fileOut != null)
+            fileOut.close();
         out.flush();
     }
 
+    /**
+     * Saves a file from an incoming socket connection.
+     * The file name is received from socket. If the file exists, adds some text to file name
+     * as prefix and saves it.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws NoSuchAlgorithmException 
+     */
     private void fileManager() throws FileNotFoundException, IOException, NoSuchAlgorithmException {
         DataInputStream dis = new DataInputStream(socket.getInputStream());
-        String fileName = "0_" + dis.readUTF();
+        String fileName = dis.readUTF();
         String id = dis.readUTF();
         String exam = dis.readUTF();
         File examFile = new File(exam);
-        File incomingFile = new File(examFile, fileName);
+        
+        File file = new File(examFile, fileName);
+        if(file.exists()) {
+            for(int i = 0; i < 100; i++) {
+                file = new File(examFile, i + "_" + fileName);
+                if(!file.exists()) {
+                    fileName = i + "_" + fileName;
+                    break;
+                }
+            }
+        }
+        
+        File incomingFile = new File(examFile, fileName);        
         FileOutputStream fileOut = new FileOutputStream(incomingFile);
         int byteCount;
         byte[] data = new byte[1024];

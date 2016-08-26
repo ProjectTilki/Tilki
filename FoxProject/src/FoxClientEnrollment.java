@@ -36,14 +36,9 @@ public class FoxClientEnrollment {
         out.writeUTF(id);
         out.writeUTF(exam);
         String status = in.readLine();
-        if(status != null) {
-            char c = status.charAt(0);
-            if((c == '0' || c == '1') && status.length() == 1) {
-                if(Integer.parseInt(status) == 0)
-                    return 0;
-                else
-                    return 1;
-            }
+        if(status != null && status.length() > 2) {
+            char c = status.charAt(2);
+            return Character.getNumericValue(c);
         }
         socket.close();
         return -1;

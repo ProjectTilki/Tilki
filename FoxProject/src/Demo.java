@@ -9,14 +9,8 @@ import java.io.IOException;
 public class Demo {
 
     public static void main(String[] args) throws IOException {        
-        File[] files = new File[3];
-        files[0] = new File("10101111_asd.txt");
-        files[1] = new File("Get Started with Dropbox.pdf");
-        files[2] = new File("Lab4_foy_2016_1.doc");
-        
-        FoxClientFileManager fcfm = new FoxClientFileManager();
-        String zipFileName = fcfm.createZipFile(files);
-        String checksum = fcfm.sendFile(zipFileName, "20202222", "Exam1");
-        System.out.println(checksum);
+        FoxClientEnrollment fce = new FoxClientEnrollment();
+        System.out.println(fce.enroll("name", "surname", "123123", "Exam1"));
+        System.out.println(fce.verifyInstructorKey("keys"));
     }
 }
