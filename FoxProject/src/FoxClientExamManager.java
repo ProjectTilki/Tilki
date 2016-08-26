@@ -1,8 +1,7 @@
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class FoxClientExamManager {
@@ -16,9 +15,9 @@ public class FoxClientExamManager {
      */
     public Exam[] availableExams() throws ClassNotFoundException, IOException{
         Socket socket = new Socket("localhost", 50101);
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out.println("List exams.");
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        out.writeUTF("List exams.");
         out.flush();
         
         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());

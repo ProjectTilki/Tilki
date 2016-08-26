@@ -1,4 +1,6 @@
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -6,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -15,17 +16,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipOutputStream;
 
 public class FoxServiceThread implements Runnable {
     private Socket socket;
-    private PrintWriter out;
-    private BufferedReader br_in;
+    private DataInputStream in;
+    private DataOutputStream out;
     public FoxServiceThread(Socket socket) {
         try {
             this.socket = socket;
-            out = new PrintWriter(socket.getOutputStream());
-            br_in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
         } catch(IOException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -33,55 +33,68 @@ public class FoxServiceThread implements Runnable {
 
     @Override
     public void run() {
-        String data = null;
         try {
-            data = br_in.readLine();
-        } catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if(data.equals("Enrollment.")) {
-            try {
+            String data = in.readUTF();
+            if(data.equals("Enrollment.")) {
                 enrollmentManager();
-            } catch (IOException ex) {
-                Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else if(data.equals("Sending file.")) {
-            try {
-                fileManager();
-            } catch (IOException ex) {
-                Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
+            else if(data.equals(("Key verify."))) {
+                authorizationManager();
             }
-        }
-        else if(data.equals("List exams.")) {
-            try {
-                examListManager();
-            } catch (IOException ex) {
-                Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
+            else if(data.equals("Sending file.")) {
+                    fileManager();
             }
-        }
-        else
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, "An error has occured.");
-        try {
+            else if(data.equals("List exams.")) {
+
+                    examListManager();
+            }
             socket.close();
         } catch (IOException ex) {
+            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void enrollmentManager() throws IOException {
-        String name = br_in.readLine();
-        String surname = br_in.readLine();
-        String id = br_in.readLine();
-        String exam = br_in.readLine();
-        String instructorKey = br_in.readLine();
+        String name = in.readUTF();
+        String surname = in.readUTF();
+        String id = in.readUTF();
+        String exam = in.readUTF();
+        File examFolder = new File(exam);
+        File logFile = new File(examFolder, id + "_logfile.txt");
+        PrintWriter fileOut;
+        if(logFile.exists()) {
+            fileOut = new PrintWriter(new FileOutputStream(logFile, true));
+            fileOut.print(id + " | ");
+            fileOut.print(name + " ");
+            fileOut.print(surname + " | ");
+            fileOut.println("--> Reconnected.");
+            out.writeUTF("0");
+        }
+        else {
+            fileOut = new PrintWriter(new FileOutputStream(logFile, true));
+            fileOut.print(id + " | ");
+            fileOut.print(name + " ");
+            fileOut.print(surname + " | ");
+            fileOut.println("--> Check In.");
+            out.writeUTF("1");
+        }
+        fileOut.close();
+        out.flush();
+    }
+    
+    private void authorizationManager() throws IOException {
+        String name = in.readUTF();
+        String surname = in.readUTF();
+        String id = in.readUTF();
+        String exam = in.readUTF();
+        String instructorKey = in.readUTF();
         File examFolder = new File(exam);
         File examKeyFile = new File(examFolder, "exam_key.txt");
         File logFile = new File(examFolder, id + "_logfile.txt");
         if(!examKeyFile.exists()) {
-            out.println("0");
+            out.writeUTF("0");
             return;
         }
         BufferedReader fileIn = new BufferedReader(new FileReader(examKeyFile));
@@ -89,25 +102,13 @@ public class FoxServiceThread implements Runnable {
         PrintWriter fileOut = null;
         while((lines = fileIn.readLine()) != null) {
             if(lines.trim().equals(instructorKey)) {
-                if(logFile.exists()) {
-                    fileOut = new PrintWriter(new FileOutputStream(logFile, true));
-                    fileOut.print(id + " | ");
-                    fileOut.print(name + " ");
-                    fileOut.print(surname + " | ");
-                    fileOut.print(instructorKey + " --> ");
-                    fileOut.println("Reconnected.");
-                    out.println("1");
-                }
-                else {
-                    fileOut = new PrintWriter(new FileOutputStream(logFile, true));
-                    fileOut.print(id + " | ");
-                    fileOut.print(name + " ");
-                    fileOut.print(surname + " | ");
-                    fileOut.print(instructorKey + " --> ");
-                    fileOut.println("Enrolled.");
-                    out.println("2");
-                }
-                break;
+                fileOut = new PrintWriter(new FileOutputStream(logFile, true));
+                fileOut.print(id + " | ");
+                fileOut.print(name + " ");
+                fileOut.print(surname + " | ");
+                fileOut.print(instructorKey + " --> ");
+                fileOut.println("Instructor key is accepted.");
+                out.writeUTF("1");
             }
             else {
                 fileOut = new PrintWriter(new FileOutputStream(logFile, true));
@@ -116,7 +117,7 @@ public class FoxServiceThread implements Runnable {
                 fileOut.print(surname + " | ");
                 fileOut.print(instructorKey + " --> ");
                 fileOut.println("Instructor key is not accepted.");
-                out.println("3");
+                out.writeUTF("2");
             }
         }
         fileIn.close();
@@ -125,9 +126,10 @@ public class FoxServiceThread implements Runnable {
     }
 
     private void fileManager() throws FileNotFoundException, IOException, NoSuchAlgorithmException {
-        String fileName = "0_" + br_in.readLine();
-        String id = br_in.readLine();
-        String exam = br_in.readLine();
+        DataInputStream dis = new DataInputStream(socket.getInputStream());
+        String fileName = "0_" + dis.readUTF();
+        String id = dis.readUTF();
+        String exam = dis.readUTF();
         File examFile = new File(exam);
         File incomingFile = new File(examFile, fileName);
         FileOutputStream fileOut = new FileOutputStream(incomingFile);
@@ -147,7 +149,7 @@ public class FoxServiceThread implements Runnable {
         StringBuilder md5hex = new StringBuilder();
         for(int i = 0; i < rawChecksum.length; i++)
             md5hex.append(Integer.toString((rawChecksum[i] & 0xff) + 0x100, 16).substring(1));
-        out.println(md5hex.toString());
+        out.writeUTF(md5hex.toString());
         out.flush();
         fileIn.close();
     }

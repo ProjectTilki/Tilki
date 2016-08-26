@@ -1,12 +1,11 @@
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -54,17 +53,19 @@ public class FoxClientFileManager {
      * 
      * @param fileName file to be sent.
      * @param id student id
+     * @param exam exam name
      * @return checksum of the file
      * @throws java.io.IOException
      */
     public String sendFile(String fileName, String id, String exam) throws IOException {
         Socket socket = new Socket("localhost", 50101);
-        PrintWriter pw_out = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        pw_out.println("Sending file.");
-        pw_out.println(fileName);
-        pw_out.println(id);
-        pw_out.println(exam);
+        DataInputStream in = new DataInputStream(socket.getInputStream());
+        DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+        out.writeUTF("Sending file.");
+        out.writeUTF(fileName);
+        out.writeUTF(id);
+        out.writeUTF(exam);
+        out.flush();
         FileInputStream fileIn = new FileInputStream(fileName);
         OutputStream os_out = socket.getOutputStream();
         int bytesCount;
@@ -77,7 +78,7 @@ public class FoxClientFileManager {
         os_out.flush();
         socket.shutdownOutput();
         String checksum;
-        checksum = in.readLine();
+        checksum = in.readUTF();
         fileIn.close();
         return checksum;
     }

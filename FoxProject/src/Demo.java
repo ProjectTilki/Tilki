@@ -8,9 +8,7 @@ import java.io.IOException;
  */
 public class Demo {
 
-    public static void main(String[] args) throws IOException {
-        FoxClientEnrollment fce = new FoxClientEnrollment();
-        
+    public static void main(String[] args) throws IOException {        
         File[] files = new File[3];
         files[0] = new File("10101111_asd.txt");
         files[1] = new File("Get Started with Dropbox.pdf");
