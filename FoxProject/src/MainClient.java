@@ -22,6 +22,7 @@ public class MainClient extends javax.swing.JFrame {
         private String number;
         private String name;
         private String surname;
+        private FoxClientEnrollment fce;
     /**
      * 
      * Creates new form MainClient
@@ -63,6 +64,7 @@ public class MainClient extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jFileChooser1 = new javax.swing.JFileChooser();
+        jOptionPane1 = new javax.swing.JOptionPane();
         GirisEkrani = new javax.swing.JPanel();
         SolPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -71,6 +73,8 @@ public class MainClient extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         SagPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -176,6 +180,10 @@ public class MainClient extends javax.swing.JFrame {
         jLabel2.setText("Durum");
         jLabel2.setVisible(false);
 
+        jLabel6.setText("Sınavlar");
+
+        jLabel11.setText("Açıklamalar");
+
         javax.swing.GroupLayout SolPanelLayout = new javax.swing.GroupLayout(SolPanel);
         SolPanel.setLayout(SolPanelLayout);
         SolPanelLayout.setHorizontalGroup(
@@ -184,12 +192,21 @@ public class MainClient extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(SolPanelLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(SolPanelLayout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(SolPanelLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel6)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(SolPanelLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel11)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         SolPanelLayout.setVerticalGroup(
             SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,10 +216,14 @@ public class MainClient extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel6)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jLabel1.setText("Numara");
@@ -223,6 +244,11 @@ public class MainClient extends javax.swing.JFrame {
         jTextField4.setEditable(false);
         jTextField4.setText("Lütfen bir sınav seçiniz!");
         jTextField4.setFocusable(false);
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Durum2");
         jLabel8.setVisible(false);
@@ -318,7 +344,7 @@ public class MainClient extends javax.swing.JFrame {
         jTextArea2.setColumns(10);
         jTextArea2.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jTextArea2.setRows(5);
-        jTextArea2.setText("\n\n          Sürükle\n         Dosyaları");
+        jTextArea2.setText("\n\n          Dosyaları\n  Sürükleyebilirsiniz.");
         jTextArea2.setAutoscrolls(false);
         jTextArea2.setFocusable(false);
         jScrollPane4.setViewportView(jTextArea2);
@@ -421,37 +447,32 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-        jDialog1.setVisible(true);
         name = jTextField2.getText();
         surname = jTextField3.getText();
         number = jTextField1.getText();
-        /*
+        
         String className = jTextField4.getText();
         String password = new String(jPasswordField1.getPassword());
         if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.equals("Lütfen bir sınav seçiniz!"))){
-            FoxClientEnrollment fce = new FoxClientEnrollment();
-            int status = -1;
+            fce = new FoxClientEnrollment();
+            int status = 4;
             try {
-                status = fce.enroll(name,surname ,number ,className ,password );
+                status = fce.enroll(name,surname ,number ,className);
             } catch (IOException ex) {
                 Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println(status);
             if(status == 0){
-                jLabel8.setText("Sınav şifre dosyası eksik. Sunucu hata!");
-                jLabel8.setVisible(true);
-            }
-            else if(status == 1){
                 jDialog1.setVisible(true);
                 jLabel10.setText("Tekrardan bağlanıldı.");
+                //jLabel8.setText("Sınav şifre dosyası eksik. Sunucu hata!");
+                //jLabel8.setVisible(true);
             }
-            else if(status == 2){
+            else if(status == 1){                
                 jDialog1.setVisible(true);
                 jLabel10.setText("Yeni kayıt.");
-            }
-            else if(status == 3){
-                jLabel8.setText("Şifre doğru değil.");
-                jLabel8.setVisible(true);
+                //jLabel8.setText("Şifre doğru değil.");
+                //jLabel8.setVisible(true);
             }
             else{
                 jLabel8.setText("Bilinmeyen hata.");
@@ -461,7 +482,7 @@ public class MainClient extends javax.swing.JFrame {
         else{
             jLabel8.setText("Eksik bilgi var.");
             jLabel8.setVisible(true);
-        }*/
+        }
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -498,19 +519,36 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-            GirisEkrani.setVisible(false);
-            jDialog1.setVisible(false);
-            jPanel1.setVisible(true);
-            cam = new CaptureDesktop();
-            System.out.println(jTextField1.getText());
-            System.out.println(jTextField2.getText()+jTextField3.getText());
-            cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.getText()+jTextField3.getText());
+            try {
+                int status = fce.verifyInstructorKey(new String(jPasswordField1.getPassword()));
+                if(status == 2){
+                    jOptionPane1.setMessage("Deneme");
+                }
+                else if(status == 2){
+                    GirisEkrani.setVisible(false);
+                    jDialog1.setVisible(false);
+                    jPanel1.setVisible(true);
+                    cam = new CaptureDesktop();
+                   // System.out.println(jTextField1.getText());
+                    //System.out.println(jTextField2.getText()+jTextField3.getText());
+                    cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.getText()+jTextField3.getText());
+                }
+                else{
+                    
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
         cam.StopCaptureDesktop();
     }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
                               
 
     /**
@@ -563,15 +601,18 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
