@@ -1,7 +1,0 @@
-20202222 | name surname | key --> Enrolled.
-20202222 | name surname | key --> Reconnected.
-20202222 | name surname | key --> Reconnected.
-20202222 | name surname | key --> Reconnected.
-20202222 | name surname | key --> Reconnected.
-20202222 | name surname | key --> Reconnected.
-20202222 | name surname | key --> Reconnected.

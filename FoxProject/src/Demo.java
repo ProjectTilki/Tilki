@@ -9,8 +9,10 @@ import java.io.IOException;
 public class Demo {
 
     public static void main(String[] args) throws IOException {        
-        FoxClientEnrollment fce = new FoxClientEnrollment();
-        System.out.println(fce.enroll("name", "surname", "123123", "Exam1"));
-        System.out.println(fce.verifyInstructorKey("keys"));
+        FoxClientFileManager fcfm = new FoxClientFileManager();
+        File[] files = new File[2];
+        files[0] = new File("Lab4_foy_2016_1.doc");
+        files[1] = new File("Exam1");
+        fcfm.createZipFile(files);
     }
 }

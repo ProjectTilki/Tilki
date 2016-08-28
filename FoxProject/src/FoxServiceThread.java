@@ -3,7 +3,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,13 +20,20 @@ public class FoxServiceThread implements Runnable {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
+
+    /**
+     * Constructor for initializing instance variables.
+     *
+     * @param socket The incoming socket for receiving data.
+     */
     public FoxServiceThread(Socket socket) {
+        this.socket = socket;
         try {
-            this.socket = socket;
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-        } catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE,
+                                                                   null, ex);
         }
     }
 
@@ -35,141 +41,198 @@ public class FoxServiceThread implements Runnable {
     public void run() {
         try {
             String data = in.readUTF();
-            if(data.equals("Enrollment.")) {
-                enrollmentManager();
-            }
-            else if(data.equals(("Key verify."))) {
-                authorizationManager();
-            }
-            else if(data.equals("Sending file.")) {
-                    fileManager();
-            }
-            else if(data.equals("List exams.")) {
-
-                    examListManager();
-            }
+            if(data.equals("Check in."))
+                checkInManager();
+            else if(data.equals(("Key verify.")))
+                keyVerifyManager();
+            else if(data.equals("Sending file."))
+                fileManager();
+            else if(data.equals("List exams."))
+                examListManager();
             socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE,
+                                                                   null, ex);
+        }catch(NoSuchAlgorithmException ex) {
+            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE,
+                                                                   null, ex);
         }
     }
 
-    private void enrollmentManager() throws IOException {
+    /**
+     * Checks in or reconnects a student to an exam. Student informations will
+     * be logged for further use. Uses {@link java.net.Socket} object to receive
+     * data.
+     * <p>
+     * This method will create a log file if and only if exam folder exists and
+     * log file does not exists or write to a existing log file in exam folder.
+     * If the log file is exists, write operation will be appended. Every
+     * information will be read from socket.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    private void checkInManager() throws IOException {
+        // Read informations from socket.
         String name = in.readUTF();
         String surname = in.readUTF();
         String id = in.readUTF();
         String exam = in.readUTF();
+
         File examFolder = new File(exam);
-        File logFile = new File(examFolder, id + "_logfile.txt");
-        PrintWriter fileOut;
-        if(logFile.exists()) {
-            fileOut = new PrintWriter(new FileOutputStream(logFile, true));
-            fileOut.print(id + " | ");
-            fileOut.print(name + " ");
-            fileOut.print(surname + " | ");
-            fileOut.println("--> Reconnected.");
-            out.writeUTF("0");
+        if(!examFolder.exists()) { // Exam folder is missing.
+            out.writeUTF("2");
+            out.flush();
+            return;
         }
-        else {
-            fileOut = new PrintWriter(new FileOutputStream(logFile, true));
-            fileOut.print(id + " | ");
-            fileOut.print(name + " ");
-            fileOut.print(surname + " | ");
-            fileOut.println("--> Check In.");
+
+        File file = new File(examFolder, id + "_logfile.txt");
+        boolean isCheckedIn = false;
+        if(file.exists()) // if log file is exists, student trying to reconnect else check in.
+            isCheckedIn = true;
+
+        PrintWriter logFile = new PrintWriter(new FileOutputStream(file, true));
+        logFile.print(id + " | ");
+        logFile.print(name + " ");
+        logFile.print(surname + " | ");
+        if(isCheckedIn) {
+            logFile.println("--> Reconnected.");
+            out.writeUTF("0");
+        }else {
+            logFile.println("--> Check in.");
             out.writeUTF("1");
         }
-        fileOut.close();
+
+        logFile.close();
         out.flush();
     }
-    
-    private void authorizationManager() throws IOException {
+
+    /**
+     * Verifies a student check in if the instructor key matches with any of the
+     * keys found in "exam_key.txt". Receives data from a
+     * {@link java.net.Socket} object.
+     * <p>
+     * Method searches exam folder to find "exam_key.txt". Key file may has more
+     * than one key.
+     * <p>
+     * If the student log file does not exists, this method will create a file
+     * if the exam folder exists and contains "exam_key.txt". This behavior will
+     * lead to a incorrect log status if used without check in.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
+    private void keyVerifyManager() throws IOException {
+        // Read informations from socket.
         String name = in.readUTF();
         String surname = in.readUTF();
         String id = in.readUTF();
         String exam = in.readUTF();
         String instructorKey = in.readUTF();
-        File examFolder = new File(exam);
-        File examKeyFile = new File(examFolder, "exam_key.txt");
-        File logFile = new File(examFolder, id + "_logfile.txt");
-        if(!examKeyFile.exists()) {
+
+        // Create objects to read and write to a file.
+        File examFileObject = new File(exam);
+        File examKeyFileObject = new File(examFileObject, "exam_key.txt");
+        BufferedReader examKeyFile = new BufferedReader(new FileReader(
+                examKeyFileObject));
+
+        // Check if exam folder, "exam_key.txt" file are missing.
+        if(!examFileObject.exists() || !examKeyFileObject.exists()) {
             out.writeUTF("0");
+            examKeyFile.close();
+            out.flush();
             return;
         }
-        BufferedReader fileIn = new BufferedReader(new FileReader(examKeyFile));
+
+        File logFileObject = new File(examFileObject, id + "_logfile.txt");
+
+        // This line will create a log file if one does not exits.
+        PrintWriter logFile = new PrintWriter(
+                new FileOutputStream(logFileObject, true));
+
+        logFile.print(id + " | ");
+        logFile.print(name + " ");
+        logFile.print(surname + " | ");
+        logFile.print(instructorKey + " --> ");
+
         String lines;
-        PrintWriter fileOut = null;
-        while((lines = fileIn.readLine()) != null) {
-            if(lines.trim().equals(instructorKey)) {
-                fileOut = new PrintWriter(new FileOutputStream(logFile, true));
-                fileOut.print(id + " | ");
-                fileOut.print(name + " ");
-                fileOut.print(surname + " | ");
-                fileOut.print(instructorKey + " --> ");
-                fileOut.println("Instructor key is accepted.");
+        boolean isAccepted = false;
+
+        while((lines = examKeyFile.readLine()) != null && !isAccepted) // Match keys.
+            if(lines.equals(instructorKey)) { // Case sensitive key matching.
+                logFile.println("Instructor key is accepted.");
                 out.writeUTF("1");
+                isAccepted = true;
             }
-            else {
-                fileOut = new PrintWriter(new FileOutputStream(logFile, true));
-                fileOut.print(id + " | ");
-                fileOut.print(name + " ");
-                fileOut.print(surname + " | ");
-                fileOut.print(instructorKey + " --> ");
-                fileOut.println("Instructor key is not accepted.");
-                out.writeUTF("2");
-            }
+
+        if(!isAccepted) { // Key is not matched.
+            logFile.println("Instructor key is not accepted.");
+            out.writeUTF("2");
         }
-        fileIn.close();
-        if(fileOut != null)
-            fileOut.close();
+
+        examKeyFile.close();
+        logFile.close();
         out.flush();
     }
 
     /**
-     * Saves a file from an incoming socket connection.
-     * The file name is received from socket. If the file exists, adds some text to file name
-     * as prefix and saves it.
-     * @throws FileNotFoundException
-     * @throws IOException
-     * @throws NoSuchAlgorithmException 
+     * Saves a file from an incoming {@link java.net.socket} connection in an
+     * exam folder if exam folder exists, calculates and sends it's MD5 checksum
+     * over the {@link java.net.socket}.
+     * <p>
+     * The file name is received from {@link java.net.socket}. If the file
+     * exists, adds some text to the file name as prefix and creates a new file
+     * without modifying the existing one.
+     *
+     * @throws IOException              If an I/O error occurs.
+     * @throws NoSuchAlgorithmException If no Provider supports a
+     *                                  MessageDigestSpi implementation for the
+     *                                  specified algorithm.
      */
-    private void fileManager() throws FileNotFoundException, IOException, NoSuchAlgorithmException {
-        DataInputStream dis = new DataInputStream(socket.getInputStream());
-        String fileName = dis.readUTF();
-        String id = dis.readUTF();
-        String exam = dis.readUTF();
-        File examFile = new File(exam);
-        
-        File file = new File(examFile, fileName);
-        if(file.exists()) {
+    private void fileManager() throws IOException, NoSuchAlgorithmException {
+        String fileName = in.readUTF();
+        String id = in.readUTF();
+        String exam = in.readUTF();
+        File examFileObject = new File(exam);
+        if(!examFileObject.exists()) {
+            out.writeUTF("Exam file is missing.");
+            out.flush();
+            return;
+        }else {
+            out.writeUTF("Exam file is found.");
+            out.flush();
+        }
+
+        File temp = new File(examFileObject, fileName);
+        if(temp.exists()) // File exists, try finding new file name.
             for(int i = 0; i < 100; i++) {
-                file = new File(examFile, i + "_" + fileName);
-                if(!file.exists()) {
+                temp = new File(examFileObject, i + "_" + fileName);
+                if(!temp.exists()) {
                     fileName = i + "_" + fileName;
                     break;
                 }
             }
-        }
-        
-        File incomingFile = new File(examFile, fileName);        
-        FileOutputStream fileOut = new FileOutputStream(incomingFile);
+
+        File incomingFile = new File(examFileObject, fileName);
+        FileOutputStream fileOut = new FileOutputStream(incomingFile); // Creates a file to be filled.
+
         int byteCount;
-        byte[] data = new byte[1024];
+        byte[] data = new byte[4096];
         InputStream os_in = socket.getInputStream();
+        // Read file data from the socket and write it to a created file.
         while((byteCount = os_in.read(data)) > 0)
             fileOut.write(data, 0, byteCount);
-        fileOut.flush();
         fileOut.close();
+
+        // Open file for reading to calculate it's MD5 checksum.
         FileInputStream fileIn = new FileInputStream(incomingFile);
-        byte[] fileData = new byte[1024];
+        byte[] fileData = new byte[4096];
         MessageDigest md = MessageDigest.getInstance("MD5");
         while((byteCount = fileIn.read(fileData)) > 0)
             md.update(fileData, 0, byteCount);
         byte[] rawChecksum = md.digest();
         StringBuilder md5hex = new StringBuilder();
         for(int i = 0; i < rawChecksum.length; i++)
-            md5hex.append(Integer.toString((rawChecksum[i] & 0xff) + 0x100, 16).substring(1));
+            md5hex.append(Integer.toString((rawChecksum[i] & 0xff) + 0x100, 16).
+                    substring(1));
         out.writeUTF(md5hex.toString());
         out.flush();
         fileIn.close();
@@ -182,7 +245,8 @@ public class FoxServiceThread implements Runnable {
             oos.flush();
             return;
         }
-        BufferedReader fileIn = new BufferedReader(new FileReader("exam_list.txt"));
+        BufferedReader fileIn = new BufferedReader(new FileReader(
+                "exam_list.txt"));
         ArrayList<Exam> examList = new ArrayList<>();
         String exam;
         while((exam = fileIn.readLine()) != null) {
@@ -190,11 +254,17 @@ public class FoxServiceThread implements Runnable {
                 examList.add(new Exam(exam, null));
                 continue;
             }
-            BufferedReader description = new BufferedReader(new FileReader(new File(exam, "exam_description.txt")));
+            BufferedReader description = new BufferedReader(new FileReader(
+                    new File(exam, "exam_description.txt")));
             String examDescription = "";
             String s;
+            boolean firstLine = true;
             while((s = description.readLine()) != null)
-                examDescription += s;
+                if(firstLine) {
+                    examDescription += s;
+                    firstLine = false;
+                }else
+                    examDescription += "\n" + s;
             examList.add(new Exam(exam, examDescription));
         }
         fileIn.close();
