@@ -27,10 +27,8 @@ public class FoxClientFileManager {
      * and their contents will not be changed.
      * <p>
      * The name of the zip file will be same with the first {@link java.io.File}
-     * object's name specified with the parameter, file name must has a period
-     * before it's file name extension, if not
-     * {@link java.io.FileNotFoundException} will be thrown. If the file already
-     * exists it will be overwritten.
+     * object's name specified with the parameter. If the file already exists it
+     * will be overwritten.
      *
      * @param files Array list of {@link java.io.File} objects, which will be
      *              zipped. All files must be in the current working directory.
@@ -47,6 +45,8 @@ public class FoxClientFileManager {
         int pos = zipFileName.lastIndexOf('.');
         if(pos > 0)
             zipFileName = zipFileName.substring(0, pos) + ".zip";
+        else
+            zipFileName = zipFileName + ".zip";
         FileOutputStream fos = new FileOutputStream(zipFileName);
         ZipOutputStream zos = new ZipOutputStream(fos);
         String fileName;
@@ -70,7 +70,7 @@ public class FoxClientFileManager {
 
     /**
      * Sends a file to a predefined host by creating a {@link java.net.Socket}
-     * object . On success returns the MD5 checksum of the file.
+     * object. On success returns the MD5 checksum of the file.
      *
      * @param fileName Relative path name of the file for current working
      *                 directory.

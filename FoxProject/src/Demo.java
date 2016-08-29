@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.IOException;
 
@@ -8,11 +7,10 @@ import java.io.IOException;
  */
 public class Demo {
 
-    public static void main(String[] args) throws IOException {        
+    public static void main(String[] args) throws IOException {
         FoxClientFileManager fcfm = new FoxClientFileManager();
-        File[] files = new File[2];
-        files[0] = new File("Lab4_foy_2016_1.doc");
-        files[1] = new File("Exam1");
+        File[] files = new File[1];
+        files[0] = new File("test");
         fcfm.createZipFile(files);
     }
 }

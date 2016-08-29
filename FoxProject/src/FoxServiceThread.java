@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * FoxProject server side utilities. This class consists of methods that operate
+ * on client requests. Main purpose of this class log the exam attendance
+ * request and save incoming files.
+ */
 public class FoxServiceThread implements Runnable {
     private Socket socket;
     private DataInputStream in;
@@ -24,7 +29,7 @@ public class FoxServiceThread implements Runnable {
     /**
      * Constructor for initializing instance variables.
      *
-     * @param socket The incoming socket for receiving data.
+     * @param socket The incoming socket for receiving and sending data.
      */
     public FoxServiceThread(Socket socket) {
         this.socket = socket;
@@ -40,7 +45,7 @@ public class FoxServiceThread implements Runnable {
     @Override
     public void run() {
         try {
-            String data = in.readUTF();
+            String data = in.readUTF(); // Read the requested operation.
             if(data.equals("Check in."))
                 checkInManager();
             else if(data.equals(("Key verify.")))
@@ -78,14 +83,14 @@ public class FoxServiceThread implements Runnable {
         String id = in.readUTF();
         String exam = in.readUTF();
 
-        File examFolder = new File(exam);
-        if(!examFolder.exists()) { // Exam folder is missing.
-            out.writeUTF("2");
+        File examFileObject = new File(exam);
+        if(!examFileObject.exists()) { // Exam folder is missing.
+            out.writeUTF("0");
             out.flush();
             return;
         }
 
-        File file = new File(examFolder, id + "_logfile.txt");
+        File file = new File(examFileObject, id + "_logfile.txt");
         boolean isCheckedIn = false;
         if(file.exists()) // if log file is exists, student trying to reconnect else check in.
             isCheckedIn = true;
@@ -96,10 +101,10 @@ public class FoxServiceThread implements Runnable {
         logFile.print(surname + " | ");
         if(isCheckedIn) {
             logFile.println("--> Reconnected.");
-            out.writeUTF("0");
+            out.writeUTF("1");
         }else {
             logFile.println("--> Check in.");
-            out.writeUTF("1");
+            out.writeUTF("2");
         }
 
         logFile.close();
@@ -191,6 +196,7 @@ public class FoxServiceThread implements Runnable {
         String fileName = in.readUTF();
         String id = in.readUTF();
         String exam = in.readUTF();
+
         File examFileObject = new File(exam);
         if(!examFileObject.exists()) {
             out.writeUTF("Exam file is missing.");
@@ -233,46 +239,54 @@ public class FoxServiceThread implements Runnable {
         for(int i = 0; i < rawChecksum.length; i++)
             md5hex.append(Integer.toString((rawChecksum[i] & 0xff) + 0x100, 16).
                     substring(1));
-        out.writeUTF(md5hex.toString());
+        out.writeUTF(md5hex.toString()); // Send MD5 checksum to the client.
         out.flush();
         fileIn.close();
     }
 
+    /**
+     * This method searches for current working directory to find exam folders.
+     * On request will send available exams to the client over socket along with
+     * their descriptions if exists.
+     *
+     * @throws IOException If an I/O error occurs.
+     */
     private void examListManager() throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-        if(!new File("exam_list.txt").exists()) {
+        if(!new File("exam_list.txt").exists()) { // No exams are available.
             oos.writeObject(null);
             oos.flush();
             return;
         }
+
         BufferedReader fileIn = new BufferedReader(new FileReader(
                 "exam_list.txt"));
-        ArrayList<Exam> examList = new ArrayList<>();
+        ArrayList<Exam> examList = new ArrayList<>(); // Array list of Exam object contains available exams.
         String exam;
-        while((exam = fileIn.readLine()) != null) {
-            if(!new File(exam, "exam_description.txt").exists()) {
+        while((exam = fileIn.readLine()) != null) { // Read exam list.
+            if(!new File(exam, "exam_description.txt").exists()) { // Look for the descripton.
                 examList.add(new Exam(exam, null));
                 continue;
             }
             BufferedReader description = new BufferedReader(new FileReader(
                     new File(exam, "exam_description.txt")));
             String examDescription = "";
-            String s;
+            String temp;
             boolean firstLine = true;
-            while((s = description.readLine()) != null)
+            while((temp = description.readLine()) != null) // Description is available.
                 if(firstLine) {
-                    examDescription += s;
+                    examDescription += temp;
                     firstLine = false;
                 }else
-                    examDescription += "\n" + s;
+                    examDescription += "\n" + temp;
             examList.add(new Exam(exam, examDescription));
         }
         fileIn.close();
+
         Exam[] exams = new Exam[examList.size()];
-        for(int i = 0; i < examList.size(); i++)
+        for(int i = 0; i < examList.size(); i++) // Convert array list to array.
             exams[i] = examList.get(i);
-        oos.writeObject(exams);
+        oos.writeObject(exams); // Send exam list to the client.
         oos.flush();
-        socket.close();
     }
 }

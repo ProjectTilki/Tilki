@@ -5,12 +5,12 @@ import java.net.Socket;
 
 /**
  * This class contains methods for connecting to a predefined host and sending
- * informations. Methods in this class can be used to very the name, surname and
- * id for an exam attendance of a student.
+ * informations. Methods in this class can be used to verify the name, surname
+ * and id for an exam attendance of a student.
  * <p>
  * All the methods in this class uses {@link java.net.Socket} object to connect
- * to a host. The methods of this class all throw an {@link java.io.IOException}
- * if an I/O error occurs on sockets.
+ * to a host. The methods of this class all throw {@link java.io.IOException} if
+ * an I/O error occurs on sockets.
  */
 public class FoxClientEnrollment {
     private String name = null;
