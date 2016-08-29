@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  * on client requests. Main purpose of this class log the exam attendance
  * request and save incoming files.
  */
-public class FoxServiceThread implements Runnable {
+public class FoxServiceThread implements Callable<Integer> {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
@@ -37,31 +38,24 @@ public class FoxServiceThread implements Runnable {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
         }catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE,
-                                                                   null, ex);
+            Logger.getLogger(FoxServiceThread.class.getName()).
+                    log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public void run() {
-        try {
-            String data = in.readUTF(); // Read the requested operation.
-            if(data.equals("Check in."))
-                checkInManager();
-            else if(data.equals(("Key verify.")))
-                keyVerifyManager();
-            else if(data.equals("Sending file."))
-                fileManager();
-            else if(data.equals("List exams."))
-                examListManager();
-            socket.close();
-        }catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE,
-                                                                   null, ex);
-        }catch(NoSuchAlgorithmException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).log(Level.SEVERE,
-                                                                   null, ex);
-        }
+    public Integer call() throws Exception {
+        String data = in.readUTF(); // Read the requested operation.
+        if(data.equals("Check in."))
+            checkInManager();
+        else if(data.equals(("Key verify.")))
+            keyVerifyManager();
+        else if(data.equals("Sending file."))
+            fileManager();
+        else if(data.equals("List exams."))
+            examListManager();
+        socket.close();
+        return 1;
     }
 
     /**
