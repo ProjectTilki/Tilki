@@ -51,6 +51,8 @@ public class FoxClientUtilities {
      */
     public int checkIn(String name, String surname, String id, String exam)
             throws IOException {
+        if(name == null || surname == null || id == null || exam == null)
+            throw new NullPointerException();
         // Save informations to instance variables.
         this.name = name;
         this.surname = surname;
@@ -254,8 +256,11 @@ public class FoxClientUtilities {
             progress++;
         os_out.flush();
         socket.shutdownOutput(); // Shut down output to tell server no more data.
-        String checksum = in.readUTF(); // Read checksum from socket.
-
+        String checksum;
+        if(in.readUTF().equals("Exam file is found."))
+            checksum = in.readUTF(); //Read checksum from socket.
+        else
+            checksum = null;
         fileIn.close();
         socket.close();
         return checksum;

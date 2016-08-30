@@ -56,14 +56,18 @@ public class FoxServiceThread implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         String data = in.readUTF(); // Read the requested operation.
-        if(data.equals("Check in."))
-            checkInManager();
-        else if(data.equals(("Key verify.")))
-            keyVerifyManager();
-        else if(data.equals("Sending file."))
-            fileManager();
-        else if(data.equals("List exams."))
-            examListManager();
+        try {
+            if(data.equals("Check in."))
+                checkInManager();
+            else if(data.equals("Key verify."))
+                keyVerifyManager();
+            else if(data.equals("Sending file."))
+                fileManager();
+            else if(data.equals("List exams."))
+                examListManager();
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
         socket.close();
         return 1;
     }
@@ -137,19 +141,18 @@ public class FoxServiceThread implements Callable<Integer> {
         String exam = in.readUTF();
         String instructorKey = in.readUTF();
 
-        // Create objects to read and write to a file.
+        // Create File references.
         File examFileObject = new File(exam);
         File examKeyFileObject = new File(examFileObject, "exam_key.txt");
-        BufferedReader examKeyFile = new BufferedReader(new FileReader(
-                examKeyFileObject));
-
-        // Check if exam folder, "exam_key.txt" file are missing.
+        // Check if exam folder or "exam_key.txt" file is missing.
         if(!examFileObject.exists() || !examKeyFileObject.exists()) {
             out.writeUTF("0");
-            examKeyFile.close();
             out.flush();
             return;
         }
+
+        BufferedReader examKeyFile = new BufferedReader(new FileReader(
+                examKeyFileObject));
 
         File logFileObject = new File(examFileObject, id + "_logfile.txt");
 
@@ -225,7 +228,7 @@ public class FoxServiceThread implements Callable<Integer> {
         FileOutputStream fileOut = new FileOutputStream(incomingFile); // Creates a file to be filled.
 
         int byteCount;
-        byte[] data = new byte[4096];
+        byte[] data = new byte[1024];
         InputStream os_in = socket.getInputStream();
         // Read file data from the socket and write it to a created file.
         while((byteCount = os_in.read(data)) > 0)

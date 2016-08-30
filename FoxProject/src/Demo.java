@@ -1,4 +1,3 @@
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -7,11 +6,10 @@ import java.io.IOException;
  */
 public class Demo {
 
-    public static void main(String[] args) throws IOException {
-        FoxClientFileManager fcfm = new FoxClientFileManager();
-        File[] files = new File[1];
-        files[0] = new File("test0.txt");
-        fcfm.createZipFile(files);
-        fcfm.sendFile("test0.zip", "1231", "Exam1");
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        FoxClientUtilities fcu = new FoxClientUtilities();
+        System.out.println(fcu.checkIn("asd", "surname", "id", "aawdawdawd"));
+        System.out.println(fcu.verifyInstructorKey("asdasd"));
+
     }
 }
