@@ -43,6 +43,16 @@ public class FoxServiceThread implements Callable<Integer> {
         }
     }
 
+    /**
+     * Thread starts execution on this method.
+     * <p>
+     * Reads data from an incoming connection and decides what to do. This
+     * method returns if and only if operation is successful.
+     *
+     * @return 1 if operation is successful.
+     *
+     * @throws Exception if unable to compute the result.
+     */
     @Override
     public Integer call() throws Exception {
         String data = in.readUTF(); // Read the requested operation.

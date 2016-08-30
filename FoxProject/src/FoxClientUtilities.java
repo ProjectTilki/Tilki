@@ -205,12 +205,21 @@ public class FoxClientUtilities {
      *                 directory.
      * @param id       The student id.
      * @param exam     The exam name.
+     * @param object
      *
      * @return Checksum of the file.
      *
-     * @throws java.io.IOException If an I/O error occurs.
+     * @throws java.io.FileNotFoundException If the file does not exist, is a
+     *                                       directory rather than a regular
+     *                                       file, or for some other reason
+     *                                       cannot be opened for reading.
+     * @throws java.lang.SecurityException   If a security manager exists and
+     *                                       its checkRead method denies read
+     *                                       access to the file.
+     * @throws java.io.IOException           If an I/O error occurs.
      */
-    public String sendFile(String fileName, String id, String exam) throws IOException {
+    public String sendFile(String fileName, String id, String exam,
+                           Object object) throws FileNotFoundException, SecurityException, IOException {
         // Create a socket and initialize it's streams.
         Socket socket = new Socket("localhost", 50101);
         DataInputStream in = new DataInputStream(socket.getInputStream());
@@ -223,15 +232,26 @@ public class FoxClientUtilities {
         out.flush();
 
         // Read file and send it over the socket.
+        long fileSize = new File(fileName).length();
         FileInputStream fileIn = new FileInputStream(fileName);
         OutputStream os_out = socket.getOutputStream();
+        long sentBytes = 0;
+        long progress = 0;
         int bytesCount;
         byte[] fileData = new byte[1024];
         do {
             bytesCount = fileIn.read(fileData);
-            if(bytesCount > 0)
+            if(bytesCount > 0) {
                 os_out.write(fileData, 0, bytesCount);
+                sentBytes += bytesCount;
+                if(sentBytes >= fileSize / 100) {
+                    sentBytes = 0;
+                    progress++;
+                }
+            }
         }while(bytesCount > 0);
+        if(progress != 100)
+            progress++;
         os_out.flush();
         socket.shutdownOutput(); // Shut down output to tell server no more data.
         String checksum = in.readUTF(); // Read checksum from socket.
