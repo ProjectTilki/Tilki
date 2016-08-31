@@ -12,7 +12,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,12 +110,16 @@ public class FoxServiceThread implements Callable<Integer> {
         logFile.print(name + " ");
         logFile.print(surname + " | ");
         if(isCheckedIn) {
-            logFile.println("--> Reconnected.");
+            logFile.print("--> Reconnected. | ");
             out.writeUTF("1");
         }else {
-            logFile.println("--> Check in.");
+            logFile.print("--> Check in. | ");
             out.writeUTF("2");
         }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        logFile.println(dateFormat.format(date));
 
         logFile.close();
         out.flush();
@@ -170,15 +176,19 @@ public class FoxServiceThread implements Callable<Integer> {
 
         while((lines = examKeyFile.readLine()) != null && !isAccepted) // Match keys.
             if(lines.equals(instructorKey)) { // Case sensitive key matching.
-                logFile.println("Instructor key is accepted.");
+                logFile.print("Instructor key is accepted. | ");
                 out.writeUTF("1");
                 isAccepted = true;
             }
 
         if(!isAccepted) { // Key is not matched.
-            logFile.println("Instructor key is not accepted.");
+            logFile.print("Instructor key is not accepted. | ");
             out.writeUTF("2");
         }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        logFile.println(dateFormat.format(date));
 
         examKeyFile.close();
         logFile.close();

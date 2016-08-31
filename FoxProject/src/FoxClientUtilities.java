@@ -88,13 +88,12 @@ public class FoxClientUtilities {
      * Implementation note: Student informations are stored in instance
      * variables. Before using this method,
      * {@link #checkIn(java.lang.String, java.lang.String, java.lang.String, java.lang.String)}
-     * method must be used to store them. If not, a
-     * {@link java.lang.NullPointerException} will be thrown.
+     * method must be used to store them. If not, returns -1.
      *
      * @param instructorKey The instructor key
      *
      * @return Returns 0 if exam folder or key file is missing in remote host,
-     *         returns 1 if key is not accepted, returns 2 if key is accepted,
+     *         returns 1 if key is accepted, returns 2 if key is not accepted,
      *         returns -1 if an error is occurred.
      *
      * @throws java.io.IOException If an I/O error occurs when creating socket,
@@ -102,7 +101,7 @@ public class FoxClientUtilities {
      */
     public int verifyInstructorKey(String instructorKey) throws IOException {
         if(name == null || surname == null || id == null || exam == null || instructorKey == null)
-            throw new NullPointerException();
+            return -1;
         Socket socket = new Socket("localhost", 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
