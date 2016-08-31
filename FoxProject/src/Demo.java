@@ -1,4 +1,3 @@
-import java.io.IOException;
 
 /**
  *
@@ -6,9 +5,6 @@ import java.io.IOException;
  */
 public class Demo {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        FoxClientUtilities fcu = new FoxClientUtilities();
-        //System.out.println(fcu.checkIn("aname", "surname", "id", "Exam1"));
-        System.out.println(fcu.verifyInstructorKey("key"));
+    public static void main(String[] args) {
     }
 }

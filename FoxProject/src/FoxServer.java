@@ -86,8 +86,8 @@ public class FoxServer {
             System.exit(0);
         }
         futureList = new ArrayList<Future<Integer>>();
-        executor = Executors.newFixedThreadPool(2 * Runtime.getRuntime().
-                availableProcessors());
+        executor = Executors.newFixedThreadPool(Runtime.getRuntime().
+                availableProcessors() + 1);
 
         Socket clientSocket = null;
 
