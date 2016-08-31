@@ -8,8 +8,10 @@ public class Demo {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         FoxClientUtilities fcu = new FoxClientUtilities();
-        System.out.println(fcu.checkIn("asd", "surname", "id", "aawdawdawd"));
-        System.out.println(fcu.verifyInstructorKey("asdasd"));
-
+        Exam[] exam = fcu.availableExams();
+        if(exam != null)
+            for(int i = 0; i < exam.length; i++)
+                System.out.println(exam[i].getName() + "\n" + exam[i].
+                        getDescription() + "\n");
     }
 }

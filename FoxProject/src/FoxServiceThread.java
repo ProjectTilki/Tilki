@@ -252,7 +252,12 @@ public class FoxServiceThread implements Callable<Integer> {
     }
 
     /**
-     * This method searches for current working directory to find exam folders.
+     * This method searches for "exam_list.txt" in current working directory to
+     * find exam folders. For each line in "exam_list.txt" represents an exam
+     * folder. If exam name exists in "exam_list.txt" but current working
+     * directory does not have a folder with exam name, exam won't be listed as
+     * available.
+     * <p>
      * On request will send available exams to the client over socket along with
      * their descriptions if exists.
      *
@@ -270,24 +275,26 @@ public class FoxServiceThread implements Callable<Integer> {
                 "exam_list.txt"));
         ArrayList<Exam> examList = new ArrayList<>(); // Array list of Exam object contains available exams.
         String exam;
-        while((exam = fileIn.readLine()) != null) { // Read exam list.
-            if(!new File(exam, "exam_description.txt").exists()) { // Look for the descripton.
-                examList.add(new Exam(exam, null));
-                continue;
-            }
-            BufferedReader description = new BufferedReader(new FileReader(
-                    new File(exam, "exam_description.txt")));
-            String examDescription = "";
-            String temp;
-            boolean firstLine = true;
-            while((temp = description.readLine()) != null) // Description is available.
-                if(firstLine) {
-                    examDescription += temp;
-                    firstLine = false;
-                }else
-                    examDescription += "\n" + temp;
-            examList.add(new Exam(exam, examDescription));
-        }
+        while((exam = fileIn.readLine()) != null) // Read exam list.
+            if(new File(exam).exists())
+                if(!new File(exam, "exam_description.txt").exists()) { // Look for the descripton.
+                    examList.add(new Exam(exam, null));
+                    continue;
+                }else {
+                    BufferedReader description = new BufferedReader(
+                            new FileReader(
+                                    new File(exam, "exam_description.txt")));
+                    String examDescription = "";
+                    String temp;
+                    boolean firstLine = true;
+                    while((temp = description.readLine()) != null) // Description is available.
+                        if(firstLine) {
+                            examDescription += temp;
+                            firstLine = false;
+                        }else
+                            examDescription += "\n" + temp;
+                    examList.add(new Exam(exam, examDescription));
+                }
         fileIn.close();
 
         Exam[] exams = new Exam[examList.size()];
