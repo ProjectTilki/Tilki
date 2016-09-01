@@ -16,8 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Callable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * FoxProject server side utilities. This class consists of methods that operate
@@ -37,15 +35,10 @@ public class FoxServiceThread implements Callable<Integer> {
      *
      * @param socket The incoming socket for receiving and sending data.
      */
-    public FoxServiceThread(Socket socket) {
+    public FoxServiceThread(Socket socket) throws IOException {
         this.socket = socket;
-        try {
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
-        }catch(IOException ex) {
-            Logger.getLogger(FoxServiceThread.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
+        in = new DataInputStream(socket.getInputStream());
+        out = new DataOutputStream(socket.getOutputStream());
     }
 
     /**
@@ -177,7 +170,8 @@ public class FoxServiceThread implements Callable<Integer> {
             String lines;
             boolean isAccepted = false;
 
-            while((lines = examKeyFile.readLine()) != null && !isAccepted) // Match keys.
+            // Match keys.
+            while((lines = examKeyFile.readLine()) != null && !isAccepted)
                 if(lines.equals(instructorKey)) { // Case sensitive key matching.
                     logFile.print("Instructor key is accepted. | ");
                     out.writeUTF("1");

@@ -29,60 +29,14 @@ public class FoxServer {
      * @param args Not used.
      */
     public static void main(String[] args) {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                System.err.println("Running shut down hook...");
-                serverDown = true;
-                executor.shutdown();
-                try {
-                    executor.awaitTermination(1, TimeUnit.SECONDS);
-                    System.out.println("Successful termination.");
-                }catch(InterruptedException ex) {
-                    Logger.getLogger(FoxServer.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                    System.out.println("Unsuccessful termination.");
-                    executor.shutdownNow();
-                }finally {
-                    try {
-                        serverSocket.close();
-                    }catch(IOException ex) {
-                        Logger.getLogger(FoxServer.class.getName()).
-                                log(Level.SEVERE, null, ex);
-                    }
-                }
-                Future<Integer> future;
-                Iterator<Future<Integer>> iterator = futureList.iterator();
-                while(iterator.hasNext()) {
-                    future = iterator.next();
-                    try {
-                        System.err.println(future.
-                                get(100, TimeUnit.MILLISECONDS));
-                    }catch(InterruptedException ex) {
-                        Logger.getLogger(FoxServer.class.getName()).
-                                log(Level.SEVERE, null, ex);
-                    }catch(ExecutionException ex) {
-                        Logger.getLogger(FoxServer.class.getName()).
-                                log(Level.SEVERE, null, ex);
-                    }catch(TimeoutException ex) {
-                        Logger.getLogger(FoxServer.class.getName()).
-                                log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
-
+        ShutDownHook hook = new ShutDownHook();
+        Runtime.getRuntime().addShutdownHook(hook);
         try {
             serverSocket = new ServerSocket(50101);
-        }catch(IOException ioe) {
-            ioe.printStackTrace();
-            System.err.println(
-                    "An I/O error occured when opening the socket.");
-            System.exit(0);
-        }catch(SecurityException se) {
-            se.printStackTrace();
-            System.err.println(
-                    "Socket can not be opened, permission denied.");
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, null,
+                                                            ex);
+            Runtime.getRuntime().removeShutdownHook(hook);
             System.exit(0);
         }
         futureList = new ArrayList<Future<Integer>>();
@@ -94,20 +48,63 @@ public class FoxServer {
         while(true) {
             try {
                 clientSocket = serverSocket.accept();
-            }catch(IOException ioe) {
+            }catch(IOException ex) {
                 if(!serverDown) {
-                    ioe.printStackTrace();
-                    System.err.println(
-                            "I/O error occured when waiting for a connection.");
+                    Logger.getLogger(FoxServer.class.getName()).
+                            log(Level.SEVERE, null, ex);
                     System.exit(0);
                 }
-            }catch(SecurityException se) {
-                se.printStackTrace();
-                System.err.println(
-                        "Connection can not be accepted, permission denied.");
-                System.exit(0);
             }
-            futureList.add(executor.submit(new FoxServiceThread(clientSocket)));
+            try {
+                futureList.add(executor.submit(
+                        new FoxServiceThread(clientSocket)));
+            }catch(IOException ex) {
+                Logger.getLogger(FoxServer.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private static class ShutDownHook extends Thread {
+        @Override
+        public void run() {
+            System.err.println("Running shut down hook...");
+            serverDown = true;
+            executor.shutdown();
+            try {
+                executor.awaitTermination(1, TimeUnit.SECONDS);
+                System.out.println("Successful termination.");
+            }catch(InterruptedException ex) {
+                Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE,
+                                                                null, ex);
+                System.out.println("Unsuccessful termination.");
+                executor.shutdownNow();
+            }finally {
+                try {
+                    serverSocket.close();
+                }catch(IOException ex) {
+                    Logger.getLogger(FoxServer.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+            }
+            Future<Integer> future;
+            Iterator< Future< Integer>> iterator = futureList.iterator();
+            System.err.println("Thread statuses:");
+            while(iterator.hasNext()) {
+                future = iterator.next();
+                try {
+                    System.err.println(future.get(100, TimeUnit.MILLISECONDS));
+                }catch(InterruptedException ex) {
+                    Logger.getLogger(FoxServer.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                }catch(ExecutionException ex) {
+                    Logger.getLogger(FoxServer.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                }catch(TimeoutException ex) {
+                    Logger.getLogger(FoxServer.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 }

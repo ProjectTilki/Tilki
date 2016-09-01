@@ -1,6 +1,5 @@
 
 /**
- *
  * Demo class for testing.
  */
 public class Demo {
