@@ -221,7 +221,8 @@ public class FoxClientUtilities {
      */
     public String sendFile(String fileName, String id, String exam,
                            Object object) throws FileNotFoundException, SecurityException, IOException {
-        // Create a socket and initialize it's streams.
+        // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
+        JProgressBar jpb = (JProgressBar) object;
         Socket socket = new Socket("localhost", 50101);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -237,7 +238,7 @@ public class FoxClientUtilities {
         FileInputStream fileIn = new FileInputStream(fileName);
         OutputStream os_out = socket.getOutputStream();
         long sentBytes = 0;
-        long progress = 0;
+        int progress = 0;
         int bytesCount;
         byte[] fileData = new byte[1024];
         do {
@@ -247,12 +248,13 @@ public class FoxClientUtilities {
                 sentBytes += bytesCount;
                 if(sentBytes >= fileSize / 100) {
                     sentBytes = 0;
-                    progress++;
+                    jpb.setValue(progress++);
                 }
             }
         }while(bytesCount > 0);
         if(progress != 100)
-            progress++;
+            jpb.setValue(100);
+        
         os_out.flush();
         socket.shutdownOutput(); // Shut down output to tell server no more data.
         String checksum;

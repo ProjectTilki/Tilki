@@ -1,10 +1,30 @@
 
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.net.Socket;
+import java.io.InputStream;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.ListModel;
+import javax.swing.WindowConstants;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,7 +42,7 @@ public class MainClient extends javax.swing.JFrame {
         private String number;
         private String name;
         private String surname;
-        private FoxClientEnrollment fce;
+        private FoxClientUtilities fcu = new FoxClientUtilities();;
     /**
      * 
      * Creates new form MainClient
@@ -30,13 +50,19 @@ public class MainClient extends javax.swing.JFrame {
     public MainClient() {
         
         initComponents();
-        FoxClientExamManager fcem = new FoxClientExamManager();
         try {
-            examList = fcem.availableExams();
+            examList = fcu.availableExams();
             jList1.setModel(new javax.swing.AbstractListModel<String>() {
-                public int getSize() { return examList.length; }
-                public String getElementAt(int i) { return examList[i].getName(); }
+                public int getSize() { 
+                    if(examList == null)
+                        return 0;
+                    return examList.length; }
+                public String getElementAt(int i) { 
+                    if(examList == null)
+                        return "";
+                    return examList[i].getName(); }
             });
+            
         }
         catch(IOException e){
             jLabel2.setText("Bağlanamadı.");
@@ -61,16 +87,19 @@ public class MainClient extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jFileChooser1 = new javax.swing.JFileChooser();
-        jOptionPane1 = new javax.swing.JOptionPane();
+        jDialog2 = new javax.swing.JDialog();
+        jProgressBar1 = new javax.swing.JProgressBar();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
         GirisEkrani = new javax.swing.JPanel();
         SolPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jList1 = new javax.swing.JList<String>();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -89,15 +118,14 @@ public class MainClient extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jList2 = new javax.swing.JList<String>();
         jButton3 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jTextArea2 = new javax.swing.JTextArea();
 
-        jDialog1.setLocation(getLocation());
         jDialog1.setMinimumSize(new java.awt.Dimension(362, 203));
+        jDialog1.setPreferredSize(new java.awt.Dimension(362, 203));
         jDialog1.setResizable(false);
 
         jLabel5.setText("Gözetmen Kodu");
@@ -108,8 +136,6 @@ public class MainClient extends javax.swing.JFrame {
                 jButton5MouseClicked(evt);
             }
         });
-
-        jButton6.setText("Çıkış");
 
         jLabel10.setText("jLabel10");
 
@@ -123,36 +149,83 @@ public class MainClient extends javax.swing.JFrame {
                         .addGap(128, 128, 128)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jDialog1Layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
+                        .addContainerGap(88, Short.MAX_VALUE)
                         .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jDialog1Layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton5))
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 181, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(93, 93, 93))
+                .addContainerGap(93, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addContainerGap(29, Short.MAX_VALUE)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
-                .addGap(25, 25, 25))
+                .addComponent(jButton5)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.FILES_AND_DIRECTORIES);
         jFileChooser1.setDragEnabled(true);
         jFileChooser1.setFocusCycleRoot(true);
         jFileChooser1.setMultiSelectionEnabled(true);
+
+        jDialog2.setTitle("Yükleniyor");
+        jDialog2.setAlwaysOnTop(true);
+        jDialog2.setMaximumSize(new java.awt.Dimension(349, 190));
+        jDialog2.setMinimumSize(new java.awt.Dimension(349, 190));
+        jDialog2.setResizable(false);
+
+        jLabel12.setText("Yükleniyor");
+
+        jLabel13.setText("jLabel13");
+        jLabel13.setVisible(false);
+
+        jButton6.setText("Kapat");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog2Layout.createSequentialGroup()
+                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialog2Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jDialog2Layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(jButton6)))
+                .addContainerGap(66, Short.MAX_VALUE))
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(512, 500));
@@ -244,11 +317,6 @@ public class MainClient extends javax.swing.JFrame {
         jTextField4.setEditable(false);
         jTextField4.setText("Lütfen bir sınav seçiniz!");
         jTextField4.setFocusable(false);
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
 
         jLabel8.setText("Durum2");
         jLabel8.setVisible(false);
@@ -276,7 +344,7 @@ public class MainClient extends javax.swing.JFrame {
                                     .addGap(49, 49, 49)))
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
             .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(SagPanelLayout.createSequentialGroup()
                     .addGap(22, 22, 22)
@@ -320,7 +388,7 @@ public class MainClient extends javax.swing.JFrame {
                 .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SagPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 1, Short.MAX_VALUE))
         );
         GirisEkraniLayout.setVerticalGroup(
             GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,21 +401,7 @@ public class MainClient extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jLabel9.setText("Zaman");
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "bos", "deneme", "yapaka" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(jList2);
-
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(10);
-        jTextArea2.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
-        jTextArea2.setRows(5);
-        jTextArea2.setText("\n\n          Dosyaları\n  Sürükleyebilirsiniz.");
-        jTextArea2.setAutoscrolls(false);
-        jTextArea2.setFocusable(false);
-        jScrollPane4.setViewportView(jTextArea2);
 
         jButton3.setText("Gözat");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -364,6 +418,19 @@ public class MainClient extends javax.swing.JFrame {
         });
 
         jButton4.setText("Seçili Dosyaları Sil");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(10);
+        jTextArea2.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        jTextArea2.setRows(5);
+        jTextArea2.setText("\n\n        Dosyaları\nSürükleyebilirsiniz.");
+        jTextArea2.setAutoscrolls(false);
+        jTextArea2.setFocusable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -372,40 +439,33 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(59, 59, 59))
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextArea2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(52, 52, 52)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextArea2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(57, 57, 57))
         );
 
@@ -413,7 +473,7 @@ public class MainClient extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 541, Short.MAX_VALUE)
+            .addGap(0, 526, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -427,7 +487,7 @@ public class MainClient extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
+            .addGap(0, 522, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -454,21 +514,24 @@ public class MainClient extends javax.swing.JFrame {
         String className = jTextField4.getText();
         String password = new String(jPasswordField1.getPassword());
         if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.equals("Lütfen bir sınav seçiniz!"))){
-            fce = new FoxClientEnrollment();
             int status = 4;
             try {
-                status = fce.enroll(name,surname ,number ,className);
+                status = fcu.checkIn(name,surname ,number ,className);
             } catch (IOException ex) {
                 Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println(status);
+            //System.out.println(status);
             if(status == 0){
+                jLabel8.setText("Server dosya eksik!");
+                jLabel8.setVisible(true);
+            }
+            else if(status == 1){
                 jDialog1.setVisible(true);
                 jLabel10.setText("Tekrardan bağlanıldı.");
                 //jLabel8.setText("Sınav şifre dosyası eksik. Sunucu hata!");
                 //jLabel8.setVisible(true);
             }
-            else if(status == 1){                
+            else if(status == 2){                
                 jDialog1.setVisible(true);
                 jLabel10.setText("Yeni kayıt.");
                 //jLabel8.setText("Şifre doğru değil.");
@@ -487,12 +550,17 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        FoxClientExamManager fcem = new FoxClientExamManager();
         try {
-            examList = fcem.availableExams();
+            examList = fcu.availableExams();
             jList1.setModel(new javax.swing.AbstractListModel<String>() {
-                public int getSize() { return examList.length; }
-                public String getElementAt(int i) { return examList[i].getName(); }
+                public int getSize() { 
+                    if(examList == null)
+                        return 0;
+                    return examList.length; }
+                public String getElementAt(int i) { 
+                    if(examList == null)
+                        return "";
+                    return examList[i].getName(); }
             });
             jLabel2.setVisible(false);
         }
@@ -509,46 +577,179 @@ public class MainClient extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
         int location = jList1.locationToIndex(evt.getPoint());
-        jTextArea1.setText(examList[location].getDescription());
-        jTextField4.setText(examList[location].getName());
+        if(examList != null){
+            jTextArea1.setText(examList[location].getDescription());
+            jTextField4.setText(examList[location].getName());
+        }
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
-        jFileChooser1.showOpenDialog(null);
+        int status = jFileChooser1.showOpenDialog(null);
+        if (status == JFileChooser.APPROVE_OPTION) {
+                File[] selectedFiles = jFileChooser1.getSelectedFiles();
+                ListModel<String> lm = jList2.getModel();
+                DefaultListModel dlm = new DefaultListModel();
+                for(File f:selectedFiles)
+                    dlm.addElement(f.getAbsolutePath());
+                for(int i = 0 ; i < lm.getSize() ; i++)
+                    dlm.addElement(lm.getElementAt(i));
+                jList2.setModel(dlm);
+        }
     }//GEN-LAST:event_jButton3MouseClicked
-
+    private tempThread updatingTime;
+    private class tempThread extends Thread implements Runnable{
+        private boolean running = true;
+        public void terminate(){
+            running = false;
+        }
+        @Override
+        public void run() {
+            running = true;
+            try {
+                while(running)
+                    updateTime();
+                } catch(Exception ie) {
+                    
+                }
+            }
+    }
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
             try {
-                int status = fce.verifyInstructorKey(new String(jPasswordField1.getPassword()));
+                int status = fcu.verifyInstructorKey(new String(jPasswordField1.getPassword()));
+                System.out.println("Status gozetmen : "+status);
                 if(status == 2){
-                    jOptionPane1.setMessage("Deneme");
+                    jLabel10.setText("Sifre kabul edilmedi, ve kayde gecildi. Lutfen tekrar deneyiniz.");
                 }
-                else if(status == 2){
+                else if(status == 1){
                     GirisEkrani.setVisible(false);
                     jDialog1.setVisible(false);
                     jPanel1.setVisible(true);
                     cam = new CaptureDesktop();
-                   // System.out.println(jTextField1.getText());
-                    //System.out.println(jTextField2.getText()+jTextField3.getText());
-                    cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.getText()+jTextField3.getText());
+                    cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.getText().charAt(0)+jTextField3.getText());
+                    jTextArea2.setDropTarget(new DropTarget() {
+                        public synchronized void drop(DropTargetDropEvent evt) {
+                            try {
+                                evt.acceptDrop(DnDConstants.ACTION_COPY);
+                                List<File> droppedFiles = (List<File>)
+                                    evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                                ListModel<String> lm = jList2.getModel();
+                                DefaultListModel dlm = new DefaultListModel();
+                                for(File f:droppedFiles)
+                                    dlm.addElement(f.getAbsolutePath());
+                                for(int i = 0 ; i < lm.getSize() ; i++)
+                                    dlm.addElement(lm.getElementAt(i));
+                                jList2.setModel(dlm);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
+                    timeAtStart = System.currentTimeMillis();
+                    updatingTime = new tempThread();
+                    updatingTime.start();
                 }
                 else{
-                    
+                    jLabel10.setText("Bilinmeyen hata.");
                 }
             } catch (IOException ex) {
                 Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
             }
     }//GEN-LAST:event_jButton5MouseClicked
+    private void updateTime(){
+        try {
+            //geting Time in desire format
+            jLabel9.setText(getTimeElapsed());
+            //Thread sleeping for 1 sec
+            Thread.currentThread().sleep(1000);
+        } catch(Exception e) {
+            System.out.println("Exception in Thread Sleep : " + e);
+        }
+    }
+    private long timeAtStart = 0;
+    private String getTimeElapsed(){
+        long elapsedTime = System.currentTimeMillis() - timeAtStart;
+        elapsedTime = elapsedTime / 1000;
 
+        String seconds = Integer.toString((int) (elapsedTime % 60));
+        String minutes = Integer.toString((int) ((elapsedTime % 3600) / 60));
+        String hours = Integer.toString((int) (elapsedTime / 3600));
+
+        if(seconds.length() < 2)
+            seconds = "0" + seconds;
+
+        if(minutes.length() < 2)
+            minutes = "0" + minutes;
+
+        if(hours.length() < 2)
+            hours = "0" + hours;
+
+        return hours + ":" + minutes + ":" + seconds;
+    }
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
-        cam.StopCaptureDesktop();
+        if(cam.status()){
+            try {
+                cam.StopCaptureDesktop();
+                ArrayList<File> filesThatWillUpload = new ArrayList();
+                ListModel<String> lm = jList2.getModel();
+                
+                String pathToScan = ".";
+                String target_file ;  // fileThatYouWantToFilter
+                File folderToScan = new File(pathToScan);
+                File[] listOfFiles = folderToScan.listFiles();
+                
+                for (int i = 0; i < listOfFiles.length; i++) {
+                    if (listOfFiles[i].isFile()) {
+                        target_file = listOfFiles[i].getName();
+                        if (target_file.startsWith(cam.personName)
+                                && target_file.endsWith("."+cam.format)) {
+                            //You can add these files to fileList by using "list.add" here
+                            filesThatWillUpload.add(new File(target_file));
+                        }
+                    }
+                }
+                for(int i = 0 ; i < lm.getSize() ; i++){
+                    filesThatWillUpload.add(new File(lm.getElementAt(i)));
+                }
+                updatingTime.terminate();
+                File[] temp = new File[filesThatWillUpload.size()];
+                zipName = fcu.createZipFile(filesThatWillUpload.toArray(temp));
+                jDialog2.setVisible(true);
+                jDialog2.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                jProgressBar1.setMinimum(0);
+                jProgressBar1.setMaximum(100);
+                String checksum = fcu.sendFile(zipName, number, jTextField4.getText(), jProgressBar1);
+                jLabel12.setText("Bitti, checksum kaydedildi.");
+                jLabel13.setVisible(true);
+                jLabel13.setText(checksum);
+                FileWriter fw = new FileWriter(new File("checksum.log"));
+                fw.write(checksum);
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_jButton7MouseClicked
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private String zipName;
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+        ListModel<String> lm = jList2.getModel();
+        List<String> list = jList2.getSelectedValuesList();
+        DefaultListModel dlm = new DefaultListModel();
+        for(int i = 0 ; i < lm.getSize(); i++){
+            String a = lm.getElementAt(i);
+            if(!list.contains(a))
+                dlm.addElement(a);
+        }
+        jList2.setModel(dlm);
+        
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton6MouseClicked
                               
 
     /**
@@ -598,10 +799,13 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -612,13 +816,12 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextField jTextField1;
