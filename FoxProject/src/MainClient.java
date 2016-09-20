@@ -567,7 +567,7 @@ public class MainClient extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
         int location = jList1.locationToIndex(evt.getPoint());
-        if(examList != null) {
+        if(examList != null && location >= 0) {
             jTextArea1.setText(examList[location].getDescription());
             jTextField4.setText(examList[location].getName());
         }
