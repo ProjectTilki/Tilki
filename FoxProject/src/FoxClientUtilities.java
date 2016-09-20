@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.swing.JProgressBar;
 
 /**
  * This class contains methods for FoxProject's client side application. Main
@@ -254,7 +255,7 @@ public class FoxClientUtilities {
         }while(bytesCount > 0);
         if(progress != 100)
             jpb.setValue(100);
-        
+
         os_out.flush();
         socket.shutdownOutput(); // Shut down output to tell server no more data.
         String checksum;

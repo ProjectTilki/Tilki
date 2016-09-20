@@ -1,79 +1,69 @@
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.DirectoryStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.WindowConstants;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template file, choose Tools | Templates and open the template
+ * in the editor.
  */
-
 /**
  *
  * @author talha
  */
 public class MainClient extends javax.swing.JFrame {
-        private Exam[] examList;
-        private CaptureDesktop cam;
-        private String number;
-        private String name;
-        private String surname;
-        private FoxClientUtilities fcu = new FoxClientUtilities();;
+    private Exam[] examList;
+    private CaptureDesktop cam;
+    private String number;
+    private String name;
+    private String surname;
+    private FoxClientUtilities fcu = new FoxClientUtilities();
+
+    ;
     /**
-     * 
+     *
      * Creates new form MainClient
      */
     public MainClient() {
-        
+
         initComponents();
         try {
             examList = fcu.availableExams();
             jList1.setModel(new javax.swing.AbstractListModel<String>() {
-                public int getSize() { 
+                public int getSize() {
                     if(examList == null)
                         return 0;
-                    return examList.length; }
-                public String getElementAt(int i) { 
+                    return examList.length;
+                }
+
+                public String getElementAt(int i) {
                     if(examList == null)
                         return "";
-                    return examList[i].getName(); }
+                    return examList[i].getName();
+                }
             });
-            
-        }
-        catch(IOException e){
+
+        }catch(IOException e) {
             jLabel2.setText("Bağlanamadı.");
             jLabel2.setVisible(true);
-        }
-        catch(ClassNotFoundException e){
+        }catch(ClassNotFoundException e) {
             jLabel2.setText("Eksik dosya.");
             jLabel2.setVisible(true);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -510,39 +500,38 @@ public class MainClient extends javax.swing.JFrame {
         name = jTextField2.getText();
         surname = jTextField3.getText();
         number = jTextField1.getText();
-        
+
         String className = jTextField4.getText();
         String password = new String(jPasswordField1.getPassword());
-        if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.equals("Lütfen bir sınav seçiniz!"))){
+        if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.
+                                                                                 equals(
+                                                                                 "Lütfen bir sınav seçiniz!"))) {
             int status = 4;
             try {
-                status = fcu.checkIn(name,surname ,number ,className);
-            } catch (IOException ex) {
-                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+                status = fcu.checkIn(name, surname, number, className);
+            }catch(IOException ex) {
+                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
             }
             //System.out.println(status);
-            if(status == 0){
+            if(status == 0) {
                 jLabel8.setText("Server dosya eksik!");
                 jLabel8.setVisible(true);
-            }
-            else if(status == 1){
+            }else if(status == 1) {
                 jDialog1.setVisible(true);
                 jLabel10.setText("Tekrardan bağlanıldı.");
                 //jLabel8.setText("Sınav şifre dosyası eksik. Sunucu hata!");
                 //jLabel8.setVisible(true);
-            }
-            else if(status == 2){                
+            }else if(status == 2) {
                 jDialog1.setVisible(true);
                 jLabel10.setText("Yeni kayıt.");
                 //jLabel8.setText("Şifre doğru değil.");
                 //jLabel8.setVisible(true);
-            }
-            else{
+            }else {
                 jLabel8.setText("Bilinmeyen hata.");
                 jLabel8.setVisible(true);
             }
-        }
-        else{
+        }else {
             jLabel8.setText("Eksik bilgi var.");
             jLabel8.setVisible(true);
         }
@@ -553,22 +542,23 @@ public class MainClient extends javax.swing.JFrame {
         try {
             examList = fcu.availableExams();
             jList1.setModel(new javax.swing.AbstractListModel<String>() {
-                public int getSize() { 
+                public int getSize() {
                     if(examList == null)
                         return 0;
-                    return examList.length; }
-                public String getElementAt(int i) { 
+                    return examList.length;
+                }
+
+                public String getElementAt(int i) {
                     if(examList == null)
                         return "";
-                    return examList[i].getName(); }
+                    return examList[i].getName();
+                }
             });
             jLabel2.setVisible(false);
-        }
-        catch(IOException e){
+        }catch(IOException e) {
             jLabel2.setText("Bağlanamadı.");
             jLabel2.setVisible(true);
-        }
-        catch(ClassNotFoundException e){
+        }catch(ClassNotFoundException e) {
             jLabel2.setText("Eksik dosya.");
             jLabel2.setVisible(true);
         }
@@ -577,7 +567,7 @@ public class MainClient extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
         int location = jList1.locationToIndex(evt.getPoint());
-        if(examList != null){
+        if(examList != null) {
             jTextArea1.setText(examList[location].getDescription());
             jTextField4.setText(examList[location].getName());
         }
@@ -586,88 +576,96 @@ public class MainClient extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
         int status = jFileChooser1.showOpenDialog(null);
-        if (status == JFileChooser.APPROVE_OPTION) {
-                File[] selectedFiles = jFileChooser1.getSelectedFiles();
-                ListModel<String> lm = jList2.getModel();
-                DefaultListModel dlm = new DefaultListModel();
-                for(File f:selectedFiles)
-                    dlm.addElement(f.getAbsolutePath());
-                for(int i = 0 ; i < lm.getSize() ; i++)
-                    dlm.addElement(lm.getElementAt(i));
-                jList2.setModel(dlm);
+        if(status == JFileChooser.APPROVE_OPTION) {
+            File[] selectedFiles = jFileChooser1.getSelectedFiles();
+            ListModel<String> lm = jList2.getModel();
+            DefaultListModel dlm = new DefaultListModel();
+            for(File f : selectedFiles)
+                dlm.addElement(f.getAbsolutePath());
+            for(int i = 0; i < lm.getSize(); i++)
+                dlm.addElement(lm.getElementAt(i));
+            jList2.setModel(dlm);
         }
     }//GEN-LAST:event_jButton3MouseClicked
     private tempThread updatingTime;
-    private class tempThread extends Thread implements Runnable{
+
+    private class tempThread extends Thread implements Runnable {
         private boolean running = true;
-        public void terminate(){
+
+        public void terminate() {
             running = false;
         }
+
         @Override
         public void run() {
             running = true;
             try {
                 while(running)
                     updateTime();
-                } catch(Exception ie) {
-                    
-                }
+            }catch(Exception ie) {
+
             }
+        }
     }
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-            try {
-                int status = fcu.verifyInstructorKey(new String(jPasswordField1.getPassword()));
-                System.out.println("Status gozetmen : "+status);
-                if(status == 2){
-                    jLabel10.setText("Sifre kabul edilmedi, ve kayde gecildi. Lutfen tekrar deneyiniz.");
-                }
-                else if(status == 1){
-                    GirisEkrani.setVisible(false);
-                    jDialog1.setVisible(false);
-                    jPanel1.setVisible(true);
-                    cam = new CaptureDesktop();
-                    cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.getText().charAt(0)+jTextField3.getText());
-                    jTextArea2.setDropTarget(new DropTarget() {
-                        public synchronized void drop(DropTargetDropEvent evt) {
-                            try {
-                                evt.acceptDrop(DnDConstants.ACTION_COPY);
-                                List<File> droppedFiles = (List<File>)
-                                    evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
-                                ListModel<String> lm = jList2.getModel();
-                                DefaultListModel dlm = new DefaultListModel();
-                                for(File f:droppedFiles)
-                                    dlm.addElement(f.getAbsolutePath());
-                                for(int i = 0 ; i < lm.getSize() ; i++)
-                                    dlm.addElement(lm.getElementAt(i));
-                                jList2.setModel(dlm);
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
+        try {
+            int status = fcu.verifyInstructorKey(new String(jPasswordField1.
+                    getPassword()));
+            System.out.println("Status gozetmen : " + status);
+            if(status == 2)
+                jLabel10.setText(
+                        "Sifre kabul edilmedi, ve kayde gecildi. Lutfen tekrar deneyiniz.");
+            else if(status == 1) {
+                GirisEkrani.setVisible(false);
+                jDialog1.setVisible(false);
+                jPanel1.setVisible(true);
+                cam = new CaptureDesktop();
+                cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.
+                                        getText().charAt(0) + jTextField3.
+                                        getText());
+                jTextArea2.setDropTarget(new DropTarget() {
+                    public synchronized void drop(DropTargetDropEvent evt) {
+                        try {
+                            evt.acceptDrop(DnDConstants.ACTION_COPY);
+                            List<File> droppedFiles = (List<File>) evt.
+                                    getTransferable().getTransferData(
+                                            DataFlavor.javaFileListFlavor);
+                            ListModel<String> lm = jList2.getModel();
+                            DefaultListModel dlm = new DefaultListModel();
+                            for(File f : droppedFiles)
+                                dlm.addElement(f.getAbsolutePath());
+                            for(int i = 0; i < lm.getSize(); i++)
+                                dlm.addElement(lm.getElementAt(i));
+                            jList2.setModel(dlm);
+                        }catch(Exception ex) {
+                            ex.printStackTrace();
                         }
-                    });
-                    timeAtStart = System.currentTimeMillis();
-                    updatingTime = new tempThread();
-                    updatingTime.start();
-                }
-                else{
-                    jLabel10.setText("Bilinmeyen hata.");
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                    }
+                });
+                timeAtStart = System.currentTimeMillis();
+                updatingTime = new tempThread();
+                updatingTime.start();
+            }else
+                jLabel10.setText("Bilinmeyen hata.");
+        }catch(IOException ex) {
+            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null,
+                                                             ex);
+        }
     }//GEN-LAST:event_jButton5MouseClicked
-    private void updateTime(){
+
+    private void updateTime() {
         try {
             //geting Time in desire format
             jLabel9.setText(getTimeElapsed());
             //Thread sleeping for 1 sec
             Thread.currentThread().sleep(1000);
-        } catch(Exception e) {
+        }catch(Exception e) {
             System.out.println("Exception in Thread Sleep : " + e);
         }
     }
     private long timeAtStart = 0;
-    private String getTimeElapsed(){
+
+    private String getTimeElapsed() {
         long elapsedTime = System.currentTimeMillis() - timeAtStart;
         elapsedTime = elapsedTime / 1000;
 
@@ -688,48 +686,47 @@ public class MainClient extends javax.swing.JFrame {
     }
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
-        if(cam.status()){
+        if(cam.status())
             try {
                 cam.StopCaptureDesktop();
                 ArrayList<File> filesThatWillUpload = new ArrayList();
                 ListModel<String> lm = jList2.getModel();
-                
+
                 String pathToScan = ".";
-                String target_file ;  // fileThatYouWantToFilter
+                String target_file;  // fileThatYouWantToFilter
                 File folderToScan = new File(pathToScan);
                 File[] listOfFiles = folderToScan.listFiles();
-                
-                for (int i = 0; i < listOfFiles.length; i++) {
-                    if (listOfFiles[i].isFile()) {
+
+                for(int i = 0; i < listOfFiles.length; i++)
+                    if(listOfFiles[i].isFile()) {
                         target_file = listOfFiles[i].getName();
-                        if (target_file.startsWith(cam.personName)
-                                && target_file.endsWith("."+cam.format)) {
+                        if(target_file.startsWith(cam.personName)
+                           && target_file.endsWith("." + cam.format))
                             //You can add these files to fileList by using "list.add" here
                             filesThatWillUpload.add(new File(target_file));
-                        }
                     }
-                }
-                for(int i = 0 ; i < lm.getSize() ; i++){
+                for(int i = 0; i < lm.getSize(); i++)
                     filesThatWillUpload.add(new File(lm.getElementAt(i)));
-                }
                 updatingTime.terminate();
                 File[] temp = new File[filesThatWillUpload.size()];
                 zipName = fcu.createZipFile(filesThatWillUpload.toArray(temp));
                 jDialog2.setVisible(true);
-                jDialog2.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                jDialog2.setDefaultCloseOperation(
+                        WindowConstants.DO_NOTHING_ON_CLOSE);
                 jProgressBar1.setMinimum(0);
                 jProgressBar1.setMaximum(100);
-                String checksum = fcu.sendFile(zipName, number, jTextField4.getText(), jProgressBar1);
+                String checksum = fcu.sendFile(zipName, number, jTextField4.
+                                               getText(), jProgressBar1);
                 jLabel12.setText("Bitti, checksum kaydedildi.");
                 jLabel13.setVisible(true);
                 jLabel13.setText(checksum);
                 FileWriter fw = new FileWriter(new File("checksum.log"));
                 fw.write(checksum);
                 fw.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+            }catch(IOException ex) {
+                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
             }
-        }
     }//GEN-LAST:event_jButton7MouseClicked
     private String zipName;
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
@@ -737,49 +734,58 @@ public class MainClient extends javax.swing.JFrame {
         ListModel<String> lm = jList2.getModel();
         List<String> list = jList2.getSelectedValuesList();
         DefaultListModel dlm = new DefaultListModel();
-        for(int i = 0 ; i < lm.getSize(); i++){
+        for(int i = 0; i < lm.getSize(); i++) {
             String a = lm.getElementAt(i);
             if(!list.contains(a))
                 dlm.addElement(a);
         }
         jList2.setModel(dlm);
-        
+
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton6MouseClicked
-                              
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /*
+         * Set the Nimbus look and feel
+         */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+            for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.
+                    getInstalledLookAndFeels())
+                if("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }catch(ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
+        }catch(InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
+        }catch(IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
+        }catch(javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /*
+         * Create and display the form
+         */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainClient().setVisible(true);
