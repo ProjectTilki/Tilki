@@ -513,7 +513,6 @@ public class MainClient extends javax.swing.JFrame {
                 Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE,
                                                                  null, ex);
             }
-            //System.out.println(status);
             if(status == 0) {
                 jLabel8.setText("Server dosya eksik!");
                 jLabel8.setVisible(true);
@@ -590,7 +589,7 @@ public class MainClient extends javax.swing.JFrame {
     private tempThread updatingTime;
 
     private class tempThread extends Thread implements Runnable {
-        private boolean running = true;
+        private volatile boolean running = true;
 
         public void terminate() {
             running = false;
@@ -611,7 +610,6 @@ public class MainClient extends javax.swing.JFrame {
         try {
             int status = fcu.verifyInstructorKey(new String(jPasswordField1.
                     getPassword()));
-            System.out.println("Status gozetmen : " + status);
             if(status == 2)
                 jLabel10.setText(
                         "Sifre kabul edilmedi, ve kayde gecildi. Lutfen tekrar deneyiniz.");
@@ -692,19 +690,17 @@ public class MainClient extends javax.swing.JFrame {
                 ArrayList<File> filesThatWillUpload = new ArrayList();
                 ListModel<String> lm = jList2.getModel();
 
-                String pathToScan = ".";
-                String target_file;  // fileThatYouWantToFilter
-                File folderToScan = new File(pathToScan);
-                File[] listOfFiles = folderToScan.listFiles();
-
-                for(int i = 0; i < listOfFiles.length; i++)
-                    if(listOfFiles[i].isFile()) {
-                        target_file = listOfFiles[i].getName();
-                        if(target_file.startsWith(cam.personName)
-                           && target_file.endsWith("." + cam.format))
-                            //You can add these files to fileList by using "list.add" here
-                            filesThatWillUpload.add(new File(target_file));
+                String target_file = cam.personName + "." + cam.format; // fileThatYouWantToFilter
+                File target_file_object = new File(target_file);
+                if(target_file_object.exists()) {
+                    filesThatWillUpload.add(new File(target_file));
+                    for(int i = 0; i < 100; i++) {
+                        target_file_object = new File(i + "_" + target_file);
+                        if(target_file_object.exists())
+                            filesThatWillUpload.add(new File(
+                                    i + "_" + target_file));
                     }
+                }
                 for(int i = 0; i < lm.getSize(); i++)
                     filesThatWillUpload.add(new File(lm.getElementAt(i)));
                 updatingTime.terminate();
