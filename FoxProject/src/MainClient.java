@@ -612,7 +612,7 @@ public class MainClient extends javax.swing.JFrame {
                     getPassword()));
             if(status == 2)
                 jLabel10.setText(
-                        "Sifre kabul edilmedi, ve kayde gecildi. Lutfen tekrar deneyiniz.");
+                        "Sifre kabul edilmedi, ve kayda gecildi. Lutfen tekrar deneyiniz.");
             else if(status == 1) {
                 GirisEkrani.setVisible(false);
                 jDialog1.setVisible(false);

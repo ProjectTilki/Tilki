@@ -245,6 +245,17 @@ public class FoxServiceThread implements Callable<Integer> {
             fileOut.close();
 
             // Open file for reading to calculate it's MD5 checksum.
+            PrintWriter logFile = new PrintWriter(
+                    new FileOutputStream(new File(exam, id + "_logfile.txt"),
+                                         true));
+
+            logFile.print(id + " | ");
+            logFile.print("File is received. | ");
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy/MM/dd HH:mm:ss");
+            Date date = new Date();
+            logFile.println(dateFormat.format(date));
+            logFile.close();
             FileInputStream fileIn = new FileInputStream(incomingFile);
             byte[] fileData = new byte[4096];
             MessageDigest md = MessageDigest.getInstance("MD5");
