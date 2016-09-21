@@ -3,7 +3,7 @@ import com.teamdev.jxcapture.EncodingParameters;
 import com.teamdev.jxcapture.VideoCapture;
 import com.teamdev.jxcapture.video.FullScreen;
 import com.teamdev.jxcapture.video.VideoFormat;
-import java.awt.*;
+import java.awt.Dimension;
 import java.io.File;
 
 public class CaptureDesktop {
