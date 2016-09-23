@@ -117,6 +117,7 @@ public class MainClient extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
 
+        jDialog1.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         jDialog1.setTitle("Tilki");
         jDialog1.setIconImage(null);
         jDialog1.setMinimumSize(new java.awt.Dimension(423, 234));
@@ -187,6 +188,7 @@ public class MainClient extends javax.swing.JFrame {
         jFileChooser1.setFocusCycleRoot(true);
         jFileChooser1.setMultiSelectionEnabled(true);
 
+        jDialog2.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         jDialog2.setTitle("Tilki");
         jDialog2.setAlwaysOnTop(true);
         jDialog2.setMinimumSize(new java.awt.Dimension(349, 190));
@@ -315,6 +317,9 @@ public class MainClient extends javax.swing.JFrame {
         jLabel1.setText("Numara");
 
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
+            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
             }
@@ -357,7 +362,7 @@ public class MainClient extends javax.swing.JFrame {
         jLabel8.setVisible(false);
 
         jLabel16.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        jLabel16.setText("Lutfen bir sinav seciniz");
+        jLabel16.setText("Lutfen bir sinav seciniz.");
 
         javax.swing.GroupLayout SagPanelLayout = new javax.swing.GroupLayout(SagPanel);
         SagPanel.setLayout(SagPanelLayout);
@@ -559,10 +564,10 @@ public class MainClient extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-   
+
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
+
         name = jTextField2.getText();
         surname = jTextField3.getText();
         number = jTextField1.getText();
@@ -571,7 +576,7 @@ public class MainClient extends javax.swing.JFrame {
         String password = new String(jPasswordField1.getPassword());
         if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.
                                                                                  equals(
-                                                                           "Lütfen bir sınav seçiniz!"))) {
+                                                                                 "Lutfen bir sinav seciniz."))) {
             int status = 4;
             try {
                 status = fcu.checkIn(name, surname, number, className);
@@ -596,10 +601,20 @@ public class MainClient extends javax.swing.JFrame {
                 jLabel8.setText("Bilinmeyen hata.");
                 jLabel8.setVisible(true);
             }
-        }else {
-            jLabel8.setText("Eksik bilgi var.");
+        }else if(name.isEmpty()) {
+            jLabel8.setText("Ad kısmı eksik.");
             jLabel8.setVisible(true);
-        }
+        }else if(surname.isEmpty()) {
+            jLabel8.setText("Soyad kısmı eksik.");
+            jLabel8.setVisible(true);
+        }else if(number.isEmpty()) {
+            jLabel8.setText("Numara kısmı eksik.");
+            jLabel8.setVisible(true);
+        }else if(className.equals("Lutfen bir sinav seciniz.")) {
+            jLabel8.setText("Yandaki listeden sınav seçiniz.");
+            jLabel8.setVisible(true);
+        }else
+            jLabel8.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -781,8 +796,9 @@ public class MainClient extends javax.swing.JFrame {
                                                getText(), jProgressBar1);
                 jLabel12.setText("Bitti, checksum kaydedildi.");
                 jLabel13.setVisible(true);
-                String tempCheckSum = checksum.substring(0,15);
-                tempCheckSum = tempCheckSum.substring(0,5) + "-" +tempCheckSum.substring(5,10) + "-" + tempCheckSum.substring(10,15);
+                String tempCheckSum = checksum.substring(0, 15);
+                tempCheckSum = tempCheckSum.substring(0, 5) + "-" + tempCheckSum.
+                        substring(5, 10) + "-" + tempCheckSum.substring(10, 15);
                 tempCheckSum = tempCheckSum.toUpperCase();
                 jLabel13.setText(tempCheckSum);
                 FileWriter fw = new FileWriter(new File("checksum.log"));
@@ -830,32 +846,42 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2KeyReleased
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
-    MouseEvent temp;
-    temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH, WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)        
-      jButton2MouseClicked(temp);// TODO add your handling code here:
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            jButton2MouseClicked(temp);// TODO add your handling code here:
     }//GEN-LAST:event_jTextField1KeyPressed
 
     private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
-    MouseEvent temp;
-    temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH, WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)        
-      jButton2MouseClicked(temp);        // TODO add your handling code here:
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            jButton2MouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3KeyPressed
 
     private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
-    MouseEvent temp;
-    temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH, WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)        
-      jButton2MouseClicked(temp);        // TODO add your handling code here:
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            jButton2MouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2KeyPressed
 
     private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
-    MouseEvent temp;
-    temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH, WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER)        
-      jButton5MouseClicked(temp);        // TODO add your handling code here:
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            jButton5MouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1KeyPressed
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+        if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0')
+            evt.consume();
+    }//GEN-LAST:event_jTextField1KeyTyped
 
     /**
      * @param args the command line arguments
@@ -902,7 +928,6 @@ public class MainClient extends javax.swing.JFrame {
         });
     }
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel GirisEkrani;
     private javax.swing.JPanel SagPanel;
