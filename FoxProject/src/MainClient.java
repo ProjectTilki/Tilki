@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.ListModel;
-import javax.swing.WindowConstants;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -75,17 +74,18 @@ public class MainClient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
+        GozetmenKodu = new javax.swing.JFrame();
         jLabel5 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton5 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        jFileChooser1 = new javax.swing.JFileChooser();
-        jDialog2 = new javax.swing.JDialog();
+        Yukleniyor = new javax.swing.JFrame();
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        FileChooserFrame = new javax.swing.JFrame();
+        jFileChooser1 = new javax.swing.JFileChooser();
         GirisEkrani = new javax.swing.JPanel();
         SolPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -117,11 +117,7 @@ public class MainClient extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
 
-        jDialog1.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        jDialog1.setTitle("Tilki");
-        jDialog1.setIconImage(null);
-        jDialog1.setMinimumSize(new java.awt.Dimension(423, 234));
-        jDialog1.setResizable(false);
+        GozetmenKodu.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabel5.setText("Gözetmen Kodu");
 
@@ -150,49 +146,43 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel10.setText("jLabel10");
 
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
-                    .addComponent(jPasswordField1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGap(137, 137, 137)
+        javax.swing.GroupLayout GozetmenKoduLayout = new javax.swing.GroupLayout(GozetmenKodu.getContentPane());
+        GozetmenKodu.getContentPane().setLayout(GozetmenKoduLayout);
+        GozetmenKoduLayout.setHorizontalGroup(
+            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GozetmenKoduLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPasswordField1)
+                .addGap(23, 23, 23))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GozetmenKoduLayout.createSequentialGroup()
+                .addContainerGap(229, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addGap(156, 156, 156)
-                .addComponent(jLabel5)
+                .addGap(123, 123, 123))
+            .addGroup(GozetmenKoduLayout.createSequentialGroup()
+                .addGroup(GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(GozetmenKoduLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(GozetmenKoduLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+        GozetmenKoduLayout.setVerticalGroup(
+            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GozetmenKoduLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(26, 26, 26)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton5)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(110, 110, 110))
         );
 
-        jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.FILES_AND_DIRECTORIES);
-        jFileChooser1.setDragEnabled(true);
-        jFileChooser1.setFocusCycleRoot(true);
-        jFileChooser1.setMultiSelectionEnabled(true);
-
-        jDialog2.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        jDialog2.setTitle("Tilki");
-        jDialog2.setAlwaysOnTop(true);
-        jDialog2.setMinimumSize(new java.awt.Dimension(349, 190));
-        jDialog2.setResizable(false);
+        Yukleniyor.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel12.setText("Yükleniyor");
 
@@ -207,35 +197,61 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
-        jDialog2.getContentPane().setLayout(jDialog2Layout);
-        jDialog2Layout.setHorizontalGroup(
-            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog2Layout.createSequentialGroup()
-                .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDialog2Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addGroup(jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jDialog2Layout.createSequentialGroup()
-                        .addGap(141, 141, 141)
+        javax.swing.GroupLayout YukleniyorLayout = new javax.swing.GroupLayout(Yukleniyor.getContentPane());
+        Yukleniyor.getContentPane().setLayout(YukleniyorLayout);
+        YukleniyorLayout.setHorizontalGroup(
+            YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+            .addGroup(YukleniyorLayout.createSequentialGroup()
+                .addGroup(YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(YukleniyorLayout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addGroup(YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(YukleniyorLayout.createSequentialGroup()
+                        .addGap(169, 169, 169)
                         .addComponent(jButton6)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jDialog2Layout.setVerticalGroup(
-            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialog2Layout.createSequentialGroup()
-                .addContainerGap()
+        YukleniyorLayout.setVerticalGroup(
+            YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, YukleniyorLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(65, 65, 65)
                 .addComponent(jButton6)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addGap(71, 71, 71))
+        );
+
+        jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.FILES_AND_DIRECTORIES);
+        jFileChooser1.setDragEnabled(true);
+        jFileChooser1.setFocusCycleRoot(true);
+        jFileChooser1.setMultiSelectionEnabled(true);
+
+        javax.swing.GroupLayout FileChooserFrameLayout = new javax.swing.GroupLayout(FileChooserFrame.getContentPane());
+        FileChooserFrame.getContentPane().setLayout(FileChooserFrameLayout);
+        FileChooserFrameLayout.setHorizontalGroup(
+            FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 435, Short.MAX_VALUE)
+            .addGroup(FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(FileChooserFrameLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        FileChooserFrameLayout.setVerticalGroup(
+            FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 408, Short.MAX_VALUE)
+            .addGroup(FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(FileChooserFrameLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -588,12 +604,12 @@ public class MainClient extends javax.swing.JFrame {
                 jLabel8.setText("Server dosya eksik!");
                 jLabel8.setVisible(true);
             }else if(status == 1) {
-                jDialog1.setVisible(true);
+                GozetmenKodu.setVisible(true);
                 jLabel10.setText("Tekrardan bağlanıldı.");
                 //jLabel8.setText("Sınav şifre dosyası eksik. Sunucu hata!");
                 //jLabel8.setVisible(true);
             }else if(status == 2) {
-                jDialog1.setVisible(true);
+                GozetmenKodu.setVisible(true);
                 jLabel10.setText("Yeni kayıt.");
                 //jLabel8.setText("Şifre doğru değil.");
                 //jLabel8.setVisible(true);
@@ -696,7 +712,7 @@ public class MainClient extends javax.swing.JFrame {
                         "Sifre kabul edilmedi, ve kayda gecildi. Lutfen tekrar deneyiniz.");
             else if(status == 1) {
                 GirisEkrani.setVisible(false);
-                jDialog1.setVisible(false);
+                GozetmenKodu.setVisible(false);
                 jPanel1.setVisible(true);
                 cam = new CaptureDesktop();
                 cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.
@@ -787,9 +803,10 @@ public class MainClient extends javax.swing.JFrame {
                 updatingTime.terminate();
                 File[] temp = new File[filesThatWillUpload.size()];
                 zipName = fcu.createZipFile(filesThatWillUpload.toArray(temp));
-                jDialog2.setVisible(true);
-                jDialog2.setDefaultCloseOperation(
-                        WindowConstants.DO_NOTHING_ON_CLOSE);
+                Yukleniyor.setVisible(true);
+                this.setEnabled(false);
+                this.setDefaultCloseOperation(
+                        javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
                 jProgressBar1.setMinimum(0);
                 jProgressBar1.setMaximum(100);
                 String checksum = fcu.sendFile(zipName, number, jLabel16.
@@ -929,9 +946,12 @@ public class MainClient extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame FileChooserFrame;
     private javax.swing.JPanel GirisEkrani;
+    private javax.swing.JFrame GozetmenKodu;
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
+    private javax.swing.JFrame Yukleniyor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -939,8 +959,6 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JDialog jDialog1;
-    private javax.swing.JDialog jDialog2;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
