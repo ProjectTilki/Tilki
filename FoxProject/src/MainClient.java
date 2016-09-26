@@ -57,7 +57,7 @@ public class MainClient extends javax.swing.JFrame {
             });
 
         }catch(IOException e) {
-            jLabel2.setText("Bağlanamadı.");
+            jLabel2.setText("Ba\u011Flanamad\u0131.");
             jLabel2.setVisible(true);
         }catch(ClassNotFoundException e) {
             jLabel2.setText("Eksik dosya.");
@@ -122,10 +122,8 @@ public class MainClient extends javax.swing.JFrame {
         GozetmenKodu.setAlwaysOnTop(true);
         GozetmenKodu.setMinimumSize(new java.awt.Dimension(350, 195));
         GozetmenKodu.setResizable(false);
-        GozetmenKodu.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setText("Gözetmen Kodu");
-        GozetmenKodu.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 89, 326, 26));
+        jLabel5.setText("G\u00F6zetmen Kodu");
 
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,9 +135,9 @@ public class MainClient extends javax.swing.JFrame {
                 jPasswordField1KeyPressed(evt);
             }
         });
-        GozetmenKodu.getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 121, 326, -1));
 
-        jButton5.setText("Sınavı Başlat");
+        jButton5.setText("S\u0131nav\u0131 Ba\u015F" +
+            "lat");
         jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton5MouseClicked(evt);
@@ -150,10 +148,34 @@ public class MainClient extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        GozetmenKodu.getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 154, 326, -1));
 
         jLabel10.setText("jLabel10");
-        GozetmenKodu.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, 338, 33));
+
+        javax.swing.GroupLayout GozetmenKoduLayout = new javax.swing.GroupLayout(GozetmenKodu.getContentPane());
+        GozetmenKodu.getContentPane().setLayout(GozetmenKoduLayout);
+        GozetmenKoduLayout.setHorizontalGroup(
+            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GozetmenKoduLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        GozetmenKoduLayout.setVerticalGroup(
+            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GozetmenKoduLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jButton5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         Yukleniyor.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         Yukleniyor.setTitle("Tilki");
@@ -161,9 +183,8 @@ public class MainClient extends javax.swing.JFrame {
         Yukleniyor.setMinimumSize(new java.awt.Dimension(386, 177));
         Yukleniyor.setResizable(false);
 
-        jLabel12.setText("Yükleniyor");
+        jLabel12.setText("Y\u00FCkleniyor");
 
-        jLabel13.setFont(new java.awt.Font("Ubuntu", 0, 20)); // NOI18N
         jLabel13.setText("jLabel13");
         jLabel13.setVisible(false);
 
@@ -230,7 +251,7 @@ public class MainClient extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(512, 500));
         setResizable(false);
 
-        GirisEkrani.setToolTipText("Tilki");
+        GirisEkrani.setFont(GirisEkrani.getFont());
         GirisEkrani.setMaximumSize(new java.awt.Dimension(490, 481));
         GirisEkrani.setMinimumSize(new java.awt.Dimension(490, 481));
         GirisEkrani.setName("TIlki"); // NOI18N
@@ -257,9 +278,9 @@ public class MainClient extends javax.swing.JFrame {
         jLabel2.setText("Durum");
         jLabel2.setVisible(false);
 
-        jLabel6.setText("Sınavlar");
+        jLabel6.setText("S\u0131navlar");
 
-        jLabel11.setText("Açıklamalar");
+        jLabel11.setText("A\u00E7\u0131klamalar");
 
         javax.swing.GroupLayout SolPanelLayout = new javax.swing.GroupLayout(SolPanel);
         SolPanel.setLayout(SolPanelLayout);
@@ -320,20 +341,10 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Giris Yap");
+        jButton2.setText("Giri\u015F Yap");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2MouseClicked(evt);
-            }
-        });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jButton2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jButton2KeyReleased(evt);
             }
         });
 
@@ -348,8 +359,7 @@ public class MainClient extends javax.swing.JFrame {
         jLabel8.setText("Durum2");
         jLabel8.setVisible(false);
 
-        jLabel16.setFont(new java.awt.Font("Ubuntu", 0, 15)); // NOI18N
-        jLabel16.setText("Lutfen bir sinav seciniz.");
+        jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
 
         javax.swing.GroupLayout SagPanelLayout = new javax.swing.GroupLayout(SagPanel);
         SagPanel.setLayout(SagPanelLayout);
@@ -424,26 +434,25 @@ public class MainClient extends javax.swing.JFrame {
         jPanel1.setToolTipText("Tilki");
         jPanel1.setPreferredSize(new java.awt.Dimension(526, 500));
 
-        jLabel9.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jLabel9.setText("Zaman");
 
         jScrollPane3.setViewportView(jList2);
 
-        jButton3.setText("Gözat");
+        jButton3.setText("G\u00F6zat");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);
             }
         });
 
-        jButton7.setText("Yükle");
+        jButton7.setText("Y\u00FCkle");
         jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton7MouseClicked(evt);
             }
         });
 
-        jButton4.setText("Seçili Dosyaları Sil");
+        jButton4.setText("Se\u00E7ili Dosyalar\u0131 Sil");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton4MouseClicked(evt);
@@ -452,16 +461,14 @@ public class MainClient extends javax.swing.JFrame {
 
         jTextArea2.setEditable(false);
         jTextArea2.setColumns(8);
-        jTextArea2.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
         jTextArea2.setRows(5);
-        jTextArea2.setText("\n\n        Dosyaları\nSürükleyebilirsiniz.");
+        jTextArea2.setText("\n\n        Dosyalar\u0131\nS\u00FCr\u00FCkleyebilirsiniz.");
         jTextArea2.setAutoscrolls(false);
         jTextArea2.setFocusable(false);
 
-        jLabel14.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
-        jLabel14.setText("Gecen Sure");
+        jLabel14.setText("Ge\u00E7en Sure");
 
-        jLabel15.setText("<html>Sinavi bitirmek icin gondermek istediginiz dosyalari gozat butonunu <br> kullanarak ya da surukleyerek secin ve yukle tusuna basin.</html>");
+        jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 g\u00F6zat butonunu <br> kullanarak ya da s\u00FCr\u00FCkleyerek se\u00E7in ve y\u00FCkle tu\u015Funa bas\u0131n.</html>");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -471,7 +478,7 @@ public class MainClient extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
+                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -497,7 +504,7 @@ public class MainClient extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -546,7 +553,6 @@ public class MainClient extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        GirisEkrani.getAccessibleContext().setAccessibleName("TIlki");
         jPanel1.setVisible(false);
 
         pack();
@@ -562,7 +568,7 @@ public class MainClient extends javax.swing.JFrame {
         String password = new String(jPasswordField1.getPassword());
         if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.
                                                                                  equals(
-                                                                                 "Lutfen bir sinav seciniz."))) {
+                                                                                 "L\u00FCtfen bir s\u0131nav se\u00E7iniz."))) {
             int status = 4;
             try {
                 status = fcu.checkIn(name, surname, number, className);
@@ -571,33 +577,29 @@ public class MainClient extends javax.swing.JFrame {
                                                                  null, ex);
             }
             if(status == 0) {
-                jLabel8.setText("Server dosya eksik!");
+                jLabel8.setText("Serverda dosya eksik!");
                 jLabel8.setVisible(true);
             }else if(status == 1) {
                 GozetmenKodu.setVisible(true);
-                jLabel10.setText("Tekrardan bağlanıldı.");
-                //jLabel8.setText("Sınav şifre dosyası eksik. Sunucu hata!");
-                //jLabel8.setVisible(true);
+                jLabel10.setText("Tekrardan ba\u011Flan\u0131ld\u0131.");
             }else if(status == 2) {
                 GozetmenKodu.setVisible(true);
-                jLabel10.setText("Yeni kayıt.");
-                //jLabel8.setText("Şifre doğru değil.");
-                //jLabel8.setVisible(true);
+                jLabel10.setText("Yeni kay\u0131t.");
             }else {
-                jLabel8.setText("Bilinmeyen hata.");
+                jLabel8.setText("Bilinmeyen bir hata.");
                 jLabel8.setVisible(true);
             }
         }else if(name.isEmpty()) {
-            jLabel8.setText("Ad kısmı eksik.");
+            jLabel8.setText("Ad k\u0131sm\u0131 eksik.");
             jLabel8.setVisible(true);
         }else if(surname.isEmpty()) {
-            jLabel8.setText("Soyad kısmı eksik.");
+            jLabel8.setText("Soyad k\u0131sm\u0131 eksik.");
             jLabel8.setVisible(true);
         }else if(number.isEmpty()) {
-            jLabel8.setText("Numara kısmı eksik.");
+            jLabel8.setText("Numara k\u0131sm\u0131 eksik.");
             jLabel8.setVisible(true);
-        }else if(className.equals("Lutfen bir sinav seciniz.")) {
-            jLabel8.setText("Yandaki listeden sınav seçiniz.");
+        }else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
+            jLabel8.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
             jLabel8.setVisible(true);
         }else
             jLabel8.setVisible(false);
@@ -622,7 +624,7 @@ public class MainClient extends javax.swing.JFrame {
             });
             jLabel2.setVisible(false);
         }catch(IOException e) {
-            jLabel2.setText("Bağlanamadı.");
+            jLabel2.setText("Ba\u011Flanamad\u0131.");
             jLabel2.setVisible(true);
         }catch(ClassNotFoundException e) {
             jLabel2.setText("Eksik dosya.");
@@ -757,14 +759,6 @@ public class MainClient extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton4MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton2KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2KeyReleased
-
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
@@ -805,8 +799,8 @@ public class MainClient extends javax.swing.JFrame {
                     getPassword()));
             if(status == 2)
                 jLabel10.setText(
-                        "<html>Sifre kabul edilmedi, ve kayda gecildi.<br>"
-                        + "Lutfen tekrar deneyiniz.</html>");
+                        "<html>\u015Eifre kabul edilmedi, ve kayda ge\u00E7ildi.<br>"
+                        + "L\u00FCtfen tekrar deneyiniz.</html>");
             else if(status == 1) {
                 GirisEkrani.setVisible(false);
                 GozetmenKodu.setVisible(false);
@@ -853,10 +847,6 @@ public class MainClient extends javax.swing.JFrame {
             jButton5MouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1KeyPressed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
         System.exit(0);
@@ -877,41 +867,14 @@ public class MainClient extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.
-                    getInstalledLookAndFeels())
-                if("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-        }catch(ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
-                    java.util.logging.Level.SEVERE, null, ex);
-        }catch(InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
-                    java.util.logging.Level.SEVERE, null, ex);
-        }catch(IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
-                    java.util.logging.Level.SEVERE, null, ex);
-        }catch(javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainClient.class.getName()).log(
-                    java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
         /*
          * Create and display the form
          */
