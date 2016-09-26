@@ -60,7 +60,7 @@ public class FoxClientUtilities {
         this.id = id;
         this.exam = exam;
 
-        Socket socket = new Socket("10.5.146.7", 50101); // Connect to the host.
+        Socket socket = new Socket("localhost", 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -103,7 +103,7 @@ public class FoxClientUtilities {
     public int verifyInstructorKey(String instructorKey) throws IOException {
         if(name == null || surname == null || id == null || exam == null || instructorKey == null)
             return -1;
-        Socket socket = new Socket("10.5.146.7", 50101); // Connect to the host.
+        Socket socket = new Socket("localhost", 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -139,7 +139,7 @@ public class FoxClientUtilities {
      * @see Exam
      */
     public Exam[] availableExams() throws IOException, ClassNotFoundException {
-        Socket socket = new Socket("10.5.146.7", 50101); // Connect to the host.
+        Socket socket = new Socket("localhost", 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -224,7 +224,7 @@ public class FoxClientUtilities {
                            Object object) throws FileNotFoundException, SecurityException, IOException {
         // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
         JProgressBar jpb = (JProgressBar) object;
-        Socket socket = new Socket("10.5.146.7", 50101);
+        Socket socket = new Socket("localhost", 50101);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
