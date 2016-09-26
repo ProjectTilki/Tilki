@@ -84,7 +84,7 @@ public class MainClient extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        FileChooserFrame = new javax.swing.JFrame();
+        jFrame1 = new javax.swing.JFrame();
         jFileChooser1 = new javax.swing.JFileChooser();
         GirisEkrani = new javax.swing.JPanel();
         SolPanel = new javax.swing.JPanel();
@@ -118,8 +118,14 @@ public class MainClient extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
 
         GozetmenKodu.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        GozetmenKodu.setTitle("Tilki");
+        GozetmenKodu.setAlwaysOnTop(true);
+        GozetmenKodu.setMinimumSize(new java.awt.Dimension(350, 195));
+        GozetmenKodu.setResizable(false);
+        GozetmenKodu.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setText("Gözetmen Kodu");
+        GozetmenKodu.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 89, 326, 26));
 
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +137,7 @@ public class MainClient extends javax.swing.JFrame {
                 jPasswordField1KeyPressed(evt);
             }
         });
+        GozetmenKodu.getContentPane().add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 121, 326, -1));
 
         jButton5.setText("Sınavı Başlat");
         jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -143,46 +150,16 @@ public class MainClient extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
+        GozetmenKodu.getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 154, 326, -1));
 
         jLabel10.setText("jLabel10");
-
-        javax.swing.GroupLayout GozetmenKoduLayout = new javax.swing.GroupLayout(GozetmenKodu.getContentPane());
-        GozetmenKodu.getContentPane().setLayout(GozetmenKoduLayout);
-        GozetmenKoduLayout.setHorizontalGroup(
-            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GozetmenKoduLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPasswordField1)
-                .addGap(23, 23, 23))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GozetmenKoduLayout.createSequentialGroup()
-                .addContainerGap(229, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123))
-            .addGroup(GozetmenKoduLayout.createSequentialGroup()
-                .addGroup(GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(GozetmenKoduLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5))
-                    .addGroup(GozetmenKoduLayout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        GozetmenKoduLayout.setVerticalGroup(
-            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GozetmenKoduLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
-                .addGap(110, 110, 110))
-        );
+        GozetmenKodu.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 12, 338, 33));
 
         Yukleniyor.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        Yukleniyor.setTitle("Tilki");
+        Yukleniyor.setAlwaysOnTop(true);
+        Yukleniyor.setMinimumSize(new java.awt.Dimension(386, 177));
+        Yukleniyor.setResizable(false);
 
         jLabel12.setText("Yükleniyor");
 
@@ -201,57 +178,51 @@ public class MainClient extends javax.swing.JFrame {
         Yukleniyor.getContentPane().setLayout(YukleniyorLayout);
         YukleniyorLayout.setHorizontalGroup(
             YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
             .addGroup(YukleniyorLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(YukleniyorLayout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addGroup(YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(YukleniyorLayout.createSequentialGroup()
-                        .addGap(169, 169, 169)
-                        .addComponent(jButton6)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(YukleniyorLayout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(jButton6)
+                .addContainerGap(167, Short.MAX_VALUE))
         );
         YukleniyorLayout.setVerticalGroup(
             YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, YukleniyorLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
-                .addGap(71, 71, 71))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.FILES_AND_DIRECTORIES);
         jFileChooser1.setDragEnabled(true);
         jFileChooser1.setFocusCycleRoot(true);
         jFileChooser1.setMultiSelectionEnabled(true);
+        jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFileChooser1ActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout FileChooserFrameLayout = new javax.swing.GroupLayout(FileChooserFrame.getContentPane());
-        FileChooserFrame.getContentPane().setLayout(FileChooserFrameLayout);
-        FileChooserFrameLayout.setHorizontalGroup(
-            FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 435, Short.MAX_VALUE)
-            .addGroup(FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(FileChooserFrameLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        FileChooserFrameLayout.setVerticalGroup(
-            FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 408, Short.MAX_VALUE)
-            .addGroup(FileChooserFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(FileChooserFrameLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -306,8 +277,8 @@ public class MainClient extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(SolPanelLayout.createSequentialGroup()
                         .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel11))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         SolPanelLayout.setVerticalGroup(
@@ -446,7 +417,7 @@ public class MainClient extends javax.swing.JFrame {
             GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(GirisEkraniLayout.createSequentialGroup()
-                .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
                 .addGap(32, 32, 32))
         );
 
@@ -548,7 +519,7 @@ public class MainClient extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+            .addGap(0, 526, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -562,7 +533,7 @@ public class MainClient extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 522, Short.MAX_VALUE)
+            .addGap(0, 505, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -583,7 +554,6 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-
         name = jTextField2.getText();
         surname = jTextField3.getText();
         number = jTextField1.getText();
@@ -671,17 +641,7 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
-        int status = jFileChooser1.showOpenDialog(null);
-        if(status == JFileChooser.APPROVE_OPTION) {
-            File[] selectedFiles = jFileChooser1.getSelectedFiles();
-            ListModel<String> lm = jList2.getModel();
-            DefaultListModel dlm = new DefaultListModel();
-            for(File f : selectedFiles)
-                dlm.addElement(f.getAbsolutePath());
-            for(int i = 0; i < lm.getSize(); i++)
-                dlm.addElement(lm.getElementAt(i));
-            jList2.setModel(dlm);
-        }
+        jFrame1.setVisible(true);
     }//GEN-LAST:event_jButton3MouseClicked
     private tempThread updatingTime;
 
@@ -703,50 +663,6 @@ public class MainClient extends javax.swing.JFrame {
             }
         }
     }
-    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-        try {
-            int status = fcu.verifyInstructorKey(new String(jPasswordField1.
-                    getPassword()));
-            if(status == 2)
-                jLabel10.setText(
-                        "Sifre kabul edilmedi, ve kayda gecildi. Lutfen tekrar deneyiniz.");
-            else if(status == 1) {
-                GirisEkrani.setVisible(false);
-                GozetmenKodu.setVisible(false);
-                jPanel1.setVisible(true);
-                cam = new CaptureDesktop();
-                cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.
-                                        getText().charAt(0) + jTextField3.
-                                        getText());
-                jTextArea2.setDropTarget(new DropTarget() {
-                    public synchronized void drop(DropTargetDropEvent evt) {
-                        try {
-                            evt.acceptDrop(DnDConstants.ACTION_COPY);
-                            List<File> droppedFiles = (List<File>) evt.
-                                    getTransferable().getTransferData(
-                                            DataFlavor.javaFileListFlavor);
-                            ListModel<String> lm = jList2.getModel();
-                            DefaultListModel dlm = new DefaultListModel();
-                            for(File f : droppedFiles)
-                                dlm.addElement(f.getAbsolutePath());
-                            for(int i = 0; i < lm.getSize(); i++)
-                                dlm.addElement(lm.getElementAt(i));
-                            jList2.setModel(dlm);
-                        }catch(Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-                timeAtStart = System.currentTimeMillis();
-                updatingTime = new tempThread();
-                updatingTime.start();
-            }else
-                jLabel10.setText("Bilinmeyen hata.");
-        }catch(IOException ex) {
-            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null,
-                                                             ex);
-        }
-    }//GEN-LAST:event_jButton5MouseClicked
 
     private void updateTime() {
         try {
@@ -841,19 +757,6 @@ public class MainClient extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton4MouseClicked
 
-    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jButton6MouseClicked
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -886,6 +789,62 @@ public class MainClient extends javax.swing.JFrame {
             jButton2MouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2KeyPressed
 
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+        // TODO add your handling code here:
+        if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0')
+            evt.consume();
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        try {
+            int status = fcu.verifyInstructorKey(new String(jPasswordField1.
+                    getPassword()));
+            if(status == 2)
+                jLabel10.setText(
+                        "<html>Sifre kabul edilmedi, ve kayda gecildi.<br>"
+                        + "Lutfen tekrar deneyiniz.</html>");
+            else if(status == 1) {
+                GirisEkrani.setVisible(false);
+                GozetmenKodu.setVisible(false);
+                jPanel1.setVisible(true);
+                cam = new CaptureDesktop();
+                cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.
+                                        getText().charAt(0) + jTextField3.
+                                        getText());
+                jTextArea2.setDropTarget(new DropTarget() {
+                    public synchronized void drop(DropTargetDropEvent evt) {
+                        try {
+                            evt.acceptDrop(DnDConstants.ACTION_COPY);
+                            List<File> droppedFiles = (List<File>) evt.
+                                    getTransferable().getTransferData(
+                                            DataFlavor.javaFileListFlavor);
+                            ListModel<String> lm = jList2.getModel();
+                            DefaultListModel dlm = new DefaultListModel();
+                            for(File f : droppedFiles)
+                                dlm.addElement(f.getAbsolutePath());
+                            for(int i = 0; i < lm.getSize(); i++)
+                                dlm.addElement(lm.getElementAt(i));
+                            jList2.setModel(dlm);
+                        }catch(Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+                timeAtStart = System.currentTimeMillis();
+                updatingTime = new tempThread();
+                updatingTime.start();
+            }else
+                jLabel10.setText("Bilinmeyen hata.");
+        }catch(IOException ex) {
+            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null,
+                                                             ex);
+        }
+    }//GEN-LAST:event_jButton5MouseClicked
+
     private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
@@ -894,11 +853,29 @@ public class MainClient extends javax.swing.JFrame {
             jButton5MouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1KeyPressed
 
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
-        if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0')
-            evt.consume();
-    }//GEN-LAST:event_jTextField1KeyTyped
+    }//GEN-LAST:event_jPasswordField1ActionPerformed
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
+        // TODO add your handling code here:
+        int status = 0;// = jFileChooser1.showOpenDialog(null);
+        if(status == JFileChooser.APPROVE_OPTION) {
+            File[] selectedFiles = jFileChooser1.getSelectedFiles();
+            ListModel<String> lm = jList2.getModel();
+            DefaultListModel dlm = new DefaultListModel();
+            for(File f : selectedFiles)
+                dlm.addElement(f.getAbsolutePath());
+            for(int i = 0; i < lm.getSize(); i++)
+                dlm.addElement(lm.getElementAt(i));
+            jList2.setModel(dlm);
+        }
+    }//GEN-LAST:event_jFileChooser1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -946,7 +923,6 @@ public class MainClient extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFrame FileChooserFrame;
     private javax.swing.JPanel GirisEkrani;
     private javax.swing.JFrame GozetmenKodu;
     private javax.swing.JPanel SagPanel;
@@ -960,6 +936,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JFileChooser jFileChooser1;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
