@@ -43,12 +43,17 @@ public class MainClient extends javax.swing.JFrame {
             examList = fcu.availableExams();
             jList1.setModel(new ExamListModel(examList));
         }catch(IOException e) {
+            examList = null;
+            jList1.setModel(new ExamListModel(examList));
             jLabel2.setText("Ba\u011Flanamad\u0131.");
             jLabel2.setVisible(true);
         }catch(ClassNotFoundException e) {
+            examList = null;
             jLabel2.setText("Eksik dosya.");
             jLabel2.setVisible(true);
         }
+        jList1.setModel(new ExamListModel(examList));
+        jTextArea1.setText("");
     }
 
     /**
@@ -555,6 +560,7 @@ public class MainClient extends javax.swing.JFrame {
                 jLabel8.setVisible(true);
                 examList = null;
                 jTextArea1.setText("");
+                jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
                 jList1.setModel(new ExamListModel(examList));
             }else if(status == 1) {
                 GozetmenKodu.setVisible(true);
@@ -567,6 +573,7 @@ public class MainClient extends javax.swing.JFrame {
                 jLabel8.setVisible(true);
                 examList = null;
                 jTextArea1.setText("");
+                jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
                 jList1.setModel(new ExamListModel(examList));
             }
         }else if(name.isEmpty()) {
@@ -581,6 +588,7 @@ public class MainClient extends javax.swing.JFrame {
         }else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
             jLabel8.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
             jLabel8.setVisible(true);
+            jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
         }else
             jLabel8.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
@@ -589,15 +597,18 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             examList = fcu.availableExams();
-            jList1.setModel(new ExamListModel(examList));
             jLabel2.setVisible(false);
         }catch(IOException e) {
+            examList = null;
             jLabel2.setText("Ba\u011Flanamad\u0131.");
             jLabel2.setVisible(true);
         }catch(ClassNotFoundException e) {
+            examList = null;
             jLabel2.setText("Eksik dosya.");
             jLabel2.setVisible(true);
         }
+        jList1.setModel(new ExamListModel(examList));
+        jTextArea1.setText("");
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
