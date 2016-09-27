@@ -64,7 +64,7 @@ public class FoxServiceThread implements Callable<Integer> {
             else if(data.equals("List exams."))
                 examListManager();
         }catch(Exception e) {
-            e.printStackTrace();
+            throw e;
         }
         socket.close();
         return 1;
