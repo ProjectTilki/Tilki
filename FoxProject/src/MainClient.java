@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
 import javax.swing.ListModel;
 
 /*
@@ -42,20 +41,7 @@ public class MainClient extends javax.swing.JFrame {
         initComponents();
         try {
             examList = fcu.availableExams();
-            jList1.setModel(new javax.swing.AbstractListModel<String>() {
-                public int getSize() {
-                    if(examList == null)
-                        return 0;
-                    return examList.length;
-                }
-
-                public String getElementAt(int i) {
-                    if(examList == null)
-                        return "";
-                    return examList[i].getName();
-                }
-            });
-
+            jList1.setModel(new ExamListModel(examList));
         }catch(IOException e) {
             jLabel2.setText("Ba\u011Flanamad\u0131.");
             jLabel2.setVisible(true);
@@ -125,11 +111,6 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel5.setText("G\u00F6zetmen Kodu");
 
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
-            }
-        });
         jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordField1KeyPressed(evt);
@@ -227,9 +208,7 @@ public class MainClient extends javax.swing.JFrame {
 
         FileChooserFrame.setTitle("Tilki");
         FileChooserFrame.setMinimumSize(new java.awt.Dimension(500, 500));
-        FileChooserFrame.setPreferredSize(new java.awt.Dimension(500, 500));
 
-        jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.FILES_AND_DIRECTORIES);
         jFileChooser1.setDragEnabled(true);
         jFileChooser1.setFocusCycleRoot(true);
         jFileChooser1.setMultiSelectionEnabled(true);
@@ -565,12 +544,18 @@ public class MainClient extends javax.swing.JFrame {
             try {
                 status = fcu.checkIn(name, surname, number, className);
             }catch(IOException ex) {
-                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+                jLabel8.setText("Sunucuya eri\u015Filemiyor.");
+                jLabel8.setVisible(true);
+                examList = null;
+                jList1.setModel(new ExamListModel(examList));
+                jTextArea1.setText("");
             }
             if(status == 0) {
                 jLabel8.setText("Serverda dosya eksik!");
                 jLabel8.setVisible(true);
+                examList = null;
+                jTextArea1.setText("");
+                jList1.setModel(new ExamListModel(examList));
             }else if(status == 1) {
                 GozetmenKodu.setVisible(true);
                 jLabel10.setText("Tekrardan ba\u011Flan\u0131ld\u0131.");
@@ -578,8 +563,11 @@ public class MainClient extends javax.swing.JFrame {
                 GozetmenKodu.setVisible(true);
                 jLabel10.setText("Yeni kay\u0131t.");
             }else {
-                jLabel8.setText("Bilinmeyen bir hata.");
+                jLabel8.setText("Sunucuya eri\u015Filemiyor.");
                 jLabel8.setVisible(true);
+                examList = null;
+                jTextArea1.setText("");
+                jList1.setModel(new ExamListModel(examList));
             }
         }else if(name.isEmpty()) {
             jLabel8.setText("Ad k\u0131sm\u0131 eksik.");
@@ -601,19 +589,7 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             examList = fcu.availableExams();
-            jList1.setModel(new javax.swing.AbstractListModel<String>() {
-                public int getSize() {
-                    if(examList == null)
-                        return 0;
-                    return examList.length;
-                }
-
-                public String getElementAt(int i) {
-                    if(examList == null)
-                        return "";
-                    return examList[i].getName();
-                }
-            });
+            jList1.setModel(new ExamListModel(examList));
             jLabel2.setVisible(false);
         }catch(IOException e) {
             jLabel2.setText("Ba\u011Flanamad\u0131.");
@@ -846,22 +822,24 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
         // TODO add your handling code here:
-        int status = 0;// = jFileChooser1.showOpenDialog(null);
-        if(status == JFileChooser.APPROVE_OPTION) {
+        String command = evt.getActionCommand();
+        if(command.equalsIgnoreCase("ApproveSelection")) {
             File[] selectedFiles = jFileChooser1.getSelectedFiles();
             ListModel<String> lm = jList2.getModel();
             DefaultListModel dlm = new DefaultListModel();
             for(File f : selectedFiles)
-                dlm.addElement(f.getAbsolutePath());
-            for(int i = 0; i < lm.getSize(); i++)
-                dlm.addElement(lm.getElementAt(i));
+                if(!dlm.contains(f.getAbsolutePath()))
+                    dlm.addElement(f.getAbsolutePath());
+            for(int i = 0; i < lm.getSize(); i++) {
+                String element = lm.getElementAt(i);
+                if(!dlm.contains(element))
+                    dlm.addElement(element);
+            }
             jList2.setModel(dlm);
         }
+        jFileChooser1.setSelectedFile(new File(""));
+        FileChooserFrame.dispose();
     }//GEN-LAST:event_jFileChooser1ActionPerformed
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     /**
      * @param args the command line arguments
