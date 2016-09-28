@@ -421,7 +421,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("Y\u00FCkle");
+        jButton7.setText("S\u0131nav\u0131 Bitir");
         jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton7MouseClicked(evt);
