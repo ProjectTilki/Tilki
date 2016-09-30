@@ -2,6 +2,8 @@ import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.DataInputStream;
@@ -10,9 +12,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.SwingWorker;
@@ -20,10 +26,15 @@ import javax.swing.SwingWorker;
 public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                                                                 PropertyChangeListener {
     private File[] files;
-    private String zipName;
     private String name;
     private String id;
+    private String checksum;
     private ZipAndUpload.Task task;
+    private static volatile int state;
+    private static int ZIP_STATE = 0;
+    private static int UPLOAD_STATE = 1;
+    private static volatile String CURRENT_FILE;
+    private static final ArrayList<String> list = new ArrayList<String>();
 
     private class Task extends SwingWorker<String, Void> {
         /*
@@ -31,9 +42,13 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         @Override
         public String doInBackground() throws IOException {
-            String zipName = createZipFile(files);
-            String checksum = sendFile(zipName, name, id);
-            return null;
+            try {
+                String zipName = createZipFile(files);
+                checksum = sendFile(zipName, name, id);
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+            return "";
         }
 
         /*
@@ -41,10 +56,35 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         @Override
         public void done() {
+            progressBar.setValue(100);
+            taskOutput.append("İşlem başarıyla tamamlandı.\n\n\n");
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
+            ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            startButton.setText("<html>Programı<br>Kapat<html>");
+            startButton.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    System.exit(0);
+                }
+            });
             setCursor(null); //turn off the wait cursor
-            taskOutput.append("Done!\n");
+            FileWriter fw;
+            File f = null;
+            try {
+                f = new File("checksum.log");
+                fw = new FileWriter(f);
+                fw.write(checksum);
+                fw.close();
+            }catch(IOException ex) {
+                Logger.getLogger(ZipAndUpload.class.getName()).
+                        log(Level.SEVERE, null, ex);
+            }
+            taskOutput.append("Gönderdiğiniz dosyanın MD5 doğrulama kodu:\n");
+            taskOutput.append("----------\n" + checksum + "\n----------\n");
+            taskOutput.append("MD5 doğrulama kodunuz kaydedilmiştir:\n");
+            taskOutput.append(
+                    "----------\n" + f.getAbsolutePath() + "\n----------\n");
+            taskOutput.append("Belirtilen dizinde bulabilirsiniz.\n");
         }
 
         /**
@@ -68,26 +108,38 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         private String createZipFile(File[] files) throws FileNotFoundException,
                                                           IOException {
+            state = ZIP_STATE;
             String zipFileName = files[0].getName();
             int pos = zipFileName.lastIndexOf('.');
             if(pos > 0)
                 zipFileName = zipFileName.substring(0, pos) + ".zip";
             else
-                zipFileName = zipFileName + ".zip";
+                zipFileName += ".zip";
             FileOutputStream fos = new FileOutputStream(zipFileName);
             ZipOutputStream zos = new ZipOutputStream(fos);
             String fileName;
+            long fileSize;
+            long sentBytes = 0;
             for(File file : files) {
+                int progress = 0;
+                sentBytes = 0;
                 fileName = file.getName();
-                task.firePropertyChange("fileName", 0, 1);
-                File firstFile = new File(fileName);
+                //fileSize = new File(fileName).length();
+                fileSize = file.length();
                 FileInputStream fis = new FileInputStream(file);
+                CURRENT_FILE = file.getName();
                 ZipEntry zipEntry = new ZipEntry(fileName);
                 zos.putNextEntry(zipEntry);
                 byte[] buffer = new byte[4096];
                 int length;
-                while((length = fis.read(buffer)) > 0)
+                while((length = fis.read(buffer)) > 0) {
                     zos.write(buffer, 0, length);
+                    sentBytes += length;
+                    if(sentBytes >= fileSize / 100) {
+                        sentBytes = 0;
+                        setProgress(progress++);
+                    }
+                }
                 zos.closeEntry();
                 fis.close();
             }
@@ -121,6 +173,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         private String sendFile(String fileName, String id, String exam) throws FileNotFoundException, SecurityException, IOException {
             // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
+            state = UPLOAD_STATE;
             Socket socket = new Socket("localhost", 50101);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -134,6 +187,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             // Read file and send it over the socket.
             long fileSize = new File(fileName).length();
             FileInputStream fileIn = new FileInputStream(fileName);
+            CURRENT_FILE = fileName;
             OutputStream os_out = socket.getOutputStream();
             long sentBytes = 0;
             int progress = 0;
@@ -150,8 +204,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     }
                 }
             }while(bytesCount > 0);
-            if(progress != 100) // Check if remainder exists.
-                setProgress(100);
 
             os_out.flush();
             socket.shutdownOutput(); // Shut down output to tell server no more data.
@@ -164,11 +216,14 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             socket.close();
             return checksum;
         }
+
+        private void FileWriter(File file) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
     }
 
     public ZipAndUpload() {
         files = null;
-        zipName = null;
         name = null;
         id = null;
         initComponents();
@@ -195,10 +250,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         taskOutputScrollPane = new javax.swing.JScrollPane();
         taskOutput = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(350, 250));
         setMinimumSize(new java.awt.Dimension(350, 250));
-        setPreferredSize(new java.awt.Dimension(350, 250));
         setResizable(false);
 
         progressBar.setValue(0);
@@ -252,6 +306,33 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private javax.swing.JTextArea taskOutput;
     private javax.swing.JScrollPane taskOutputScrollPane;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(state == ZIP_STATE && "progress".equals(evt.getPropertyName())) {
+            if(!list.contains(CURRENT_FILE)) {
+                taskOutput.append("Dosya zipleniyor: " + CURRENT_FILE + "\n");
+                list.add(CURRENT_FILE);
+            }
+            int progress = (Integer) evt.getNewValue();
+            if(progressBar.getValue() == 100)
+                progressBar.setValue(0);
+            else
+                progressBar.setValue(progress);
+        }else if(state == UPLOAD_STATE && "progress".equals(evt.
+                getPropertyName())) {
+            if(!list.contains(CURRENT_FILE)) {
+                taskOutput.append("Dosyalar yükleniyor..\n");
+                list.add(CURRENT_FILE);
+            }
+            int progress = (Integer) evt.getNewValue();
+            if(progressBar.getValue() == 100)
+                progressBar.setValue(0);
+            else
+                progressBar.setValue(progress);
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         startButton.setEnabled(false);
@@ -261,21 +342,5 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         task = new ZipAndUpload.Task();
         task.addPropertyChangeListener(this);
         task.execute();
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        String propertyName = evt.getPropertyName();
-        for(int i = 0; i < files.length; i++)
-            if(files[i].equals(propertyName)) {
-                taskOutput.append("Zipping file: " + files[i].getName());
-                break;
-            }
-        if("progress".equals(propertyName)) {
-            int progress = (Integer) evt.getNewValue();
-            progressBar.setValue(progress);
-            taskOutput.append(String.format(
-                    "Completed %d%% of task.\n", task.getProgress()));
-        }
     }
 }

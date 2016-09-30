@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -5,7 +6,6 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public class MainClient extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        VideKayitEkrani = new javax.swing.JPanel();
+        VideoKayitEkrani = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
@@ -108,11 +108,16 @@ public class MainClient extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
 
-        GozetmenKodu.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        GozetmenKodu.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         GozetmenKodu.setTitle("Tilki");
         GozetmenKodu.setAlwaysOnTop(true);
         GozetmenKodu.setMinimumSize(new java.awt.Dimension(350, 195));
         GozetmenKodu.setResizable(false);
+        GozetmenKodu.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                GozetmenKoduWindowClosing(evt);
+            }
+        });
 
         jLabel5.setText("G\u00F6zetmen Kodu");
 
@@ -127,11 +132,6 @@ public class MainClient extends javax.swing.JFrame {
         jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton5MouseClicked(evt);
-            }
-        });
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
             }
         });
 
@@ -228,6 +228,7 @@ public class MainClient extends javax.swing.JFrame {
         setTitle("Tilki");
         setMinimumSize(new java.awt.Dimension(512, 500));
         setResizable(false);
+        getContentPane().setLayout(new java.awt.CardLayout());
 
         GirisEkrani.setFont(GirisEkrani.getFont());
         GirisEkrani.setMaximumSize(new java.awt.Dimension(490, 481));
@@ -363,7 +364,7 @@ public class MainClient extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
                 .addContainerGap())
         );
         SagPanelLayout.setVerticalGroup(
@@ -397,18 +398,17 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE))
         );
         GirisEkraniLayout.setVerticalGroup(
             GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(GirisEkraniLayout.createSequentialGroup()
-                .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-                .addGap(32, 32, 32))
+            .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
         );
 
-        VideKayitEkrani.setPreferredSize(new java.awt.Dimension(526, 500));
+        getContentPane().add(GirisEkrani, "card2");
+
+        VideoKayitEkrani.setPreferredSize(new java.awt.Dimension(526, 500));
 
         jLabel9.setText("Zaman");
 
@@ -446,90 +446,55 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 g\u00F6zat butonunu <br> kullanarak ya da s\u00FCr\u00FCkleyerek se\u00E7in ve y\u00FCkle tu\u015Funa bas\u0131n.</html>");
 
-        javax.swing.GroupLayout VideKayitEkraniLayout = new javax.swing.GroupLayout(VideKayitEkrani);
-        VideKayitEkrani.setLayout(VideKayitEkraniLayout);
-        VideKayitEkraniLayout.setHorizontalGroup(
-            VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(VideKayitEkraniLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(VideKayitEkraniLayout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(VideKayitEkraniLayout.createSequentialGroup()
-                        .addGroup(VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+        javax.swing.GroupLayout VideoKayitEkraniLayout = new javax.swing.GroupLayout(VideoKayitEkrani);
+        VideoKayitEkrani.setLayout(VideoKayitEkraniLayout);
+        VideoKayitEkraniLayout.setHorizontalGroup(
+            VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
+                        .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(VideKayitEkraniLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VideoKayitEkraniLayout.createSequentialGroup()
                                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(VideKayitEkraniLayout.createSequentialGroup()
-                                .addGroup(VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, VideKayitEkraniLayout.createSequentialGroup()
-                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jTextArea2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextArea2, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap())
         );
-        VideKayitEkraniLayout.setVerticalGroup(
-            VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(VideKayitEkraniLayout.createSequentialGroup()
+        VideoKayitEkraniLayout.setVerticalGroup(
+            VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
                 .addGap(22, 22, 22)
-                .addGroup(VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(VideKayitEkraniLayout.createSequentialGroup()
-                        .addGroup(VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
+                        .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(7, 7, 7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextArea2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(VideKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(58, 58, 58))
+                .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 526, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(GirisEkrani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(VideKayitEkrani, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 505, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(GirisEkrani, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(VideKayitEkrani, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-
-        VideKayitEkrani.setVisible(false);
+        getContentPane().add(VideoKayitEkrani, "card3");
+        VideoKayitEkrani.setVisible(false);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -563,9 +528,11 @@ public class MainClient extends javax.swing.JFrame {
                 jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
                 jList1.setModel(new ExamListModel(examList));
             }else if(status == 1) {
+                jList1.setEnabled(false);
                 GozetmenKodu.setVisible(true);
                 jLabel10.setText("Tekrardan ba\u011Flan\u0131ld\u0131.");
             }else if(status == 2) {
+                jList1.setEnabled(false);
                 GozetmenKodu.setVisible(true);
                 jLabel10.setText("Yeni kay\u0131t.");
             }else {
@@ -678,50 +645,33 @@ public class MainClient extends javax.swing.JFrame {
     }
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
-        if(cam.status())
-            try {
-                cam.StopCaptureDesktop();
-                ArrayList<File> filesThatWillUpload = new ArrayList();
-                ListModel<String> lm = jList2.getModel();
+        if(cam.status()) {
+            cam.StopCaptureDesktop();
+            ArrayList<File> filesThatWillUpload = new ArrayList();
+            ListModel<String> lm = jList2.getModel();
 
-                String target_file = cam.personName + "." + cam.format; // fileThatYouWantToFilter
-                File target_file_object = new File(target_file);
-                if(target_file_object.exists()) {
-                    filesThatWillUpload.add(new File(target_file));
-                    for(int i = 0; i < 100; i++) {
-                        target_file_object = new File(i + "_" + target_file);
-                        if(target_file_object.exists())
-                            filesThatWillUpload.add(new File(
-                                    i + "_" + target_file));
-                    }
+            String target_file = cam.personName + "." + cam.format; // fileThatYouWantToFilter
+            File target_file_object = new File(target_file);
+            if(target_file_object.exists()) {
+                filesThatWillUpload.add(new File(target_file));
+                for(int i = 0; i < 100; i++) {
+                    target_file_object = new File(i + "_" + target_file);
+                    if(target_file_object.exists())
+                        filesThatWillUpload.add(new File(
+                                i + "_" + target_file));
                 }
-                for(int i = 0; i < lm.getSize(); i++)
-                    filesThatWillUpload.add(new File(lm.getElementAt(i)));
-                updatingTime.terminate();
-                File[] temp = new File[filesThatWillUpload.size()];
-                zipName = fcu.createZipFile(filesThatWillUpload.toArray(temp));
-                Yukleniyor.setVisible(true);
-                this.setEnabled(false);
-                this.setDefaultCloseOperation(
-                        javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
-                jProgressBar1.setMinimum(0);
-                jProgressBar1.setMaximum(100);
-                String checksum = fcu.sendFile(zipName, number, jLabel16.
-                                               getText(), jProgressBar1);
-                jLabel12.setText("Bitti, checksum kaydedildi.");
-                jLabel13.setVisible(true);
-                String tempCheckSum = checksum.substring(0, 15);
-                tempCheckSum = tempCheckSum.substring(0, 5) + "-" + tempCheckSum.
-                        substring(5, 10) + "-" + tempCheckSum.substring(10, 15);
-                tempCheckSum = tempCheckSum.toUpperCase();
-                jLabel13.setText(tempCheckSum);
-                FileWriter fw = new FileWriter(new File("checksum.log"));
-                fw.write(checksum);
-                fw.close();
-            }catch(IOException ex) {
-                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
             }
+            for(int i = 0; i < lm.getSize(); i++)
+                filesThatWillUpload.add(new File(lm.getElementAt(i)));
+            updatingTime.terminate();
+            File[] temp = new File[filesThatWillUpload.size()];
+            ZipAndUpload zau = new ZipAndUpload(filesThatWillUpload.toArray(
+                    temp), number, jLabel16.getText());
+            zau.setVisible(true);
+            for(Component component : VideoKayitEkrani.getComponents())
+                component.setEnabled(false);
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        }
     }//GEN-LAST:event_jButton7MouseClicked
     private String zipName;
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
@@ -768,10 +718,6 @@ public class MainClient extends javax.swing.JFrame {
             evt.consume();
     }//GEN-LAST:event_jTextField1KeyTyped
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         try {
             int status = fcu.verifyInstructorKey(new String(jPasswordField1.
@@ -783,7 +729,7 @@ public class MainClient extends javax.swing.JFrame {
             else if(status == 1) {
                 GirisEkrani.setVisible(false);
                 GozetmenKodu.setVisible(false);
-                VideKayitEkrani.setVisible(true);
+                VideoKayitEkrani.setVisible(true);
                 cam = new CaptureDesktop();
                 cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.
                                         getText().charAt(0) + jTextField3.
@@ -852,6 +798,11 @@ public class MainClient extends javax.swing.JFrame {
         FileChooserFrame.dispose();
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
+    private void GozetmenKoduWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_GozetmenKoduWindowClosing
+        // TODO add your handling code here:
+        jList1.setEnabled(true);
+    }//GEN-LAST:event_GozetmenKoduWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -872,7 +823,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JFrame GozetmenKodu;
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
-    private javax.swing.JPanel VideKayitEkrani;
+    private javax.swing.JPanel VideoKayitEkrani;
     private javax.swing.JFrame Yukleniyor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
