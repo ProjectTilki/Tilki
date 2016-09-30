@@ -183,7 +183,6 @@ public class FoxClientUtilities {
         String fileName;
         for(File file : files) {
             fileName = file.getName();
-            File firstFile = new File(fileName);
             FileInputStream fis = new FileInputStream(file);
             ZipEntry zipEntry = new ZipEntry(fileName);
             zos.putNextEntry(zipEntry);

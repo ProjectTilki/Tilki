@@ -39,7 +39,7 @@ public class CaptureDesktop {
         // Resize output video
         encodingParameters.setSize(new Dimension(800, 600));
         encodingParameters.setBitrate(800000);
-        encodingParameters.setFramerate(1);
+        encodingParameters.setFramerate(3);
         encodingParameters.setKeyFrameInterval(5000);
         encodingParameters.setCodec(videoCodec);
         // System.out.println("encodingParameters = " + encodingParameters);
