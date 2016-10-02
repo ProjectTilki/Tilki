@@ -21,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import javax.swing.SwingWorker;
 
 public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
@@ -45,6 +47,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             try {
                 String zipName = createZipFile(files);
                 checksum = sendFile(zipName, name, id);
+                checksum = checksum.toUpperCase();
             }catch(Exception e) {
                 e.printStackTrace();
             }
@@ -57,11 +60,12 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         @Override
         public void done() {
             progressBar.setValue(100);
-            taskOutput.append("İşlem başarıyla tamamlandı.\n\n\n");
+            taskOutput.append(
+                    "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\n\n\n");
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            startButton.setText("<html>Programı<br>Kapat<html>");
+            startButton.setText("<html>Program\u0131<br>Kapat<html>");
             startButton.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     System.exit(0);
@@ -79,12 +83,20 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 Logger.getLogger(ZipAndUpload.class.getName()).
                         log(Level.SEVERE, null, ex);
             }
-            taskOutput.append("Gönderdiğiniz dosyanın MD5 doğrulama kodu:\n");
+            taskOutput.
+                    append("G\u00F6nderdi\u011Finiz dosyan\u0131n MD5 do\u011Frulama kodu:\n");
             taskOutput.append("----------\n" + checksum + "\n----------\n");
-            taskOutput.append("MD5 doğrulama kodunuz kaydedilmiştir:\n");
+            taskOutput.append(
+                    "MD5 do\u011Frulama kodunuz kaydedilmi\u015Ftir:\n");
             taskOutput.append(
                     "----------\n" + f.getAbsolutePath() + "\n----------\n");
-            taskOutput.append("Belirtilen dizinde bulabilirsiniz.\n");
+            taskOutput.append("Belirtilen dizinde bulabilirsiniz.");
+            String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
+            message += checksum.substring(0, 5) + " - " + checksum.
+                    substring(5, 10) + " - " + checksum.
+                    substring(10, 15);
+            JOptionPane.showMessageDialog(ZipAndUpload.this, message,
+                                          "Tilki", WARNING_MESSAGE);
         }
 
         /**
@@ -216,10 +228,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             socket.close();
             return checksum;
         }
-
-        private void FileWriter(File file) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
     }
 
     public ZipAndUpload() {
@@ -251,6 +259,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         taskOutput = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Tilki");
         setMaximumSize(new java.awt.Dimension(350, 250));
         setMinimumSize(new java.awt.Dimension(350, 250));
         setResizable(false);
@@ -260,8 +269,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
 
         startButton.setActionCommand("start");
         startButton.addActionListener(this);
-        startButton.setText("<html>Dosyaları<br>Yükle</html>");
-        startButton.setToolTipText("");
+        startButton.setText("<html>Dosyalar\u0131<br>Y\u00FCkle</html>");
         startButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         startButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         startButton.setMaximumSize(new java.awt.Dimension(75, 48));
@@ -280,8 +288,8 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(taskOutputScrollPane)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -322,7 +330,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         }else if(state == UPLOAD_STATE && "progress".equals(evt.
                 getPropertyName())) {
             if(!list.contains(CURRENT_FILE)) {
-                taskOutput.append("Dosyalar yükleniyor..\n");
+                taskOutput.append("Dosyalar y\u00FCkleniyor..\n");
                 list.add(CURRENT_FILE);
             }
             int progress = (Integer) evt.getNewValue();

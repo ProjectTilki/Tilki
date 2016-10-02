@@ -438,11 +438,12 @@ public class MainClient extends javax.swing.JFrame {
         jTextArea2.setEditable(false);
         jTextArea2.setColumns(8);
         jTextArea2.setRows(5);
-        jTextArea2.setText("\n\n        Dosyalar\u0131\nS\u00FCr\u00FCkleyebilirsiniz.");
+        jTextArea2.setText("\n\n\n\n\n\n\tDosyalar\u0131\n\tS\u00FCr\u00FCkleyebilirsiniz.");
         jTextArea2.setAutoscrolls(false);
+        jTextArea2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextArea2.setFocusable(false);
 
-        jLabel14.setText("Ge\u00E7en Sure");
+        jLabel14.setText("Ge\u00E7en S\u00FCre");
 
         jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 g\u00F6zat butonunu <br> kullanarak ya da s\u00FCr\u00FCkleyerek se\u00E7in ve y\u00FCkle tu\u015Funa bas\u0131n.</html>");
 
@@ -475,7 +476,7 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                 .addGap(22, 22, 22)
                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -645,6 +646,7 @@ public class MainClient extends javax.swing.JFrame {
     }
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
+        FileChooserFrame.setVisible(false);
         if(cam.status()) {
             cam.StopCaptureDesktop();
             ArrayList<File> filesThatWillUpload = new ArrayList();
@@ -676,6 +678,7 @@ public class MainClient extends javax.swing.JFrame {
     private String zipName;
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         // TODO add your handling code here:
+        FileChooserFrame.setVisible(false);
         ListModel<String> lm = jList2.getModel();
         List<String> list = jList2.getSelectedValuesList();
         DefaultListModel dlm = new DefaultListModel();
@@ -744,9 +747,14 @@ public class MainClient extends javax.swing.JFrame {
                             ListModel<String> lm = jList2.getModel();
                             DefaultListModel dlm = new DefaultListModel();
                             for(File f : droppedFiles)
-                                dlm.addElement(f.getAbsolutePath());
-                            for(int i = 0; i < lm.getSize(); i++)
-                                dlm.addElement(lm.getElementAt(i));
+                                if(f.isFile() && !dlm.contains(f.
+                                        getAbsolutePath()))
+                                    dlm.addElement(f.getAbsolutePath());
+                            for(int i = 0; i < lm.getSize(); i++) {
+                                String temp = lm.getElementAt(i);
+                                if(!dlm.contains(temp))
+                                    dlm.addElement(temp);
+                            }
                             jList2.setModel(dlm);
                         }catch(Exception ex) {
                             ex.printStackTrace();
