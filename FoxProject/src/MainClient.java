@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 
 /*
@@ -427,6 +428,11 @@ public class MainClient extends javax.swing.JFrame {
                 jButton7MouseClicked(evt);
             }
         });
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Se\u00E7ili Dosyalar\u0131 Sil");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -646,34 +652,7 @@ public class MainClient extends javax.swing.JFrame {
     }
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
-        FileChooserFrame.setVisible(false);
-        if(cam.status()) {
-            cam.StopCaptureDesktop();
-            ArrayList<File> filesThatWillUpload = new ArrayList();
-            ListModel<String> lm = jList2.getModel();
-
-            String target_file = cam.personName + "." + cam.format; // fileThatYouWantToFilter
-            File target_file_object = new File(target_file);
-            if(target_file_object.exists()) {
-                filesThatWillUpload.add(new File(target_file));
-                for(int i = 0; i < 100; i++) {
-                    target_file_object = new File(i + "_" + target_file);
-                    if(target_file_object.exists())
-                        filesThatWillUpload.add(new File(
-                                i + "_" + target_file));
-                }
-            }
-            for(int i = 0; i < lm.getSize(); i++)
-                filesThatWillUpload.add(new File(lm.getElementAt(i)));
-            updatingTime.terminate();
-            File[] temp = new File[filesThatWillUpload.size()];
-            ZipAndUpload zau = new ZipAndUpload(filesThatWillUpload.toArray(
-                    temp), number, jLabel16.getText());
-            zau.setVisible(true);
-            for(Component component : VideoKayitEkrani.getComponents())
-                component.setEnabled(false);
-            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        }
+       
     }//GEN-LAST:event_jButton7MouseClicked
     private String zipName;
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
@@ -810,6 +789,41 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
         jList1.setEnabled(true);
     }//GEN-LAST:event_GozetmenKoduWindowClosing
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Sinavi bitirmek istediginize emin misiniz?", "Tilki", 1);  
+        if(dialogResult == JOptionPane.YES_OPTION){
+            FileChooserFrame.setVisible(false);
+            if(cam.status()) {
+                cam.StopCaptureDesktop();
+                ArrayList<File> filesThatWillUpload = new ArrayList();
+                ListModel<String> lm = jList2.getModel();
+
+                String target_file = cam.personName + "." + cam.format; // fileThatYouWantToFilter
+                File target_file_object = new File(target_file);
+                if(target_file_object.exists()) {
+                    filesThatWillUpload.add(new File(target_file));
+                    for(int i = 0; i < 100; i++) {
+                        target_file_object = new File(i + "_" + target_file);
+                        if(target_file_object.exists())
+                            filesThatWillUpload.add(new File(
+                                i + "_" + target_file));
+                    }
+                }
+                for(int i = 0; i < lm.getSize(); i++)
+                    filesThatWillUpload.add(new File(lm.getElementAt(i)));
+                updatingTime.terminate();
+                File[] temp = new File[filesThatWillUpload.size()];
+                ZipAndUpload zau = new ZipAndUpload(filesThatWillUpload.toArray(
+                temp), number, jLabel16.getText());
+                zau.setVisible(true);
+                for(Component component : VideoKayitEkrani.getComponents())
+                    component.setEnabled(false);
+                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            }
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
