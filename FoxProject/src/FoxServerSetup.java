@@ -1,6 +1,3 @@
-
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,11 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -21,33 +13,32 @@ import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template file, choose Tools | Templates and open the template
+ * in the editor.
  */
-
 /**
  *
  * @author baturay
  */
 public class FoxServerSetup extends javax.swing.JFrame {
-     private Exam[] examList;
-     private FoxClientUtilities fcu;
-     private JLabel jLabel2;
-     private String examName;
-     private String examDescription;
-     private String examKey;
-     private File exam;
-   
+    private Exam[] examList;
+    private FoxClientUtilities fcu;
+    private JLabel jLabel2;
+    private String examName;
+    private String examDescription;
+    private String examKey;
+    private File exam;
+
     /**
      * Creates new form FoxServerSetup
      */
     public FoxServerSetup() {
-        
+
         this.jLabel2 = new JLabel("sa");
         fcu = new FoxClientUtilities();
         initComponents();
         setLocationRelativeTo(null);
-         try {
+        try {
             examList = fcu.availableExams();
             jList6.setModel(new ExamListModel(examList));
         }catch(IOException e) {
@@ -103,9 +94,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tilki");
 
-        jLabel1.setText("Sinav Adi");
+        jLabel1.setText("S\u0131nav Ad\u0131");
 
-        jLabel3.setText("Gozetmen Sifresi");
+        jLabel3.setText("G\u00F6zetmen \u015Eifresi");
 
         jButton7.setText("Yenile");
         jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -139,7 +130,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
 
         jLabel21.setText("A\u00E7\u0131klamalar");
 
-        jLabel4.setText("Sinav Aciklamasi");
+        jLabel4.setText("S\u0131nav A\u00E7\u0131klamas\u0131");
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -159,38 +150,37 @@ public class FoxServerSetup extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Sinav Olustur");
+        jButton1.setText("S\u0131nav Olu\u015Ftur");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Sinavi Kaldir");
-        jButton2.setToolTipText("");
+        jButton2.setText("S\u0131nav\u0131 Kald\u0131r");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Duzenle");
+        jButton3.setText("D\u00FCzenle");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jRadioButton1.setText("Sifreyi Goster");
+        jRadioButton1.setText("\u015Eifreyi G\u00F6ster");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("<html>Sinav olusturmak icin sol paneli, var olan <br> bir sinavi kaldirmak ya da duzenlemek icin <br> sag paneli kullanabilirsiniz.\n</html>");
+        jLabel5.setText("<html>S\u0131nav olu\u015Fturmak i\u00E7in sol paneli, var olan <br> bir s\u0131nav\u0131 kald\u0131rmak ya da d\u00FCzenlemek i\u00E7in <br> sa\u011Fa paneli kullanabilirsiniz. </html>");
 
-        jButton4.setText("Degisiklikleri Uygula");
+        jButton4.setText("De\u011Fi\u015Fiklikleri Uygula");
         jButton4.setEnabled(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,9 +188,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Sinav Olusturma Modu");
+        jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
 
-        jButton5.setText("Vazgec");
+        jButton5.setText("Vazge\u00E7");
         jButton5.setEnabled(false);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,7 +203,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,19 +211,18 @@ public class FoxServerSetup extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jRadioButton1)
-                        .addComponent(jScrollPane1)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4)
-                        .addComponent(jPasswordField1)
-                        .addComponent(jTextField1)
-                        .addComponent(jLabel5)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jButton1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton4))))
+                    .addComponent(jRadioButton1)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jPasswordField1)
+                    .addComponent(jTextField1)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)))
                 .addGap(25, 25, 25)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
@@ -253,7 +242,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
                         .addComponent(jLabel19)
                         .addGap(48, 48, 48))
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.LEADING))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,10 +339,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private void jList6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList6MouseClicked
         // TODO add your handling code here:
         int location = jList6.locationToIndex(evt.getPoint());
-        if(examList != null && location >= 0) {
+        if(examList != null && location >= 0)
             jTextArea7.setText(examList[location].getDescription());
-            
-        }
     }//GEN-LAST:event_jList6MouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -365,228 +352,278 @@ public class FoxServerSetup extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int dialogResult = JOptionPane.showConfirmDialog (null, "Sinavi olusturmak istediginize emin misiniz?","Tilki",1);
-        if(dialogResult == JOptionPane.YES_OPTION){
+        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                                         "S\u0131nav\u0131 olu\u015Fturmak istedi\u011Finize emin misiniz?",
+                                                         "Tilki", 1);
+        if(dialogResult == JOptionPane.YES_OPTION) {
             examName = jTextField1.getText();
             examKey = new String(jPasswordField1.getPassword());
             examDescription = jTextArea1.getText();
             String filePath = new File("").getAbsolutePath();
             exam = new File(examName);
             exam.mkdir();
-        
-            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filePath + "/exam_list.txt", true)))) {
-                PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter(exam.getAbsolutePath() + "/exam_description.txt", true)));
-                PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter(exam.getAbsolutePath() + "/exam_key.txt", true)));
+
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(
+                    new FileWriter(filePath + "/exam_list.txt", true)))) {
+                PrintWriter out1 = new PrintWriter(new BufferedWriter(
+                        new FileWriter(
+                                exam.getAbsolutePath() + "/exam_description.txt",
+                                true)));
+                PrintWriter out2 = new PrintWriter(new BufferedWriter(
+                        new FileWriter(exam.getAbsolutePath() + "/exam_key.txt",
+                                       true)));
                 out.println(examName);
                 out1.println(examDescription);
                 out2.println(examKey);
                 out.close();
                 out1.close();
                 out2.close();
-                JOptionPane.showMessageDialog(null, "Sinav basariyla olusturuldu.", "Tilki", 1);
-            }catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Sinav olusturulamadi.", "Tilki", 1);
+                JOptionPane.showMessageDialog(null,
+                                              "S\u0131nav basar\u0131yla olusturuldu.",
+                                              "Tilki", 1);
+            }catch(IOException e) {
+                JOptionPane.showMessageDialog(null,
+                                              "S\u0131nav olu\u015Fturulamad\u0131.",
+                                              "Tilki", 1);
                 System.err.println(e);
-            }
-            finally{
+            }finally {
                 jButton7.doClick();
-                reset(); 
-            }
-        }  
-    }//GEN-LAST:event_jButton1ActionPerformed
-    public static boolean deleteDirectory(File directory) {
-    if(directory.exists()){
-        File[] files = directory.listFiles();
-        if(null!=files){
-            for(int i=0; i<files.length; i++) {
-                if(files[i].isDirectory()) {
-                    deleteDirectory(files[i]);
-                }
-                else {
-                    files[i].delete();
-                }
+                reset();
             }
         }
-    }
-    return(directory.delete());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public static boolean deleteDirectory(File directory) {
+        if(directory.exists()) {
+            File[] files = directory.listFiles();
+            if(null != files)
+                for(int i = 0; i < files.length; i++)
+                    if(files[i].isDirectory())
+                        deleteDirectory(files[i]);
+                    else
+                        files[i].delete();
+        }
+        return (directory.delete());
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(jList6.getSelectedIndex() < 0)
+            return;
         String lineToRemove = examList[jList6.getSelectedIndex()].getName();
-        int dialogResult = JOptionPane.showConfirmDialog (null, "Secili sinavi kaldirmak istediginize emin misiniz?","Tilki",1);
+        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                                         "Se\u00E7ili s\u0131nav\u0131 kald\u0131rmak istedi\u011Finize emin misiniz?",
+                                                         "Tilki", 1);
         exam = new File("");
-        if(dialogResult == JOptionPane.YES_OPTION){  
-        File file = new File(exam.getAbsolutePath() + "/" + examList[jList6.getSelectedIndex()].getName());
-        if(deleteDirectory(file))
-            JOptionPane.showMessageDialog(null, "Silme islemi basarili.","Tilki",1);
-        else
-            JOptionPane.showMessageDialog(null, "Silme islemi basarilamadi.","Tilki",1);
+        if(dialogResult == JOptionPane.YES_OPTION) {
+            File file = new File(exam.getAbsolutePath() + "/" + examList[jList6.
+                    getSelectedIndex()].getName());
+            if(deleteDirectory(file))
+                JOptionPane.showMessageDialog(null,
+                                              "Silme i\u015Flemi ba\u015Far\u0131l\u0131.",
+                                              "Tilki", 1);
+            else
+                JOptionPane.
+                        showMessageDialog(null,
+                                          "Silme i\u015Flemi ba\u015Far\u0131lamad\u0131.",
+                                          "Tilki", 1);
         }
         jButton7.doClick();
-       
+
         File inputFile = new File(exam.getAbsolutePath() + "/exam_list.txt");
         File tempFile = new File(exam.getAbsolutePath() + "/temp_exam_list.txt");
 
         BufferedReader reader = null;
-         try {
-             reader = new BufferedReader(new FileReader(inputFile));
-         } catch (FileNotFoundException ex) {
-             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        try {
+            reader = new BufferedReader(new FileReader(inputFile));
+        }catch(FileNotFoundException ex) {
+            Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+        }
         BufferedWriter writer = null;
-         try {
-             writer = new BufferedWriter(new FileWriter(tempFile));
-         } catch (IOException ex) {
-             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        try {
+            writer = new BufferedWriter(new FileWriter(tempFile));
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+        }
 
-       
         String currentLine;
 
-         try {
-             while((currentLine = reader.readLine()) != null) {
-                 // trim newline when comparing with lineToRemove
-                 String trimmedLine = currentLine.trim();
-                 if(trimmedLine.equals(lineToRemove)) continue;
-                 try {
-                     writer.write(currentLine + System.getProperty("line.separator"));
-                 } catch (IOException ex) {
-                     Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-             }} catch (IOException ex) {
-             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         try { 
-             writer.close();
-         } catch (IOException ex) {
-             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         try { 
-             reader.close();
-         } catch (IOException ex) {
-             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-         }
-        
-         
-                 boolean successful = tempFile.renameTo(inputFile);
+        try {
+            while((currentLine = reader.readLine()) != null) {
+                // trim newline when comparing with lineToRemove
+                String trimmedLine = currentLine.trim();
+                if(trimmedLine.equals(lineToRemove))
+                    continue;
+                try {
+                    writer.write(currentLine + System.getProperty(
+                            "line.separator"));
+                }catch(IOException ex) {
+                    Logger.getLogger(FoxServerSetup.class.getName()).log(
+                            Level.SEVERE, null, ex);
+                }
+            }
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+        }
+        try {
+            writer.close();
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+        }
+        try {
+            reader.close();
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+        }
+
+        boolean successful = tempFile.renameTo(inputFile);
         System.out.println(successful);
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-       if(jRadioButton1.isSelected())
-          jPasswordField1.setEchoChar((char)0);
-       else
-          jPasswordField1.setEchoChar('*');
+        if(jRadioButton1.isSelected())
+            jPasswordField1.setEchoChar((char) 0);
+        else
+            jPasswordField1.setEchoChar('*');
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jButton2.setEnabled(false);
-        jLabel3.setText("Gozetmen Sifresi (Sifre Ekle)");
+        jLabel3.setText("G\u00F6zetmen \u015Eifresi (\u015Eifre Ekle)");
         jButton5.setEnabled(true);
         jTextField1.setEnabled(false);
         jList6.setEnabled(false);
         jButton4.setEnabled(true);
-        jLabel6.setText("Sinav Duzenleme Modu");
+        jLabel6.setText("S\u0131nav D\u00FCzenleme Modu");
         jButton1.setEnabled(false);
         reset();
         System.out.println(jList6.getSelectedIndex());
-         try {
-             jTextField1.setText(fcu.availableExams()[jList6.getSelectedIndex()].getName());
-             jTextArea1.setText(fcu.availableExams()[jList6.getSelectedIndex()].getDescription());
-         } catch (IOException ex) {
-             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (ClassNotFoundException ex) {
-             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
-         }
+        try {
+            jTextField1.setText(fcu.availableExams()[jList6.getSelectedIndex()].
+                    getName());
+            jTextArea1.setText(fcu.availableExams()[jList6.getSelectedIndex()].
+                    getDescription());
+        }catch(IOException ex) {
+            Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+        }catch(ClassNotFoundException ex) {
+            Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
+                                                                 null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jButton2.setEnabled(true);
-        jLabel3.setText("Gozetmen Sifresi");
+        jLabel3.setText("G\u00F6zetmen \u015Eifresi");
         jList6.setEnabled(true);
         reset();
         jButton1.setEnabled(true);
         jButton4.setEnabled(false);
-        jLabel6.setText("Sinav Olusturma Modu");
+        jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
         jTextField1.setEnabled(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       int dialogResult = JOptionPane.showConfirmDialog (null, "Degisiklikleri uygulamak istediginize emin misiniz?","Tilki",1);
-       if(dialogResult == JOptionPane.YES_OPTION){
+        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                                         "De\u011Fi\u015Fiklikleri uygulamak istedi\u011Finize emin misiniz?",
+                                                         "Tilki", 1);
+        if(dialogResult == JOptionPane.YES_OPTION) {
             jButton1.setEnabled(true);
-            jLabel6.setText("Sinav Olusturma Modu");
-            jLabel3.setText("Gozetmen Sifresi");
+            jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
+            jLabel3.setText("G\u00F6zetmen \u015Eifresi");
             jList6.setEnabled(true);
             jTextField1.setEnabled(true);
             jButton5.setEnabled(false);
             jButton2.setEnabled(true);
-            String newPas = new String (jPasswordField1.getPassword());
+            String newPas = new String(jPasswordField1.getPassword());
             String newDesc = jTextArea1.getText();
             exam = new File("");
-            System.out.println(exam.getAbsolutePath() + "/" +jTextField1.getText());
+            System.out.println(exam.getAbsolutePath() + "/" + jTextField1.
+                    getText());
             try {
-               PrintWriter out1 = new PrintWriter(new BufferedWriter(new FileWriter(exam.getAbsolutePath() + "/" +jTextField1.getText() +"/exam_key.txt", true)));
-               PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter(exam.getAbsolutePath() + "/" +jTextField1.getText() +"/exam_description.txt", false)));
-               out1.println(newPas);
-               out2.println(newDesc);
-               out1.close();
-               out2.close();
-            } catch (IOException ex) {
-               Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE, null, ex);
+                PrintWriter out1 = new PrintWriter(new BufferedWriter(
+                        new FileWriter(
+                                exam.getAbsolutePath() + "/" + jTextField1.
+                                getText() + "/exam_key.txt", true)));
+                PrintWriter out2 = new PrintWriter(new BufferedWriter(
+                        new FileWriter(
+                                exam.getAbsolutePath() + "/" + jTextField1.
+                                getText() + "/exam_description.txt", false)));
+                out1.println(newPas);
+                out2.println(newDesc);
+                out1.close();
+                out2.close();
+            }catch(IOException ex) {
+                Logger.getLogger(FoxServerSetup.class.getName()).log(
+                        Level.SEVERE, null, ex);
             }
             jButton7.doClick();
             reset();
-       }
-     
+        }
+
     }//GEN-LAST:event_jButton4ActionPerformed
-    private void reset(){  
-        examName= "";
-        examDescription="";
-        examKey="";
+
+    private void reset() {
+        examName = "";
+        examDescription = "";
+        examKey = "";
         jTextField1.setText("");
         jPasswordField1.setText("");
         jTextArea1.setText("");
     }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-  
-        /* Set the Nimbus look and feel */
+
+        /*
+         * Set the Nimbus look and feel
+         */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+            for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.
+                    getInstalledLookAndFeels())
+                if("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }catch(ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
+        }catch(InstantiationException ex) {
+            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
+        }catch(IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
+        }catch(javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
+                    log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /*
+         * Create and display the form
+         */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FoxServerSetup().setVisible(true);
             }
         });
     }
-   
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
