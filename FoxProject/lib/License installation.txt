@@ -1,0 +1,19 @@
+Installing Licence Files
+
+--------------------------
+The JxCapture library requires valid licence files: jxcapture.lic and jniwrap.lic.
+
+If you had purchased the product, the licence files were sent to you by email.
+
+If you are evaluating our product, you need an evaluation licence. To get the evaluation licence 
+please complete the following steps:
+	- click the "Evaluate now" button on the product page (http://www.teamdev.com/jxcapture/); 
+	- fill your name and email in the evaluation form;
+	- press the "Send me evaluation key" button.
+
+The link to evaluation licence download will be emailed to you.
+
+Licence files have to be installed in the same directory as the native code library or in 
+the META-INF subfolder of any jar library from the  application's classpath.
+
+Do NOT rename licence files or they will not be recognized. 
