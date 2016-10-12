@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for JxCapture 3 Demo Application -->
+<jnlp spec="1.0+" codebase="http://www.teamdev.com/" href="downloads/demo/jxcapturedemo.jnlp">
+    <information>
+        <title>JxCapture 3 Demo Application</title>
+        <vendor>TeamDev Ltd.</vendor>
+        <homepage href="http://www.teamdev.com"/>
+        <description>JxCapture 3 Demo Application</description>
+        <description kind="short">JxCapture 3 Demo Application</description>
+        <icon href="images/jxcapture.png" width="32" height="32"/>
+        <offline-allowed/>
+    </information>
+    <security>
+        <all-permissions/>
+    </security>
+    <resources os="Mac OS X">
+        <j2se version="1.5+" initial-heap-size="256m" max-heap-size="512m" java-vm-args="-Dfile.encoding=UTF8"/>
+	<property name="com.apple.mrj.application.apple.menu.about.name" value="JxCapture Demo"/>
+        <property name="javax.swing.adjustPopupLocationToFit" value="false"/>
+        <property name="apple.laf.useScreenMenuBar" value="true"/>
+        <property name="com.apple.macos.useScreenMenuBar" value="true"/>
+    </resources>
+    <resources os="Windows">
+        <j2se version="1.5+" initial-heap-size="256m" max-heap-size="512m"/>
+    </resources>
+    <resources os="Linux">
+        <j2se version="1.5+" initial-heap-size="256m" max-heap-size="512m"/>
+    </resources>
+    <resources>
+	<property name="sun.java2d.noddraw" value="true"/>
+        <jar href="downloads/demo/jxcapturedemo.jar" main="true"/>
+        <jar href="downloads/demo/jxcapture-3.4.jar"/>
+        <jar href="downloads/demo/jniwrap-3.11.jar"/>
+        <jar href="downloads/demo/slf4j-api-1.5.8.jar"/>
+        <jar href="downloads/demo/slf4j-simple-1.5.8.jar"/>
+    </resources>
+    <application-desc main-class="com.teamdev.jxcapture.demo.JxCaptureApplication"/>
+</jnlp>
