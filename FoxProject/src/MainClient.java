@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
@@ -41,6 +42,8 @@ public class MainClient extends javax.swing.JFrame {
     public MainClient() {
 
         initComponents();
+    	ImageIcon img = new ImageIcon("C:\\Users\\ONURAL\\Desktop\\Tablo.png");
+    	setIconImage(img.getImage());
         try {
             examList = fcu.availableExams();
             jList1.setModel(new ExamListModel(examList));
@@ -877,6 +880,7 @@ public class MainClient extends javax.swing.JFrame {
           catch(Exception e){
 
         }
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainClient().setVisible(true);
