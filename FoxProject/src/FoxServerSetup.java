@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -37,6 +39,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
         this.jLabel2 = new JLabel("sa");
         fcu = new FoxClientUtilities();
         initComponents();
+        
+        ImageIcon img = new ImageIcon("fox.png");
+        setIconImage(img.getImage());
         setLocationRelativeTo(null);
         try {
             examList = fcu.availableExams();

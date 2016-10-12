@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
@@ -41,8 +42,10 @@ public class MainClient extends javax.swing.JFrame {
     public MainClient() {
 
         initComponents();
-        //ImageIcon img = new ImageIcon("");
-        //setIconImage(img.getImage());
+        
+        ImageIcon img = new ImageIcon("fox.png");
+        setIconImage(img.getImage());
+       
         try {
             examList = fcu.availableExams();
             jList1.setModel(new ExamListModel(examList));

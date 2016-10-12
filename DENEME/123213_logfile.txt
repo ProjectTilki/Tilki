@@ -1,0 +1,3 @@
+123213 | 123 asdasda | --> Check in. | 2016/10/12 21:30:47
+123213 | 123 asdasda | 123 --> Instructor key is accepted. | 2016/10/12 21:30:49
+123213 | File is received. | 2016/10/12 21:32:14
