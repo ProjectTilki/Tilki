@@ -41,7 +41,7 @@ public class MainClient extends javax.swing.JFrame {
     public MainClient() {
 
         initComponents();
-        //ImageIcon img = new ImageIcon("C:\\Users\\ONURAL\\Desktop\\Tablo.png");
+        //ImageIcon img = new ImageIcon("");
         //setIconImage(img.getImage());
         try {
             examList = fcu.availableExams();
