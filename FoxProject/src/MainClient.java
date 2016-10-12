@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
@@ -42,8 +41,8 @@ public class MainClient extends javax.swing.JFrame {
     public MainClient() {
 
         initComponents();
-    	ImageIcon img = new ImageIcon("C:\\Users\\ONURAL\\Desktop\\Tablo.png");
-    	setIconImage(img.getImage());
+        //ImageIcon img = new ImageIcon("C:\\Users\\ONURAL\\Desktop\\Tablo.png");
+        //setIconImage(img.getImage());
         try {
             examList = fcu.availableExams();
             jList1.setModel(new ExamListModel(examList));
@@ -87,9 +86,9 @@ public class MainClient extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        surnameTextField = new javax.swing.JTextField();
+        nameTextField = new javax.swing.JTextField();
+        idTextField = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
@@ -250,24 +249,29 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel7.setText("Ad");
 
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+        surnameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                surnameTextFieldActionPerformed(evt);
+            }
+        });
+        surnameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField2KeyPressed(evt);
+                surnameTextFieldKeyPressed(evt);
             }
         });
 
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+        nameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField3KeyPressed(evt);
+                nameTextFieldKeyPressed(evt);
             }
         });
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        idTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField1KeyTyped(evt);
+                idTextFieldKeyTyped(evt);
             }
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField1KeyPressed(evt);
+                idTextFieldKeyPressed(evt);
             }
         });
 
@@ -280,17 +284,12 @@ public class MainClient extends javax.swing.JFrame {
                 jButton2MouseClicked(evt);
             }
         });
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setPreferredSize(new java.awt.Dimension(259, 49));
         jLabel8.setVisible(true);
 
-        jLabel4.setText("<html>Sinava baslamak icin lutfen gerekli bilgileri doldurun ve sinavinizi secin.<html/>\n");
+        jLabel4.setText("<html>S\u0131nava ba\u015Flamak i\u00E7in l\u00FCtfen gerekli bilgileri doldurun ve s\u0131nav\u0131n\u0131z\u0131 se\u00E7iniz.<html/>\n");
 
         javax.swing.GroupLayout SolPanelLayout = new javax.swing.GroupLayout(SolPanel);
         SolPanel.setLayout(SolPanelLayout);
@@ -304,25 +303,23 @@ public class MainClient extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(SolPanelLayout.createSequentialGroup()
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SolPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SolPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SolPanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(SolPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(SolPanelLayout.createSequentialGroup()
+                                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(SolPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         SolPanelLayout.setVerticalGroup(
@@ -333,15 +330,15 @@ public class MainClient extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(surnameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -547,12 +544,11 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-        name = jTextField2.getText();
-        surname = jTextField3.getText();
-        number = jTextField1.getText();
+        name = nameTextField.getText();
+        surname = surnameTextField.getText();
+        number = idTextField.getText();
 
         String className = jLabel16.getText();
-        String password = new String(jPasswordField1.getPassword());
         if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.
                                                                                  equals(
                                                                                  "L\u00FCtfen bir s\u0131nav se\u00E7iniz."))) {
@@ -691,7 +687,7 @@ public class MainClient extends javax.swing.JFrame {
     }
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_jButton7MouseClicked
     private String zipName;
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
@@ -709,35 +705,35 @@ public class MainClient extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton4MouseClicked
 
-    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+    private void idTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
             jButton2MouseClicked(temp);// TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1KeyPressed
+    }//GEN-LAST:event_idTextFieldKeyPressed
 
-    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+    private void nameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
             jButton2MouseClicked(temp);        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3KeyPressed
+    }//GEN-LAST:event_nameTextFieldKeyPressed
 
-    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+    private void surnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
             jButton2MouseClicked(temp);        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2KeyPressed
+    }//GEN-LAST:event_surnameTextFieldKeyPressed
 
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+    private void idTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyTyped
         // TODO add your handling code here:
         if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0')
             evt.consume();
-    }//GEN-LAST:event_jTextField1KeyTyped
+    }//GEN-LAST:event_idTextFieldKeyTyped
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         try {
@@ -752,8 +748,8 @@ public class MainClient extends javax.swing.JFrame {
                 GozetmenKodu.setVisible(false);
                 VideoKayitEkrani.setVisible(true);
                 cam = new CaptureDesktop();
-                cam.StartCaptureDesktop(jTextField1.getText(), jTextField2.
-                                        getText().charAt(0) + jTextField3.
+                cam.StartCaptureDesktop(idTextField.getText(), surnameTextField.
+                                        getText().charAt(0) + nameTextField.
                                         getText());
                 jTextArea2.setDropTarget(new DropTarget() {
                     public synchronized void drop(DropTargetDropEvent evt) {
@@ -830,8 +826,10 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_GozetmenKoduWindowClosing
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Sinavi bitirmek istediginize emin misiniz?", "Tilki", 1);  
-        if(dialogResult == JOptionPane.YES_OPTION){
+        int dialogResult = JOptionPane.showConfirmDialog(null,
+                                                         "S\u0131nav\u0131 bitirmek istedi\u011Finize emin misiniz?",
+                                                         "Tilki", 1);
+        if(dialogResult == JOptionPane.YES_OPTION) {
             FileChooserFrame.setVisible(false);
             if(cam.status()) {
                 cam.StopCaptureDesktop();
@@ -846,7 +844,7 @@ public class MainClient extends javax.swing.JFrame {
                         target_file_object = new File(i + "_" + target_file);
                         if(target_file_object.exists())
                             filesThatWillUpload.add(new File(
-                                i + "_" + target_file));
+                                    i + "_" + target_file));
                     }
                 }
                 for(int i = 0; i < lm.getSize(); i++)
@@ -854,7 +852,7 @@ public class MainClient extends javax.swing.JFrame {
                 updatingTime.terminate();
                 File[] temp = new File[filesThatWillUpload.size()];
                 ZipAndUpload zau = new ZipAndUpload(filesThatWillUpload.toArray(
-                temp), number, jLabel16.getText());
+                        temp), number, jLabel16.getText());
                 zau.setVisible(true);
                 for(Component component : VideoKayitEkrani.getComponents())
                     component.setEnabled(false);
@@ -864,20 +862,20 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void surnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_surnameTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         try {
 
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-       }
-          catch(Exception e){
+            UIManager.setLookAndFeel(
+                    "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        }catch(Exception e) {
 
         }
 
@@ -896,6 +894,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JPanel SolPanel;
     private javax.swing.JPanel VideoKayitEkrani;
     private javax.swing.JFrame Yukleniyor;
+    private javax.swing.JTextField idTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -930,9 +929,8 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField nameTextField;
+    private javax.swing.JTextField surnameTextField;
     // End of variables declaration//GEN-END:variables
 
 }
