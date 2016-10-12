@@ -1,51 +1,58 @@
 import com.teamdev.jxcapture.Codec;
 import com.teamdev.jxcapture.EncodingParameters;
 import com.teamdev.jxcapture.VideoCapture;
-import com.teamdev.jxcapture.video.Desktop;
-import java.awt.*;
+import com.teamdev.jxcapture.video.FullScreen;
+import com.teamdev.jxcapture.video.VideoFormat;
+import java.awt.Dimension;
 import java.io.File;
 
-/**
- * This example demonstrates a primary desktop video capturing.
- * <pre>
- * Platforms:           All
- * Image Source:        Desktop
- * Output video format: WMV or MP4 depending on a platform
- * Output file:         Desktop.wmv or Desktop.mp4 depending on a platform
- *
- * @author Serge Piletsky
- */
 public class CaptureDesktop {
 
+    public String personName;
+    public String format;
     VideoCapture videoCapture = VideoCapture.create();
 
-    public void StartCaptureDesktop(String a, String b) throws Exception {
-
-        videoCapture.setVideoSource(new Desktop());
+    public void StartCaptureDesktop(String a, String b) {
+        videoCapture.setVideoSource(new FullScreen());
+        java.util.List<VideoFormat> videoFormats = VideoCapture.
+                getAvailableFormats();
 
         java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
-        Codec videoCodec = videoCodecs.get(0);
-        //System.out.println("videoCodec = " + videoCodec);
 
-        EncodingParameters encodingParameters = new EncodingParameters(new File(a + "_" + b + "." + videoCapture.getVideoFormat().getId()));
+        Codec videoCodec = videoCodecs.get(0);
+        a = a.toLowerCase();
+        b = b.toLowerCase();
+        personName = a + "_" + b;
+        format = videoCapture.getVideoFormat().getId().toString();
+        String videoName = personName + "." + format;
+        File videoFileObject = new File(personName + "." + format);
+        if(videoFileObject.exists()) // File exists, try finding new file name.
+            for(int i = 0; i < 100; i++) {
+                videoFileObject = new File(i + "_" + videoName);
+                if(!videoFileObject.exists()) {
+                    videoName = i + "_" + videoName;
+                    break;
+                }
+            }
+        File video = new File(videoName);
+        EncodingParameters encodingParameters = new EncodingParameters(video);
         // Resize output video
         encodingParameters.setSize(new Dimension(800, 600));
         encodingParameters.setBitrate(800000);
-        encodingParameters.setFramerate(1);
+        encodingParameters.setFramerate(3);
         encodingParameters.setKeyFrameInterval(5000);
         encodingParameters.setCodec(videoCodec);
         // System.out.println("encodingParameters = " + encodingParameters);
 
         videoCapture.setEncodingParameters(encodingParameters);
         videoCapture.start();
-
-        System.out.println("Recording started.");
-
     }
 
-    public void StopCaptureDesktop() throws Exception {
+    public void StopCaptureDesktop() {
         videoCapture.stop();
-        System.out.println("Done.");
     }
 
+    public boolean status() {
+        return videoCapture.isStarted();
+    }
 }
