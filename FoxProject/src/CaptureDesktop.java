@@ -1,9 +1,11 @@
 import com.teamdev.jxcapture.Codec;
+import com.teamdev.jxcapture.CompressionQuality;
 import com.teamdev.jxcapture.EncodingParameters;
 import com.teamdev.jxcapture.VideoCapture;
 import com.teamdev.jxcapture.video.FullScreen;
 import com.teamdev.jxcapture.video.VideoFormat;
 import java.awt.Dimension;
+import java.awt.List;
 import java.io.File;
 
 public class CaptureDesktop {
@@ -34,15 +36,19 @@ public class CaptureDesktop {
                     break;
                 }
             }
+        CompressionQuality q = CompressionQuality.BEST;
+        
         File video = new File(videoName);
         EncodingParameters encodingParameters = new EncodingParameters(video);
         // Resize output video
         encodingParameters.setSize(new Dimension(800, 600));
         encodingParameters.setBitrate(800000);
-        encodingParameters.setFramerate(3);
-        encodingParameters.setKeyFrameInterval(5000);
+        encodingParameters.setFramerate(1);
+        encodingParameters.setKeyFrameInterval(1000);
         encodingParameters.setCodec(videoCodec);
-        // System.out.println("encodingParameters = " + encodingParameters);
+        encodingParameters.setCompressionQuality(q);
+       
+    //     System.out.println("encodingParameters = " + encodingParameters);
 
         videoCapture.setEncodingParameters(encodingParameters);
         videoCapture.start();
@@ -55,4 +61,14 @@ public class CaptureDesktop {
     public boolean status() {
         return videoCapture.isStarted();
     }
-}
+    public static void main(String[]args){
+    /*
+     * To see which codecs are being used/available.
+    	VideoCapture x = VideoCapture.create();
+    	java.util.List<Codec> videoCodecs = x.getVideoCodecs();
+
+        Codec videoCodec = videoCodecs.get(0);
+    	System.out.println(videoCodec);
+    */
+    }
+   }
