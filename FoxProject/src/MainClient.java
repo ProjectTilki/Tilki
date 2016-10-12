@@ -24,7 +24,7 @@ import javax.swing.UIManager;
  */
 /**
  *
- * @author talha
+ * @author talha, gorkem, baturay
  */
 public class MainClient extends javax.swing.JFrame {
     private Exam[] examList;
@@ -45,6 +45,7 @@ public class MainClient extends javax.swing.JFrame {
         
         ImageIcon img = new ImageIcon("fox.png");
         setIconImage(img.getImage());
+        setLocationRelativeTo(null);
        
         try {
             examList = fcu.availableExams();
