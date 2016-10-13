@@ -1,3 +1,7 @@
 /FoxProject/build/
 /FoxProject/dist/
 /bin/
+*.AVI
+*.zip
+checksum.log
+exam_list.txt

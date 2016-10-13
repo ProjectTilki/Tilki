@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -42,11 +40,11 @@ public class MainClient extends javax.swing.JFrame {
     public MainClient() {
 
         initComponents();
-        
+
         ImageIcon img = new ImageIcon("fox.png");
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
-       
+
         try {
             examList = fcu.availableExams();
             jList1.setModel(new ExamListModel(examList));
@@ -73,11 +71,6 @@ public class MainClient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        GozetmenKodu = new javax.swing.JFrame();
-        jLabel5 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton5 = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
         Yukleniyor = new javax.swing.JFrame();
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel12 = new javax.swing.JLabel();
@@ -93,10 +86,11 @@ public class MainClient extends javax.swing.JFrame {
         surnameTextField = new javax.swing.JTextField();
         nameTextField = new javax.swing.JTextField();
         idTextField = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
+        loginButton = new javax.swing.JButton();
+        loginLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        keyField = new javax.swing.JPasswordField();
+        keyLabel = new javax.swing.JLabel();
         SagPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -106,6 +100,7 @@ public class MainClient extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         VideoKayitEkrani = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -117,61 +112,6 @@ public class MainClient extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-
-        GozetmenKodu.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        GozetmenKodu.setTitle("Tilki");
-        GozetmenKodu.setAlwaysOnTop(true);
-        GozetmenKodu.setMinimumSize(new java.awt.Dimension(350, 195));
-        GozetmenKodu.setResizable(false);
-        GozetmenKodu.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                GozetmenKoduWindowClosing(evt);
-            }
-        });
-
-        jLabel5.setText("G\u00F6zetmen Kodu");
-
-        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jPasswordField1KeyPressed(evt);
-            }
-        });
-
-        jButton5.setText("S\u0131nav\u0131 Ba\u015F" +
-            "lat");
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton5MouseClicked(evt);
-            }
-        });
-
-        jLabel10.setText("jLabel10");
-
-        javax.swing.GroupLayout GozetmenKoduLayout = new javax.swing.GroupLayout(GozetmenKodu.getContentPane());
-        GozetmenKodu.getContentPane().setLayout(GozetmenKoduLayout);
-        GozetmenKoduLayout.setHorizontalGroup(
-            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(GozetmenKoduLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addGroup(GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        GozetmenKoduLayout.setVerticalGroup(
-            GozetmenKoduLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(GozetmenKoduLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(jButton5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         Yukleniyor.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         Yukleniyor.setTitle("Tilki");
@@ -279,59 +219,71 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
-
-        jButton2.setText("Giri\u015F Yap");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        loginButton.setText("Giri\u015F Yap");
+        loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                loginButtonMouseClicked(evt);
             }
         });
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setPreferredSize(new java.awt.Dimension(259, 49));
-        jLabel8.setVisible(true);
+        loginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loginLabel.setPreferredSize(new java.awt.Dimension(259, 49));
+        loginLabel.setVisible(true);
 
         jLabel4.setText("<html>S\u0131nava ba\u015Flamak i\u00E7in l\u00FCtfen gerekli bilgileri doldurun ve s\u0131nav\u0131n\u0131z\u0131 se\u00E7iniz.<html/>\n");
+
+        keyField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keyFieldActionPerformed(evt);
+            }
+        });
+        keyField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                keyFieldKeyPressed(evt);
+            }
+        });
+
+        keyLabel.setText("G\u00F6zetmen Kodu");
 
         javax.swing.GroupLayout SolPanelLayout = new javax.swing.GroupLayout(SolPanel);
         SolPanel.setLayout(SolPanelLayout);
         SolPanelLayout.setHorizontalGroup(
             SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SolPanelLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(SolPanelLayout.createSequentialGroup()
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loginLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loginButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(SolPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(SolPanelLayout.createSequentialGroup()
-                                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 65, Short.MAX_VALUE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(SolPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(SolPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(SolPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(SolPanelLayout.createSequentialGroup()
+                        .addComponent(keyField, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(SolPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(keyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SolPanelLayout.setVerticalGroup(
             SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SolPanelLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -343,12 +295,14 @@ public class MainClient extends javax.swing.JFrame {
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(keyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(keyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85)
+                .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -378,37 +332,45 @@ public class MainClient extends javax.swing.JFrame {
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setFocusable(false);
         jScrollPane2.setViewportView(jTextArea1);
 
         jLabel11.setText("A\u00E7\u0131klamalar");
+
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
 
         javax.swing.GroupLayout SagPanelLayout = new javax.swing.GroupLayout(SagPanel);
         SagPanel.setLayout(SagPanelLayout);
         SagPanelLayout.setHorizontalGroup(
             SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SagPanelLayout.createSequentialGroup()
-                .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                        .addGroup(SagPanelLayout.createSequentialGroup()
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(SagPanelLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(111, 111, 111)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(SagPanelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11)))
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE))
+                        .addGap(97, 97, 97)
+                        .addComponent(jLabel11)))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         SagPanelLayout.setVerticalGroup(
             SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SagPanelLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
+                .addGap(40, 40, 40)
+                .addComponent(jLabel16)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -439,11 +401,11 @@ public class MainClient extends javax.swing.JFrame {
             GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GirisEkraniLayout.createSequentialGroup()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, GirisEkraniLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)))
+                        .addComponent(SagPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)))
                 .addGap(0, 0, 0))
         );
 
@@ -546,65 +508,112 @@ public class MainClient extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
         // TODO add your handling code here:
         name = nameTextField.getText();
         surname = surnameTextField.getText();
         number = idTextField.getText();
-
         String className = jLabel16.getText();
-        if(!(name.isEmpty()) && !(surname.isEmpty()) && !(number.isEmpty()) && !(className.
-                                                                                 equals(
-                                                                                 "L\u00FCtfen bir s\u0131nav se\u00E7iniz."))) {
+        String instructorKey = new String(keyField.getPassword());
+
+        if(!(name.isEmpty()) && !(surname.isEmpty())
+           && !(number.isEmpty()) && !(className.equals(
+                                       "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
+                isEmpty()) {
             int status = 4;
             try {
-                status = fcu.checkIn(name, surname, number, className);
+                status = fcu.verifyInstructorKey(name, surname, number,
+                                                 className, instructorKey);
+                if(status == 2)
+                    loginLabel.setText(
+                            "<html>\u015Eifre kabul edilmedi, ve kayda ge\u00E7ildi.<br>"
+                            + "L\u00FCtfen tekrar deneyiniz.</html>");
+                else if(status == 1) {
+                    GirisEkrani.setVisible(false);
+                    //GozetmenKodu.setVisible(false);
+                    VideoKayitEkrani.setVisible(true);
+                    cam = new CaptureDesktop();
+                    cam.StartCaptureDesktop(idTextField.getText(),
+                                            surnameTextField.
+                                            getText().charAt(0) + nameTextField.
+                                            getText());
+                    jTextArea2.setDropTarget(new DropTarget() {
+                        public synchronized void drop(
+                                DropTargetDropEvent evt) {
+                            try {
+                                evt.acceptDrop(DnDConstants.ACTION_COPY);
+                                List<File> droppedFiles = (List<File>) evt.
+                                        getTransferable().getTransferData(
+                                                DataFlavor.javaFileListFlavor);
+                                ListModel<String> lm = jList2.getModel();
+                                DefaultListModel dlm = new DefaultListModel();
+                                for(File f : droppedFiles)
+                                    if(f.isFile() && !dlm.contains(f.
+                                            getAbsolutePath()))
+                                        dlm.addElement(f.getAbsolutePath());
+                                for(int i = 0; i < lm.getSize(); i++) {
+                                    String temp = lm.getElementAt(i);
+                                    if(!dlm.contains(temp))
+                                        dlm.addElement(temp);
+                                }
+                                jList2.setModel(dlm);
+                            }catch(Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    });
+                    timeAtStart = System.currentTimeMillis();
+                    updatingTime = new tempThread();
+                    updatingTime.start();
+                }else
+                    loginLabel.setText("Bilinmeyen hata.");
             }catch(IOException ex) {
-                jLabel8.setText("Sunucuya eri\u015Filemiyor.");
-                jLabel8.setVisible(true);
+                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
+                loginLabel.setVisible(true);
                 examList = null;
                 jList1.setModel(new ExamListModel(examList));
                 jTextArea1.setText("");
             }
             if(status == 0) {
-                jLabel8.setText("Serverda dosya eksik!");
-                jLabel8.setVisible(true);
+                loginLabel.setText("Serverda dosya eksik!");
+                loginLabel.setVisible(true);
                 examList = null;
                 jTextArea1.setText("");
                 jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
                 jList1.setModel(new ExamListModel(examList));
             }else if(status == 1) {
-                jList1.setEnabled(false);
-                GozetmenKodu.setVisible(true);
-                jLabel10.setText("Tekrardan ba\u011Flan\u0131ld\u0131.");
+                //GozetmenKodu.setVisible(true);
+                //jLabel10.setText("Tekrardan ba\u011Flan\u0131ld\u0131.");
             }else if(status == 2) {
-                jList1.setEnabled(false);
-                GozetmenKodu.setVisible(true);
-                jLabel10.setText("Yeni kay\u0131t.");
+                //GozetmenKodu.setVisible(true);
+                //jLabel10.setText("Yeni kay\u0131t.");
             }else {
-                jLabel8.setText("Sunucuya eri\u015Filemiyor.");
-                jLabel8.setVisible(true);
+                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
+                loginLabel.setVisible(true);
                 examList = null;
                 jTextArea1.setText("");
                 jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
                 jList1.setModel(new ExamListModel(examList));
             }
         }else if(name.isEmpty()) {
-            jLabel8.setText("Ad k\u0131sm\u0131 eksik.");
-            jLabel8.setVisible(true);
+            loginLabel.setText("Ad k\u0131sm\u0131 eksik.");
+            loginLabel.setVisible(true);
         }else if(surname.isEmpty()) {
-            jLabel8.setText("Soyad k\u0131sm\u0131 eksik.");
-            jLabel8.setVisible(true);
+            loginLabel.setText("Soyad k\u0131sm\u0131 eksik.");
+            loginLabel.setVisible(true);
         }else if(number.isEmpty()) {
-            jLabel8.setText("Numara k\u0131sm\u0131 eksik.");
-            jLabel8.setVisible(true);
+            loginLabel.setText("Numara k\u0131sm\u0131 eksik.");
+            loginLabel.setVisible(true);
         }else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
-            jLabel8.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
-            jLabel8.setVisible(true);
+            loginLabel.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
+            loginLabel.setVisible(true);
             jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
+        }else if(instructorKey.isEmpty()) {
+            loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
+            loginLabel.setVisible(true);
         }else
-            jLabel8.setVisible(false);
-    }//GEN-LAST:event_jButton2MouseClicked
+            loginLabel.setVisible(false);
+    }//GEN-LAST:event_loginButtonMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
@@ -714,15 +723,16 @@ public class MainClient extends javax.swing.JFrame {
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            jButton2MouseClicked(temp);// TODO add your handling code here:
+            loginButtonMouseClicked(temp);// TODO add your handling code here:
     }//GEN-LAST:event_idTextFieldKeyPressed
 
     private void nameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyPressed
+        // TODO add your handling code here:
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            jButton2MouseClicked(temp);        // TODO add your handling code here:
+            loginButtonMouseClicked(temp);
     }//GEN-LAST:event_nameTextFieldKeyPressed
 
     private void surnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyPressed
@@ -730,7 +740,7 @@ public class MainClient extends javax.swing.JFrame {
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            jButton2MouseClicked(temp);        // TODO add your handling code here:
+            loginButtonMouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_surnameTextFieldKeyPressed
 
     private void idTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyTyped
@@ -739,64 +749,13 @@ public class MainClient extends javax.swing.JFrame {
             evt.consume();
     }//GEN-LAST:event_idTextFieldKeyTyped
 
-    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-        try {
-            int status = fcu.verifyInstructorKey(new String(jPasswordField1.
-                    getPassword()));
-            if(status == 2)
-                jLabel10.setText(
-                        "<html>\u015Eifre kabul edilmedi, ve kayda ge\u00E7ildi.<br>"
-                        + "L\u00FCtfen tekrar deneyiniz.</html>");
-            else if(status == 1) {
-                GirisEkrani.setVisible(false);
-                GozetmenKodu.setVisible(false);
-                VideoKayitEkrani.setVisible(true);
-                cam = new CaptureDesktop();
-                cam.StartCaptureDesktop(idTextField.getText(), surnameTextField.
-                                        getText().charAt(0) + nameTextField.
-                                        getText());
-                jTextArea2.setDropTarget(new DropTarget() {
-                    public synchronized void drop(DropTargetDropEvent evt) {
-                        try {
-                            evt.acceptDrop(DnDConstants.ACTION_COPY);
-                            List<File> droppedFiles = (List<File>) evt.
-                                    getTransferable().getTransferData(
-                                            DataFlavor.javaFileListFlavor);
-                            ListModel<String> lm = jList2.getModel();
-                            DefaultListModel dlm = new DefaultListModel();
-                            for(File f : droppedFiles)
-                                if(f.isFile() && !dlm.contains(f.
-                                        getAbsolutePath()))
-                                    dlm.addElement(f.getAbsolutePath());
-                            for(int i = 0; i < lm.getSize(); i++) {
-                                String temp = lm.getElementAt(i);
-                                if(!dlm.contains(temp))
-                                    dlm.addElement(temp);
-                            }
-                            jList2.setModel(dlm);
-                        }catch(Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-                timeAtStart = System.currentTimeMillis();
-                updatingTime = new tempThread();
-                updatingTime.start();
-            }else
-                jLabel10.setText("Bilinmeyen hata.");
-        }catch(IOException ex) {
-            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null,
-                                                             ex);
-        }
-    }//GEN-LAST:event_jButton5MouseClicked
-
-    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+    private void keyFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            jButton5MouseClicked(temp);        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1KeyPressed
+            loginButtonMouseClicked(temp);        // TODO add your handling code here:
+    }//GEN-LAST:event_keyFieldKeyPressed
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
@@ -823,11 +782,6 @@ public class MainClient extends javax.swing.JFrame {
         jFileChooser1.setSelectedFile(new File(""));
         FileChooserFrame.dispose();
     }//GEN-LAST:event_jFileChooser1ActionPerformed
-
-    private void GozetmenKoduWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_GozetmenKoduWindowClosing
-        // TODO add your handling code here:
-        jList1.setEnabled(true);
-    }//GEN-LAST:event_GozetmenKoduWindowClosing
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(null,
@@ -870,6 +824,10 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_surnameTextFieldActionPerformed
 
+    private void keyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_keyFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -893,22 +851,18 @@ public class MainClient extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame FileChooserFrame;
     private javax.swing.JPanel GirisEkrani;
-    private javax.swing.JFrame GozetmenKodu;
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
     private javax.swing.JPanel VideoKayitEkrani;
     private javax.swing.JFrame Yukleniyor;
     private javax.swing.JTextField idTextField;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -918,14 +872,11 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -933,6 +884,10 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JPasswordField keyField;
+    private javax.swing.JLabel keyLabel;
+    private javax.swing.JButton loginButton;
+    private javax.swing.JLabel loginLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JTextField surnameTextField;
     // End of variables declaration//GEN-END:variables

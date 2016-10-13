@@ -27,10 +27,6 @@ import javax.swing.JProgressBar;
  * modify some files.
  */
 public class FoxClientUtilities {
-    private String name = null;
-    private String surname = null;
-    private String id = null;
-    private String exam = null;
 
     /**
      * Check in a student or establish a reconnection to a predefined host. This
@@ -55,10 +51,6 @@ public class FoxClientUtilities {
         if(name == null || surname == null || id == null || exam == null)
             throw new NullPointerException();
         // Save informations to instance variables.
-        this.name = name;
-        this.surname = surname;
-        this.id = id;
-        this.exam = exam;
 
         Socket socket = new Socket("localhost", 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
@@ -100,7 +92,8 @@ public class FoxClientUtilities {
      * @throws java.io.IOException If an I/O error occurs when creating socket,
      *                             reading from socket, or sending to socket.
      */
-    public int verifyInstructorKey(String instructorKey) throws IOException {
+    public int verifyInstructorKey(String name, String surname, String id,
+                                   String exam, String instructorKey) throws IOException {
         if(name == null || surname == null || id == null || exam == null || instructorKey == null)
             return -1;
         Socket socket = new Socket("localhost", 50101); // Connect to the host.
