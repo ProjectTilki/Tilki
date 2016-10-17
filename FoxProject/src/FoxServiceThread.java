@@ -156,9 +156,14 @@ public class FoxServiceThread implements Callable<Integer> {
         BufferedReader examKeyFile = new BufferedReader(new FileReader(
                 examKeyFileObject));
 
-        File logFileObject = new File(examFileObject, id + "_logfile.txt");
-
+        File studentFile = new File(examFileObject, id);
         synchronized(LOCK) {
+            if(!studentFile.exists() || !studentFile.isDirectory())
+                if(!studentFile.mkdir())
+                    return;
+
+            File logFileObject = new File(studentFile, id + "_logfile.txt");
+
             PrintWriter logFile = new PrintWriter(
                     new FileOutputStream(logFileObject, true));
 
@@ -214,6 +219,7 @@ public class FoxServiceThread implements Callable<Integer> {
         String exam = in.readUTF();
 
         File examFileObject = new File(exam);
+        File studentFile = new File(examFileObject, id);
         if(!examFileObject.exists()) {
             out.writeUTF("Exam file is missing.");
             out.flush();
@@ -224,10 +230,10 @@ public class FoxServiceThread implements Callable<Integer> {
         }
 
         synchronized(LOCK) {
-            File temp = new File(examFileObject, fileName);
+            File temp = new File(studentFile, fileName);
             if(temp.exists()) // File exists, try finding new file name.
                 for(int i = 0; i < 100; i++) {
-                    temp = new File(examFileObject, i + "_" + fileName);
+                    temp = new File(studentFile, i + "_" + fileName);
                     if(!temp.exists()) {
                         fileName = i + "_" + fileName;
                         break;
@@ -237,7 +243,7 @@ public class FoxServiceThread implements Callable<Integer> {
             int byteCount;
             byte[] data = new byte[1024];
             InputStream os_in = socket.getInputStream();
-            File incomingFile = new File(examFileObject, fileName);
+            File incomingFile = new File(studentFile, fileName);
             FileOutputStream fileOut = new FileOutputStream(incomingFile); // Creates a file to be filled.
             // Read file data from the socket and write it to a created file.
             while((byteCount = os_in.read(data)) > 0)
@@ -246,7 +252,8 @@ public class FoxServiceThread implements Callable<Integer> {
 
             // Open file for reading to calculate it's MD5 checksum.
             PrintWriter logFile = new PrintWriter(
-                    new FileOutputStream(new File(exam, id + "_logfile.txt"),
+                    new FileOutputStream(new File(studentFile,
+                                                  id + "_logfile.txt"),
                                          true));
 
             logFile.print(id + " | ");

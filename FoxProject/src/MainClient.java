@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,7 +32,7 @@ public class MainClient extends javax.swing.JFrame {
     private String name;
     private String surname;
     private FoxClientUtilities fcu = new FoxClientUtilities();
-    Color c = new Color(26,126,36);
+    private Color c = new Color(26, 126, 36);
 
     ;
     /**
@@ -46,7 +46,6 @@ public class MainClient extends javax.swing.JFrame {
         ImageIcon img = new ImageIcon("fox.png");
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
-        
 
         try {
             examList = fcu.availableExams();
@@ -79,11 +78,6 @@ public class MainClient extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Yukleniyor = new javax.swing.JFrame();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
         FileChooserFrame = new javax.swing.JFrame();
         jFileChooser1 = new javax.swing.JFileChooser();
         GirisEkrani = new javax.swing.JPanel();
@@ -130,54 +124,6 @@ public class MainClient extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jCheckBox1 = new javax.swing.JCheckBox();
 
-        Yukleniyor.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        Yukleniyor.setTitle("Tilki");
-        Yukleniyor.setAlwaysOnTop(true);
-        Yukleniyor.setMinimumSize(new java.awt.Dimension(386, 177));
-        Yukleniyor.setResizable(false);
-
-        jLabel12.setText("Y\u00FCkleniyor");
-
-        jLabel13.setText("jLabel13");
-        jLabel13.setVisible(false);
-
-        jButton6.setText("Kapat");
-        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton6MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout YukleniyorLayout = new javax.swing.GroupLayout(Yukleniyor.getContentPane());
-        Yukleniyor.getContentPane().setLayout(YukleniyorLayout);
-        YukleniyorLayout.setHorizontalGroup(
-            YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(YukleniyorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(YukleniyorLayout.createSequentialGroup()
-                .addGap(167, 167, 167)
-                .addComponent(jButton6)
-                .addContainerGap(167, Short.MAX_VALUE))
-        );
-        YukleniyorLayout.setVerticalGroup(
-            YukleniyorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, YukleniyorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         FileChooserFrame.setTitle("Tilki");
         FileChooserFrame.setMinimumSize(new java.awt.Dimension(500, 500));
 
@@ -193,7 +139,9 @@ public class MainClient extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Tilki");
+        setMinimumSize(new java.awt.Dimension(630, 460));
         setPreferredSize(new java.awt.Dimension(630, 460));
+        setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
 
         GirisEkrani.setFont(GirisEkrani.getFont());
@@ -209,11 +157,6 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel7.setText("Ad");
 
-        surnameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                surnameTextFieldActionPerformed(evt);
-            }
-        });
         surnameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 surnameTextFieldKeyPressed(evt);
@@ -249,11 +192,6 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel4.setText("<html>S\u0131nava ba\u015Flamak i\u00E7in l\u00FCtfen gerekli bilgileri<br> doldurun ve s\u0131nav\u0131n\u0131z\u0131 se\u00E7in.<html/>\n");
 
-        keyField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                keyFieldActionPerformed(evt);
-            }
-        });
         keyField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 keyFieldKeyPressed(evt);
@@ -489,7 +427,7 @@ public class MainClient extends javax.swing.JFrame {
 
         jScrollPane3.setViewportView(jList2);
 
-        jButton3.setText("G\u00F6zat..");
+        jButton3.setText("G\u00F6zat...");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);
@@ -498,11 +436,6 @@ public class MainClient extends javax.swing.JFrame {
 
         jButton7.setText("S\u0131nav\u0131 Bitir");
         jButton7.setEnabled(false);
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton7MouseClicked(evt);
-            }
-        });
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -528,7 +461,7 @@ public class MainClient extends javax.swing.JFrame {
         jLabel14.setText("Ge\u00E7en S\u00FCre");
 
         jLabel15.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
-        jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 g\u00F6zat butonunu kullanarak ya da <br>s\u00FCr\u00FCkleyerek se\u00E7in ve y\u00FCkle tu\u015Funa bas\u0131n.</html>");
+        jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 G\u00F6zat butonunu kullanarak ya da <br>s\u00FCr\u00FCkleyerek se\u00E7in ve S\u0131nav\u0131 Bitir tu\u015Funa bas\u0131n.</html>");
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -721,12 +654,12 @@ public class MainClient extends javax.swing.JFrame {
         }catch(IOException e) {
             examList = null;
             jLabel2.setText("Ba\u011Flanamad\u0131.");
-             jLabel2.setForeground(Color.red);
+            jLabel2.setForeground(Color.red);
             jLabel2.setVisible(true);
         }catch(ClassNotFoundException e) {
             examList = null;
             jLabel2.setText("Eksik dosya.");
-             jLabel2.setForeground(Color.red);
+            jLabel2.setForeground(Color.red);
             jLabel2.setVisible(true);
         }
         jList1.setModel(new ExamListModel(examList));
@@ -798,10 +731,6 @@ public class MainClient extends javax.swing.JFrame {
 
         return hours + ":" + minutes + ":" + seconds;
     }
-    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jButton7MouseClicked
     private String zipName;
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         // TODO add your handling code here:
@@ -815,7 +744,6 @@ public class MainClient extends javax.swing.JFrame {
                 dlm.addElement(a);
         }
         jList2.setModel(dlm);
-
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void idTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyPressed
@@ -857,11 +785,6 @@ public class MainClient extends javax.swing.JFrame {
             loginButtonMouseClicked(temp);        // TODO add your handling code here:
     }//GEN-LAST:event_keyFieldKeyPressed
 
-    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jButton6MouseClicked
-
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
         // TODO add your handling code here:
         String command = evt.getActionCommand();
@@ -883,8 +806,14 @@ public class MainClient extends javax.swing.JFrame {
         FileChooserFrame.dispose();
     }//GEN-LAST:event_jFileChooser1ActionPerformed
 
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        if(jCheckBox1.isSelected())
+            jButton7.setEnabled(true);
+        else
+            jButton7.setEnabled(false);
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
+
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        
         if(jCheckBox1.isSelected()) {
             FileChooserFrame.setVisible(false);
             if(cam.status()) {
@@ -892,7 +821,7 @@ public class MainClient extends javax.swing.JFrame {
                 ArrayList<File> filesThatWillUpload = new ArrayList();
                 ListModel<String> lm = jList2.getModel();
 
-                String target_file = cam.personName + "." + cam.format; // fileThatYouWantToFilter
+                String target_file = cam.getPersonName() + "." + cam.getFormat(); // fileThatYouWantToFilter
                 File target_file_object = new File(target_file);
                 if(target_file_object.exists()) {
                     filesThatWillUpload.add(new File(target_file));
@@ -903,35 +832,28 @@ public class MainClient extends javax.swing.JFrame {
                                     i + "_" + target_file));
                     }
                 }
+                ArrayList<File> codeFiles = new ArrayList<File>();
                 for(int i = 0; i < lm.getSize(); i++)
-                    filesThatWillUpload.add(new File(lm.getElementAt(i)));
+                    codeFiles.add(new File(lm.getElementAt(i)));
                 updatingTime.terminate();
                 File[] temp = new File[filesThatWillUpload.size()];
-                ZipAndUpload zau = new ZipAndUpload(filesThatWillUpload.toArray(
-                        temp), number, jLabel16.getText());
+                File[] temp2 = new File[codeFiles.size()];
+                ZipAndUpload zau = new ZipAndUpload(codeFiles.toArray(temp2),
+                                                    filesThatWillUpload.toArray(
+                                                            temp), number,
+                                                    jLabel16.getText());
                 zau.setVisible(true);
+                for(Component component : jList2.getComponents())
+                    component.setEnabled(false);
+                jList2.setEnabled(false);
                 for(Component component : VideoKayitEkrani.getComponents())
                     component.setEnabled(false);
+                VideoKayitEkrani.setEnabled(false);
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             }
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void surnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_surnameTextFieldActionPerformed
-
-    private void keyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_keyFieldActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if(jCheckBox1.isSelected())
-            jButton7.setEnabled(true);
-        else     
-            jButton7.setEnabled(false);
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -959,20 +881,16 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
     private javax.swing.JPanel VideoKayitEkrani;
-    private javax.swing.JFrame Yukleniyor;
     private javax.swing.JTextField idTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -986,7 +904,6 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
-    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
