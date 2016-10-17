@@ -16,27 +16,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.swing.JDialog;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.DEFAULT_OPTION;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import javax.swing.SwingWorker;
 
 public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                                                                 PropertyChangeListener {
-    private File[] files;
+    private File[] codeFiles;
+    private boolean codeFilesAreDone = false;
+    private File[] videoFiles;
     private String name;
     private String id;
     private String checksum;
     private ZipAndUpload.Task task;
-    private static volatile int state;
     private static int ZIP_STATE = 0;
     private static int UPLOAD_STATE = 1;
-    private static volatile String CURRENT_FILE;
-    private static final ArrayList<String> list = new ArrayList<String>();
+    private static ConcurrentLinkedQueue<String> list = new ConcurrentLinkedQueue<String>();
 
     private class Task extends SwingWorker<String, Void> {
         /*
@@ -45,9 +48,38 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         @Override
         public String doInBackground() throws IOException {
             try {
-                String zipName = createZipFile(files);
+                String zipName = createZipFile(codeFiles);
                 checksum = sendFile(zipName, name, id);
+                codeFilesAreDone = true;
                 checksum = checksum.toUpperCase();
+                list.add(
+                        "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\n"
+                        + "Çözümleriniz karşıya yüklenmiştir. Programı kapatmadan önce\n"
+                        + "kullanım verilerinizin karşıya yüklenmesini bekleyiniz.\n\n");
+
+                FileWriter fw;
+                File f = null;
+                try {
+                    f = new File("checksum.log");
+                    fw = new FileWriter(f);
+                    fw.write(checksum);
+                    fw.close();
+                }catch(IOException ex) {
+                    Logger.getLogger(ZipAndUpload.class.getName()).
+                            log(Level.SEVERE, null, ex);
+                }
+                list.add(
+                        "G\u00F6nderdi\u011Finiz dosyan\u0131n MD5 do\u011Frulama kodu:");
+                list.add("\n" + checksum + "\n");
+                list.add("MD5 do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
+                list.add("\n" + f.getAbsolutePath() + "\n");
+                list.add("Belirtilen dizinde bulabilirsiniz.\n\n");
+                task.firePropertyChange("message", 0, 1);
+                String temp = createZipFile(videoFiles);
+                //task.firePropertyChange("test", 1, 2);
+                sendFile(temp, name, id);
+                list.add(
+                        "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.");
             }catch(Exception e) {
                 e.printStackTrace();
             }
@@ -60,8 +92,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         @Override
         public void done() {
             progressBar.setValue(100);
-            taskOutput.append(
-                    "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\n\n\n");
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -72,31 +102,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 }
             });
             setCursor(null); //turn off the wait cursor
-            FileWriter fw;
-            File f = null;
-            try {
-                f = new File("checksum.log");
-                fw = new FileWriter(f);
-                fw.write(checksum);
-                fw.close();
-            }catch(IOException ex) {
-                Logger.getLogger(ZipAndUpload.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
-            taskOutput.
-                    append("G\u00F6nderdi\u011Finiz dosyan\u0131n MD5 do\u011Frulama kodu:\n");
-            taskOutput.append("----------\n" + checksum + "\n----------\n");
-            taskOutput.append(
-                    "MD5 do\u011Frulama kodunuz kaydedilmi\u015Ftir:\n");
-            taskOutput.append(
-                    "----------\n" + f.getAbsolutePath() + "\n----------\n");
-            taskOutput.append("Belirtilen dizinde bulabilirsiniz.");
-            String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
-            message += checksum.substring(0, 5) + " - " + checksum.
-                    substring(5, 10) + " - " + checksum.
-                    substring(10, 15);
-            JOptionPane.showMessageDialog(ZipAndUpload.this, message,
-                                          "Tilki", WARNING_MESSAGE);
         }
 
         /**
@@ -120,13 +125,16 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         private String createZipFile(File[] files) throws FileNotFoundException,
                                                           IOException {
-            state = ZIP_STATE;
-            String zipFileName = files[0].getName();
+            String zipFileName = videoFiles[0].getName();
             int pos = zipFileName.lastIndexOf('.');
             if(pos > 0)
                 zipFileName = zipFileName.substring(0, pos) + ".zip";
             else
                 zipFileName += ".zip";
+            if(codeFilesAreDone)
+                zipFileName = "videos_" + zipFileName;
+            else
+                zipFileName = "codes_" + zipFileName;
             FileOutputStream fos = new FileOutputStream(zipFileName);
             ZipOutputStream zos = new ZipOutputStream(fos);
             String fileName;
@@ -139,7 +147,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 //fileSize = new File(fileName).length();
                 fileSize = file.length();
                 FileInputStream fis = new FileInputStream(file);
-                CURRENT_FILE = file.getName();
+                list.add("Dosya zipleniyor: " + file.getName() + "\n");
                 ZipEntry zipEntry = new ZipEntry(fileName);
                 zos.putNextEntry(zipEntry);
                 byte[] buffer = new byte[4096];
@@ -185,7 +193,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         private String sendFile(String fileName, String id, String exam) throws FileNotFoundException, SecurityException, IOException {
             // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
-            state = UPLOAD_STATE;
+            list.add("Dosyalar y\u00FCkleniyor...\n");
             Socket socket = new Socket("localhost", 50101);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -199,7 +207,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             // Read file and send it over the socket.
             long fileSize = new File(fileName).length();
             FileInputStream fileIn = new FileInputStream(fileName);
-            CURRENT_FILE = fileName;
             OutputStream os_out = socket.getOutputStream();
             long sentBytes = 0;
             int progress = 0;
@@ -231,15 +238,18 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     }
 
     public ZipAndUpload() {
-        files = null;
+        codeFiles = null;
+        videoFiles = null;
         name = null;
         id = null;
         initComponents();
     }
 
-    public ZipAndUpload(File[] files, String name, String id) {
+    public ZipAndUpload(File[] codeFiles, File[] videoFiles, String name,
+                        String id) {
         this();
-        this.files = files;
+        this.codeFiles = codeFiles;
+        this.videoFiles = videoFiles;
         this.name = name;
         this.id = id;
     }
@@ -290,7 +300,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)))
+                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -301,7 +311,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(taskOutputScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addComponent(taskOutputScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -317,27 +327,38 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(state == ZIP_STATE && "progress".equals(evt.getPropertyName())) {
-            if(!list.contains(CURRENT_FILE)) {
-                taskOutput.append("Dosya zipleniyor: " + CURRENT_FILE + "\n");
-                list.add(CURRENT_FILE);
-            }
+        if("progress".equals(evt.getPropertyName())) {
+            while(!list.isEmpty())
+                taskOutput.append(list.poll());
             int progress = (Integer) evt.getNewValue();
             if(progressBar.getValue() == 100)
                 progressBar.setValue(0);
             else
                 progressBar.setValue(progress);
-        }else if(state == UPLOAD_STATE && "progress".equals(evt.
-                getPropertyName())) {
-            if(!list.contains(CURRENT_FILE)) {
-                taskOutput.append("Dosyalar y\u00FCkleniyor..\n");
-                list.add(CURRENT_FILE);
-            }
-            int progress = (Integer) evt.getNewValue();
-            if(progressBar.getValue() == 100)
-                progressBar.setValue(0);
-            else
-                progressBar.setValue(progress);
+        }
+        if("message".equals(evt.getPropertyName())) {
+            Object[] option = {"Tamam"};
+            String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
+            message += checksum.substring(0, 5) + " - " + checksum.
+                    substring(5, 10) + " - " + checksum.
+                    substring(10, 15);
+            JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
+                                               DEFAULT_OPTION, null, option);
+            JDialog dialog = pane.createDialog(this, "Doğrulama Kodu");
+            dialog.setModal(false);
+            dialog.setVisible(true);
+        }
+        if("test".equals(evt.getPropertyName())) {
+            Toolkit.getDefaultToolkit().beep();
+            startButton.setEnabled(true);
+            ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            startButton.setText("\u0130ptal Et");
+            startButton.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    System.exit(0);
+                }
+            });
+            setCursor(null); //turn off the wait cursor
         }
     }
 
