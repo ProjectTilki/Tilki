@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.JDialog;
@@ -31,17 +29,20 @@ import javax.swing.SwingWorker;
 public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                                                                 PropertyChangeListener {
     private File[] codeFiles;
+    private File checksumFileCodes;
+    private File checksumFileXor;
     private boolean codeFilesAreDone = false;
     private File[] videoFiles;
     private String name;
     private String id;
     private String codes_md5;
     private String videos_md5;
+    private String xor_md5;
     private ZipAndUpload.Task task;
     private JDialog dialog1;
     private JDialog dialog2;
     private JDialog dialog3;
-    private static ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
+    private ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
 
     private class Task extends SwingWorker<String, Void> {
         /*
@@ -57,43 +58,26 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 queue.add(
                         "Çözümleriniz karşıya yüklenmiştir. Programı kapatmadan önce\n"
                         + "kullanım verilerinizin karşıya yüklenmesini bekleyiniz.\n\n");
-
-                FileWriter fw;
-                File f = null;
-                try {
-                    f = new File("codes.log");
-                    fw = new FileWriter(f);
-                    fw.write(codes_md5);
-                    fw.close();
-                }catch(IOException ex) {
-                    Logger.getLogger(ZipAndUpload.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
-                queue.add(
-                        "G\u00F6nderdi\u011Finiz dosyan\u0131n MD5 do\u011Frulama kodu:");
-                queue.add("\n" + codes_md5 + "\n");
-                queue.add("MD5 do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
-                queue.add("\n" + f.getAbsolutePath() + "\n");
-                queue.add("Belirtilen dizinde bulabilirsiniz.\n\n");
-                task.firePropertyChange("message1", 0, 1);
+                checksumFileCodes = new File("codes.log");
+                FileWriter fw = new FileWriter(checksumFileCodes);
+                fw.write(codes_md5);
+                fw.close();
+                task.firePropertyChange("enableCloseButton", 0, 1);
                 String temp = createZipFile(videoFiles);
                 videos_md5 = sendFile(temp, name, id);
-                try {
-                    f = new File("videos.log");
-                    fw = new FileWriter(f);
-                    fw.write(videos_md5);
-                    fw.close();
-                }catch(IOException ex) {
-                    Logger.getLogger(ZipAndUpload.class.getName()).
-                            log(Level.SEVERE, null, ex);
-                }
+                videos_md5 = videos_md5.toUpperCase();
+                xor_md5 = xorHex(codes_md5, videos_md5);
+                checksumFileXor = new File("xor.log");
+                fw = new FileWriter(checksumFileXor);
+                fw.write(xor_md5);
+                fw.close();
                 queue.add(
                         "Kullanım verileriniz karşıya yüklenmiştir.\n\n");
                 queue.add(
-                        "G\u00F6nderdi\u011Finiz dosyan\u0131n MD5 do\u011Frulama kodu:");
-                queue.add("\n" + videos_md5 + "\n");
-                queue.add("MD5 do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
-                queue.add("\n" + f.getAbsolutePath() + "\n");
+                        "Do\u011Frulama kodu:");
+                queue.add("\n" + xor_md5 + "\n");
+                queue.add("Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
+                queue.add("\n" + checksumFileXor.getAbsolutePath() + "\n");
                 queue.add("Belirtilen dizinde bulabilirsiniz.\n\n");
                 queue.add(
                         "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\nProgram\u0131 kapat\u0131p, s\u0131navdan \u00E7\u0131kabilirsiniz.");
@@ -114,6 +98,8 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             startButton.setEnabled(true);
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             startButton.setText("<html>Program\u0131<br>Kapat<html>");
+            for(ActionListener listener : startButton.getActionListeners())
+                startButton.removeActionListener(listener);
             startButton.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     System.exit(0);
@@ -265,6 +251,30 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             socket.close();
             return checksum;
         }
+
+        private String xorHex(String a, String b) {
+            char[] chars = new char[a.length()];
+            for(int i = 0; i < chars.length; i++)
+                chars[i] = toHex(fromHex(a.charAt(i)) ^ fromHex(b.charAt(i)));
+            return new String(chars);
+        }
+
+        private int fromHex(char c) {
+            if(c >= '0' && c <= '9')
+                return c - '0';
+
+            if(c >= 'A' && c <= 'F')
+                return c - 'A' + 10;
+            if(c >= 'a' && c <= 'f')
+                return c - 'a' + 10;
+            throw new IllegalArgumentException();
+        }
+
+        private char toHex(int index) {
+            if(index < 0 || index > 15)
+                throw new IllegalArgumentException();
+            return "0123456789ABCDEF".charAt(index);
+        }
     }
 
     public ZipAndUpload() {
@@ -366,25 +376,48 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             else
                 progressBar.setValue(progress);
         }
-        if("message1".equals(evt.getPropertyName())) {
-            Object[] option = {"Tamam"};
-            String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
-            message += codes_md5.substring(0, 5) + " - " + codes_md5.
-                    substring(5, 10) + " - " + codes_md5.
-                    substring(10, 15);
-            JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                                               DEFAULT_OPTION, null, option);
-            dialog1 = pane.createDialog(this, "Do\u011Frulama Kodu");
-            dialog1.setModal(false);
-            dialog1.setVisible(true);
+        if("enableCloseButton".equals(evt.getPropertyName())) {
+            progressBar.setValue(100);
+            Toolkit.getDefaultToolkit().beep();
+            startButton.setEnabled(true);
+            ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            startButton.setText("İptal");
+            for(ActionListener listener : startButton.getActionListeners())
+                startButton.removeActionListener(listener);
+            startButton.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    taskOutput.append(
+                            "Do\u011Frulama kodu:");
+                    taskOutput.append("\n" + codes_md5 + "\n");
+                    taskOutput.append(
+                            "Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
+                    taskOutput.append(
+                            "\n" + checksumFileCodes.getAbsolutePath() + "\n");
+                    taskOutput.append("Belirtilen dizinde bulabilirsiniz.\n\n");
+                    while(!queue.isEmpty())
+                        taskOutput.append(queue.poll());
+                    Object[] option = {"Tamam"};
+                    String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
+                    message += codes_md5.substring(0, 5) + " - " + codes_md5.
+                            substring(5, 10) + " - " + codes_md5.
+                            substring(10, 15);
+                    JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
+                                                       DEFAULT_OPTION, null,
+                                                       option);
+                    dialog1 = pane.createDialog(null, "Do\u011Frulama Kodu");
+                    dialog1.setModal(false);
+                    dialog1.setVisible(true);
+                    task.cancel(true);
+                }
+            });
         }
         if("message2".equals(evt.getPropertyName())) {
             while(!queue.isEmpty())
                 taskOutput.append(queue.poll());
             Object[] option = {"Tamam"};
             String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
-            message += videos_md5.substring(0, 5) + " - " + videos_md5.
-                    substring(5, 10) + " - " + videos_md5.
+            message += xor_md5.substring(0, 5) + " - " + xor_md5.
+                    substring(5, 10) + " - " + xor_md5.
                     substring(10, 15);
             JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
                                                DEFAULT_OPTION, null, option);
