@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,7 +38,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         this.jLabel2 = new JLabel("sa");
         fcu = new FoxClientUtilities();
         initComponents();
-        
+
         ImageIcon img = new ImageIcon("fox.png");
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
@@ -96,7 +95,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tilki");
 
         jLabel1.setText("S\u0131nav Ad\u0131");

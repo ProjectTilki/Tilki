@@ -44,7 +44,6 @@ public class FoxServer {
                 availableProcessors() + 1);
 
         Socket clientSocket = null;
-
         while(true) {
             try {
                 clientSocket = serverSocket.accept();

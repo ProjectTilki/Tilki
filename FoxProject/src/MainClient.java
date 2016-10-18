@@ -50,20 +50,20 @@ public class MainClient extends javax.swing.JFrame {
         try {
             examList = fcu.availableExams();
             jList1.setModel(new ExamListModel(examList));
-            jLabel2.setText("Ba\u011Fland\u0131.");
-            jLabel2.setForeground(c);
-            jLabel2.setVisible(true);
+            durumLabel.setText("Ba\u011Fland\u0131.");
+            durumLabel.setForeground(c);
+            durumLabel.setVisible(true);
         }catch(IOException e) {
             examList = null;
             jList1.setModel(new ExamListModel(examList));
-            jLabel2.setText("Ba\u011Flanamad\u0131.");
-            jLabel2.setVisible(true);
-            jLabel2.setForeground(Color.red);
+            durumLabel.setText("Ba\u011Flanamad\u0131.");
+            durumLabel.setVisible(true);
+            durumLabel.setForeground(Color.red);
         }catch(ClassNotFoundException e) {
             examList = null;
-            jLabel2.setText("Eksik dosya.");
-            jLabel2.setVisible(true);
-            jLabel2.setForeground(Color.red);
+            durumLabel.setText("Eksik dosya.");
+            durumLabel.setVisible(true);
+            durumLabel.setForeground(Color.red);
         }
         jList1.setModel(new ExamListModel(examList));
         jTextArea1.setText("");
@@ -105,9 +105,9 @@ public class MainClient extends javax.swing.JFrame {
         SagPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
+        yenileButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        durumLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
@@ -326,18 +326,18 @@ public class MainClient extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jButton1.setText("Yenile");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        yenileButton.setText("Yenile");
+        yenileButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                yenileButtonMouseClicked(evt);
             }
         });
 
         jLabel6.setText("S\u0131navlar");
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel2.setText("Durum");
-        jLabel2.setVisible(false);
+        durumLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        durumLabel.setText("Durum");
+        durumLabel.setVisible(false);
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -357,9 +357,9 @@ public class MainClient extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                         .addGroup(SagPanelLayout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(yenileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(durumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(SagPanelLayout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(jLabel11))
@@ -373,8 +373,8 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SagPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(yenileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(durumLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
@@ -597,6 +597,9 @@ public class MainClient extends javax.swing.JFrame {
                 }else
                     loginLabel.setText("Bilinmeyen hata.");
             }catch(IOException ex) {
+                durumLabel.setText("Ba\u011Flanamad\u0131");
+                durumLabel.setForeground(Color.red);
+                durumLabel.setVisible(true);
                 loginLabel.setText("Sunucuya eri\u015Filemiyor.");
                 loginLabel.setVisible(true);
                 examList = null;
@@ -608,20 +611,15 @@ public class MainClient extends javax.swing.JFrame {
                 loginLabel.setVisible(true);
                 examList = null;
                 jTextArea1.setText("");
-                jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
                 jList1.setModel(new ExamListModel(examList));
-            }else if(status == 1) {
-                //GozetmenKodu.setVisible(true);
-                //jLabel10.setText("Tekrardan ba\u011Flan\u0131ld\u0131.");
-            }else if(status == 2) {
-                //GozetmenKodu.setVisible(true);
-                //jLabel10.setText("Yeni kay\u0131t.");
             }else {
+                durumLabel.setText("Ba\u011Flanamad\u0131");
+                durumLabel.setForeground(Color.red);
+                durumLabel.setVisible(true);
                 loginLabel.setText("Sunucuya eri\u015Filemiyor.");
                 loginLabel.setVisible(true);
                 examList = null;
                 jTextArea1.setText("");
-                jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
                 jList1.setModel(new ExamListModel(examList));
             }
         }else if(name.isEmpty()) {
@@ -644,27 +642,27 @@ public class MainClient extends javax.swing.JFrame {
             loginLabel.setVisible(false);
     }//GEN-LAST:event_loginButtonMouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void yenileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yenileButtonMouseClicked
         // TODO add your handling code here:
         try {
             examList = fcu.availableExams();
-            jLabel2.setEnabled(true);
-            jLabel2.setText("Ba\u011Fland\u0131");
-            jLabel2.setForeground(c);
+            durumLabel.setEnabled(true);
+            durumLabel.setText("Ba\u011Fland\u0131");
+            durumLabel.setForeground(c);
         }catch(IOException e) {
             examList = null;
-            jLabel2.setText("Ba\u011Flanamad\u0131.");
-            jLabel2.setForeground(Color.red);
-            jLabel2.setVisible(true);
+            durumLabel.setText("Ba\u011Flanamad\u0131");
+            durumLabel.setForeground(Color.red);
+            durumLabel.setVisible(true);
         }catch(ClassNotFoundException e) {
             examList = null;
-            jLabel2.setText("Eksik dosya.");
-            jLabel2.setForeground(Color.red);
-            jLabel2.setVisible(true);
+            durumLabel.setText("Eksik dosya.");
+            durumLabel.setForeground(Color.red);
+            durumLabel.setVisible(true);
         }
         jList1.setModel(new ExamListModel(examList));
         jTextArea1.setText("");
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_yenileButtonMouseClicked
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
@@ -881,8 +879,8 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
     private javax.swing.JPanel VideoKayitEkrani;
+    private javax.swing.JLabel durumLabel;
     private javax.swing.JTextField idTextField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton7;
@@ -894,7 +892,6 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -922,6 +919,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel loginLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JTextField surnameTextField;
+    private javax.swing.JButton yenileButton;
     // End of variables declaration//GEN-END:variables
 
 }

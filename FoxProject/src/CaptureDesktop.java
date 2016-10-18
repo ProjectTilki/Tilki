@@ -22,8 +22,7 @@ public class CaptureDesktop {
 
         Codec videoCodec = videoCodecs.get(0);
         a = a.toLowerCase();
-        b = b.toLowerCase();
-        personName = a + "_" + b;
+        personName = a;
         format = videoCapture.getVideoFormat().getId().toString();
         String videoName = personName + "." + format;
         File videoFileObject = new File(personName + "." + format);
