@@ -32,7 +32,7 @@ public class FoxServer {
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
         try {
-            serverSocket = new ServerSocket(50101);
+            serverSocket = new ServerSocket(50101, 200);
         }catch(IOException ex) {
             Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, null,
                                                             ex);
@@ -40,8 +40,7 @@ public class FoxServer {
             System.exit(0);
         }
         futureList = new ArrayList<Future<Integer>>();
-        executor = Executors.newFixedThreadPool(Runtime.getRuntime().
-                availableProcessors() + 1);
+        executor = Executors.newFixedThreadPool(200);
 
         Socket clientSocket = null;
         while(true) {
