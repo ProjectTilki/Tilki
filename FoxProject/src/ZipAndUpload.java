@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
@@ -25,6 +26,7 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.DEFAULT_OPTION;
 import static javax.swing.JOptionPane.WARNING_MESSAGE;
 import javax.swing.SwingWorker;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
 public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                                                                 PropertyChangeListener {
@@ -43,6 +45,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private JDialog dialog3;
     private ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
     private String instructorKey;
+    private Socket socket;
 
     private class Task extends SwingWorker<String, Void> {
         /*
@@ -50,38 +53,36 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         @Override
         public String doInBackground() throws IOException {
-            try {
-                String zipName = createZipFile(codeFiles);
-                codes_md5 = sendFile(zipName, name, id);
-                codeFilesAreDone = true;
-                codes_md5 = codes_md5.toUpperCase();
-                queue.add(
-                        "Çözümleriniz karşıya yüklenmiştir. Programı kapatmadan önce\n"
-                        + "kullanım verilerinizin karşıya yüklenmesini bekleyiniz.\n\n");
-                logFile = new File("tilki.log");
-                FileWriter fw = new FileWriter(logFile, true);
-                fw.append(codes_md5 + "\n");
-                task.firePropertyChange("enableCloseButton", 0, 1);
-                String temp = createZipFile(videoFiles);
-                videos_md5 = sendFile(temp, name, id);
-                videos_md5 = videos_md5.toUpperCase();
-                xor_md5 = xorHex(codes_md5, videos_md5);
-                fw.append(xor_md5 + "\n");
-                fw.close();
-                queue.add(
-                        "Kullanım verileriniz karşıya yüklenmiştir.\n\n");
-                queue.add(
-                        "Do\u011Frulama kodu:");
-                queue.add("\n" + xor_md5 + "\n");
-                queue.add("Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
-                queue.add("\n" + logFile.getAbsolutePath() + "\n");
-                queue.add("Belirtilen dizinde bulabilirsiniz.\n\n");
-                queue.add(
-                        "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\nProgram\u0131 kapat\u0131p, s\u0131navdan \u00E7\u0131kabilirsiniz.");
-                task.firePropertyChange("message", 0, 1);
-            }catch(Exception e) {
-                e.printStackTrace();
-            }
+            String zipName = createZipFile(codeFiles);
+            codes_md5 = sendFile(zipName, name, id);
+            codeFilesAreDone = true;
+            codes_md5 = codes_md5.toUpperCase();
+            queue.add(
+                    "Çözümleriniz karşıya yüklenmiştir. Programı kapatmadan önce\n"
+                    + "kullanım verilerinizin karşıya yüklenmesini bekleyiniz.\n\n");
+            logFile = new File("tilki.log");
+            FileWriter fw = new FileWriter(logFile, true);
+            fw.append(codes_md5 + "\n");
+            task.firePropertyChange("enableCloseButton", 0, 1);
+            String temp = createZipFile(videoFiles);
+            if(Thread.currentThread().isInterrupted())
+                return "";
+            videos_md5 = sendFile(temp, name, id);
+            videos_md5 = videos_md5.toUpperCase();
+            xor_md5 = xorHex(codes_md5, videos_md5);
+            fw.append(xor_md5 + "\n");
+            fw.close();
+            queue.add(
+                    "Kullanım verileriniz karşıya yüklenmiştir.\n\n");
+            queue.add(
+                    "Do\u011Frulama kodu:");
+            queue.add("\n" + xor_md5 + "\n");
+            queue.add("Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
+            queue.add("\n" + logFile.getAbsolutePath() + "\n");
+            queue.add("Belirtilen dizinde bulabilirsiniz.\n\n");
+            queue.add(
+                    "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\nProgram\u0131 kapat\u0131p, s\u0131navdan \u00E7\u0131kabilirsiniz.");
+            task.firePropertyChange("message", 0, 1);
             return "";
         }
 
@@ -90,7 +91,27 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         @Override
         public void done() {
-            progressBar.setValue(100);
+            if(!task.isCancelled())
+                progressBar.setValue(100);
+            try {
+                get();
+            }catch(Exception ex) {
+                try {
+                    PrintWriter pw = new PrintWriter(new FileOutputStream(
+                            "error.log", true));
+                    ex.getCause().printStackTrace(pw);
+                }catch(IOException ex1) {
+                }
+                Object[] option = {"Tamam"};
+                String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana geldi.\nG\u00D6zetmeni \u00E7a\u011F\u0131r\u0131n\u0131z.\n";
+                JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
+                                                   DEFAULT_OPTION, null,
+                                                   option);
+                JDialog dialog = pane.createDialog(null, "Hata");
+                ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                dialog.setVisible(true);
+                return;
+            }
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -124,8 +145,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          *                               not exist or is a directory.
          * @throws IOException           If an I/O error occurs.
          */
-        private String createZipFile(File[] files) throws FileNotFoundException,
-                                                          IOException {
+        private String createZipFile(File[] files) throws IOException {
             String zipFileName = videoFiles[0].getName();
             int pos = zipFileName.lastIndexOf('.');
             if(pos > 0)
@@ -147,12 +167,16 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 fileName = file.getName();
                 fileSize = file.length();
                 FileInputStream fis = new FileInputStream(file);
+                if(Thread.currentThread().isInterrupted())
+                    return null;
                 queue.add("Dosya zipleniyor: " + file.getName() + "\n");
                 ZipEntry zipEntry = new ZipEntry(fileName);
                 zos.putNextEntry(zipEntry);
                 byte[] buffer = new byte[4096];
                 int length;
                 while((length = fis.read(buffer)) > 0) {
+                    if(Thread.currentThread().isInterrupted())
+                        break;
                     zos.write(buffer, 0, length);
                     sentBytes += length;
                     if(sentBytes >= fileSize / 100) {
@@ -191,9 +215,10 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          *                                       read access to the file.
          * @throws java.io.IOException           If an I/O error occurs.
          */
-        private String sendFile(String fileName, String id, String exam) throws FileNotFoundException, SecurityException, IOException {
-            // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
-            Socket socket = null;
+        private String sendFile(String fileName, String id, String exam) throws IOException {
+            // Create a socket and initialize it's streams.
+            // Create a socket and initialize it's streams.
+            socket = null;
             while(socket == null)
                 try {
                     socket = new Socket("localhost", 50101);
@@ -299,7 +324,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         taskOutputScrollPane = new javax.swing.JScrollPane();
@@ -366,7 +390,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         jPanel2.setMinimumSize(new java.awt.Dimension(502, 303));
 
         cancelLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cancelLabel.setText("Gözetmen Kodu");
+        cancelLabel.setText("G\u00F6zetmen Kodu");
 
         jButton1.setText("Tamam");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -441,8 +465,18 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             dialog1.setVisible(true);
             jPanel1.setVisible(true);
             jPanel2.setVisible(false);
-        }else
+            startButton.setEnabled(true);
+            for(ActionListener listener : startButton.getActionListeners())
+                startButton.removeActionListener(listener);
+            startButton.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent evt) {
+                    System.exit(0);
+                }
+            });
+        }else {
             jLabel1.setText("Gözetmen kodu yanlış.");
+            ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -470,17 +504,19 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 progressBar.setValue(progress);
         }
         if("enableCloseButton".equals(evt.getPropertyName())) {
-            progressBar.setValue(100);
-            Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
-            ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-            startButton.setText("İptal");
+            startButton.setText("\u0130ptal Et");
             for(ActionListener listener : startButton.getActionListeners())
                 startButton.removeActionListener(listener);
             startButton.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
+                    try {
+                        socket.close();
+                    }catch(IOException ex) {
+                    }
+                    task.cancel(true);
                     taskOutput.append(
-                            "Do\u011Frulama kodu:");
+                            "\nDo\u011Frulama kodu:");
                     taskOutput.append("\n" + codes_md5 + "\n");
                     taskOutput.append(
                             "Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
@@ -489,7 +525,8 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     taskOutput.append("Belirtilen dizinde bulabilirsiniz.\n\n");
                     while(!queue.isEmpty())
                         taskOutput.append(queue.poll());
-                    task.cancel(true);
+                    ZipAndUpload.this.setDefaultCloseOperation(
+                            DO_NOTHING_ON_CLOSE);
                     jPanel1.setVisible(false);
                     jPanel2.setVisible(true);
                 }
@@ -513,7 +550,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             if(dialog3 != null && dialog3.isVisible())
                 return;
             Object[] option = {"Tamam"};
-            String message = "Bağlantı kurulamadı, yeniden bağlanılıyor.\nLütfen internet bağlantınızı kontrol ediniz.";
+            String message = "Ba\u011Flant\u0131 kurulamad\u0131, yeniden ba\u011Flan\u0131l\u0131yor.\nL\u00FCtfen internet ba\u011Flant\u0131nız\u0131 kontrol ediniz.";
             JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
                                                DEFAULT_OPTION, null, option);
             dialog3 = pane.createDialog(this, "Do\u011Frulama Kodu");
