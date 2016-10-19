@@ -91,27 +91,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         @Override
         public void done() {
-            if(!task.isCancelled())
-                progressBar.setValue(100);
-            try {
-                get();
-            }catch(Exception ex) {
-                try {
-                    PrintWriter pw = new PrintWriter(new FileOutputStream(
-                            "error.log", true));
-                    ex.getCause().printStackTrace(pw);
-                }catch(IOException ex1) {
-                }
-                Object[] option = {"Tamam"};
-                String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana geldi.\nG\u00D6zetmeni \u00E7a\u011F\u0131r\u0131n\u0131z.\n";
-                JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                                                   DEFAULT_OPTION, null,
-                                                   option);
-                JDialog dialog = pane.createDialog(null, "Hata");
-                ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                dialog.setVisible(true);
-                return;
-            }
             Toolkit.getDefaultToolkit().beep();
             startButton.setEnabled(true);
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -123,7 +102,30 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     System.exit(0);
                 }
             });
-            setCursor(null); //turn off the wait cursor
+            startButton.setCursor(null); //turn off the wait cursor
+            if(!task.isCancelled())
+                progressBar.setValue(100);
+            try {
+                get();
+            }catch(Exception ex) {
+                try {
+                    PrintWriter pw = new PrintWriter(new FileOutputStream(
+                            "error.log", true));
+                    ex.getCause().printStackTrace(pw);
+                    pw.close();
+                }catch(IOException ex1) {
+                }
+                Object[] option = {"Tamam"};
+                String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana geldi.\nL\u00FCtfen g\u00F6zetmeni \u00E7a\u011F\u0131r\u0131n\u0131z\nve program\u0131 yeniden ba\u015Flat\u0131n\u0131z.\n";
+                JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
+                                                   DEFAULT_OPTION, null,
+                                                   option);
+                JDialog dialog = pane.createDialog(null,
+                                                   "Ba\u011Flant\u0131 Hatas\u0131");
+                ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                dialog.setVisible(true);
+                return;
+            }
         }
 
         /**
@@ -314,6 +316,10 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         this.name = name;
         this.id = id;
         this.instructorKey = instructorKey;
+    }
+
+    public File getLogFile() {
+        return logFile;
     }
 
     /**

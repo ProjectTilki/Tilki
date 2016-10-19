@@ -6,10 +6,15 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -34,6 +39,7 @@ public class MainClient extends javax.swing.JFrame {
     private String name;
     private String surname;
     private String instructorKey;
+    private static ZipAndUpload zau;
     private FoxClientUtilities fcu = new FoxClientUtilities();
     private Color c = new Color(26, 126, 36);
 
@@ -853,11 +859,11 @@ public class MainClient extends javax.swing.JFrame {
                 updatingTime.terminate();
                 File[] temp = new File[filesThatWillUpload.size()];
                 File[] temp2 = new File[codeFiles.size()];
-                ZipAndUpload zau = new ZipAndUpload(codeFiles.toArray(temp2),
-                                                    filesThatWillUpload.toArray(
-                                                            temp), number,
-                                                    jLabel16.getText(),
-                                                    instructorKey);
+                zau = new ZipAndUpload(codeFiles.toArray(temp2),
+                                       filesThatWillUpload.toArray(
+                                               temp), number,
+                                       jLabel16.getText(),
+                                       instructorKey);
                 zau.setVisible(true);
                 for(Component component : jList2.getComponents())
                     component.setEnabled(false);
@@ -871,29 +877,59 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-
-        try {
-
-            UIManager.setLookAndFeel(
-                    "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        }catch(Exception ex) {
+    private static class ShutDownHook extends Thread {
+        @Override
+        public void run() {
             try {
-                PrintWriter pw = new PrintWriter(new FileOutputStream(
-                        "error.log", true));
-                ex.getCause().printStackTrace(pw);
-            }catch(IOException ex1) {
+                BufferedReader fileIn;
+                File logFile = zau.getLogFile();
+                if(logFile.exists() && !logFile.isDirectory())
+                    fileIn = new BufferedReader(new FileReader(logFile));
+                else
+                    return;
+                Socket socket = new Socket("localhost", 50101);
+                socket.setSoTimeout(1000);
+                DataOutputStream socketOut = new DataOutputStream(socket.
+                        getOutputStream());
+                DataInputStream socketIn = new DataInputStream(socket.
+                        getInputStream());
+                socketOut.writeUTF("Sending error logs.");
+                String line;
+                while((line = fileIn.readLine()) != null)
+                    socketOut.writeUTF(line);
+                socketIn.readUTF();
+                fileIn.close();
+                socket.close();
+            }catch(Exception ex) {
             }
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainClient().setVisible(true);
+        /**
+         * @param args the command line arguments
+         */
+        public static void main(String args[]) {
+            ShutDownHook hook = new ShutDownHook();
+            Runtime.getRuntime().addShutdownHook(hook);
+
+            try {
+
+                UIManager.setLookAndFeel(
+                        "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            }catch(Exception ex) {
+                try {
+                    PrintWriter pw = new PrintWriter(new FileOutputStream(
+                            "error.log", true));
+                    ex.getCause().printStackTrace(pw);
+                }catch(IOException ex1) {
+                }
             }
-        });
+
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new MainClient().setVisible(true);
+                }
+            });
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
