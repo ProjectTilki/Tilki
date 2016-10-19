@@ -3,7 +3,6 @@ import com.teamdev.jxcapture.CompressionQuality;
 import com.teamdev.jxcapture.EncodingParameters;
 import com.teamdev.jxcapture.VideoCapture;
 import com.teamdev.jxcapture.video.FullScreen;
-import com.teamdev.jxcapture.video.VideoFormat;
 import java.awt.Dimension;
 import java.io.File;
 
@@ -15,8 +14,6 @@ public class CaptureDesktop {
 
     public void StartCaptureDesktop(String a, String b) {
         videoCapture.setVideoSource(new FullScreen());
-        java.util.List<VideoFormat> videoFormats = VideoCapture.
-                getAvailableFormats();
 
         java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
 

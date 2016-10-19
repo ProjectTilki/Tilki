@@ -7,7 +7,9 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -491,7 +493,7 @@ public class MainClient extends javax.swing.JFrame {
                             .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextArea2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VideoKayitEkraniLayout.createSequentialGroup()
-                                .addGap(0, 51, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VideoKayitEkraniLayout.createSequentialGroup()
@@ -505,7 +507,7 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
@@ -527,7 +529,7 @@ public class MainClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         getContentPane().add(VideoKayitEkrani, "card3");
@@ -586,6 +588,13 @@ public class MainClient extends javax.swing.JFrame {
                                 }
                                 jList2.setModel(dlm);
                             }catch(Exception ex) {
+                                try {
+                                    PrintWriter pw = new PrintWriter(
+                                            new FileOutputStream(
+                                                    "error.log", true));
+                                    ex.getCause().printStackTrace(pw);
+                                }catch(IOException ex1) {
+                                }
                             }
                         }
                     });
@@ -690,8 +699,13 @@ public class MainClient extends javax.swing.JFrame {
             try {
                 while(running)
                     updateTime();
-            }catch(Exception ie) {
-
+            }catch(Exception ex) {
+                try {
+                    PrintWriter pw = new PrintWriter(new FileOutputStream(
+                            "error.log", true));
+                    ex.getCause().printStackTrace(pw);
+                }catch(IOException ex1) {
+                }
             }
         }
     }
@@ -702,8 +716,13 @@ public class MainClient extends javax.swing.JFrame {
             jLabel9.setText(getTimeElapsed());
             //Thread sleeping for 1 sec
             Thread.currentThread().sleep(1000);
-        }catch(Exception e) {
-            System.out.println("Exception in Thread Sleep : " + e);
+        }catch(Exception ex) {
+            try {
+                PrintWriter pw = new PrintWriter(new FileOutputStream(
+                        "error.log", true));
+                ex.getCause().printStackTrace(pw);
+            }catch(IOException ex1) {
+            }
         }
     }
     private long timeAtStart = 0;
@@ -861,8 +880,13 @@ public class MainClient extends javax.swing.JFrame {
 
             UIManager.setLookAndFeel(
                     "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        }catch(Exception e) {
-
+        }catch(Exception ex) {
+            try {
+                PrintWriter pw = new PrintWriter(new FileOutputStream(
+                        "error.log", true));
+                ex.getCause().printStackTrace(pw);
+            }catch(IOException ex1) {
+            }
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
