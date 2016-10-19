@@ -29,8 +29,7 @@ import javax.swing.SwingWorker;
 public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                                                                 PropertyChangeListener {
     private File[] codeFiles;
-    private File checksumFileCodes;
-    private File checksumFileXor;
+    private File logFile;
     private boolean codeFilesAreDone = false;
     private File[] videoFiles;
     private String name;
@@ -43,6 +42,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private JDialog dialog2;
     private JDialog dialog3;
     private ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
+    private String instructorKey;
 
     private class Task extends SwingWorker<String, Void> {
         /*
@@ -58,18 +58,15 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 queue.add(
                         "Çözümleriniz karşıya yüklenmiştir. Programı kapatmadan önce\n"
                         + "kullanım verilerinizin karşıya yüklenmesini bekleyiniz.\n\n");
-                checksumFileCodes = new File("codes.log");
-                FileWriter fw = new FileWriter(checksumFileCodes);
-                fw.write(codes_md5);
-                fw.close();
+                logFile = new File("tilki.log");
+                FileWriter fw = new FileWriter(logFile, true);
+                fw.append(codes_md5 + "\n");
                 task.firePropertyChange("enableCloseButton", 0, 1);
                 String temp = createZipFile(videoFiles);
                 videos_md5 = sendFile(temp, name, id);
                 videos_md5 = videos_md5.toUpperCase();
                 xor_md5 = xorHex(codes_md5, videos_md5);
-                checksumFileXor = new File("xor.log");
-                fw = new FileWriter(checksumFileXor);
-                fw.write(xor_md5);
+                fw.append(xor_md5 + "\n");
                 fw.close();
                 queue.add(
                         "Kullanım verileriniz karşıya yüklenmiştir.\n\n");
@@ -77,11 +74,11 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                         "Do\u011Frulama kodu:");
                 queue.add("\n" + xor_md5 + "\n");
                 queue.add("Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
-                queue.add("\n" + checksumFileXor.getAbsolutePath() + "\n");
+                queue.add("\n" + logFile.getAbsolutePath() + "\n");
                 queue.add("Belirtilen dizinde bulabilirsiniz.\n\n");
                 queue.add(
                         "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\nProgram\u0131 kapat\u0131p, s\u0131navdan \u00E7\u0131kabilirsiniz.");
-                task.firePropertyChange("message2", 0, 1);
+                task.firePropertyChange("message", 0, 1);
             }catch(Exception e) {
                 e.printStackTrace();
             }
@@ -148,7 +145,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 int progress = 0;
                 sentBytes = 0;
                 fileName = file.getName();
-                //fileSize = new File(fileName).length();
                 fileSize = file.length();
                 FileInputStream fis = new FileInputStream(file);
                 queue.add("Dosya zipleniyor: " + file.getName() + "\n");
@@ -286,12 +282,13 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     }
 
     public ZipAndUpload(File[] codeFiles, File[] videoFiles, String name,
-                        String id) {
+                        String id, String instructorKey) {
         this();
         this.codeFiles = codeFiles;
         this.videoFiles = videoFiles;
         this.name = name;
         this.id = id;
+        this.instructorKey = instructorKey;
     }
 
     /**
@@ -302,20 +299,31 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        progressBar = new javax.swing.JProgressBar(0, 100);
-        startButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         taskOutputScrollPane = new javax.swing.JScrollPane();
         taskOutput = new javax.swing.JTextArea();
+        startButton = new javax.swing.JButton();
+        progressBar = new javax.swing.JProgressBar(0, 100);
+        jPanel2 = new javax.swing.JPanel();
+        cancelLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        cancelPassword = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Tilki");
-        setMaximumSize(new java.awt.Dimension(350, 250));
-        setMinimumSize(new java.awt.Dimension(350, 250));
+        setMinimumSize(new java.awt.Dimension(502, 303));
         setResizable(false);
+        getContentPane().setLayout(new java.awt.CardLayout());
 
-        progressBar.setValue(0);
-        progressBar.setStringPainted(true);
+        jPanel1.setMinimumSize(new java.awt.Dimension(502, 303));
+
+        taskOutput.setEditable(false);
+        taskOutput.setColumns(20);
+        taskOutput.setRows(5);
+        taskOutputScrollPane.setViewportView(taskOutput);
 
         startButton.setActionCommand("start");
         startButton.addActionListener(this);
@@ -324,41 +332,126 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         startButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         startButton.setMaximumSize(new java.awt.Dimension(75, 48));
 
-        taskOutput.setEditable(false);
-        taskOutput.setColumns(20);
-        taskOutput.setRows(5);
-        taskOutputScrollPane.setViewportView(taskOutput);
+        progressBar.setValue(0);
+        progressBar.setStringPainted(true);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(taskOutputScrollPane)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)))
+                        .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
+                    .addComponent(taskOutputScrollPane))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(taskOutputScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel1, "card2");
+
+        jPanel2.setMinimumSize(new java.awt.Dimension(502, 303));
+
+        cancelLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        cancelLabel.setText("Gözetmen Kodu");
+
+        jButton1.setText("Tamam");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        cancelPassword.setMinimumSize(new java.awt.Dimension(115, 27));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(180, 180, 180)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(cancelPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(180, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelLabel, cancelPassword, jButton1});
+
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(97, 97, 97)
+                .addComponent(cancelLabel)
                 .addGap(18, 18, 18)
-                .addComponent(taskOutputScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addComponent(cancelPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
                 .addContainerGap())
         );
+
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cancelLabel, jLabel1});
+
+        getContentPane().add(jPanel2, "card3");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        if(cancelPassword.getPassword() == null)
+            return;
+        char[] password = cancelPassword.getPassword();
+        String temp = "";
+        for(int i = 0; i < password.length; i++)
+            temp += password[i];
+        if(instructorKey.equals(temp)) {
+            Object[] option = {"Tamam"};
+            String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
+            message += codes_md5.substring(0, 5) + " - " + codes_md5.
+                    substring(5, 10) + " - " + codes_md5.
+                    substring(10, 15);
+            JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
+                                               DEFAULT_OPTION, null,
+                                               option);
+            dialog1 = pane.createDialog(null, "Do\u011Frulama Kodu");
+            dialog1.setModal(false);
+            dialog1.setVisible(true);
+            jPanel1.setVisible(true);
+            jPanel2.setVisible(false);
+        }else
+            jLabel1.setText("Gözetmen kodu yanlış.");
+    }//GEN-LAST:event_jButton1MouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel cancelLabel;
+    private javax.swing.JPasswordField cancelPassword;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JButton startButton;
     private javax.swing.JTextArea taskOutput;
@@ -392,26 +485,17 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     taskOutput.append(
                             "Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
                     taskOutput.append(
-                            "\n" + checksumFileCodes.getAbsolutePath() + "\n");
+                            "\n" + logFile.getAbsolutePath() + "\n");
                     taskOutput.append("Belirtilen dizinde bulabilirsiniz.\n\n");
                     while(!queue.isEmpty())
                         taskOutput.append(queue.poll());
-                    Object[] option = {"Tamam"};
-                    String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
-                    message += codes_md5.substring(0, 5) + " - " + codes_md5.
-                            substring(5, 10) + " - " + codes_md5.
-                            substring(10, 15);
-                    JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                                                       DEFAULT_OPTION, null,
-                                                       option);
-                    dialog1 = pane.createDialog(null, "Do\u011Frulama Kodu");
-                    dialog1.setModal(false);
-                    dialog1.setVisible(true);
                     task.cancel(true);
+                    jPanel1.setVisible(false);
+                    jPanel2.setVisible(true);
                 }
             });
         }
-        if("message2".equals(evt.getPropertyName())) {
+        if("message".equals(evt.getPropertyName())) {
             while(!queue.isEmpty())
                 taskOutput.append(queue.poll());
             Object[] option = {"Tamam"};

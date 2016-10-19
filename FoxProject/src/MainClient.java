@@ -31,10 +31,10 @@ public class MainClient extends javax.swing.JFrame {
     private String number;
     private String name;
     private String surname;
+    private String instructorKey;
     private FoxClientUtilities fcu = new FoxClientUtilities();
     private Color c = new Color(26, 126, 36);
 
-    ;
     /**
      *
      * Creates new form MainClient
@@ -241,12 +241,11 @@ public class MainClient extends javax.swing.JFrame {
                                                 .addComponent(jLabel8)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                                                .addComponent(keyField, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addComponent(keyField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addComponent(keyLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -257,8 +256,8 @@ public class MainClient extends javax.swing.JFrame {
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(SolPanelLayout.createSequentialGroup()
                                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
@@ -305,14 +304,14 @@ public class MainClient extends javax.swing.JFrame {
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(keyLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(keyField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(41, 41, 41)
-                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -412,8 +411,8 @@ public class MainClient extends javax.swing.JFrame {
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 10, Short.MAX_VALUE))
-                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
+                        .addGap(0, 15, Short.MAX_VALUE))
+                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -543,7 +542,7 @@ public class MainClient extends javax.swing.JFrame {
         surname = surnameTextField.getText();
         number = idTextField.getText();
         String className = jLabel16.getText();
-        String instructorKey = new String(keyField.getPassword());
+        instructorKey = new String(keyField.getPassword());
 
         if(!(name.isEmpty()) && !(surname.isEmpty())
            && !(number.isEmpty()) && !(className.equals(
@@ -587,7 +586,6 @@ public class MainClient extends javax.swing.JFrame {
                                 }
                                 jList2.setModel(dlm);
                             }catch(Exception ex) {
-                                ex.printStackTrace();
                             }
                         }
                     });
@@ -612,7 +610,7 @@ public class MainClient extends javax.swing.JFrame {
                 examList = null;
                 jTextArea1.setText("");
                 jList1.setModel(new ExamListModel(examList));
-            }else {
+            }else if(status == 4) {
                 durumLabel.setText("Ba\u011Flanamad\u0131");
                 durumLabel.setForeground(Color.red);
                 durumLabel.setVisible(true);
@@ -839,7 +837,8 @@ public class MainClient extends javax.swing.JFrame {
                 ZipAndUpload zau = new ZipAndUpload(codeFiles.toArray(temp2),
                                                     filesThatWillUpload.toArray(
                                                             temp), number,
-                                                    jLabel16.getText());
+                                                    jLabel16.getText(),
+                                                    instructorKey);
                 zau.setVisible(true);
                 for(Component component : jList2.getComponents())
                     component.setEnabled(false);
