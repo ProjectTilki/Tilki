@@ -1,10 +1,12 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
@@ -63,6 +65,8 @@ public class FoxServiceThread implements Callable<Integer> {
                 fileManager();
             else if(data.equals("List exams."))
                 examListManager();
+            else if(data.equals("Sending error logs."))
+                saveErrorLogs();
         }catch(Exception e) {
             throw e;
         }
@@ -330,5 +334,15 @@ public class FoxServiceThread implements Callable<Integer> {
             exams[i] = examList.get(i);
         oos.writeObject(exams); // Send exam list to the client.
         oos.flush();
+    }
+
+    private synchronized void saveErrorLogs() throws IOException {
+        File f = new File("clientErrors.log");
+        BufferedWriter fileOut = new BufferedWriter(new FileWriter(f, true));
+        String line;
+        while((line = in.readUTF()) != null)
+            fileOut.write(line + "\n");
+        out.writeUTF("Done.");
+        fileOut.close();
     }
 }
