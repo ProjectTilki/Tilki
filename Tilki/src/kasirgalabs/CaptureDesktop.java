@@ -1,3 +1,5 @@
+package kasirgalabs;
+
 import com.teamdev.jxcapture.Codec;
 import com.teamdev.jxcapture.CompressionQuality;
 import com.teamdev.jxcapture.EncodingParameters;
