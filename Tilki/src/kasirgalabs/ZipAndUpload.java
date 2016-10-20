@@ -1,3 +1,5 @@
+package kasirgalabs;
+
 import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -317,10 +319,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         this.name = name;
         this.id = id;
         this.instructorKey = instructorKey;
-    }
-
-    public File getLogFile() {
-        return logFile;
     }
 
     /**

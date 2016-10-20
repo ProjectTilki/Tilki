@@ -1,3 +1,5 @@
+package kasirgalabs;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
@@ -51,7 +53,7 @@ public class MainClient extends javax.swing.JFrame {
 
         initComponents();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("icon/Tilki.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
 
@@ -146,7 +148,7 @@ public class MainClient extends javax.swing.JFrame {
         });
         FileChooserFrame.getContentPane().add(jFileChooser1, java.awt.BorderLayout.CENTER);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tilki");
         setMinimumSize(new java.awt.Dimension(630, 460));
         setResizable(false);
@@ -598,6 +600,7 @@ public class MainClient extends javax.swing.JFrame {
                                             new FileOutputStream(
                                                     "error.log", true));
                                     ex.getCause().printStackTrace(pw);
+                                    pw.close();
                                 }catch(IOException ex1) {
                                 }
                             }
@@ -709,6 +712,7 @@ public class MainClient extends javax.swing.JFrame {
                     PrintWriter pw = new PrintWriter(new FileOutputStream(
                             "error.log", true));
                     ex.getCause().printStackTrace(pw);
+                    pw.close();
                 }catch(IOException ex1) {
                 }
             }
@@ -726,6 +730,7 @@ public class MainClient extends javax.swing.JFrame {
                 PrintWriter pw = new PrintWriter(new FileOutputStream(
                         "error.log", true));
                 ex.getCause().printStackTrace(pw);
+                pw.close();
             }catch(IOException ex1) {
             }
         }
@@ -834,6 +839,7 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
         if(jCheckBox1.isSelected()) {
             FileChooserFrame.setVisible(false);
             if(cam.status()) {
@@ -873,7 +879,6 @@ public class MainClient extends javax.swing.JFrame {
                 this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             }
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private static class ShutDownHook extends Thread {
@@ -881,9 +886,9 @@ public class MainClient extends javax.swing.JFrame {
         public void run() {
             try {
                 BufferedReader fileIn;
-                File logFile = zau.getLogFile();
-                if(logFile.exists() && !logFile.isDirectory())
-                    fileIn = new BufferedReader(new FileReader(logFile));
+                File errorLogFile = new File("error.log");
+                if(errorLogFile.exists() && !errorLogFile.isDirectory())
+                    fileIn = new BufferedReader(new FileReader(errorLogFile));
                 else
                     return;
                 Socket socket = new Socket("localhost", 50101);
@@ -902,32 +907,33 @@ public class MainClient extends javax.swing.JFrame {
             }catch(Exception ex) {
             }
         }
+    }
 
-        /**
-         * @param args the command line arguments
-         */
-        public static void main(String args[]) {
-            ShutDownHook hook = new ShutDownHook();
-            Runtime.getRuntime().addShutdownHook(hook);
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        ShutDownHook hook = new ShutDownHook();
+        Runtime.getRuntime().addShutdownHook(hook);
 
+        try {
+            UIManager.setLookAndFeel(
+                    "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        }catch(Exception ex) {
             try {
-                UIManager.setLookAndFeel(
-                        "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-            }catch(Exception ex) {
-                try {
-                    PrintWriter pw = new PrintWriter(new FileOutputStream(
-                            "error.log", true));
-                    ex.getCause().printStackTrace(pw);
-                }catch(IOException ex1) {
-                }
+                PrintWriter pw = new PrintWriter(new FileOutputStream(
+                        "error.log", true));
+                ex.getCause().printStackTrace(pw);
+                pw.close();
+            }catch(IOException ex1) {
             }
-
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new MainClient().setVisible(true);
-                }
-            });
         }
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainClient().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
