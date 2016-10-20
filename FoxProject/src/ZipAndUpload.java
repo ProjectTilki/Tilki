@@ -58,8 +58,8 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             codeFilesAreDone = true;
             codes_md5 = codes_md5.toUpperCase();
             queue.add(
-                    "Çözümleriniz karşıya yüklenmiştir. Programı kapatmadan önce\n"
-                    + "kullanım verilerinizin karşıya yüklenmesini bekleyiniz.\n\n");
+                    "\u00C7\u00F6z\u00FCmleriniz kar\u015F\u0131ya y\u00FCklenmi\u015Ftir. Program\u0131 kapatmadan \u00F6nce\n"
+                    + "kullan\u0131m verilerinizin kar\u015F\u0131ya y\u00FCklenmesini bekleyiniz.\n\n");
             logFile = new File("tilki.log");
             FileWriter fw = new FileWriter(logFile, true);
             fw.append(codes_md5 + "\n");
@@ -73,7 +73,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             fw.append(xor_md5 + "\n");
             fw.close();
             queue.add(
-                    "Kullanım verileriniz karşıya yüklenmiştir.\n\n");
+                    "Kullan\u0131m verileriniz kar\u015F\u0131ya y\u00FCklenmi\u015Ftir.\n\n");
             queue.add(
                     "Do\u011Frulama kodu:");
             queue.add("\n" + xor_md5 + "\n");
@@ -102,7 +102,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     System.exit(0);
                 }
             });
-            startButton.setCursor(null); //turn off the wait cursor
+            ZipAndUpload.this.setCursor(null); //turn off the wait cursor
             if(!task.isCancelled())
                 progressBar.setValue(100);
             try {
@@ -306,6 +306,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         name = null;
         id = null;
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     public ZipAndUpload(File[] codeFiles, File[] videoFiles, String name,
@@ -344,6 +345,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Tilki");
+        setLocation(new java.awt.Point(0, 0));
         setMinimumSize(new java.awt.Dimension(502, 303));
         setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
@@ -480,7 +482,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 }
             });
         }else {
-            jLabel1.setText("Gözetmen kodu yanlış.");
+            jLabel1.setText("G\u00F6zetmen kodu yanl\u0131\u015F.");
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
     }//GEN-LAST:event_jButton1MouseClicked

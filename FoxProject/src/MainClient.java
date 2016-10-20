@@ -149,7 +149,6 @@ public class MainClient extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Tilki");
         setMinimumSize(new java.awt.Dimension(630, 460));
-        setPreferredSize(new java.awt.Dimension(630, 460));
         setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
 
@@ -912,7 +911,6 @@ public class MainClient extends javax.swing.JFrame {
             Runtime.getRuntime().addShutdownHook(hook);
 
             try {
-
                 UIManager.setLookAndFeel(
                         "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
             }catch(Exception ex) {
