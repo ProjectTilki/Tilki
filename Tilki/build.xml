@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="FoxProject" default="default" basedir=".">
-    <description>Builds, tests, and runs the project FoxProject.</description>
+<project name="Tilki" default="default" basedir=".">
+    <description>Builds, tests, and runs the project Tilki.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -58,7 +58,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="FoxProject-impl.jar">
+        <target name="run" depends="Tilki-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>

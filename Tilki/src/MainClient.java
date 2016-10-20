@@ -51,7 +51,7 @@ public class MainClient extends javax.swing.JFrame {
 
         initComponents();
 
-        ImageIcon img = new ImageIcon("fox.png");
+        ImageIcon img = new ImageIcon(getClass().getResource("icon/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
 
