@@ -1,3 +1,5 @@
+package kasirgalabs;
+
 import java.io.Serializable;
 
 /**

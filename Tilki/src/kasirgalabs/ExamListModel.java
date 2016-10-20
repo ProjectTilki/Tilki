@@ -1,3 +1,5 @@
+package kasirgalabs;
+
 import javax.swing.AbstractListModel;
 
 public class ExamListModel extends AbstractListModel {
