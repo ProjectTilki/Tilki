@@ -150,14 +150,15 @@ public class MainClient extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tilki");
-        setMinimumSize(new java.awt.Dimension(630, 460));
+        setMinimumSize(new java.awt.Dimension(630, 360));
+        setPreferredSize(new java.awt.Dimension(630, 436));
         setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
 
         GirisEkrani.setFont(GirisEkrani.getFont());
         GirisEkrani.setMaximumSize(new java.awt.Dimension(9999, 4819));
         GirisEkrani.setMinimumSize(new java.awt.Dimension(0, 0));
-        GirisEkrani.setPreferredSize(new java.awt.Dimension(630, 460));
+        GirisEkrani.setPreferredSize(new java.awt.Dimension(630, 436));
 
         SolPanel.setPreferredSize(new java.awt.Dimension(297, 471));
 
@@ -418,10 +419,10 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 15, Short.MAX_VALUE))
-                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE))
+                        .addGap(0, 4, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -514,7 +515,7 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
@@ -536,7 +537,7 @@ public class MainClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         getContentPane().add(VideoKayitEkrani, "card3");
