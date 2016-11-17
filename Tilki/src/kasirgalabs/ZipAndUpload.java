@@ -85,7 +85,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             queue.add(
                     "\u0130\u015Flem ba\u015Far\u0131yla tamamland\u0131.\nProgram\u0131 kapat\u0131p, s\u0131navdan \u00E7\u0131kabilirsiniz.");
             task.firePropertyChange("message", 0, 1);
-            return "";
+            return xor_md5;
         }
 
         /*
@@ -113,7 +113,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 try {
                     PrintWriter pw = new PrintWriter(new FileOutputStream(
                             "error.log", true));
-                    ex.getCause().printStackTrace(pw);
+                    ex.printStackTrace(pw);
                     pw.close();
                 }catch(IOException ex1) {
                 }
@@ -225,7 +225,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             socket = null;
             while(socket == null)
                 try {
-                    socket = new Socket("localhost", 50101);
+                    socket = new Socket(MainClient.getIpAddress(), 50101);
                 }catch(Exception e) {
                     task.firePropertyChange("connectionError", 0, 1);
                     socket = null;
