@@ -8,15 +8,8 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -576,14 +569,7 @@ public class MainClient extends javax.swing.JFrame {
                                 }
                                 jList2.setModel(dlm);
                             }catch(Exception ex) {
-                                try {
-                                    PrintWriter pw = new PrintWriter(
-                                            new FileOutputStream(
-                                                    "error.log", true));
-                                    ex.getCause().printStackTrace(pw);
-                                    pw.close();
-                                }catch(IOException ex1) {
-                                }
+                                ClientExceptionHandler.logAnException(ex);
                             }
                         }
                     });
@@ -689,16 +675,7 @@ public class MainClient extends javax.swing.JFrame {
                 while(running)
                     updateTime();
             }catch(Exception ex) {
-                PrintWriter pw = null;
-                try {
-                    pw = new PrintWriter(new FileOutputStream(
-                            "error.log", true));
-                    ex.getCause().printStackTrace(pw);
-                }catch(FileNotFoundException ex0) {
-                }finally {
-                    if(pw != null)
-                        pw.close();
-                }
+                ClientExceptionHandler.logAnException(ex);
             }
         }
     }
@@ -710,13 +687,7 @@ public class MainClient extends javax.swing.JFrame {
             //Thread sleeping for 1 sec
             Thread.currentThread().sleep(1000);
         }catch(InterruptedException ex) {
-            try {
-                PrintWriter pw = new PrintWriter(new FileOutputStream(
-                        "error.log", true));
-                ex.getCause().printStackTrace(pw);
-                pw.close();
-            }catch(IOException ex1) {
-            }
+            ClientExceptionHandler.logAnException(ex);
         }
     }
     private long timeAtStart = 0;
@@ -868,25 +839,7 @@ public class MainClient extends javax.swing.JFrame {
     private static class ShutDownHook extends Thread {
         @Override
         public void run() {
-            try {
-                BufferedReader fileIn;
-                File errorLogFile = new File("error.log");
-                if(errorLogFile.exists() && !errorLogFile.isDirectory())
-                    fileIn = new BufferedReader(new FileReader(errorLogFile));
-                else
-                    return;
-
-                Socket socket = new Socket(getIpAddress(), 50101);
-                DataOutputStream socketOut = new DataOutputStream(socket.
-                        getOutputStream());
-                socketOut.writeUTF("Sending error logs.");
-                String line;
-                while((line = fileIn.readLine()) != null)
-                    socketOut.writeUTF(line);
-                fileIn.close();
-                socket.close();
-            }catch(Exception ex) {
-            }
+            ClientExceptionHandler.sendExceptionsToServer();
         }
     }
 
@@ -901,13 +854,7 @@ public class MainClient extends javax.swing.JFrame {
             UIManager.setLookAndFeel(
                     "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
         }catch(Exception ex) {
-            try {
-                PrintWriter pw = new PrintWriter(new FileOutputStream(
-                        "error.log", true));
-                ex.printStackTrace(pw);
-                pw.close();
-            }catch(IOException ex1) {
-            }
+            ClientExceptionHandler.logAnException(ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {

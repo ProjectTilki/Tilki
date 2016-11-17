@@ -4,6 +4,8 @@
 *.AVI
 *.zip
 checksum.log
+error.log
+clientErrors.log
 exam_list.txt
 /Tilki/nbproject/private/
 /Tilki/build/
