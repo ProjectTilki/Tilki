@@ -71,8 +71,9 @@ public class FoxServiceThread implements Callable<Integer> {
                 saveErrorLogs();
         }catch(Exception e) {
             throw e;
+        }finally {
+            socket.close();
         }
-        socket.close();
         return 1;
     }
 

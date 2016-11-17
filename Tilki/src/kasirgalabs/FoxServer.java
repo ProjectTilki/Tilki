@@ -44,6 +44,7 @@ public class FoxServer {
         futureList = new ArrayList<Future<Integer>>();
         executor = Executors.newFixedThreadPool(200);
 
+        //FoxServerSetup.main(null);
         Socket clientSocket = null;
         while(true) {
             try {
