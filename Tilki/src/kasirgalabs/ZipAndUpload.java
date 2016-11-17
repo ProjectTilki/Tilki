@@ -17,7 +17,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
@@ -110,13 +109,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             try {
                 get();
             }catch(Exception ex) {
-                try {
-                    PrintWriter pw = new PrintWriter(new FileOutputStream(
-                            "error.log", true));
-                    ex.printStackTrace(pw);
-                    pw.close();
-                }catch(IOException ex1) {
-                }
+                ClientExceptionHandler.logAnException(ex);
                 Object[] option = {"Tamam"};
                 String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana geldi.\nL\u00FCtfen g\u00F6zetmeni \u00E7a\u011F\u0131r\u0131n\u0131z\nve program\u0131 yeniden ba\u015Flat\u0131n\u0131z.\n";
                 JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
