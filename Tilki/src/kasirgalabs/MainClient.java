@@ -9,9 +9,9 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,6 +35,7 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
  * @author talha, gorkem, baturay
  */
 public class MainClient extends javax.swing.JFrame {
+    private static String ipAddress = "localhost";
     private Exam[] examList;
     private CaptureDesktop cam;
     private String number;
@@ -56,27 +57,6 @@ public class MainClient extends javax.swing.JFrame {
         ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
-
-        try {
-            examList = fcu.availableExams();
-            jList1.setModel(new ExamListModel(examList));
-            durumLabel.setText("Ba\u011Fland\u0131.");
-            durumLabel.setForeground(c);
-            durumLabel.setVisible(true);
-        }catch(IOException e) {
-            examList = null;
-            jList1.setModel(new ExamListModel(examList));
-            durumLabel.setText("Ba\u011Flanamad\u0131.");
-            durumLabel.setVisible(true);
-            durumLabel.setForeground(Color.red);
-        }catch(ClassNotFoundException e) {
-            examList = null;
-            durumLabel.setText("Eksik dosya.");
-            durumLabel.setVisible(true);
-            durumLabel.setForeground(Color.red);
-        }
-        jList1.setModel(new ExamListModel(examList));
-        jTextArea1.setText("");
     }
 
     /**
@@ -419,7 +399,7 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 412, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 4, Short.MAX_VALUE)))
@@ -709,12 +689,15 @@ public class MainClient extends javax.swing.JFrame {
                 while(running)
                     updateTime();
             }catch(Exception ex) {
+                PrintWriter pw = null;
                 try {
-                    PrintWriter pw = new PrintWriter(new FileOutputStream(
+                    pw = new PrintWriter(new FileOutputStream(
                             "error.log", true));
                     ex.getCause().printStackTrace(pw);
-                    pw.close();
-                }catch(IOException ex1) {
+                }catch(FileNotFoundException ex0) {
+                }finally {
+                    if(pw != null)
+                        pw.close();
                 }
             }
         }
@@ -726,7 +709,7 @@ public class MainClient extends javax.swing.JFrame {
             jLabel9.setText(getTimeElapsed());
             //Thread sleeping for 1 sec
             Thread.currentThread().sleep(1000);
-        }catch(Exception ex) {
+        }catch(InterruptedException ex) {
             try {
                 PrintWriter pw = new PrintWriter(new FileOutputStream(
                         "error.log", true));
@@ -777,7 +760,7 @@ public class MainClient extends javax.swing.JFrame {
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            loginButtonMouseClicked(temp);// TODO add your handling code here:
+            loginButtonMouseClicked(temp);
     }//GEN-LAST:event_idTextFieldKeyPressed
 
     private void nameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyPressed
@@ -808,7 +791,7 @@ public class MainClient extends javax.swing.JFrame {
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            loginButtonMouseClicked(temp);        // TODO add your handling code here:
+            loginButtonMouseClicked(temp);
     }//GEN-LAST:event_keyFieldKeyPressed
 
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
@@ -845,7 +828,7 @@ public class MainClient extends javax.swing.JFrame {
             FileChooserFrame.setVisible(false);
             if(cam.status()) {
                 cam.StopCaptureDesktop();
-                ArrayList<File> filesThatWillUpload = new ArrayList();
+                ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
                 ListModel<String> lm = jList2.getModel();
 
                 String target_file = cam.getPersonName() + "." + cam.getFormat(); // fileThatYouWantToFilter
@@ -859,7 +842,7 @@ public class MainClient extends javax.swing.JFrame {
                                     i + "_" + target_file));
                     }
                 }
-                ArrayList<File> codeFiles = new ArrayList<File>();
+                ArrayList<File> codeFiles = new ArrayList<File>(0);
                 for(int i = 0; i < lm.getSize(); i++)
                     codeFiles.add(new File(lm.getElementAt(i)));
                 updatingTime.terminate();
@@ -892,17 +875,14 @@ public class MainClient extends javax.swing.JFrame {
                     fileIn = new BufferedReader(new FileReader(errorLogFile));
                 else
                     return;
-                Socket socket = new Socket("localhost", 50101);
-                socket.setSoTimeout(1000);
+
+                Socket socket = new Socket(getIpAddress(), 50101);
                 DataOutputStream socketOut = new DataOutputStream(socket.
                         getOutputStream());
-                DataInputStream socketIn = new DataInputStream(socket.
-                        getInputStream());
                 socketOut.writeUTF("Sending error logs.");
                 String line;
                 while((line = fileIn.readLine()) != null)
                     socketOut.writeUTF(line);
-                socketIn.readUTF();
                 fileIn.close();
                 socket.close();
             }catch(Exception ex) {
@@ -924,7 +904,7 @@ public class MainClient extends javax.swing.JFrame {
             try {
                 PrintWriter pw = new PrintWriter(new FileOutputStream(
                         "error.log", true));
-                ex.getCause().printStackTrace(pw);
+                ex.printStackTrace(pw);
                 pw.close();
             }catch(IOException ex1) {
             }
@@ -935,6 +915,10 @@ public class MainClient extends javax.swing.JFrame {
                 new MainClient().setVisible(true);
             }
         });
+    }
+
+    public static String getIpAddress() {
+        return ipAddress;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

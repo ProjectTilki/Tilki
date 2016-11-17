@@ -54,7 +54,7 @@ public class FoxClientUtilities {
             throw new NullPointerException();
         // Save informations to instance variables.
 
-        Socket socket = new Socket("10.5.147.210", 50101); // Connect to the host.
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -98,7 +98,7 @@ public class FoxClientUtilities {
                                    String exam, String instructorKey) throws IOException {
         if(name == null || surname == null || id == null || exam == null || instructorKey == null)
             return -1;
-        Socket socket = new Socket("10.5.147.210", 50101); // Connect to the host.
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -134,7 +134,7 @@ public class FoxClientUtilities {
      * @see Exam
      */
     public Exam[] availableExams() throws IOException, ClassNotFoundException {
-        Socket socket = new Socket("10.5.147.210", 50101); // Connect to the host.
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -218,7 +218,7 @@ public class FoxClientUtilities {
                            Object object) throws FileNotFoundException, SecurityException, IOException {
         // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
         JProgressBar jpb = (JProgressBar) object;
-        Socket socket = new Socket("10.5.147.210", 50101);
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
