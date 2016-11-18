@@ -38,11 +38,17 @@ public class FoxServiceThread implements Callable<Integer> {
      * Constructor for initializing instance variables.
      *
      * @param socket The incoming socket for receiving and sending data.
+     *
+     * @throws java.io.IOException If an IO error occurs on socket's streams.
      */
     public FoxServiceThread(Socket socket) throws IOException {
-        this.socket = socket;
-        in = new DataInputStream(socket.getInputStream());
-        out = new DataOutputStream(socket.getOutputStream());
+        try {
+            this.socket = socket;
+            in = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+        }catch(Exception e) {
+            throw e;
+        }
     }
 
     /**
@@ -57,8 +63,8 @@ public class FoxServiceThread implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
-        String data = in.readUTF(); // Read the requested operation.
         try {
+            String data = in.readUTF(); // Read the requested operation.
             if(data.equals("Check in."))
                 checkInManager();
             else if(data.equals("Key verify."))
@@ -90,46 +96,53 @@ public class FoxServiceThread implements Callable<Integer> {
      * @throws IOException If an I/O error occurs.
      */
     private void checkInManager() throws IOException {
-        // Read informations from socket.
-        String name = in.readUTF();
-        String surname = in.readUTF();
-        String id = in.readUTF();
-        String exam = in.readUTF();
+        PrintWriter logFile = null;
+        try {
+            // Read informations from socket.
+            String name = in.readUTF();
+            String surname = in.readUTF();
+            String id = in.readUTF();
+            String exam = in.readUTF();
 
-        File examFileObject = new File(exam);
-        if(!examFileObject.exists()) { // Exam folder is missing.
-            out.writeUTF("0");
-            out.flush();
-            return;
-        }
-
-        File file = new File(examFileObject, id + "_logfile.txt");
-        boolean isCheckedIn = false;
-        if(file.exists()) // if log file is exists, student trying to reconnect else check in.
-            isCheckedIn = true;
-
-        synchronized(LOCK) {
-            PrintWriter logFile = new PrintWriter(new FileOutputStream(file,
-                                                                       true));
-            logFile.print(id + " | ");
-            logFile.print(name + " ");
-            logFile.print(surname + " | ");
-            if(isCheckedIn) {
-                logFile.print("--> Reconnected. | ");
-                out.writeUTF("1");
-            }else {
-                logFile.print("--> Check in. | ");
-                out.writeUTF("2");
+            File examFileObject = new File(exam);
+            if(!examFileObject.exists()) { // Exam folder is missing.
+                out.writeUTF("0");
+                out.flush();
+                return;
             }
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat(
-                    "yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            logFile.println(dateFormat.format(date));
+            File file = new File(examFileObject, id + "_logfile.txt");
+            boolean isCheckedIn = false;
+            if(file.exists()) // if log file is exists, student trying to reconnect else check in.
+                isCheckedIn = true;
 
-            logFile.close();
+            synchronized(LOCK) {
+                logFile = new PrintWriter(new FileOutputStream(file,
+                                                               true));
+                logFile.print(id + " | ");
+                logFile.print(name + " ");
+                logFile.print(surname + " | ");
+                if(isCheckedIn) {
+                    logFile.print("--> Reconnected. | ");
+                    out.writeUTF("1");
+                }else {
+                    logFile.print("--> Check in. | ");
+                    out.writeUTF("2");
+                }
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat(
+                        "yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
+                logFile.println(dateFormat.format(date));
+
+                logFile.close();
+            }
+        }catch(IOException e) {
+            throw e;
+        }finally {
+            if(logFile != null)
+                logFile.close();
         }
-        out.flush();
     }
 
     /**
@@ -221,69 +234,86 @@ public class FoxServiceThread implements Callable<Integer> {
      *                                  specified algorithm.
      */
     private void fileManager() throws IOException, NoSuchAlgorithmException {
-        String fileName = in.readUTF();
-        String id = in.readUTF();
-        String exam = in.readUTF();
+        PrintWriter logFile = null;
+        FileOutputStream fileOut = null;
+        FileInputStream fileIn = null;
+        try {
+            String fileName = in.readUTF();
+            String id = in.readUTF();
+            String exam = in.readUTF();
 
-        File examFileObject = new File(exam);
-        File studentFile = new File(examFileObject, id);
-        if(!examFileObject.exists()) {
-            out.writeUTF("Exam file is missing.");
-            out.flush();
-            return;
-        }else {
-            out.writeUTF("Exam file is found.");
-            out.flush();
-        }
+            File examFileObject = new File(exam);
+            File studentFile = new File(examFileObject, id);
+            if(!examFileObject.exists()) {
+                out.writeUTF("Exam file is missing.");
+                out.flush();
+                return;
+            }else {
+                out.writeUTF("Exam file is found.");
+                out.flush();
+            }
 
-        synchronized(LOCK) {
-            File temp = new File(studentFile, fileName);
-            if(temp.exists()) // File exists, try finding new file name.
-                for(int i = 0; i < 100; i++) {
-                    temp = new File(studentFile, i + "_" + fileName);
-                    if(!temp.exists()) {
-                        fileName = i + "_" + fileName;
-                        break;
+            synchronized(LOCK) {
+                File temp = new File(studentFile, fileName);
+                if(temp.exists()) // File exists, try finding new file name.
+                    for(int i = 0; i < 100; i++) {
+                        temp = new File(studentFile, i + "_" + fileName);
+                        if(!temp.exists()) {
+                            fileName = i + "_" + fileName;
+                            break;
+                        }
                     }
-                }
 
-            int byteCount;
-            byte[] data = new byte[1024];
-            InputStream os_in = socket.getInputStream();
-            File incomingFile = new File(studentFile, fileName);
-            FileOutputStream fileOut = new FileOutputStream(incomingFile); // Creates a file to be filled.
-            // Read file data from the socket and write it to a created file.
-            while((byteCount = os_in.read(data)) > 0)
-                fileOut.write(data, 0, byteCount);
-            fileOut.close();
+                int byteCount;
+                byte[] data = new byte[1024];
+                InputStream os_in = socket.getInputStream();
+                File incomingFile = new File(studentFile, fileName);
+                fileOut = new FileOutputStream(incomingFile); // Creates a file to be filled.
+                // Read file data from the socket and write it to a created file.
+                while((byteCount = os_in.read(data)) > 0)
+                    fileOut.write(data, 0, byteCount);
+                fileOut.close();
 
-            // Open file for reading to calculate it's MD5 checksum.
-            PrintWriter logFile = new PrintWriter(
-                    new FileOutputStream(new File(studentFile,
-                                                  id + "_logfile.txt"),
-                                         true));
+                // Open file for reading to calculate it's MD5 checksum.
+                logFile = new PrintWriter(
+                        new FileOutputStream(new File(studentFile,
+                                                      id + "_logfile.txt"),
+                                             true));
 
-            logFile.print(id + " | ");
-            logFile.print("File is received. | ");
-            SimpleDateFormat dateFormat = new SimpleDateFormat(
-                    "yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-            logFile.println(dateFormat.format(date));
-            logFile.close();
-            FileInputStream fileIn = new FileInputStream(incomingFile);
-            byte[] fileData = new byte[4096];
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            while((byteCount = fileIn.read(fileData)) > 0)
-                md.update(fileData, 0, byteCount);
-            fileIn.close();
-            byte[] rawChecksum = md.digest();
-            StringBuilder md5hex = new StringBuilder();
-            for(int i = 0; i < rawChecksum.length; i++)
-                md5hex.append(Integer.toString((rawChecksum[i] & 0xff) + 0x100,
-                                               16).substring(1));
-            out.writeUTF(md5hex.toString()); // Send MD5 checksum to the client.
+                logFile.print(id + " | ");
+                logFile.print("File is received. | ");
+                SimpleDateFormat dateFormat = new SimpleDateFormat(
+                        "yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
+                logFile.println(dateFormat.format(date));
+                logFile.close();
+                fileIn = new FileInputStream(incomingFile);
+                byte[] fileData = new byte[4096];
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                while((byteCount = fileIn.read(fileData)) > 0)
+                    md.update(fileData, 0, byteCount);
+                fileIn.close();
+                byte[] rawChecksum = md.digest();
+                StringBuilder md5hex = new StringBuilder();
+                for(int i = 0; i < rawChecksum.length; i++)
+                    md5hex.append(Integer.toString(
+                            (rawChecksum[i] & 0xff) + 0x100,
+                            16).substring(1));
+                out.writeUTF(md5hex.toString()); // Send MD5 checksum to the client.
+            }
+            out.flush();
+        }catch(IOException e) {
+            throw e;
+        }catch(NoSuchAlgorithmException e) {
+            throw e;
+        }finally {
+            if(logFile != null)
+                logFile.close();
+            if(fileIn != null)
+                logFile.close();
+            if(fileOut != null)
+                fileOut.close();
         }
-        out.flush();
     }
 
     /**
