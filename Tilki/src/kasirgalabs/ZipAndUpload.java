@@ -153,39 +153,52 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 zipFileName = "videos_" + zipFileName;
             else
                 zipFileName = "codes_" + zipFileName;
-            FileOutputStream fos = new FileOutputStream(zipFileName);
-            ZipOutputStream zos = new ZipOutputStream(fos);
-            String fileName;
-            long fileSize;
-            long sentBytes = 0;
-            for(File file : files) {
-                int progress = 0;
-                sentBytes = 0;
-                fileName = file.getName();
-                fileSize = file.length();
-                FileInputStream fis = new FileInputStream(file);
-                if(Thread.currentThread().isInterrupted())
-                    return null;
-                queue.add("Dosya zipleniyor: " + file.getName() + "\n");
-                ZipEntry zipEntry = new ZipEntry(fileName);
-                zos.putNextEntry(zipEntry);
-                byte[] buffer = new byte[4096];
-                int length;
-                while((length = fis.read(buffer)) > 0) {
+
+            FileOutputStream fos = null;
+            FileInputStream fis = null;
+            ZipOutputStream zos = null;
+            try {
+                fos = new FileOutputStream(zipFileName);
+                zos = new ZipOutputStream(fos);
+                String fileName;
+                long fileSize;
+                long sentBytes = 0;
+                for(File file : files) {
+                    int progress = 0;
+                    sentBytes = 0;
+                    fileName = file.getName();
+                    fileSize = file.length();
+                    fis = new FileInputStream(file);
                     if(Thread.currentThread().isInterrupted())
-                        break;
-                    zos.write(buffer, 0, length);
-                    sentBytes += length;
-                    if(sentBytes >= fileSize / 100) {
-                        sentBytes = 0;
-                        setProgress(progress++);
+                        return null;
+                    queue.add("Dosya zipleniyor: " + file.getName() + "\n");
+                    ZipEntry zipEntry = new ZipEntry(fileName);
+                    zos.putNextEntry(zipEntry);
+                    byte[] buffer = new byte[4096];
+                    int length;
+                    while((length = fis.read(buffer)) > 0 && !Thread.
+                            currentThread().
+                            isInterrupted()) {
+                        zos.write(buffer, 0, length);
+                        sentBytes += length;
+                        if(sentBytes >= fileSize / 100) {
+                            sentBytes = 0;
+                            setProgress(progress++);
+                        }
                     }
+                    zos.closeEntry();
+                    fis.close();
                 }
-                zos.closeEntry();
-                fis.close();
+            }catch(Exception e) {
+                throw e;
+            }finally {
+                if(zos != null)
+                    zos.close();
+                if(fos != null)
+                    fos.close();
+                if(fis != null)
+                    fis.close();
             }
-            zos.close();
-            fos.close();
             return zipFileName;
         }
 
@@ -198,7 +211,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          *                 directory.
          * @param id       The student id.
          * @param exam     The exam name.
-         * @param object
          *
          * @return Checksum of the file.
          *
@@ -214,59 +226,72 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         private String sendFile(String fileName, String id, String exam) throws IOException {
             // Create a socket and initialize it's streams.
-            // Create a socket and initialize it's streams.
             socket = null;
-            while(socket == null)
+            DataInputStream in = null;
+            DataOutputStream out = null;
+            FileInputStream fileIn = null;
+            OutputStream os_out = null;
+            String checksum = null;
+            while(socket == null && !Thread.currentThread().isInterrupted())
                 try {
                     socket = new Socket(MainClient.getIpAddress(), 50101);
-                }catch(Exception e) {
+                }catch(Exception ex0) {
+                    ClientExceptionHandler.logAnException(ex0);
                     task.firePropertyChange("connectionError", 0, 1);
                     socket = null;
                     try {
                         Thread.sleep(5000);
-                    }catch(InterruptedException ex) {
+                    }catch(InterruptedException ex1) {
+                        ClientExceptionHandler.logAnException(ex1);
                     }
                 }
-            task.firePropertyChange("connectionEstablished", 0, 1);
-            queue.add("Dosyalar y\u00FCkleniyor...\n");
-            DataInputStream in = new DataInputStream(socket.getInputStream());
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            try {
+                task.firePropertyChange("connectionEstablished", 0, 1);
+                queue.add("Dosyalar y\u00FCkleniyor...\n");
+                in = new DataInputStream(socket.getInputStream());
+                out = new DataOutputStream(socket.getOutputStream());
 
-            out.writeUTF("Sending file.");
-            out.writeUTF(fileName);
-            out.writeUTF(id);
-            out.writeUTF(exam);
-            out.flush();
+                out.writeUTF("Sending file.");
+                out.writeUTF(fileName);
+                out.writeUTF(id);
+                out.writeUTF(exam);
+                out.flush();
+                if(!in.readUTF().equals("Exam file is found."))
+                    return null;
 
-            // Read file and send it over the socket.
-            long fileSize = new File(fileName).length();
-            FileInputStream fileIn = new FileInputStream(fileName);
-            OutputStream os_out = socket.getOutputStream();
-            long sentBytes = 0;
-            int progress = 0;
-            int bytesCount;
-            byte[] fileData = new byte[1024];
-            do {
-                bytesCount = fileIn.read(fileData);
-                if(bytesCount > 0) {
-                    os_out.write(fileData, 0, bytesCount);
-                    sentBytes += bytesCount;
-                    if(sentBytes >= fileSize / 100) {
-                        sentBytes = 0;
-                        setProgress(progress++);
+                // Read file and send it over the socket.
+                long fileSize = new File(fileName).length();
+                fileIn = new FileInputStream(fileName);
+                os_out = socket.getOutputStream();
+                long sentBytes = 0;
+                int progress = 0;
+                int bytesCount;
+                byte[] fileData = new byte[1024];
+                do {
+                    bytesCount = fileIn.read(fileData);
+                    if(bytesCount > 0) {
+                        os_out.write(fileData, 0, bytesCount);
+                        sentBytes += bytesCount;
+                        if(sentBytes >= fileSize / 100) {
+                            sentBytes = 0;
+                            setProgress(progress++);
+                        }
                     }
-                }
-            }while(bytesCount > 0);
+                    if(Thread.currentThread().isInterrupted())
+                        return null;
+                }while(bytesCount > 0);
 
-            os_out.flush();
-            socket.shutdownOutput(); // Shut down output to tell server no more data.
-            String checksum;
-            if(in.readUTF().equals("Exam file is found."))
+                os_out.flush();
+                socket.shutdownOutput(); // Shut down output to tell server no more data.
                 checksum = in.readUTF(); //Read codes_md5 from socket.
-            else
-                checksum = null;
-            fileIn.close();
-            socket.close();
+            }catch(Exception ex) {
+
+            }finally {
+                if(fileIn != null)
+                    fileIn.close();
+                if(socket != null);
+                socket.close();
+            }
             return checksum;
         }
 

@@ -3,12 +3,13 @@ package kasirgalabs;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -18,14 +19,15 @@ import java.util.logging.Logger;
  * FoxServer class implements an application that accepts connection from
  * clients and receives data. This class uses {@link java.net.ServerSocket}
  * class to accept incoming connections. Every incoming connection will be
- * handled by a thread. The maximum queue length for incoming connection is 100.
+ * handled by a thread. The maximum queue length for incoming connection is 200.
  * If a connection arrives when the queue is full, the connection is refused.
  */
 public class FoxServer {
-    private static ExecutorService executor = null;
-    private static ServerSocket serverSocket = null;
-    private static ArrayList<Future<Integer>> futureList = null;
-    private static volatile boolean serverDown = false;
+    private static ExecutorService executor;
+    private static ServerSocket serverSocket;
+    private static ConcurrentLinkedDeque<Future<Integer>> futureList;
+    private static boolean serverDown = false;
+    private static boolean executorDown = false;
 
     /**
      * @param args Not used.
@@ -41,12 +43,12 @@ public class FoxServer {
             Runtime.getRuntime().removeShutdownHook(hook);
             System.exit(0);
         }
-        futureList = new ArrayList<Future<Integer>>();
+        futureList = new ConcurrentLinkedDeque<Future<Integer>>();
         executor = Executors.newFixedThreadPool(200);
 
         //FoxServerSetup.main(null);
         Socket clientSocket = null;
-        while(true) {
+        while(true && !Thread.currentThread().isInterrupted()) {
             try {
                 clientSocket = serverSocket.accept();
             }catch(IOException ex) {
@@ -57,11 +59,19 @@ public class FoxServer {
                 }
             }
             try {
-                futureList.add(executor.submit(
-                        new FoxServiceThread(clientSocket)));
+                futureList.addLast(executor.submit(new FoxServiceThread(
+                        clientSocket)));
+            }catch(RejectedExecutionException ex) {
+                ex.printStackTrace();
+                if(!serverDown || !executorDown)
+                    Logger.getLogger(FoxServer.class.getName()).
+                            log(Level.SEVERE,
+                                "Can not create a thread for connection.", ex);
             }catch(IOException ex) {
+                ex.printStackTrace();
                 Logger.getLogger(FoxServer.class.getName()).
-                        log(Level.SEVERE, null, ex);
+                        log(Level.FINE, "Client connection stream problem.",
+                            ex);
             }
         }
     }
@@ -69,43 +79,51 @@ public class FoxServer {
     private static class ShutDownHook extends Thread {
         @Override
         public void run() {
-            System.err.println("Running shut down hook...");
+            Logger.getLogger(FoxServer.class.getName()).log(Level.INFO,
+                                                            "Running shut down hook...");
             serverDown = true;
-            executor.shutdown();
+            executorDown = true;
             try {
+                executor.shutdown();
                 executor.awaitTermination(1, TimeUnit.SECONDS);
-                System.out.println("Successful termination.");
+                Logger.getLogger(FoxServer.class.getName()).log(Level.INFO,
+                                                                "No running process.");
             }catch(InterruptedException ex) {
-                Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE,
-                                                                null, ex);
-                System.out.println("Unsuccessful termination.");
-                executor.shutdownNow();
+                Logger.getLogger(FoxServer.class.getName()).log(Level.WARNING,
+                                                                "Some processes may not be completed.",
+                                                                ex);
             }finally {
                 try {
                     serverSocket.close();
                 }catch(IOException ex) {
                     Logger.getLogger(FoxServer.class.getName()).
-                            log(Level.SEVERE, null, ex);
+                            log(Level.FINE, null, ex);
                 }
             }
             Future<Integer> future;
             Iterator< Future< Integer>> iterator = futureList.iterator();
-            System.err.println("Thread statuses:");
+            Logger.getLogger(FoxServer.class.getName()).log(Level.INFO,
+                                                            "Thread statuses:");
             while(iterator.hasNext()) {
                 future = iterator.next();
                 try {
-                    System.err.println(future.get(100, TimeUnit.MILLISECONDS));
+                    future.get(100, TimeUnit.MILLISECONDS);
                 }catch(InterruptedException ex) {
                     Logger.getLogger(FoxServer.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                            Level.INFO, null, ex);
                 }catch(ExecutionException ex) {
                     Logger.getLogger(FoxServer.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                            Level.SEVERE,
+                            "A connection failed with an exception.", ex);
                 }catch(TimeoutException ex) {
                     Logger.getLogger(FoxServer.class.getName()).log(
-                            Level.SEVERE, null, ex);
+                            Level.WARNING,
+                            "Shuting down without waiting for uncompleted tasks.",
+                            ex);
                 }
             }
+            Logger.getLogger(FoxServer.class.getName()).log(Level.INFO,
+                                                            "Shuting down is completed.");
         }
     }
 }

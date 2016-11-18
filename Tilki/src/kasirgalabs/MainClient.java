@@ -638,7 +638,7 @@ public class MainClient extends javax.swing.JFrame {
             durumLabel.setVisible(true);
         }catch(ClassNotFoundException e) {
             examList = null;
-            durumLabel.setText("Eksik dosya.");
+            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
         }
