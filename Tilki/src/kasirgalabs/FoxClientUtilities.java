@@ -135,7 +135,6 @@ public class FoxClientUtilities {
      */
     public Exam[] availableExams() throws IOException, ClassNotFoundException {
         Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
-        DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
         out.writeUTF("List exams."); // Tell host which operation will occur.
