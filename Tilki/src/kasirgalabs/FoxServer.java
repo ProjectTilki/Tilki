@@ -12,8 +12,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * FoxServer class implements an application that accepts connection from
@@ -33,6 +35,22 @@ public class FoxServer {
      * @param args Not used.
      */
     public static void main(String[] args) {
+        Logger logger = Logger.getLogger(FoxServer.class.getName());
+        FileHandler fh;
+
+        try {
+            // This block configure the logger with handler and formatter
+            fh = new FileHandler("server.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        } 
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
         try {
@@ -114,7 +132,7 @@ public class FoxServer {
                 }catch(ExecutionException ex) {
                     Logger.getLogger(FoxServer.class.getName()).log(
                             Level.SEVERE,
-                            "A connection failed with an exception.", ex);
+                            "A session failed with an exception.", ex);
                 }catch(TimeoutException ex) {
                     Logger.getLogger(FoxServer.class.getName()).log(
                             Level.WARNING,

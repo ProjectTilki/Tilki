@@ -45,7 +45,6 @@ public class CaptureDesktop {
         encodingParameters.setCodec(videoCodec);
         encodingParameters.setCompressionQuality(q);
 
-        //     System.out.println("encodingParameters = " + encodingParameters);
         videoCapture.setEncodingParameters(encodingParameters);
         videoCapture.start();
     }
