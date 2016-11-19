@@ -849,7 +849,7 @@ public class MainClient extends javax.swing.JFrame {
     public static void main(String args[]) {
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
-
+        
         try {
             UIManager.setLookAndFeel(
                     "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");

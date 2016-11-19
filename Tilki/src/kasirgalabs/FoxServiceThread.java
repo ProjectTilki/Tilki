@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FoxProject server side utilities. This class consists of methods that operate
@@ -42,13 +44,9 @@ public class FoxServiceThread implements Callable<Integer> {
      * @throws java.io.IOException If an IO error occurs on socket's streams.
      */
     public FoxServiceThread(Socket socket) throws IOException {
-        try {
-            this.socket = socket;
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
-        }catch(Exception e) {
-            throw e;
-        }
+        this.socket = socket;
+        in = new DataInputStream(socket.getInputStream());
+        out = new DataOutputStream(socket.getOutputStream());
     }
 
     /**
@@ -75,9 +73,13 @@ public class FoxServiceThread implements Callable<Integer> {
                 examListManager();
             else if(data.equals("Sending error logs."))
                 saveErrorLogs();
-        }catch(Exception e) {
-            throw e;
-        }finally {
+        }catch(IOException e) {
+            Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, "Error during session.",
+                                                            e);
+        }catch(NoSuchAlgorithmException e) {
+            Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, "Error during session.",
+                                                            e);
+        }finally{
             socket.close();
         }
         return 1;
@@ -137,8 +139,6 @@ public class FoxServiceThread implements Callable<Integer> {
 
                 logFile.close();
             }
-        }catch(IOException e) {
-            throw e;
         }finally {
             if(logFile != null)
                 logFile.close();
@@ -302,10 +302,6 @@ public class FoxServiceThread implements Callable<Integer> {
                 out.writeUTF(md5hex.toString()); // Send MD5 checksum to the client.
             }
             out.flush();
-        }catch(IOException e) {
-            throw e;
-        }catch(NoSuchAlgorithmException e) {
-            throw e;
         }finally {
             if(logFile != null)
                 logFile.close();
@@ -370,12 +366,19 @@ public class FoxServiceThread implements Callable<Integer> {
     }
 
     private synchronized void saveErrorLogs() throws IOException {
-        File f = new File("clientErrors.log");
-        BufferedWriter fileOut = new BufferedWriter(new FileWriter(f, true));
-        String line;
-        while((line = in.readUTF()) != null)
-            fileOut.write(line + "\n");
-        out.writeUTF("Done.");
-        fileOut.close();
+        BufferedWriter fileOut = null;
+        try {
+            int lineCount = in.readInt();
+            File f = new File("clientErrors.log");
+            fileOut = new BufferedWriter(new FileWriter(f, true));
+            String line;
+            while(lineCount > 0) {
+                line = in.readUTF();
+                fileOut.write(line + "\n");
+                lineCount--;
+            }
+        }finally {
+            fileOut.close();
+        }
     }
 }

@@ -103,7 +103,7 @@ public class FoxClientUtilities {
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
         out.writeUTF("Key verify."); // Tell host which operation will occur.
-
+        
         // Send informations.
         out.writeUTF(name);
         out.writeUTF(surname);
