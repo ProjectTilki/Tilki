@@ -26,7 +26,6 @@ public class ClientExceptionHandler {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new FileOutputStream("error.log", true));
-            e.printStackTrace(pw);
         }catch(IOException ex) {
         }finally {
             if(pw != null)
@@ -50,14 +49,22 @@ public class ClientExceptionHandler {
             else
                 return;
 
+            BufferedReader reader = new BufferedReader(new FileReader("error.log"));
+            int lines = 0;
+            while (reader.readLine() != null)
+                lines++;
+            reader.close();
             socket = new Socket(MainClient.getIpAddress(), 50101);
             DataOutputStream socketOut = new DataOutputStream(socket.
                     getOutputStream());
 
             socketOut.writeUTF("Sending error logs.");
+            socketOut.writeInt(lines);
+            System.out.println(lines);
             String line;
             while((line = fileIn.readLine()) != null)
                 socketOut.writeUTF(line);
+            socketOut.writeUTF(null);
         }catch(Exception ex0) {
         }finally {
             try {
@@ -69,5 +76,4 @@ public class ClientExceptionHandler {
             }
         }
     }
-
 }
