@@ -80,13 +80,11 @@ public class FoxServer {
                 futureList.addLast(executor.submit(new FoxServiceThread(
                         clientSocket)));
             }catch(RejectedExecutionException ex) {
-                ex.printStackTrace();
                 if(!serverDown || !executorDown)
                     Logger.getLogger(FoxServer.class.getName()).
                             log(Level.SEVERE,
                                 "Can not create a thread for connection.", ex);
             }catch(IOException ex) {
-                ex.printStackTrace();
                 Logger.getLogger(FoxServer.class.getName()).
                         log(Level.FINE, "Client connection stream problem.",
                             ex);

@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.ListModel;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
@@ -38,6 +39,7 @@ public class MainClient extends javax.swing.JFrame {
     private static ZipAndUpload zau;
     private FoxClientUtilities fcu = new FoxClientUtilities();
     private Color c = new Color(26, 126, 36);
+    private static java.awt.event.ActionListener yenileAdapter;
 
     /**
      *
@@ -50,6 +52,13 @@ public class MainClient extends javax.swing.JFrame {
         ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
+        
+
+        yenileAdapter = new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yenileButtonActionPerformed(evt);
+            }
+        };
     }
 
     /**
@@ -309,9 +318,9 @@ public class MainClient extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jList1);
 
         yenileButton.setText("Yenile");
-        yenileButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                yenileButtonMouseClicked(evt);
+        yenileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                yenileButtonActionPerformed(evt);
             }
         });
 
@@ -624,28 +633,6 @@ public class MainClient extends javax.swing.JFrame {
             loginLabel.setVisible(false);
     }//GEN-LAST:event_loginButtonMouseClicked
 
-    private void yenileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yenileButtonMouseClicked
-        // TODO add your handling code here:
-        try {
-            examList = fcu.availableExams();
-            durumLabel.setEnabled(true);
-            durumLabel.setText("Ba\u011Fland\u0131");
-            durumLabel.setForeground(c);
-        }catch(IOException e) {
-            examList = null;
-            durumLabel.setText("Ba\u011Flanamad\u0131");
-            durumLabel.setForeground(Color.red);
-            durumLabel.setVisible(true);
-        }catch(ClassNotFoundException e) {
-            examList = null;
-            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
-            durumLabel.setForeground(Color.red);
-            durumLabel.setVisible(true);
-        }
-        jList1.setModel(new ExamListModel(examList));
-        jTextArea1.setText("");
-    }//GEN-LAST:event_yenileButtonMouseClicked
-
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
         int location = jList1.locationToIndex(evt.getPoint());
@@ -836,6 +823,27 @@ public class MainClient extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
+        try {
+            examList = fcu.availableExams();
+            durumLabel.setEnabled(true);
+            durumLabel.setText("Ba\u011Fland\u0131");
+            durumLabel.setForeground(c);
+        }catch(IOException e) {
+            examList = null;
+            durumLabel.setText("Ba\u011Flanamad\u0131");
+            durumLabel.setForeground(Color.red);
+            durumLabel.setVisible(true);
+        }catch(ClassNotFoundException e) {
+            examList = null;
+            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
+            durumLabel.setForeground(Color.red);
+            durumLabel.setVisible(true);
+        }
+        jList1.setModel(new ExamListModel(examList));
+        jTextArea1.setText("");
+    }//GEN-LAST:event_yenileButtonActionPerformed
+
     private static class ShutDownHook extends Thread {
         @Override
         public void run() {
@@ -860,6 +868,9 @@ public class MainClient extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainClient().setVisible(true);
+                Timer timer = new Timer(100, yenileAdapter);
+                timer.setRepeats(false);
+                timer.start();
             }
         });
     }
@@ -914,7 +925,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel loginLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JTextField surnameTextField;
-    private javax.swing.JButton yenileButton;
+    private static javax.swing.JButton yenileButton;
     // End of variables declaration//GEN-END:variables
 
 }

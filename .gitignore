@@ -3,6 +3,7 @@
 /bin/
 *.AVI
 *.zip
+*.~
 checksum.log
 error.log
 clientErrors.log
