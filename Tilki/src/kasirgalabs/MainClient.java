@@ -6,6 +6,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -39,7 +41,9 @@ public class MainClient extends javax.swing.JFrame {
     private static ZipAndUpload zau;
     private FoxClientUtilities fcu = new FoxClientUtilities();
     private Color c = new Color(26, 126, 36);
-    private static java.awt.event.ActionListener yenileAdapter;
+    private static java.awt.event.ActionListener yenileButtonActionListener;
+    private static long timeAtStart = 0;
+    private Timer simpleTimer;
 
     /**
      *
@@ -54,7 +58,7 @@ public class MainClient extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
 
-        yenileAdapter = new java.awt.event.ActionListener() {
+        yenileButtonActionListener = new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 yenileButtonActionPerformed(evt);
             }
@@ -401,7 +405,7 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 412, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 4, Short.MAX_VALUE)))
@@ -583,8 +587,13 @@ public class MainClient extends javax.swing.JFrame {
                         }
                     });
                     timeAtStart = System.currentTimeMillis();
-                    updatingTime = new tempThread();
-                    updatingTime.start();
+                    simpleTimer = new Timer(1000, new ActionListener(){
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            jLabel9.setText(getTimeElapsed());
+                        }
+                    });
+                    simpleTimer.start();
                 }else
                     loginLabel.setText("Bilinmeyen hata.");
             }catch(IOException ex) {
@@ -646,40 +655,8 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
         FileChooserFrame.setVisible(true);
     }//GEN-LAST:event_jButton3MouseClicked
-    private tempThread updatingTime;
 
-    private class tempThread extends Thread implements Runnable {
-        private volatile boolean running = true;
-
-        public void terminate() {
-            running = false;
-        }
-
-        @Override
-        public void run() {
-            running = true;
-            try {
-                while(running)
-                    updateTime();
-            }catch(Exception ex) {
-                ClientExceptionHandler.logAnException(ex);
-            }
-        }
-    }
-
-    private void updateTime() {
-        try {
-            //geting Time in desire format
-            jLabel9.setText(getTimeElapsed());
-            //Thread sleeping for 1 sec
-            Thread.currentThread().sleep(1000);
-        }catch(InterruptedException ex) {
-            ClientExceptionHandler.logAnException(ex);
-        }
-    }
-    private long timeAtStart = 0;
-
-    private String getTimeElapsed() {
+    private static String getTimeElapsed() {
         long elapsedTime = System.currentTimeMillis() - timeAtStart;
         elapsedTime = elapsedTime / 1000;
 
@@ -803,7 +780,7 @@ public class MainClient extends javax.swing.JFrame {
                 ArrayList<File> codeFiles = new ArrayList<File>(0);
                 for(int i = 0; i < lm.getSize(); i++)
                     codeFiles.add(new File(lm.getElementAt(i)));
-                updatingTime.terminate();
+                simpleTimer.stop();
                 File[] temp = new File[filesThatWillUpload.size()];
                 File[] temp2 = new File[codeFiles.size()];
                 zau = new ZipAndUpload(codeFiles.toArray(temp2),
@@ -868,7 +845,7 @@ public class MainClient extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainClient().setVisible(true);
-                Timer timer = new Timer(100, yenileAdapter);
+                Timer timer = new Timer(100, yenileButtonActionListener);
                 timer.setRepeats(false);
                 timer.start();
             }
@@ -904,7 +881,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private static javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JList<String> jList2;
     private javax.swing.JProgressBar jProgressBar2;
