@@ -46,9 +46,8 @@ public class ClientExceptionHandler {
         ExceptionThread worker = new ExceptionThread();
         worker.start();
         try {
-            Thread.sleep(1000);
+            worker.join(1000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(ClientExceptionHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -79,8 +78,8 @@ public class ClientExceptionHandler {
                 String line;
                 while((line = fileIn.readLine()) != null)
                     socketOut.writeUTF(line);
-                socketOut.writeUTF(null);
-            }catch(Exception ex0) {
+            }catch(Exception ex) {
+                ex.printStackTrace();
             }finally {
                 try {
                     if(fileIn != null)

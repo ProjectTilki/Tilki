@@ -6,6 +6,7 @@
 *.~
 checksum.log
 error.log
+server.log
 clientErrors.log
 tilki.log
 exam_list.txt
