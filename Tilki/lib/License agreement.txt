@@ -1,0 +1,144 @@
+Product License Agreement
+Version 3.7
+This is a legal agreement (“Agreement”) between you (either an individual or an entity), and TeamDev Ltd. (“TeamDev”).
+IMPORTANT [PLEASE READ CAREFULLY]: BY INSTALLING, USING OR COPYING THE SOFTWARE OR ANY RELATED DOCUMENTATION (“SOFTWARE”) YOU 
+AGREE TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE TO THESE TERMS AND CONDITIONS, YOU ARE NOT 
+AUTHORIZED TO INSTALL OR USE THE SOFTWARE.
+
+1. Definitions
+a) “Software” means the software product supplied by TeamDev in binary form and corresponding documentation, associated media, 
+printed materials, and online or electronic documentation.
+
+b) “Runtime” means the files that are included into the Software and are required for distribution of the programs that you 
+create using the Software. Runtime files are identified in the accompanying or on-line documentation (“Documentation”). You 
+should refer to the Documentation, including any “readme” or “runtime” files provided with the Software, for additional 
+information regarding redistributable files.
+
+c) “Evaluation Licence Key” means a file that allows using the Software for evaluation purposes for a limited period of time 
+which shall commence on the day of Evaluation Licence acquisition, and terminate pursuant to the provisions defined by the 
+section 3 “Evaluation Licence Grant” of this Agreement.
+
+d) “Development Licence Key” means a file that allows you to integrate the Software into programs that you create. 
+
+e) “Runtime Licence Key” means a file that is required for distribution of your works that enclose the Software.
+
+f) “Effective Date of the Agreement” means the date when you receive Evaluation Licence Key or Development Licence Key, whatever 
+comes first.
+
+g) “Minor Version(s)” means version of the Software, identified by a change in the second and/or any of the following levels of the 
+versioning number sequence, ex.: 1.0.5, 1.2.1, 1.2.2, etc.
+
+
+2. Ownership and Licence
+The Software is owned by TeamDev, copyrighted and protected by copyright laws and international treaty provisions. The Software 
+is licensed, not sold. By installing or using the Software you will not acquire any rights to the Software except as expressly 
+set forth in this Agreement. All rights not expressly granted herein are reserved by TeamDev.
+
+3. Evaluation Licence Grant
+Subject to the terms and conditions of this Agreement, TeamDev hereby grants to you a non-exclusive, non-transferable right to 
+use one copy of the specified version of the Software and the Documentation for the sole purpose of evaluation during the period 
+of 30 (thirty) calendar days, and create a copy of the Software for backup purposes.
+
+4. Development and Runtime Licence Grant
+Subject to the payment of the applicable licence fees and to the terms and conditions of this Agreement, TeamDev hereby grants 
+to you a non-exclusive, non-transferable licence to (i) use the version of the Software and Documentation recorded in the 
+Development and Runtime Licence Keys, including the Minor Version updates (ii) to reproduce and distribute the Runtime 
+files in executable form and with Runtime Licence Key as part of the programs that you create using the Software without 
+additional distribution fees (“Development Licence”).
+
+The Development Licence may be used by the developers, employees or contractors under your control. The number of software 
+developers, employees or contractors using the Software in each case should be equal to the number of Development Licences 
+acquired from TeamDev. Your name or the entity’s name and the number of Development Licences acquired are recorded in 
+the Development and Runtime Licence Keys.
+
+5. Licence Restrictions
+5.1. General Licence Restrictions. You may NOT: a) modify, adapt, alter, translate, decompile, reverse engineer, or disassemble 
+the Software; b) remove any proprietary notices or labels on the Software; c) make more copies of the Software than the number of 
+the acquired licences (excluding a copy for backup purposes); d) rent, lease, or otherwise transfer rights to the Software.
+
+5.2. Evaluation Licence Restrictions. In addition to the general restrictions denoted in the section 5.1., as the holder of the 
+Evaluation Licence you may NOT: a) use the Software for commercial purposes; b) use the Software after expiration of the 
+evaluation period.
+
+5.3. Development and Runtime Licence Restrictions. In addition to the general restrictions denoted in the section 5.1., as the 
+holder of the Development and Runtime Licence you may NOT: a) duplicate and provide the Development Licence Keys to a number of 
+software developers, employees or contractors greater than the number of Development Licences granted per section 4 of this 
+Agreement; b) use Development Licence Key for redistributing Runtime files as part of your applications; c) use Runtime Licence 
+Key for development purposes.
+
+5.4 In case of purchase of a “Per Project” licence bundle, you may not use the licence for more than one project. At time of licence 
+issue it is bound to one project, and you may not use the licence for projects, to which the licence was not initially bound.
+
+6. Marketing
+You agree to be identified as a customer of TeamDev and you agree that TeamDev may refer to you by name, trade name and 
+trademark, if applicable, and may briefly describe your business in TeamDev's marketing materials and web sites. You hereby grant 
+TeamDev a licence to use your name and any of your trade names and trademarks solely in connection with the rights granted to 
+TeamDev pursuant to this marketing section.
+
+You and TeamDev may use the information about the business relationship pursuant to this Agreement for independent or joint 
+marketing efforts. Examples of allowable marketing uses include creation and use of case studies, press releases, printed and 
+online marketing materials, presentations, and business references.
+
+7. Support Services
+7.1. TeamDev Standard Technical Support includes:
+— consulting on issues specific to your environment;
+— ability to use designated support email address; 
+— 1 business day response time.
+
+7.2. TeamDev agrees to provide you with a free Standard Technical Support during the valid Evaluation period, as defined by 
+the section 3 “Evaluation Licence Grant.” 
+
+7.3. TeamDev Standard Technical Support is subscription-based. TeamDev agrees to provide One Single Developer Support Pack, 
+including 55 hours of Standard Technical Support, with one Development Licence. This Single Developer Support Pack is valid for 
+one year or until 55 hours of support are consumed. Upon expiration or consumption of the Single Developer Support Pack, 
+you may choose to purchase additional subscription for the Standard Technical Support.
+
+7.4. In the course of Standard Technical Support services TeamDev may provide you with supplemental software code or related 
+materials, that are made available in form of Software updates (including hotfixes). Such supplemental software code or related 
+materials are to be considered part of the Software and are subject to the terms and conditions of this Agreement.
+
+7.5. With respect to any technical information that you provide to TeamDev in order to enable TeamDev complete your requests 
+for Standard Technical Support, TeamDev may use such information for its business purposes without restriction, including 
+for product support and development. TeamDev will not use such technical information in a form that personally identifies you.
+
+8. Patent and Copyright Indemnity
+8.1. TeamDev will defend and indemnify you for all costs (including reasonable attorneys fees) arising from a claim that Software 
+furnished and used within the scope of this Agreement infringes a U.S. or Canadian copyright or patent provided that: (i) you 
+will notify TeamDev in writing within 30 (thirty) calendar days of the claim; (ii) TeamDev has sole control of the defence 
+and all related settlement negotiations, and (iii) you will provide TeamDev with the assistance, information, and authority 
+necessary to perform the above.
+
+8.2. TeamDev will have no liability for any claim of infringement based on: (i) code contained within the Software which was not 
+created by TeamDev; (ii) use of a superseded or altered release of the Software, except for such alteration(s) or modification(s) 
+which have been made by TeamDev or under TeamDev’s direction, if such infringement would have been avoided by the use of a current, 
+unaltered release of the Software that TeamDev provides to you, or (iii) the combination, operation, or use of Software furnished 
+under this Agreement with programs or data not furnished by TeamDev, if such infringement would have been avoided by the use of 
+the Software without such programs or data.
+
+8.3. In the event the Software is held or believed by TeamDev to infringe any third-party rights, or your use of the Software is 
+enjoined, TeamDev will have the option, at its expense, to: (i) modify the Software to cause it to become non-infringing; (ii) 
+obtain for you a licence to continue using the Software; (iii) substitute the Software with other Software reasonably suitable to 
+you, or (iv) if none of the foregoing remedies are commercially feasible, terminate the licence for the infringing Software and 
+refund any licence fees paid for the Software, prorated over a one and a half-year term from the Effective Date of the Agreement.
+
+9. Disclaimer of Warranty
+THE SOFTWARE AND ANY RELATED DOCUMENTATION ARE PROVIDED ON A STRICTLY “AS IS” BASIS WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS 
+OR IMPLIED, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OR MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR 
+NONINFRINGEMENT. THE ENTIRE RISK ARISING OUT OF USE OR PERFORMANCE OF THE SOFTWARE REMAINS WITH YOU.
+
+10. Limitation of Liability
+IN NO EVENT SHALL TEAMDEV OR ITS SUPPLIERS BE LIABLE FOR ANY DAMAGES WHATSOEVER (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS 
+OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION, OR ANY OTHER PECUNIARY LOSS) ARISING OUT OF THE USE OF 
+OR INABILITY TO USE THIS TEAMDEV SOFTWARE, EVEN IF TEAMDEV HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+11. Trademarks
+This Agreement does not grant any rights to use the trademarks or trade names: “TeamDev”, “JxBrowser”, “JExplorer”, “JNIWrapper”, 
+“ComfyJ”, “JExcel”, “JxFileWatcher”, “JxCapture”, “DotNetBrowser” or any other trademarks, service marks, logos or trade names 
+belonging to TeamDev except as defined in the Section 6 “Marketing”. You agree not to use any marks belonging to TeamDev in or 
+as part of the name of products based on the Software.
+
+12. Termination
+You may terminate this Agreement at any time by destroying all copies of the Software. This Agreement will terminate immediately 
+without notice from TeamDev if it is discovered that you fail to comply with any provision of this Agreement. Upon such termination, 
+you must destroy all copies of the Software. Section 9 “Disclaimer of Warranty” and section 10 “Limitation of Liability” shall 
+remain effective after the termination of this Agreement.
