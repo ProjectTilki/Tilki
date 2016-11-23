@@ -42,7 +42,7 @@ public class FoxServer {
         LOGGER = Logger.getLogger(FoxServer.class.getName());
         
         try {
-            FileHandler fh = new FileHandler("server.log");
+            FileHandler fh = new FileHandler("server.log", true);
             LOGGER.addHandler(fh);
             fh.setFormatter(new SimpleFormatter());
             

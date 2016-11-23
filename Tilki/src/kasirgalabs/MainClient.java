@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.ListModel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
-import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
 public class MainClient extends javax.swing.JFrame {
     private static String ipAddress = "localhost";
@@ -545,7 +544,7 @@ public class MainClient extends javax.swing.JFrame {
                             + "L\u00FCtfen tekrar deneyiniz.</html>");
                 else if(status == 1) {
                     GirisEkrani.setVisible(false);
-                    //GozetmenKodu.setVisible(false);
+                    this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
                     VideoKayitEkrani.setVisible(true);
                     cam = new CaptureDesktop();
                     cam.StartCaptureDesktop(idTextField.getText(),

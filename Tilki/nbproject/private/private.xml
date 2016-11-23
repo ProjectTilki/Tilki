@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/rootg/Git%20Projects/Tilki/Tilki/src/kasirgalabs/FoxServiceThread.java</file>
-            <file>file:/home/rootg/Git%20Projects/Tilki/Tilki/src/kasirgalabs/FoxServer.java</file>
-            <file>file:/home/rootg/Git%20Projects/Tilki/Tilki/src/kasirgalabs/FoxServerLogManager.java</file>
+            <file>file:/home/rootg/Git%20Projects/Tilki/Tilki/src/kasirgalabs/ClientExceptionHandler.java</file>
+            <file>file:/home/rootg/Git%20Projects/Tilki/Tilki/src/kasirgalabs/MainClient.java</file>
+            <file>file:/home/rootg/Git%20Projects/Tilki/Tilki/src/kasirgalabs/ZipAndUpload.java</file>
+            <file>file:/home/rootg/Git%20Projects/Tilki/Tilki/src/kasirgalabs/CaptureDesktop.java</file>
         </group>
     </open-files>
 </project-private>
