@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is used to log and send exceptions that are occurred.
@@ -26,6 +28,7 @@ public class ClientExceptionHandler {
         PrintWriter pw = null;
         try {
             pw = new PrintWriter(new FileOutputStream("error.log", true));
+            e.printStackTrace(pw);
         }catch(IOException ex) {
         }finally {
             if(pw != null)
@@ -40,39 +43,52 @@ public class ClientExceptionHandler {
      * Exceptions occurred in this method are ignored and won't be reported.
      */
     public static void sendExceptionsToServer() {
-        BufferedReader fileIn = null;
-        Socket socket = null;
+        ExceptionThread worker = new ExceptionThread();
+        worker.start();
         try {
-            File errorLogFile = new File("error.log");
-            if(errorLogFile.exists() && !errorLogFile.isDirectory())
-                fileIn = new BufferedReader(new FileReader(errorLogFile));
-            else
-                return;
-
-            BufferedReader reader = new BufferedReader(new FileReader("error.log"));
-            int lines = 0;
-            while (reader.readLine() != null)
-                lines++;
-            reader.close();
-            socket = new Socket(MainClient.getIpAddress(), 50101);
-            DataOutputStream socketOut = new DataOutputStream(socket.
-                    getOutputStream());
-
-            socketOut.writeUTF("Sending error logs.");
-            socketOut.writeInt(lines);
-            System.out.println(lines);
-            String line;
-            while((line = fileIn.readLine()) != null)
-                socketOut.writeUTF(line);
-            socketOut.writeUTF(null);
-        }catch(Exception ex0) {
-        }finally {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ClientExceptionHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private static class ExceptionThread extends Thread {
+        @Override
+        public void run() {
+            BufferedReader fileIn = null;
+            Socket socket = null;
             try {
-                if(fileIn != null)
-                    fileIn.close();
-                if(socket != null)
-                    socket.close();
-            }catch(Exception ex1) {
+                File errorLogFile = new File("error.log");
+                if(errorLogFile.exists() && !errorLogFile.isDirectory())
+                    fileIn = new BufferedReader(new FileReader(errorLogFile));
+                else
+                    return;
+
+                BufferedReader reader = new BufferedReader(new FileReader("error.log"));
+                int lines = 0;
+                while (reader.readLine() != null)
+                    lines++;
+                reader.close();
+                socket = new Socket(MainClient.getIpAddress(), 50101);
+                DataOutputStream socketOut = new DataOutputStream(socket.
+                        getOutputStream());
+
+                socketOut.writeUTF("Sending error logs.");
+                socketOut.writeInt(lines);
+
+                String line;
+                while((line = fileIn.readLine()) != null)
+                    socketOut.writeUTF(line);
+                socketOut.writeUTF(null);
+            }catch(Exception ex0) {
+            }finally {
+                try {
+                    if(fileIn != null)
+                        fileIn.close();
+                    if(socket != null)
+                        socket.close();
+                }catch(Exception ex1) {
+                }
             }
         }
     }
