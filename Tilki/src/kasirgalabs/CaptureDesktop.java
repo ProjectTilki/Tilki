@@ -17,9 +17,6 @@ public class CaptureDesktop {
     public void StartCaptureDesktop(String a, String b) {
         videoCapture.setVideoSource(new FullScreen());
 
-        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
-
-        Codec videoCodec = videoCodecs.get(0);
         a = a.toLowerCase();
         personName = a;
         format = videoCapture.getVideoFormat().getId().toString();
@@ -42,7 +39,6 @@ public class CaptureDesktop {
         encodingParameters.setBitrate(800000);
         encodingParameters.setFramerate(1);
         encodingParameters.setKeyFrameInterval(1000);
-        encodingParameters.setCodec(videoCodec);
         encodingParameters.setCompressionQuality(q);
 
         videoCapture.setEncodingParameters(encodingParameters);

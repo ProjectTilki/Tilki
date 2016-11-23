@@ -402,7 +402,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public static boolean deleteDirectory(File directory) {
+    private static boolean deleteDirectory(File directory) {
         if(directory.exists()) {
             File[] files = directory.listFiles();
             if(null != files)
@@ -490,7 +490,6 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
 
         boolean successful = tempFile.renameTo(inputFile);
-        System.out.println(successful);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -511,7 +510,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jLabel6.setText("S\u0131nav D\u00FCzenleme Modu");
         jButton1.setEnabled(false);
         reset();
-        System.out.println(jList6.getSelectedIndex());
+        
         try {
             jTextField1.setText(fcu.availableExams()[jList6.getSelectedIndex()].
                     getName());
@@ -553,8 +552,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
             String newPas = new String(jPasswordField1.getPassword());
             String newDesc = jTextArea1.getText();
             exam = new File("");
-            System.out.println(exam.getAbsolutePath() + "/" + jTextField1.
-                    getText());
+
             try {
                 PrintWriter out1 = new PrintWriter(new BufferedWriter(
                         new FileWriter(

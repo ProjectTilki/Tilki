@@ -74,11 +74,9 @@ public class FoxServiceThread implements Callable<Integer> {
             else if(data.equals("Sending error logs."))
                 saveErrorLogs();
         }catch(IOException e) {
-            Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, "Error during session.",
-                                                            e);
+            Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, "Error during session.", e);
         }catch(NoSuchAlgorithmException e) {
-            Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, "Error during session.",
-                                                            e);
+            Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE, "Error during session.", e);
         }finally{
             socket.close();
         }

@@ -21,15 +21,6 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates and open the template
- * in the editor.
- */
-/**
- *
- * @author talha, gorkem, baturay
- */
 public class MainClient extends javax.swing.JFrame {
     private static String ipAddress = "localhost";
     private Exam[] examList;
@@ -405,7 +396,7 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 412, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 4, Short.MAX_VALUE)))
