@@ -4,7 +4,7 @@ import com.teamdev.jxcapture.Codec;
 import com.teamdev.jxcapture.CompressionQuality;
 import com.teamdev.jxcapture.EncodingParameters;
 import com.teamdev.jxcapture.VideoCapture;
-import com.teamdev.jxcapture.video.FullScreen;
+import com.teamdev.jxcapture.video.Desktop;
 import java.awt.Dimension;
 import java.io.File;
 
@@ -15,8 +15,10 @@ public class CaptureDesktop {
     private VideoCapture videoCapture = VideoCapture.create();
 
     public void StartCaptureDesktop(String a, String b) {
-        videoCapture.setVideoSource(new FullScreen());
-
+        videoCapture.setVideoSource(new Desktop());
+        java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
+        Codec videoCodec = videoCodecs.get(0);
+        
         a = a.toLowerCase();
         personName = a;
         format = videoCapture.getVideoFormat().getId().toString();
@@ -38,6 +40,8 @@ public class CaptureDesktop {
         encodingParameters.setSize(new Dimension(800, 600));
         encodingParameters.setBitrate(800000);
         encodingParameters.setFramerate(1);
+        encodingParameters.setCodec(videoCodec);
+        
         encodingParameters.setKeyFrameInterval(1000);
         encodingParameters.setCompressionQuality(q);
 
