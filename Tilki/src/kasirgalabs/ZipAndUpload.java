@@ -21,6 +21,7 @@ import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JOptionPane;
@@ -75,8 +76,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             fw.close();
             queue.add(
                     "Kullan\u0131m verileriniz kar\u015F\u0131ya y\u00FCklenmi\u015Ftir.\n\n");
-            queue.add(
-                    "Do\u011Frulama kodu:");
+            queue.add("Do\u011Frulama kodu:");
             queue.add("\n" + xor_md5 + "\n");
             queue.add("Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
             queue.add("\n" + logFile.getAbsolutePath() + "\n");
@@ -326,6 +326,8 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         name = null;
         id = null;
         initComponents();
+        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
+        setIconImage(img.getImage());
         setLocationRelativeTo(null);
     }
 
