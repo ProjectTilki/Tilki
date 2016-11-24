@@ -63,7 +63,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     + "kullan\u0131m verilerinizin kar\u015F\u0131ya y\u00FCklenmesini bekleyiniz.\n\n");
             logFile = new File("tilki.log");
             FileWriter fw = new FileWriter(logFile, true);
-            fw.append(codes_md5 + "\n");
+            fw.append(codes_md5 + "\r\n");
             task.firePropertyChange("enableCloseButton", 0, 1);
             String temp = createZipFile(videoFiles);
             if(Thread.currentThread().isInterrupted())
@@ -71,7 +71,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             videos_md5 = sendFile(temp, name, id);
             videos_md5 = videos_md5.toUpperCase();
             xor_md5 = xorHex(codes_md5, videos_md5);
-            fw.append(xor_md5 + "\n");
+            fw.append(xor_md5 + "\r\n");
             fw.close();
             queue.add(
                     "Kullan\u0131m verileriniz kar\u015F\u0131ya y\u00FCklenmi\u015Ftir.\n\n");

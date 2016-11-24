@@ -77,9 +77,8 @@ public class ClientExceptionHandler {
 
                 String line;
                 while((line = fileIn.readLine()) != null)
-                    socketOut.writeUTF(line);
+                    socketOut.writeUTF(line + "\r\n");
             }catch(Exception ex) {
-                ex.printStackTrace();
             }finally {
                 try {
                     if(fileIn != null)
