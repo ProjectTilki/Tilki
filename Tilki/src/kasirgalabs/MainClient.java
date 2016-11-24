@@ -768,8 +768,10 @@ public class MainClient extends javax.swing.JFrame {
             jButton7.setEnabled(true);
         }
         else {
-            jButton7.setEnabled(false);
             videoKayitGozetmenField.setEnabled(false);
+            jButton7.setEnabled(false);
+            keyAcceptedLabel.setText("");
+            videoKayitGozetmenField.setText("");
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
