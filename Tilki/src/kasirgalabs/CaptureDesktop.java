@@ -46,7 +46,12 @@ public class CaptureDesktop {
         encodingParameters.setCompressionQuality(q);
 
         videoCapture.setEncodingParameters(encodingParameters);
-        videoCapture.start();
+        try {
+            videoCapture.start();
+        }
+        catch(Exception e) {
+            ClientExceptionHandler.logAnException(e);
+        }
     }
 
     public String getPersonName() {
