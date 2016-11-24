@@ -127,7 +127,6 @@ public class MainClient extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tilki");
         setMinimumSize(new java.awt.Dimension(630, 360));
-        setPreferredSize(new java.awt.Dimension(630, 436));
         setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
 
@@ -395,7 +394,7 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 412, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 414, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 4, Short.MAX_VALUE)))
@@ -751,42 +750,43 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(jCheckBox1.isSelected()) {
             FileChooserFrame.setVisible(false);
+            ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
+            ListModel<String> lm = jList2.getModel();
+            
             if(cam.status()) {
                 cam.StopCaptureDesktop();
-                ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
-                ListModel<String> lm = jList2.getModel();
-
-                String target_file = cam.getPersonName() + "." + cam.getFormat(); // fileThatYouWantToFilter
-                File target_file_object = new File(target_file);
-                if(target_file_object.exists()) {
-                    filesThatWillUpload.add(new File(target_file));
-                    for(int i = 0; i < 100; i++) {
-                        target_file_object = new File(i + "_" + target_file);
-                        if(target_file_object.exists())
-                            filesThatWillUpload.add(new File(
-                                    i + "_" + target_file));
-                    }
-                }
-                ArrayList<File> codeFiles = new ArrayList<File>(0);
-                for(int i = 0; i < lm.getSize(); i++)
-                    codeFiles.add(new File(lm.getElementAt(i)));
-                simpleTimer.stop();
-                File[] temp = new File[filesThatWillUpload.size()];
-                File[] temp2 = new File[codeFiles.size()];
-                zau = new ZipAndUpload(codeFiles.toArray(temp2),
-                                       filesThatWillUpload.toArray(
-                                               temp), number,
-                                       jLabel16.getText(),
-                                       instructorKey);
-                zau.setVisible(true);
-                for(Component component : jList2.getComponents())
-                    component.setEnabled(false);
-                jList2.setEnabled(false);
-                for(Component component : VideoKayitEkrani.getComponents())
-                    component.setEnabled(false);
-                VideoKayitEkrani.setEnabled(false);
-                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             }
+            
+            String target_file = cam.getPersonName() + "." + cam.getFormat(); // fileThatYouWantToFilter
+            File target_file_object = new File(target_file);
+            if(target_file_object.exists()) {
+                filesThatWillUpload.add(new File(target_file));
+                for(int i = 0; i < 100; i++) {
+                    target_file_object = new File(i + "_" + target_file);
+                    if(target_file_object.exists())
+                        filesThatWillUpload.add(new File(
+                                i + "_" + target_file));
+                }
+            }
+            ArrayList<File> codeFiles = new ArrayList<File>(0);
+            for(int i = 0; i < lm.getSize(); i++)
+                codeFiles.add(new File(lm.getElementAt(i)));
+            simpleTimer.stop();
+            File[] temp = new File[filesThatWillUpload.size()];
+            File[] temp2 = new File[codeFiles.size()];
+            zau = new ZipAndUpload(codeFiles.toArray(temp2),
+                                   filesThatWillUpload.toArray(
+                                           temp), number,
+                                   jLabel16.getText(),
+                                   instructorKey);
+            zau.setVisible(true);
+            for(Component component : jList2.getComponents())
+                component.setEnabled(false);
+            jList2.setEnabled(false);
+            for(Component component : VideoKayitEkrani.getComponents())
+                component.setEnabled(false);
+            VideoKayitEkrani.setEnabled(false);
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
