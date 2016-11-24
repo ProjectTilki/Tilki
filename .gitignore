@@ -3,7 +3,7 @@
 /bin/
 *.AVI
 *.zip
-*.~
+*~
 checksum.log
 error.log
 server.log
@@ -13,3 +13,5 @@ exam_list.txt
 /Tilki/nbproject/private/
 /Tilki/build/
 /Tilki/dist/
+server.log.lck
+*.WMV
