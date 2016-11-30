@@ -99,6 +99,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             for(ActionListener listener : startButton.getActionListeners())
                 startButton.removeActionListener(listener);
             startButton.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent evt) {
                     System.exit(0);
                 }
@@ -285,12 +286,12 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 socket.shutdownOutput(); // Shut down output to tell server no more data.
                 checksum = in.readUTF(); //Read codes_md5 from socket.
             }catch(Exception ex) {
-
+                ClientExceptionHandler.logAnException(ex);
             }finally {
                 if(fileIn != null)
                     fileIn.close();
                 if(socket != null);
-                socket.close();
+                    socket.close();
             }
             return checksum;
         }
