@@ -42,7 +42,7 @@ public class CaptureDesktop {
         encodingParameters.setFramerate(1);
         encodingParameters.setCodec(videoCodec);
         
-        encodingParameters.setKeyFrameInterval(1000);
+        encodingParameters.setKeyFrameInterval(1);
         encodingParameters.setCompressionQuality(q);
 
         videoCapture.setEncodingParameters(encodingParameters);

@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.ListModel;
 import javax.swing.Timer;
@@ -29,8 +28,8 @@ public class MainClient extends javax.swing.JFrame {
     private String surname;
     private String instructorKey;
     private static ZipAndUpload zau;
-    private FoxClientUtilities fcu = new FoxClientUtilities();
-    private Color c = new Color(26, 126, 36);
+    private final FoxClientUtilities fcu = new FoxClientUtilities();
+    private final Color c = new Color(26, 126, 36);
     private static java.awt.event.ActionListener yenileButtonActionListener;
     private static long timeAtStart = 0;
     private Timer simpleTimer;
@@ -49,6 +48,7 @@ public class MainClient extends javax.swing.JFrame {
         
 
         yenileButtonActionListener = new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 yenileButtonActionPerformed(evt);
             }
@@ -101,7 +101,7 @@ public class MainClient extends javax.swing.JFrame {
         VideoKayitEkrani = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        dosyaListesi = new javax.swing.JList<>();
         jButton3 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -397,7 +397,7 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 414, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 4, Short.MAX_VALUE)))
@@ -412,7 +412,8 @@ public class MainClient extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel9.setText("Zaman");
 
-        jScrollPane3.setViewportView(jList2);
+        dosyaListesi.setModel(new FileListModel());
+        jScrollPane3.setViewportView(dosyaListesi);
 
         jButton3.setText("G\u00F6zat...");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -507,7 +508,7 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
@@ -535,7 +536,7 @@ public class MainClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(VideoKayitEkrani, "card3");
@@ -574,28 +575,22 @@ public class MainClient extends javax.swing.JFrame {
                                             getText().charAt(0) + nameTextField.
                                             getText());
                     jTextArea2.setDropTarget(new DropTarget() {
+                        @Override
                         public synchronized void drop(
                                 DropTargetDropEvent evt) {
-                            try {
-                                evt.acceptDrop(DnDConstants.ACTION_COPY);
-                                List<File> droppedFiles = (List<File>) evt.
-                                        getTransferable().getTransferData(
-                                                DataFlavor.javaFileListFlavor);
-                                ListModel<String> lm = jList2.getModel();
-                                DefaultListModel dlm = new DefaultListModel();
-                                for(File f : droppedFiles)
-                                    if(f.isFile() && !dlm.contains(f.
-                                            getAbsolutePath()))
-                                        dlm.addElement(f.getAbsolutePath());
-                                for(int i = 0; i < lm.getSize(); i++) {
-                                    String temp = lm.getElementAt(i);
-                                    if(!dlm.contains(temp))
-                                        dlm.addElement(temp);
-                                }
-                                jList2.setModel(dlm);
-                            }catch(Exception ex) {
-                                ClientExceptionHandler.logAnException(ex);
-                            }
+                                    try {
+                                        evt.acceptDrop(DnDConstants.ACTION_COPY);
+                                        List<File> droppedFiles = (List<File>) evt.
+                                                getTransferable().getTransferData(
+                                                        DataFlavor.javaFileListFlavor);
+                                        FileListModel<String> flm = (FileListModel<String>)dosyaListesi.getModel();
+                                        droppedFiles.forEach((f) -> {
+                                            flm.addElement(f.getAbsolutePath());
+                                        });
+                                        dosyaListesi.setModel(flm);
+                                    }catch(Exception ex) {
+                                        ClientExceptionHandler.logAnException(ex);
+                                    }
                         }
                     });
                     timeAtStart = System.currentTimeMillis();
@@ -606,8 +601,9 @@ public class MainClient extends javax.swing.JFrame {
                         }
                     });
                     simpleTimer.start();
-                }else
+                }else {
                     loginLabel.setText("Bilinmeyen hata.");
+                }
             }catch(IOException ex) {
                 durumLabel.setText("Ba\u011Flanamad\u0131");
                 durumLabel.setForeground(Color.red);
@@ -650,8 +646,9 @@ public class MainClient extends javax.swing.JFrame {
         }else if(instructorKey.isEmpty()) {
             loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
             loginLabel.setVisible(true);
-        }else
+        }else {
             loginLabel.setVisible(false);
+        }
     }//GEN-LAST:event_loginButtonMouseClicked
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
@@ -676,38 +673,38 @@ public class MainClient extends javax.swing.JFrame {
         String minutes = Integer.toString((int) ((elapsedTime % 3600) / 60));
         String hours = Integer.toString((int) (elapsedTime / 3600));
 
-        if(seconds.length() < 2)
+        if(seconds.length() < 2) {
             seconds = "0" + seconds;
+        }
 
-        if(minutes.length() < 2)
+        if(minutes.length() < 2) {
             minutes = "0" + minutes;
+        }
 
-        if(hours.length() < 2)
+        if(hours.length() < 2) {
             hours = "0" + hours;
+        }
 
         return hours + ":" + minutes + ":" + seconds;
     }
-    private String zipName;
+    
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
-        // TODO add your handling code here:
         FileChooserFrame.setVisible(false);
-        ListModel<String> lm = jList2.getModel();
-        List<String> list = jList2.getSelectedValuesList();
-        DefaultListModel dlm = new DefaultListModel();
-        for(int i = 0; i < lm.getSize(); i++) {
-            String a = lm.getElementAt(i);
-            if(!list.contains(a))
-                dlm.addElement(a);
+        FileListModel<String> flm = (FileListModel<String>)dosyaListesi.getModel();
+        List<String> list = dosyaListesi.getSelectedValuesList();
+        for(int i = 0; i < list.size(); i++) {
+            flm.removeElement(list.get(i));
         }
-        jList2.setModel(dlm);
+        dosyaListesi.setModel(flm);
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void idTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
+        }
     }//GEN-LAST:event_idTextFieldKeyPressed
 
     private void nameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyPressed
@@ -715,30 +712,33 @@ public class MainClient extends javax.swing.JFrame {
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
+        }
     }//GEN-LAST:event_nameTextFieldKeyPressed
 
     private void surnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            loginButtonMouseClicked(temp);        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            loginButtonMouseClicked(temp);
+        }
     }//GEN-LAST:event_surnameTextFieldKeyPressed
 
     private void idTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyTyped
-        // TODO add your handling code here:
-        if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0')
+        if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0') {
             evt.consume();
+        }
     }//GEN-LAST:event_idTextFieldKeyTyped
 
     private void keyFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
                               WIDTH, HEIGHT, rootPaneCheckingEnabled);
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
+        }
     }//GEN-LAST:event_keyFieldKeyPressed
 
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
@@ -746,17 +746,11 @@ public class MainClient extends javax.swing.JFrame {
         String command = evt.getActionCommand();
         if(command.equalsIgnoreCase("ApproveSelection")) {
             File[] selectedFiles = jFileChooser1.getSelectedFiles();
-            ListModel<String> lm = jList2.getModel();
-            DefaultListModel dlm = new DefaultListModel();
-            for(File f : selectedFiles)
-                if(!dlm.contains(f.getAbsolutePath()))
-                    dlm.addElement(f.getAbsolutePath());
-            for(int i = 0; i < lm.getSize(); i++) {
-                String element = lm.getElementAt(i);
-                if(!dlm.contains(element))
-                    dlm.addElement(element);
+            FileListModel<String> flm = (FileListModel<String>)dosyaListesi.getModel();
+            for(File f : selectedFiles) {
+                flm.addElement(f.getAbsolutePath());
             }
-            jList2.setModel(dlm);
+            dosyaListesi.setModel(flm);
         }
         jFileChooser1.setSelectedFile(new File(""));
         FileChooserFrame.dispose();
@@ -781,7 +775,7 @@ public class MainClient extends javax.swing.JFrame {
                 (new String(videoKayitGozetmenField.getPassword())).equals(instructorKey)) {                
             FileChooserFrame.setVisible(false);
             ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
-            ListModel<String> lm = jList2.getModel();
+            FileListModel<String> flm = (FileListModel<String>) dosyaListesi.getModel();
             
             if(cam.status()) {
                 cam.StopCaptureDesktop();
@@ -793,14 +787,15 @@ public class MainClient extends javax.swing.JFrame {
                 filesThatWillUpload.add(new File(target_file));
                 for(int i = 0; i < 100; i++) {
                     target_file_object = new File(i + "_" + target_file);
-                    if(target_file_object.exists())
-                        filesThatWillUpload.add(new File(
-                                i + "_" + target_file));
+                    if(target_file_object.exists()) {
+                        filesThatWillUpload.add(new File(i + "_" + target_file));
+                    }
                 }
             }
             ArrayList<File> codeFiles = new ArrayList<File>(0);
-            for(int i = 0; i < lm.getSize(); i++)
-                codeFiles.add(new File(lm.getElementAt(i)));
+            for(int i = 0; i < flm.getSize(); i++) {
+                codeFiles.add(new File(flm.getElementAt(i)));
+            }
             simpleTimer.stop();
             File[] temp = new File[filesThatWillUpload.size()];
             File[] temp2 = new File[codeFiles.size()];
@@ -810,16 +805,19 @@ public class MainClient extends javax.swing.JFrame {
                                    jLabel16.getText(),
                                    instructorKey);
             zau.setVisible(true);
-            for(Component component : jList2.getComponents())
+            for(Component component : dosyaListesi.getComponents()) {
                 component.setEnabled(false);
-            jList2.setEnabled(false);
-            for(Component component : VideoKayitEkrani.getComponents())
+            }
+            dosyaListesi.setEnabled(false);
+            for(Component component : VideoKayitEkrani.getComponents()) {
                 component.setEnabled(false);
+            }
             VideoKayitEkrani.setEnabled(false);
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
-        if(!(new String(videoKayitGozetmenField.getPassword())).equals(instructorKey))
+        if(!(new String(videoKayitGozetmenField.getPassword())).equals(instructorKey)) {
             keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
@@ -865,6 +863,7 @@ public class MainClient extends javax.swing.JFrame {
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MainClient().setVisible(true);
                 Timer timer = new Timer(100, yenileButtonActionListener);
@@ -884,6 +883,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
     private javax.swing.JPanel VideoKayitEkrani;
+    private javax.swing.JList<String> dosyaListesi;
     private javax.swing.JLabel durumLabel;
     private javax.swing.JTextField idTextField;
     private javax.swing.JButton jButton3;
@@ -905,7 +905,6 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private static javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
