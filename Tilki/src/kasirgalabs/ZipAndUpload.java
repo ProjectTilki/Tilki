@@ -170,8 +170,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     fileName = file.getName();
                     fileSize = file.length();
                     fis = new FileInputStream(file);
-                    if(Thread.currentThread().isInterrupted())
+                    if(Thread.currentThread().isInterrupted()) {
                         return null;
+                    }
                     queue.add("Dosya zipleniyor: " + file.getName() + "\n");
                     ZipEntry zipEntry = new ZipEntry(fileName);
                     zos.putNextEntry(zipEntry);
@@ -233,7 +234,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             FileInputStream fileIn = null;
             OutputStream os_out = null;
             String checksum = null;
-            while(socket == null && !Thread.currentThread().isInterrupted())
+            while(socket == null && !Thread.currentThread().isInterrupted()) {
                 try {
                     socket = new Socket(MainClient.getIpAddress(), 50101);
                 }catch(Exception ex0) {
@@ -246,6 +247,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                         ClientExceptionHandler.logAnException(ex1);
                     }
                 }
+            }
             try {
                 task.firePropertyChange("connectionEstablished", 0, 1);
                 queue.add("Dosyalar y\u00FCkleniyor...\n");
@@ -257,8 +259,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 out.writeUTF(id);
                 out.writeUTF(exam);
                 out.flush();
-                if(!in.readUTF().equals("Exam file is found."))
+                if(!in.readUTF().equals("Exam file is found.")) {
                     return null;
+                }
 
                 // Read file and send it over the socket.
                 long fileSize = new File(fileName).length();
@@ -284,14 +287,16 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
 
                 os_out.flush();
                 socket.shutdownOutput(); // Shut down output to tell server no more data.
-                checksum = in.readUTF(); //Read codes_md5 from socket.
+                checksum = in.readUTF(); // Read codes_md5 from socket.
             }catch(Exception ex) {
-                ClientExceptionHandler.logAnException(ex);
+                throw ex;
             }finally {
-                if(fileIn != null)
+                if(fileIn != null) {
                     fileIn.close();
-                if(socket != null);
+                }
+                if(socket != null) {
                     socket.close();
+                }
             }
             return checksum;
         }
@@ -304,19 +309,22 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         }
 
         private int fromHex(char c) {
-            if(c >= '0' && c <= '9')
+            if(c >= '0' && c <= '9') {
                 return c - '0';
-
-            if(c >= 'A' && c <= 'F')
+            }
+            if(c >= 'A' && c <= 'F') {
                 return c - 'A' + 10;
-            if(c >= 'a' && c <= 'f')
+            }
+            if(c >= 'a' && c <= 'f') {
                 return c - 'a' + 10;
+            }
             throw new IllegalArgumentException();
         }
 
         private char toHex(int index) {
-            if(index < 0 || index > 15)
+            if(index < 0 || index > 15) {
                 throw new IllegalArgumentException();
+            }
             return "0123456789ABCDEF".charAt(index);
         }
     }
