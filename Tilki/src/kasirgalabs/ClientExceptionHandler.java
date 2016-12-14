@@ -13,6 +13,8 @@ import java.net.Socket;
  * This class is used to log and send exceptions that are occurred.
  */
 public class ClientExceptionHandler {
+    
+    private static String id;
 
     /**
      * Appends an exception stack trace to a file named "error.log". If the file
@@ -40,7 +42,8 @@ public class ClientExceptionHandler {
      * <p>
      * Exceptions occurred in this method are ignored and won't be reported.
      */
-    public static void sendExceptionsToServer() {
+    public static void sendExceptionsToServer(String id) {
+        ClientExceptionHandler.id = id;
         ExceptionThread worker = new ExceptionThread();
         worker.start();
         try {
@@ -56,15 +59,18 @@ public class ClientExceptionHandler {
             Socket socket = null;
             try {
                 File errorLogFile = new File("error.log");
-                if(errorLogFile.exists() && !errorLogFile.isDirectory())
+                if(errorLogFile.exists() && !errorLogFile.isDirectory()) {
                     fileIn = new BufferedReader(new FileReader(errorLogFile));
-                else
+                }
+                else {
                     return;
+                }
 
                 BufferedReader reader = new BufferedReader(new FileReader("error.log"));
                 int lines = 0;
-                while (reader.readLine() != null)
+                while (reader.readLine() != null) {
                     lines++;
+                }
                 reader.close();
                 socket = new Socket(MainClient.getIpAddress(), 50101);
                 DataOutputStream socketOut = new DataOutputStream(socket.
@@ -72,17 +78,23 @@ public class ClientExceptionHandler {
 
                 socketOut.writeUTF("Sending error logs.");
                 socketOut.writeInt(lines);
+                if(id != null) {
+                    socketOut.writeUTF(id);
+                }
 
                 String line;
-                while((line = fileIn.readLine()) != null)
-                    socketOut.writeUTF(line + "\r\n");
+                while((line = fileIn.readLine()) != null) {
+                    socketOut.writeUTF(line);
+                }
             }catch(Exception ex) {
             }finally {
                 try {
-                    if(fileIn != null)
+                    if(fileIn != null) {
                         fileIn.close();
-                    if(socket != null)
+                    }
+                    if(socket != null) {
                         socket.close();
+                    }
                 }catch(Exception ex1) {
                 }
             }

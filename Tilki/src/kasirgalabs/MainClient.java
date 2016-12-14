@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
-import javax.swing.ListModel;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
@@ -23,7 +22,7 @@ public class MainClient extends javax.swing.JFrame {
     private static String ipAddress = "localhost";
     private Exam[] examList;
     private CaptureDesktop cam;
-    private String number;
+    private static String number;
     private String name;
     private String surname;
     private String instructorKey;
@@ -874,7 +873,7 @@ public class MainClient extends javax.swing.JFrame {
     private static class ShutDownHook extends Thread {
         @Override
         public void run() {
-            ClientExceptionHandler.sendExceptionsToServer();
+            ClientExceptionHandler.sendExceptionsToServer(number);
         }
     }
 
