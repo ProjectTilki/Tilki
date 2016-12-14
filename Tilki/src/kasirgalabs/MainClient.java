@@ -305,10 +305,11 @@ public class MainClient extends javax.swing.JFrame {
 
         SagPanel.setPreferredSize(new java.awt.Dimension(303, 459));
 
+        jList1.setToolTipText("");
         jList1.setPreferredSize(new java.awt.Dimension(265, 130));
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jList1MouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jList1MousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(jList1);
@@ -449,11 +450,11 @@ public class MainClient extends javax.swing.JFrame {
         jLabel14.setText("Ge\u00E7en S\u00FCre");
 
         jLabel15.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
-        jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 G\u00F6zat butonunu kullanarak ya da <br>s\u00FCr\u00FCkleyerek se\u00E7in ve S\u0131nav\u0131 Bitir tu\u015Funa bas\u0131n.</html>");
+        jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 \"G\u00F6zat\" butonunu kullanarak ya da <br>s\u00FCr\u00FCkleyerek se\u00E7iniz ve \"S\u0131nav\u0131 Bitir\" tu\u015Funa bas\u0131niz.</html>");
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jCheckBox1.setText("S\u0131nav\u0131 bitirmeye haz\u0131r\u0131m");
+        jCheckBox1.setText("S\u0131nav\u0131 bitirmeye haz\u0131r\u0131m.");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
@@ -585,25 +586,29 @@ public class MainClient extends javax.swing.JFrame {
                                             getText());
                     jTextArea2.setDropTarget(new DropTarget() {
                         @Override
-                        public synchronized void drop(
-                                DropTargetDropEvent evt) {
-                                    try {
-                                        evt.acceptDrop(DnDConstants.ACTION_COPY);
-                                        List<File> droppedFiles = (List<File>) evt.
-                                                getTransferable().getTransferData(
-                                                        DataFlavor.javaFileListFlavor);
-                                        FileListModel flm = (FileListModel)dosyaListesi.getModel();
-                                        droppedFiles.forEach((f) -> {
-                                            flm.addElement(f.getAbsolutePath());
-                                        });
-                                        if(jCheckBox1.isSelected()) {
-                                            jCheckBox1.doClick();
-                                        }
-                                        dosyaEksikLabel.setText(flm.getErrorMessage());
-                                        dosyaListesi.setModel(flm);
-                                    }catch(Exception ex) {
-                                        ClientExceptionHandler.logAnException(ex);
-                                    }
+                        public synchronized void drop(DropTargetDropEvent evt) {
+                            try {
+                                evt.acceptDrop(DnDConstants.ACTION_COPY);
+                                List<File> droppedFiles = (List<File>) evt.
+                                        getTransferable().getTransferData(
+                                                DataFlavor.javaFileListFlavor);
+                                FileListModel flm = (FileListModel)dosyaListesi.getModel();
+                                droppedFiles.forEach((f) -> {
+                                    flm.addElement(f.getAbsolutePath());
+                                });
+                                if(jCheckBox1.isSelected()) {
+                                    jCheckBox1.doClick();
+                                }
+                                dosyaEksikLabel.setText(flm.getErrorMessage());
+                                dosyaListesi.setModel(flm);
+                            }catch(Exception ex) {
+                                jTextArea2.setForeground(Color.RED);
+                                jTextArea2.setText("\u0130\u015Fletim sisteminiz s\u00FCr\u00FCkle b\u0131rak \u00F6zelli\u011Fini desteklemiyor.\n");
+                                jTextArea2.append("L\u00FCtfen dosyalar\u0131n\u0131z\u0131 \"G\u00F6zat\" butonuna t\u0131klayarak se\u00E7iniz.");
+                                jTextArea2.setDropTarget(null);
+                                //jTextArea2.setEnabled(false);
+                                ClientExceptionHandler.logAnException(ex);
+                            }
                         }
                     });
                     timeAtStart = System.currentTimeMillis();
@@ -664,17 +669,7 @@ public class MainClient extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_loginButtonMouseClicked
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        // TODO add your handling code here:
-        int location = jList1.locationToIndex(evt.getPoint());
-        if(examList != null && location >= 0) {
-            jTextArea1.setText(examList[location].getDescription());
-            jLabel16.setText(examList[location].getName());
-        }
-    }//GEN-LAST:event_jList1MouseClicked
-
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        // TODO add your handling code here:
         if(jCheckBox1.isSelected()) {
             jCheckBox1.doClick();
         }
@@ -869,6 +864,13 @@ public class MainClient extends javax.swing.JFrame {
         jList1.setModel(new ExamListModel(examList));
         jTextArea1.setText("");
     }//GEN-LAST:event_yenileButtonActionPerformed
+
+    private void jList1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MousePressed
+        int location = jList1.locationToIndex(evt.getPoint());
+        if(examList != null && location >= 0) {
+            jTextArea1.setText(examList[location].getDescription());
+            jLabel16.setText(examList[location].getName());
+        }    }//GEN-LAST:event_jList1MousePressed
 
     private static class ShutDownHook extends Thread {
         @Override
