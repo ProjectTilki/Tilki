@@ -113,6 +113,7 @@ public class MainClient extends javax.swing.JFrame {
         videoKayitGozetmenLabel = new javax.swing.JLabel();
         videoKayitGozetmenField = new javax.swing.JPasswordField();
         keyAcceptedLabel = new javax.swing.JLabel();
+        dosyaEksikLabel = new javax.swing.JLabel();
 
         FileChooserFrame.setTitle("Tilki");
         FileChooserFrame.setMinimumSize(new java.awt.Dimension(500, 500));
@@ -489,8 +490,12 @@ public class MainClient extends javax.swing.JFrame {
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(72, 72, 72))
                             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
-                                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                                .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
+                                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(dosyaEksikLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -518,11 +523,16 @@ public class MainClient extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addComponent(jTextArea2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox1))
-                        .addGap(18, 18, 18)
-                        .addComponent(videoKayitGozetmenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35))
+                            .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
+                                .addComponent(jCheckBox1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dosyaEksikLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(17, 17, 17)))
+                        .addComponent(videoKayitGozetmenLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(keyAcceptedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -583,10 +593,14 @@ public class MainClient extends javax.swing.JFrame {
                                         List<File> droppedFiles = (List<File>) evt.
                                                 getTransferable().getTransferData(
                                                         DataFlavor.javaFileListFlavor);
-                                        FileListModel<String> flm = (FileListModel<String>)dosyaListesi.getModel();
+                                        FileListModel flm = (FileListModel)dosyaListesi.getModel();
                                         droppedFiles.forEach((f) -> {
                                             flm.addElement(f.getAbsolutePath());
                                         });
+                                        if(jCheckBox1.isSelected()) {
+                                            jCheckBox1.doClick();
+                                        }
+                                        dosyaEksikLabel.setText(flm.getErrorMessage());
                                         dosyaListesi.setModel(flm);
                                     }catch(Exception ex) {
                                         ClientExceptionHandler.logAnException(ex);
@@ -662,6 +676,9 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
+        if(jCheckBox1.isSelected()) {
+            jCheckBox1.doClick();
+        }
         FileChooserFrame.setVisible(true);
     }//GEN-LAST:event_jButton3MouseClicked
 
@@ -689,12 +706,16 @@ public class MainClient extends javax.swing.JFrame {
     }
     
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        if(jCheckBox1.isSelected()) {
+            jCheckBox1.doClick();
+        }
         FileChooserFrame.setVisible(false);
-        FileListModel<String> flm = (FileListModel<String>)dosyaListesi.getModel();
+        FileListModel flm = (FileListModel)dosyaListesi.getModel();
         List<String> list = dosyaListesi.getSelectedValuesList();
         for(int i = 0; i < list.size(); i++) {
             flm.removeElement(list.get(i));
         }
+        dosyaEksikLabel.setText(flm.getErrorMessage());
         dosyaListesi.setModel(flm);
     }//GEN-LAST:event_jButton4MouseClicked
 
@@ -742,14 +763,14 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_keyFieldKeyPressed
 
     private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
-        // TODO add your handling code here:
         String command = evt.getActionCommand();
         if(command.equalsIgnoreCase("ApproveSelection")) {
             File[] selectedFiles = jFileChooser1.getSelectedFiles();
-            FileListModel<String> flm = (FileListModel<String>)dosyaListesi.getModel();
+            FileListModel flm = (FileListModel)dosyaListesi.getModel();
             for(File f : selectedFiles) {
                 flm.addElement(f.getAbsolutePath());
             }
+            dosyaEksikLabel.setText(flm.getErrorMessage());
             dosyaListesi.setModel(flm);
         }
         jFileChooser1.setSelectedFile(new File(""));
@@ -758,6 +779,16 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if(jCheckBox1.isSelected()) {
+            dosyaEksikLabel.setText("");
+            FileListModel flm = (FileListModel) dosyaListesi.getModel();
+            if(flm.isEmpty()) {
+                dosyaEksikLabel.setText(flm.getErrorMessage());
+            }
+            if(!flm.areAllFilesExists()) {
+                dosyaEksikLabel.setText(flm.getErrorMessage());
+                jCheckBox1.doClick();
+                return;
+            }
             videoKayitGozetmenField.setEnabled(true);
             jButton7.setEnabled(true);
         }
@@ -770,18 +801,17 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
         if(jCheckBox1.isSelected() &&
                 (new String(videoKayitGozetmenField.getPassword())).equals(instructorKey)) {                
             FileChooserFrame.setVisible(false);
             ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
-            FileListModel<String> flm = (FileListModel<String>) dosyaListesi.getModel();
-            
+            FileListModel flm = (FileListModel) dosyaListesi.getModel();
+
             if(cam.status()) {
                 cam.StopCaptureDesktop();
             }
             
-            String target_file = cam.getPersonName() + "." + cam.getFormat(); // fileThatYouWantToFilter
+            String target_file = cam.getPersonName() + "." + cam.getFormat();
             File target_file_object = new File(target_file);
             if(target_file_object.exists()) {
                 filesThatWillUpload.add(new File(target_file));
@@ -794,7 +824,7 @@ public class MainClient extends javax.swing.JFrame {
             }
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {
-                codeFiles.add(new File(flm.getElementAt(i)));
+                codeFiles.add(new File((String)flm.getElementAt(i)));
             }
             simpleTimer.stop();
             File[] temp = new File[filesThatWillUpload.size()];
@@ -883,6 +913,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
     private javax.swing.JPanel VideoKayitEkrani;
+    private javax.swing.JLabel dosyaEksikLabel;
     private javax.swing.JList<String> dosyaListesi;
     private javax.swing.JLabel durumLabel;
     private javax.swing.JTextField idTextField;
