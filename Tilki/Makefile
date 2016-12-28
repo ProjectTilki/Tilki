@@ -5,4 +5,5 @@ clean:
 	-rm -r build
 	-rm -r test
 	-rm -r deneme
+	-rm -r dist
 	-rm exam_list.txt
