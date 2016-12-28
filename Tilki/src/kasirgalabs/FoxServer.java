@@ -36,7 +36,7 @@ public class FoxServer {
     private static final Logger LOGGER;
     private static final FoxServerLogManager LOG_MANAGER;
     static {
-        // must be called before any Logger method is used.
+        // Must be called before any Logger method is used.
         setProperty("java.util.logging.manager", FoxServerLogManager.class.getName());
         LOG_MANAGER = (FoxServerLogManager) LogManager.getLogManager();
         LOGGER = Logger.getLogger(FoxServer.class.getName());
@@ -65,18 +65,18 @@ public class FoxServer {
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
         try {
-            serverSocket = new ServerSocket(50101, 200);
+            serverSocket = new ServerSocket(50101, 5);
         }catch(IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             Runtime.getRuntime().removeShutdownHook(hook);
             System.exit(0);
         }
         futureList = new ConcurrentLinkedDeque<Future<Integer>>();
-        executor = Executors.newFixedThreadPool(200);
+        executor = Executors.newFixedThreadPool(5);
         
         //FoxServerSetup.main(null);
-        Socket clientSocket = null;
         while(true && !Thread.currentThread().isInterrupted()) {
+            Socket clientSocket = null;
             try {
                 clientSocket = serverSocket.accept();
             }catch(IOException ex) {
@@ -101,9 +101,7 @@ public class FoxServer {
         }
     }
 
-    private static class ShutDownHook extends Thread {
-        private static final Logger asd = Logger.getLogger(ShutDownHook.class.getName());
-        
+    private static class ShutDownHook extends Thread {        
         @Override
         public void run() {
             LOGGER.info("Running shut down hook...");

@@ -334,26 +334,29 @@ public class FoxServiceThread implements Callable<Integer> {
                 "exam_list.txt"));
         ArrayList<Exam> examList = new ArrayList<>(); // Array list of Exam object contains available exams.
         String exam;
-        while((exam = fileIn.readLine()) != null) // Read exam list.
-            if(new File(exam).exists())
+        while((exam = fileIn.readLine()) != null) { // Read exam list.
+            if(new File(exam).exists()) {
                 if(!new File(exam, "exam_description.txt").exists()) { // Look for the descripton.
                     examList.add(new Exam(exam, null));
                     continue;
-                }else {
-                    BufferedReader description = new BufferedReader(
-                            new FileReader(
-                                    new File(exam, "exam_description.txt")));
-                    String examDescription = "";
-                    String temp;
-                    boolean firstLine = true;
-                    while((temp = description.readLine()) != null) // Description is available.
-                        if(firstLine) {
-                            examDescription += temp;
-                            firstLine = false;
-                        }else
-                            examDescription += "\n" + temp;
-                    examList.add(new Exam(exam, examDescription));
                 }
+                BufferedReader description = new BufferedReader(new FileReader(
+                                new File(exam, "exam_description.txt")));
+                String examDescription = "";
+                String temp;
+                boolean firstLine = true;
+                while((temp = description.readLine()) != null) { // Description is available.
+                    if(firstLine) {
+                        examDescription += temp;
+                        firstLine = false;
+                        continue;
+                    }
+                    examDescription += "\n" + temp;
+                }
+                examList.add(new Exam(exam, examDescription));
+                description.close();
+            }
+        }
         fileIn.close();
 
         Exam[] exams = new Exam[examList.size()];
