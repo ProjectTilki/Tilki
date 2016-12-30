@@ -13,7 +13,7 @@ import java.net.Socket;
  * This class is used to log and send exceptions that are occurred.
  */
 public class ClientExceptionHandler {
-    
+
     private static String id;
 
     /**
@@ -29,10 +29,13 @@ public class ClientExceptionHandler {
         try {
             pw = new PrintWriter(new FileOutputStream("error.log", true));
             e.printStackTrace(pw);
-        }catch(IOException ex) {
-        }finally {
-            if(pw != null)
+        }
+        catch(IOException ex) {
+        }
+        finally {
+            if(pw != null) {
                 pw.close();
+            }
         }
     }
 
@@ -48,11 +51,13 @@ public class ClientExceptionHandler {
         worker.start();
         try {
             worker.join(1000);
-        } catch (InterruptedException ex) {
+        }
+        catch(InterruptedException ex) {
         }
     }
-    
+
     private static class ExceptionThread extends Thread {
+
         @Override
         public void run() {
             BufferedReader fileIn = null;
@@ -66,9 +71,10 @@ public class ClientExceptionHandler {
                     return;
                 }
 
-                BufferedReader reader = new BufferedReader(new FileReader("error.log"));
+                BufferedReader reader = new BufferedReader(new FileReader(
+                        "error.log"));
                 int lines = 0;
-                while (reader.readLine() != null) {
+                while(reader.readLine() != null) {
                     lines++;
                 }
                 reader.close();
@@ -86,8 +92,10 @@ public class ClientExceptionHandler {
                 while((line = fileIn.readLine()) != null) {
                     socketOut.writeUTF(line);
                 }
-            }catch(Exception ex) {
-            }finally {
+            }
+            catch(Exception ex) {
+            }
+            finally {
                 try {
                     if(fileIn != null) {
                         fileIn.close();
@@ -95,7 +103,8 @@ public class ClientExceptionHandler {
                     if(socket != null) {
                         socket.close();
                     }
-                }catch(Exception ex1) {
+                }
+                catch(Exception ex1) {
                 }
             }
         }

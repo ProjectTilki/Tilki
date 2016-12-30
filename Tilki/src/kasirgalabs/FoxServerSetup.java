@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
  * @author baturay
  */
 public class FoxServerSetup extends javax.swing.JFrame {
+
     private Exam[] examList;
     private FoxClientUtilities fcu;
     private JLabel jLabel2;
@@ -47,12 +48,14 @@ public class FoxServerSetup extends javax.swing.JFrame {
         try {
             examList = fcu.availableExams();
             jList6.setModel(new ExamListModel(examList));
-        }catch(IOException e) {
+        }
+        catch(IOException e) {
             examList = null;
             jList6.setModel(new ExamListModel(examList));
             jLabel19.setText("Ba\u011Flanamad\u0131.");
             jLabel19.setVisible(true);
-        }catch(ClassNotFoundException e) {
+        }
+        catch(ClassNotFoundException e) {
             examList = null;
             jLabel19.setText("Eksik dosya.");
             jLabel19.setVisible(true);
@@ -315,11 +318,13 @@ public class FoxServerSetup extends javax.swing.JFrame {
         try {
             examList = fcu.availableExams();
             jLabel19.setVisible(false);
-        }catch(IOException e) {
+        }
+        catch(IOException e) {
             examList = null;
             jLabel19.setText("Ba\u011Flanamad\u0131.");
             jLabel19.setVisible(true);
-        }catch(ClassNotFoundException e) {
+        }
+        catch(ClassNotFoundException e) {
             examList = null;
             jLabel19.setText("Eksik dosya.");
             jLabel19.setVisible(true);
@@ -332,11 +337,13 @@ public class FoxServerSetup extends javax.swing.JFrame {
         try {
             examList = fcu.availableExams();
             jLabel19.setVisible(false);
-        }catch(IOException e) {
+        }
+        catch(IOException e) {
             examList = null;
             jLabel19.setText("Ba\u011Flanamad\u0131.");
             jLabel19.setVisible(true);
-        }catch(ClassNotFoundException e) {
+        }
+        catch(ClassNotFoundException e) {
             examList = null;
             jLabel19.setText("Eksik dosya.");
             jLabel19.setVisible(true);
@@ -348,8 +355,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private void jList6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList6MouseClicked
         // TODO add your handling code here:
         int location = jList6.locationToIndex(evt.getPoint());
-        if(examList != null && location >= 0)
+        if(examList != null && location >= 0) {
             jTextArea7.setText(examList[location].getDescription());
+        }
     }//GEN-LAST:event_jList6MouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -362,8 +370,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                                                         "S\u0131nav\u0131 olu\u015Fturmak istedi\u011Finize emin misiniz?",
-                                                         "Tilki", 1);
+                "S\u0131nav\u0131 olu\u015Fturmak istedi\u011Finize emin misiniz?",
+                "Tilki", 1);
         if(dialogResult == JOptionPane.YES_OPTION) {
             examName = jTextField1.getText();
             examKey = new String(jPasswordField1.getPassword());
@@ -380,7 +388,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
                                 true)));
                 PrintWriter out2 = new PrintWriter(new BufferedWriter(
                         new FileWriter(exam.getAbsolutePath() + "/exam_key.txt",
-                                       true)));
+                                true)));
                 out.println(examName);
                 out1.println(examDescription);
                 out2.println(examKey);
@@ -388,14 +396,16 @@ public class FoxServerSetup extends javax.swing.JFrame {
                 out1.close();
                 out2.close();
                 JOptionPane.showMessageDialog(null,
-                                              "S\u0131nav basar\u0131yla olusturuldu.",
-                                              "Tilki", 1);
-            }catch(IOException e) {
+                        "S\u0131nav basar\u0131yla olusturuldu.",
+                        "Tilki", 1);
+            }
+            catch(IOException e) {
                 JOptionPane.showMessageDialog(null,
-                                              "S\u0131nav olu\u015Fturulamad\u0131.",
-                                              "Tilki", 1);
+                        "S\u0131nav olu\u015Fturulamad\u0131.",
+                        "Tilki", 1);
                 System.err.println(e);
-            }finally {
+            }
+            finally {
                 jButton7.doClick();
                 reset();
             }
@@ -405,36 +415,43 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private static boolean deleteDirectory(File directory) {
         if(directory.exists()) {
             File[] files = directory.listFiles();
-            if(null != files)
-                for(int i = 0; i < files.length; i++)
-                    if(files[i].isDirectory())
+            if(null != files) {
+                for(int i = 0; i < files.length; i++) {
+                    if(files[i].isDirectory()) {
                         deleteDirectory(files[i]);
-                    else
+                    }
+                    else {
                         files[i].delete();
+                    }
+                }
+            }
         }
         return (directory.delete());
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(jList6.getSelectedIndex() < 0)
+        if(jList6.getSelectedIndex() < 0) {
             return;
+        }
         String lineToRemove = examList[jList6.getSelectedIndex()].getName();
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                                                         "Se\u00E7ili s\u0131nav\u0131 kald\u0131rmak istedi\u011Finize emin misiniz?",
-                                                         "Tilki", 1);
+                "Se\u00E7ili s\u0131nav\u0131 kald\u0131rmak istedi\u011Finize emin misiniz?",
+                "Tilki", 1);
         exam = new File("");
         if(dialogResult == JOptionPane.YES_OPTION) {
             File file = new File(exam.getAbsolutePath() + "/" + examList[jList6.
                     getSelectedIndex()].getName());
-            if(deleteDirectory(file))
+            if(deleteDirectory(file)) {
                 JOptionPane.showMessageDialog(null,
-                                              "Silme i\u015Flemi ba\u015Far\u0131l\u0131.",
-                                              "Tilki", 1);
-            else
+                        "Silme i\u015Flemi ba\u015Far\u0131l\u0131.",
+                        "Tilki", 1);
+            }
+            else {
                 JOptionPane.
                         showMessageDialog(null,
-                                          "Silme i\u015Flemi ba\u015Far\u0131lamad\u0131.",
-                                          "Tilki", 1);
+                                "Silme i\u015Flemi ba\u015Far\u0131lamad\u0131.",
+                                "Tilki", 1);
+            }
         }
         jButton7.doClick();
 
@@ -444,16 +461,18 @@ public class FoxServerSetup extends javax.swing.JFrame {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(inputFile));
-        }catch(FileNotFoundException ex) {
+        }
+        catch(FileNotFoundException ex) {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+                    null, ex);
         }
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(tempFile));
-        }catch(IOException ex) {
+        }
+        catch(IOException ex) {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+                    null, ex);
         }
 
         String currentLine;
@@ -462,31 +481,36 @@ public class FoxServerSetup extends javax.swing.JFrame {
             while((currentLine = reader.readLine()) != null) {
                 // trim newline when comparing with lineToRemove
                 String trimmedLine = currentLine.trim();
-                if(trimmedLine.equals(lineToRemove))
+                if(trimmedLine.equals(lineToRemove)) {
                     continue;
+                }
                 try {
                     writer.write(currentLine + System.getProperty(
                             "line.separator"));
-                }catch(IOException ex) {
+                }
+                catch(IOException ex) {
                     Logger.getLogger(FoxServerSetup.class.getName()).log(
                             Level.SEVERE, null, ex);
                 }
             }
-        }catch(IOException ex) {
+        }
+        catch(IOException ex) {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+                    null, ex);
         }
         try {
             writer.close();
-        }catch(IOException ex) {
+        }
+        catch(IOException ex) {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+                    null, ex);
         }
         try {
             reader.close();
-        }catch(IOException ex) {
+        }
+        catch(IOException ex) {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+                    null, ex);
         }
 
         boolean successful = tempFile.renameTo(inputFile);
@@ -494,10 +518,12 @@ public class FoxServerSetup extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        if(jRadioButton1.isSelected())
+        if(jRadioButton1.isSelected()) {
             jPasswordField1.setEchoChar((char) 0);
-        else
+        }
+        else {
             jPasswordField1.setEchoChar('*');
+        }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -510,18 +536,20 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jLabel6.setText("S\u0131nav D\u00FCzenleme Modu");
         jButton1.setEnabled(false);
         reset();
-        
+
         try {
             jTextField1.setText(fcu.availableExams()[jList6.getSelectedIndex()].
                     getName());
             jTextArea1.setText(fcu.availableExams()[jList6.getSelectedIndex()].
                     getDescription());
-        }catch(IOException ex) {
+        }
+        catch(IOException ex) {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
-        }catch(ClassNotFoundException ex) {
+                    null, ex);
+        }
+        catch(ClassNotFoundException ex) {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
-                                                                 null, ex);
+                    null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -539,8 +567,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                                                         "De\u011Fi\u015Fiklikleri uygulamak istedi\u011Finize emin misiniz?",
-                                                         "Tilki", 1);
+                "De\u011Fi\u015Fiklikleri uygulamak istedi\u011Finize emin misiniz?",
+                "Tilki", 1);
         if(dialogResult == JOptionPane.YES_OPTION) {
             jButton1.setEnabled(true);
             jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
@@ -566,7 +594,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
                 out2.println(newDesc);
                 out1.close();
                 out2.close();
-            }catch(IOException ex) {
+            }
+            catch(IOException ex) {
                 Logger.getLogger(FoxServerSetup.class.getName()).log(
                         Level.SEVERE, null, ex);
             }
@@ -601,21 +630,26 @@ public class FoxServerSetup extends javax.swing.JFrame {
          */
         try {
             for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.
-                    getInstalledLookAndFeels())
+                    getInstalledLookAndFeels()) {
                 if("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
-        }catch(ClassNotFoundException ex) {
+            }
+        }
+        catch(ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
                     log(java.util.logging.Level.SEVERE, null, ex);
-        }catch(InstantiationException ex) {
+        }
+        catch(InstantiationException ex) {
             java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
                     log(java.util.logging.Level.SEVERE, null, ex);
-        }catch(IllegalAccessException ex) {
+        }
+        catch(IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
                     log(java.util.logging.Level.SEVERE, null, ex);
-        }catch(javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        catch(javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FoxServerSetup.class.getName()).
                     log(java.util.logging.Level.SEVERE, null, ex);
         }
