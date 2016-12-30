@@ -126,7 +126,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                         "Ba\u011Flant\u0131 Hatas\u0131");
                 ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 dialog.setVisible(true);
-                return;
             }
         }
 
@@ -173,10 +172,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 zos = new ZipOutputStream(fos);
                 String fileName;
                 long fileSize;
-                long sentBytes = 0;
                 for(File file : files) {
                     int progress = 0;
-                    sentBytes = 0;
+                    long sentBytes = 0;
                     fileName = file.getName();
                     fileSize = file.length();
                     fis = new FileInputStream(file);
@@ -189,8 +187,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     byte[] buffer = new byte[4096];
                     int length;
                     while((length = fis.read(buffer)) > 0 && !Thread.
-                            currentThread().
-                            isInterrupted()) {
+                            currentThread().isInterrupted()) {
                         zos.write(buffer, 0, length);
                         sentBytes += length;
                         if(sentBytes >= fileSize / 100) {
@@ -528,6 +525,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 startButton.removeActionListener(listener);
             }
             startButton.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent evt) {
                     System.exit(0);
                 }
@@ -573,6 +571,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 startButton.removeActionListener(listener);
             }
             startButton.addMouseListener(new MouseAdapter() {
+                @Override
                 public void mouseClicked(MouseEvent evt) {
                     try {
                         socket.close();
@@ -626,10 +625,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             dialog3.setVisible(true);
         }
         if("connectionEstablished".equals(evt.getPropertyName())) {
-            if(dialog3 == null) {
-                return;
-            }
-            else {
+            if(dialog3 != null) {
                 dialog3.setVisible(false);
             }
         }
