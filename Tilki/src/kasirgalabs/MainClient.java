@@ -19,6 +19,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
+
     private static String ipAddress = "localhost";
     private Exam[] examList;
     private CaptureDesktop cam;
@@ -44,7 +45,6 @@ public class MainClient extends javax.swing.JFrame {
         ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
-        
 
         yenileButtonActionListener = new java.awt.event.ActionListener() {
             @Override
@@ -564,26 +564,27 @@ public class MainClient extends javax.swing.JFrame {
         instructorKey = new String(keyField.getPassword());
 
         if(!(name.isEmpty()) && !(surname.isEmpty())
-           && !(number.isEmpty()) && !(className.equals(
-                                       "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
-                isEmpty()) {
+                && !(number.isEmpty()) && !(className.equals(
+                "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
+                        isEmpty()) {
             int status = 4;
             try {
                 status = fcu.verifyInstructorKey(name, surname, number,
-                                                 className, instructorKey);
-                if(status == 2)
+                        className, instructorKey);
+                if(status == 2) {
                     loginLabel.setText(
                             "<html>\u015Eifre kabul edilmedi, ve kayda ge\u00E7ildi.<br>"
                             + "L\u00FCtfen tekrar deneyiniz.</html>");
+                }
                 else if(status == 1) {
                     GirisEkrani.setVisible(false);
                     this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
                     VideoKayitEkrani.setVisible(true);
                     cam = new CaptureDesktop();
                     cam.StartCaptureDesktop(idTextField.getText(),
-                                            surnameTextField.
-                                            getText().charAt(0) + nameTextField.
-                                            getText());
+                            surnameTextField.
+                                    getText().charAt(0) + nameTextField.
+                            getText());
                     jTextArea2.setDropTarget(new DropTarget() {
                         @Override
                         public synchronized void drop(DropTargetDropEvent evt) {
@@ -592,7 +593,7 @@ public class MainClient extends javax.swing.JFrame {
                                 List<File> droppedFiles = (List<File>) evt.
                                         getTransferable().getTransferData(
                                                 DataFlavor.javaFileListFlavor);
-                                FileListModel flm = (FileListModel)dosyaListesi.getModel();
+                                FileListModel flm = (FileListModel) dosyaListesi.getModel();
                                 droppedFiles.forEach((f) -> {
                                     flm.addElement(f.getAbsolutePath());
                                 });
@@ -601,10 +602,13 @@ public class MainClient extends javax.swing.JFrame {
                                 }
                                 dosyaEksikLabel.setText(flm.getErrorMessage());
                                 dosyaListesi.setModel(flm);
-                            }catch(Exception ex) {
+                            }
+                            catch(Exception ex) {
                                 jTextArea2.setForeground(Color.RED);
-                                jTextArea2.setText("\u0130\u015Fletim sisteminiz s\u00FCr\u00FCkle b\u0131rak \u00F6zelli\u011Fini desteklemiyor.\n");
-                                jTextArea2.append("L\u00FCtfen dosyalar\u0131n\u0131z\u0131 \"G\u00F6zat\" butonuna t\u0131klayarak se\u00E7iniz.");
+                                jTextArea2.setText(
+                                        "\u0130\u015Fletim sisteminiz s\u00FCr\u00FCkle b\u0131rak \u00F6zelli\u011Fini desteklemiyor.\n");
+                                jTextArea2.append(
+                                        "L\u00FCtfen dosyalar\u0131n\u0131z\u0131 \"G\u00F6zat\" butonuna t\u0131klayarak se\u00E7iniz.");
                                 jTextArea2.setDropTarget(null);
                                 //jTextArea2.setEnabled(false);
                                 ClientExceptionHandler.logAnException(ex);
@@ -612,17 +616,19 @@ public class MainClient extends javax.swing.JFrame {
                         }
                     });
                     timeAtStart = System.currentTimeMillis();
-                    simpleTimer = new Timer(1000, new ActionListener(){
+                    simpleTimer = new Timer(1000, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             jLabel9.setText(getTimeElapsed());
                         }
                     });
                     simpleTimer.start();
-                }else {
+                }
+                else {
                     loginLabel.setText("Bilinmeyen hata.");
                 }
-            }catch(IOException ex) {
+            }
+            catch(IOException ex) {
                 durumLabel.setText("Ba\u011Flanamad\u0131");
                 durumLabel.setForeground(Color.red);
                 durumLabel.setVisible(true);
@@ -638,7 +644,8 @@ public class MainClient extends javax.swing.JFrame {
                 examList = null;
                 jTextArea1.setText("");
                 jList1.setModel(new ExamListModel(examList));
-            }else if(status == 4) {
+            }
+            else if(status == 4) {
                 durumLabel.setText("Ba\u011Flanamad\u0131");
                 durumLabel.setForeground(Color.red);
                 durumLabel.setVisible(true);
@@ -648,23 +655,29 @@ public class MainClient extends javax.swing.JFrame {
                 jTextArea1.setText("");
                 jList1.setModel(new ExamListModel(examList));
             }
-        }else if(name.isEmpty()) {
+        }
+        else if(name.isEmpty()) {
             loginLabel.setText("Ad k\u0131sm\u0131 eksik.");
             loginLabel.setVisible(true);
-        }else if(surname.isEmpty()) {
+        }
+        else if(surname.isEmpty()) {
             loginLabel.setText("Soyad k\u0131sm\u0131 eksik.");
             loginLabel.setVisible(true);
-        }else if(number.isEmpty()) {
+        }
+        else if(number.isEmpty()) {
             loginLabel.setText("Numara k\u0131sm\u0131 eksik.");
             loginLabel.setVisible(true);
-        }else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
+        }
+        else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
             loginLabel.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
             loginLabel.setVisible(true);
             jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
-        }else if(instructorKey.isEmpty()) {
+        }
+        else if(instructorKey.isEmpty()) {
             loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
             loginLabel.setVisible(true);
-        }else {
+        }
+        else {
             loginLabel.setVisible(false);
         }
     }//GEN-LAST:event_loginButtonMouseClicked
@@ -698,13 +711,13 @@ public class MainClient extends javax.swing.JFrame {
 
         return hours + ":" + minutes + ":" + seconds;
     }
-    
+
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         if(jCheckBox1.isSelected()) {
             jCheckBox1.doClick();
         }
         FileChooserFrame.setVisible(false);
-        FileListModel flm = (FileListModel)dosyaListesi.getModel();
+        FileListModel flm = (FileListModel) dosyaListesi.getModel();
         List<String> list = dosyaListesi.getSelectedValuesList();
         for(int i = 0; i < list.size(); i++) {
             flm.removeElement(list.get(i));
@@ -716,7 +729,7 @@ public class MainClient extends javax.swing.JFrame {
     private void idTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -726,7 +739,7 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -735,7 +748,7 @@ public class MainClient extends javax.swing.JFrame {
     private void surnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -750,7 +763,7 @@ public class MainClient extends javax.swing.JFrame {
     private void keyFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyFieldKeyPressed
         MouseEvent temp;
         temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                              WIDTH, HEIGHT, rootPaneCheckingEnabled);
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -760,7 +773,7 @@ public class MainClient extends javax.swing.JFrame {
         String command = evt.getActionCommand();
         if(command.equalsIgnoreCase("ApproveSelection")) {
             File[] selectedFiles = jFileChooser1.getSelectedFiles();
-            FileListModel flm = (FileListModel)dosyaListesi.getModel();
+            FileListModel flm = (FileListModel) dosyaListesi.getModel();
             for(File f : selectedFiles) {
                 flm.addElement(f.getAbsolutePath());
             }
@@ -795,8 +808,9 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if(jCheckBox1.isSelected() &&
-                (new String(videoKayitGozetmenField.getPassword())).equals(instructorKey)) {                
+        if(jCheckBox1.isSelected()
+                && (new String(videoKayitGozetmenField.getPassword())).equals(
+                        instructorKey)) {
             FileChooserFrame.setVisible(false);
             ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
             FileListModel flm = (FileListModel) dosyaListesi.getModel();
@@ -804,7 +818,7 @@ public class MainClient extends javax.swing.JFrame {
             if(cam.status()) {
                 cam.StopCaptureDesktop();
             }
-            
+
             String target_file = cam.getPersonName() + "." + cam.getFormat();
             File target_file_object = new File(target_file);
             if(target_file_object.exists()) {
@@ -818,16 +832,16 @@ public class MainClient extends javax.swing.JFrame {
             }
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {
-                codeFiles.add(new File((String)flm.getElementAt(i)));
+                codeFiles.add(new File((String) flm.getElementAt(i)));
             }
             simpleTimer.stop();
             File[] temp = new File[filesThatWillUpload.size()];
             File[] temp2 = new File[codeFiles.size()];
             zau = new ZipAndUpload(codeFiles.toArray(temp2),
-                                   filesThatWillUpload.toArray(
-                                           temp), number,
-                                   jLabel16.getText(),
-                                   instructorKey);
+                    filesThatWillUpload.toArray(
+                            temp), number,
+                    jLabel16.getText(),
+                    instructorKey);
             zau.setVisible(true);
             for(Component component : dosyaListesi.getComponents()) {
                 component.setEnabled(false);
@@ -839,7 +853,8 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkrani.setEnabled(false);
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
-        if(!(new String(videoKayitGozetmenField.getPassword())).equals(instructorKey)) {
+        if(!(new String(videoKayitGozetmenField.getPassword())).equals(
+                instructorKey)) {
             keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
         }
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -850,12 +865,14 @@ public class MainClient extends javax.swing.JFrame {
             durumLabel.setEnabled(true);
             durumLabel.setText("Ba\u011Fland\u0131");
             durumLabel.setForeground(c);
-        }catch(IOException e) {
+        }
+        catch(IOException e) {
             examList = null;
             durumLabel.setText("Ba\u011Flanamad\u0131");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
-        }catch(ClassNotFoundException e) {
+        }
+        catch(ClassNotFoundException e) {
             examList = null;
             durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
             durumLabel.setForeground(Color.red);
@@ -873,6 +890,7 @@ public class MainClient extends javax.swing.JFrame {
         }    }//GEN-LAST:event_jList1MousePressed
 
     private static class ShutDownHook extends Thread {
+
         @Override
         public void run() {
             ClientExceptionHandler.sendExceptionsToServer(number);
@@ -885,11 +903,12 @@ public class MainClient extends javax.swing.JFrame {
     public static void main(String args[]) {
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
-        
+
         try {
             UIManager.setLookAndFeel(
                     "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-        }catch(Exception ex) {
+        }
+        catch(Exception ex) {
             ClientExceptionHandler.logAnException(ex);
         }
 

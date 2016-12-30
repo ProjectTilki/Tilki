@@ -31,7 +31,8 @@ import javax.swing.SwingWorker;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 
 public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
-                                                                PropertyChangeListener {
+        PropertyChangeListener {
+
     private File[] codeFiles;
     private File logFile;
     private boolean codeFilesAreDone = false;
@@ -50,6 +51,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private Socket socket;
 
     private class Task extends SwingWorker<String, Void> {
+
         /*
          * Main task. Executed in background thread.
          */
@@ -67,8 +69,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             fw.append(codes_md5 + "\r\n");
             task.firePropertyChange("enableCloseButton", 0, 1);
             String temp = createZipFile(videoFiles);
-            if(Thread.currentThread().isInterrupted())
+            if(Thread.currentThread().isInterrupted()) {
                 return "";
+            }
             videos_md5 = sendFile(temp, name, id);
             videos_md5 = videos_md5.toUpperCase();
             xor_md5 = xorHex(codes_md5, videos_md5);
@@ -96,8 +99,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             startButton.setEnabled(true);
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             startButton.setText("<html>Program\u0131<br>Kapat<html>");
-            for(ActionListener listener : startButton.getActionListeners())
+            for(ActionListener listener : startButton.getActionListeners()) {
                 startButton.removeActionListener(listener);
+            }
             startButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent evt) {
@@ -105,19 +109,21 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 }
             });
             ZipAndUpload.this.setCursor(null); //turn off the wait cursor
-            if(!task.isCancelled())
+            if(!task.isCancelled()) {
                 progressBar.setValue(100);
+            }
             try {
                 get();
-            }catch(Exception ex) {
+            }
+            catch(Exception ex) {
                 ClientExceptionHandler.logAnException(ex);
                 Object[] option = {"Tamam"};
                 String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana geldi.\nL\u00FCtfen g\u00F6zetmeni \u00E7a\u011F\u0131r\u0131n\u0131z\nve program\u0131 yeniden ba\u015Flat\u0131n\u0131z.\n";
                 JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                                                   DEFAULT_OPTION, null,
-                                                   option);
+                        DEFAULT_OPTION, null,
+                        option);
                 JDialog dialog = pane.createDialog(null,
-                                                   "Ba\u011Flant\u0131 Hatas\u0131");
+                        "Ba\u011Flant\u0131 Hatas\u0131");
                 ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 dialog.setVisible(true);
                 return;
@@ -146,14 +152,18 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         private String createZipFile(File[] files) throws IOException {
             String zipFileName = videoFiles[0].getName();
             int pos = zipFileName.lastIndexOf('.');
-            if(pos > 0)
+            if(pos > 0) {
                 zipFileName = zipFileName.substring(0, pos) + ".zip";
-            else
+            }
+            else {
                 zipFileName += ".zip";
-            if(codeFilesAreDone)
+            }
+            if(codeFilesAreDone) {
                 zipFileName = "videos_" + zipFileName;
-            else
+            }
+            else {
                 zipFileName = "codes_" + zipFileName;
+            }
 
             FileOutputStream fos = null;
             FileInputStream fis = null;
@@ -191,15 +201,20 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     zos.closeEntry();
                     fis.close();
                 }
-            }catch(Exception e) {
+            }
+            catch(Exception e) {
                 throw e;
-            }finally {
-                if(zos != null)
+            }
+            finally {
+                if(zos != null) {
                     zos.close();
-                if(fos != null)
+                }
+                if(fos != null) {
                     fos.close();
-                if(fis != null)
+                }
+                if(fis != null) {
                     fis.close();
+                }
             }
             return zipFileName;
         }
@@ -237,13 +252,15 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             while(socket == null && !Thread.currentThread().isInterrupted()) {
                 try {
                     socket = new Socket(MainClient.getIpAddress(), 50101);
-                }catch(Exception ex0) {
+                }
+                catch(Exception ex0) {
                     ClientExceptionHandler.logAnException(ex0);
                     task.firePropertyChange("connectionError", 0, 1);
                     socket = null;
                     try {
                         Thread.sleep(5000);
-                    }catch(InterruptedException ex1) {
+                    }
+                    catch(InterruptedException ex1) {
                         ClientExceptionHandler.logAnException(ex1);
                     }
                 }
@@ -281,16 +298,19 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                             setProgress(progress++);
                         }
                     }
-                    if(Thread.currentThread().isInterrupted())
+                    if(Thread.currentThread().isInterrupted()) {
                         return null;
-                }while(bytesCount > 0);
+                    }
+                } while(bytesCount > 0);
 
                 os_out.flush();
                 socket.shutdownOutput(); // Shut down output to tell server no more data.
                 checksum = in.readUTF(); // Read codes_md5 from socket.
-            }catch(Exception ex) {
+            }
+            catch(Exception ex) {
                 throw ex;
-            }finally {
+            }
+            finally {
                 if(fileIn != null) {
                     fileIn.close();
                 }
@@ -303,8 +323,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
 
         private String xorHex(String a, String b) {
             char[] chars = new char[a.length()];
-            for(int i = 0; i < chars.length; i++)
+            for(int i = 0; i < chars.length; i++) {
                 chars[i] = toHex(fromHex(a.charAt(i)) ^ fromHex(b.charAt(i)));
+            }
             return new String(chars);
         }
 
@@ -341,7 +362,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     }
 
     public ZipAndUpload(File[] codeFiles, File[] videoFiles, String name,
-                        String id, String instructorKey) {
+            String id, String instructorKey) {
         this();
         this.codeFiles = codeFiles;
         this.videoFiles = videoFiles;
@@ -480,12 +501,14 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        if(cancelPassword.getPassword() == null)
+        if(cancelPassword.getPassword() == null) {
             return;
+        }
         char[] password = cancelPassword.getPassword();
         String temp = "";
-        for(int i = 0; i < password.length; i++)
+        for(int i = 0; i < password.length; i++) {
             temp += password[i];
+        }
         if(instructorKey.equals(temp)) {
             Object[] option = {"Tamam"};
             String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
@@ -493,22 +516,24 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     substring(5, 10) + " - " + codes_md5.
                     substring(10, 15);
             JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                                               DEFAULT_OPTION, null,
-                                               option);
+                    DEFAULT_OPTION, null,
+                    option);
             dialog1 = pane.createDialog(null, "Do\u011Frulama Kodu");
             dialog1.setModal(false);
             dialog1.setVisible(true);
             jPanel1.setVisible(true);
             jPanel2.setVisible(false);
             startButton.setEnabled(true);
-            for(ActionListener listener : startButton.getActionListeners())
+            for(ActionListener listener : startButton.getActionListeners()) {
                 startButton.removeActionListener(listener);
+            }
             startButton.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     System.exit(0);
                 }
             });
-        }else {
+        }
+        else {
             jLabel1.setText("G\u00F6zetmen kodu yanl\u0131\u015F.");
             ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
@@ -530,24 +555,29 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if("progress".equals(evt.getPropertyName())) {
-            while(!queue.isEmpty())
+            while(!queue.isEmpty()) {
                 taskOutput.append(queue.poll());
+            }
             int progress = (Integer) evt.getNewValue();
-            if(progressBar.getValue() == 100)
+            if(progressBar.getValue() == 100) {
                 progressBar.setValue(0);
-            else
+            }
+            else {
                 progressBar.setValue(progress);
+            }
         }
         if("enableCloseButton".equals(evt.getPropertyName())) {
             startButton.setEnabled(true);
             startButton.setText("\u0130ptal Et");
-            for(ActionListener listener : startButton.getActionListeners())
+            for(ActionListener listener : startButton.getActionListeners()) {
                 startButton.removeActionListener(listener);
+            }
             startButton.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent evt) {
                     try {
                         socket.close();
-                    }catch(IOException ex) {
+                    }
+                    catch(IOException ex) {
                     }
                     task.cancel(true);
                     taskOutput.append(
@@ -558,8 +588,9 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     taskOutput.append(
                             "\n" + logFile.getAbsolutePath() + "\n");
                     taskOutput.append("Belirtilen dizinde bulabilirsiniz.\n\n");
-                    while(!queue.isEmpty())
+                    while(!queue.isEmpty()) {
                         taskOutput.append(queue.poll());
+                    }
                     ZipAndUpload.this.setDefaultCloseOperation(
                             DO_NOTHING_ON_CLOSE);
                     jPanel1.setVisible(false);
@@ -568,35 +599,40 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             });
         }
         if("message".equals(evt.getPropertyName())) {
-            while(!queue.isEmpty())
+            while(!queue.isEmpty()) {
                 taskOutput.append(queue.poll());
+            }
             Object[] option = {"Tamam"};
             String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu imza ka\u011F\u0131d\u0131ndaki bo\u015F yere yaz\u0131n\u0131z.\n\n";
             message += xor_md5.substring(0, 5) + " - " + xor_md5.
                     substring(5, 10) + " - " + xor_md5.
                     substring(10, 15);
             JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                                               DEFAULT_OPTION, null, option);
+                    DEFAULT_OPTION, null, option);
             dialog2 = pane.createDialog(this, "Do\u011Frulama Kodu");
             dialog2.setModal(false);
             dialog2.setVisible(true);
         }
         if("connectionError".equals(evt.getPropertyName())) {
-            if(dialog3 != null && dialog3.isVisible())
+            if(dialog3 != null && dialog3.isVisible()) {
                 return;
+            }
             Object[] option = {"Tamam"};
             String message = "Ba\u011Flant\u0131 kurulamad\u0131, yeniden ba\u011Flan\u0131l\u0131yor.\nL\u00FCtfen internet ba\u011Flant\u0131nız\u0131 kontrol ediniz.";
             JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                                               DEFAULT_OPTION, null, option);
+                    DEFAULT_OPTION, null, option);
             dialog3 = pane.createDialog(this, "Do\u011Frulama Kodu");
             dialog3.setModal(false);
             dialog3.setVisible(true);
         }
-        if("connectionEstablished".equals(evt.getPropertyName()))
-            if(dialog3 == null)
+        if("connectionEstablished".equals(evt.getPropertyName())) {
+            if(dialog3 == null) {
                 return;
-            else
+            }
+            else {
                 dialog3.setVisible(false);
+            }
+        }
     }
 
     @Override

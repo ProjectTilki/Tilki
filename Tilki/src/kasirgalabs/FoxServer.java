@@ -28,6 +28,7 @@ import java.util.logging.SimpleFormatter;
  * If a connection arrives when the queue is full, the connection is refused.
  */
 public class FoxServer {
+
     private static ExecutorService executor;
     private static ServerSocket serverSocket;
     private static ConcurrentLinkedDeque<Future<Integer>> futureList;
@@ -35,24 +36,28 @@ public class FoxServer {
     private static volatile boolean executorDown = false;
     private static final Logger LOGGER;
     private static final FoxServerLogManager LOG_MANAGER;
+
     static {
         // Must be called before any Logger method is used.
-        setProperty("java.util.logging.manager", FoxServerLogManager.class.getName());
+        setProperty("java.util.logging.manager",
+                FoxServerLogManager.class.getName());
         LOG_MANAGER = (FoxServerLogManager) LogManager.getLogManager();
         LOGGER = Logger.getLogger(FoxServer.class.getName());
-        
+
         try {
             FileHandler fh = new FileHandler("server.log", true);
             LOGGER.addHandler(fh);
             fh.setFormatter(new SimpleFormatter());
-            
+
             ConsoleHandler ch = new ConsoleHandler();
             ch.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(ch);
-        }catch(SecurityException e) {
+        }
+        catch(SecurityException e) {
             e.printStackTrace();
             System.exit(0);
-        }catch(IOException e) {
+        }
+        catch(IOException e) {
             e.printStackTrace();
             System.exit(0);
         }
@@ -66,42 +71,53 @@ public class FoxServer {
         Runtime.getRuntime().addShutdownHook(hook);
         try {
             serverSocket = new ServerSocket(50101, 5);
-        }catch(IOException ex) {
+        }
+        catch(IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             Runtime.getRuntime().removeShutdownHook(hook);
             System.exit(0);
         }
         futureList = new ConcurrentLinkedDeque<Future<Integer>>();
         executor = Executors.newFixedThreadPool(5);
-        
+
         //FoxServerSetup.main(null);
         while(true && !Thread.currentThread().isInterrupted()) {
             Socket clientSocket = null;
             try {
                 clientSocket = serverSocket.accept();
-            }catch(IOException ex) {
+            }
+            catch(IOException ex) {
                 if(!serverDown) {
                     LOGGER.log(Level.SEVERE, null, ex);
                     System.exit(0);
                 }
             }
             try {
-                if(serverDown || executorDown)
+                if(serverDown || executorDown) {
                     System.exit(0);
-                futureList.addLast(executor.submit(new FoxServiceThread(clientSocket)));
-            }catch(RejectedExecutionException ex) {
-                if(serverDown || executorDown)
+                }
+                futureList.addLast(executor.submit(new FoxServiceThread(
+                        clientSocket)));
+            }
+            catch(RejectedExecutionException ex) {
+                if(serverDown || executorDown) {
                     System.exit(0);
-                LOGGER.log(Level.SEVERE, "Can not create a thread for connection.", ex);
-            }catch(IOException ex) {
+                }
+                LOGGER.log(Level.SEVERE,
+                        "Can not create a thread for connection.", ex);
+            }
+            catch(IOException ex) {
                 LOGGER.log(Level.FINE, "Client connection stream problem.", ex);
-            }catch(NullPointerException ex) {
-                LOGGER.log(Level.INFO, "Server might be received shut down operation.", ex);
+            }
+            catch(NullPointerException ex) {
+                LOGGER.log(Level.INFO,
+                        "Server might be received shut down operation.", ex);
             }
         }
     }
 
-    private static class ShutDownHook extends Thread {        
+    private static class ShutDownHook extends Thread {
+
         @Override
         public void run() {
             LOGGER.info("Running shut down hook...");
@@ -111,12 +127,16 @@ public class FoxServer {
                 executor.shutdown();
                 executor.awaitTermination(1, TimeUnit.SECONDS);
                 LOGGER.info("No running process.");
-            }catch(InterruptedException ex) {
-                LOGGER.log(Level.WARNING, "Some processes may not be completed.", ex);
-            }finally {
+            }
+            catch(InterruptedException ex) {
+                LOGGER.log(Level.WARNING, "Some processes may not be completed.",
+                        ex);
+            }
+            finally {
                 try {
                     serverSocket.close();
-                }catch(IOException ex) {
+                }
+                catch(IOException ex) {
                     LOGGER.log(Level.FINE, null, ex);
                 }
             }
@@ -126,12 +146,18 @@ public class FoxServer {
                 future = iterator.next();
                 try {
                     future.get(100, TimeUnit.MILLISECONDS);
-                }catch(InterruptedException ex) {
+                }
+                catch(InterruptedException ex) {
                     LOGGER.log(Level.FINE, null, ex);
-                }catch(ExecutionException ex) {
-                    LOGGER.log(Level.SEVERE, "A session failed with an exception.", ex);
-                }catch(TimeoutException ex) {
-                    LOGGER.log(Level.WARNING, "Shuting down without waiting for uncompleted tasks.", ex);
+                }
+                catch(ExecutionException ex) {
+                    LOGGER.log(Level.SEVERE,
+                            "A session failed with an exception.", ex);
+                }
+                catch(TimeoutException ex) {
+                    LOGGER.log(Level.WARNING,
+                            "Shuting down without waiting for uncompleted tasks.",
+                            ex);
                 }
             }
             LOGGER.info("Shutting down is completed.");

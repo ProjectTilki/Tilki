@@ -18,13 +18,14 @@ public class CaptureDesktop {
         videoCapture.setVideoSource(new Desktop());
         java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
         Codec videoCodec = videoCodecs.get(0);
-        
+
         a = a.toLowerCase();
         personName = a;
         format = videoCapture.getVideoFormat().getId().toString();
         String videoName = personName + "." + format;
         File videoFileObject = new File(personName + "." + format);
         if(videoFileObject.exists()) // File exists, try finding new file name.
+        {
             for(int i = 0; i < 100; i++) {
                 videoFileObject = new File(i + "_" + videoName);
                 if(!videoFileObject.exists()) {
@@ -32,6 +33,7 @@ public class CaptureDesktop {
                     break;
                 }
             }
+        }
         CompressionQuality q = CompressionQuality.BEST;
 
         File video = new File(videoName);
@@ -41,7 +43,7 @@ public class CaptureDesktop {
         encodingParameters.setBitrate(800000);
         encodingParameters.setFramerate(1);
         encodingParameters.setCodec(videoCodec);
-        
+
         encodingParameters.setKeyFrameInterval(1);
         encodingParameters.setCompressionQuality(q);
 
