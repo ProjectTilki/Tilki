@@ -50,8 +50,9 @@ public class FoxClientUtilities {
      */
     public int checkIn(String name, String surname, String id, String exam)
             throws IOException {
-        if(name == null || surname == null || id == null || exam == null)
+        if(name == null || surname == null || id == null || exam == null) {
             throw new NullPointerException();
+        }
         // Save informations to instance variables.
 
         Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
@@ -95,15 +96,16 @@ public class FoxClientUtilities {
      *                             reading from socket, or sending to socket.
      */
     public int verifyInstructorKey(String name, String surname, String id,
-                                   String exam, String instructorKey) throws IOException {
-        if(name == null || surname == null || id == null || exam == null || instructorKey == null)
+            String exam, String instructorKey) throws IOException {
+        if(name == null || surname == null || id == null || exam == null || instructorKey == null) {
             return -1;
+        }
         Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
         out.writeUTF("Key verify."); // Tell host which operation will occur.
-        
+
         // Send informations.
         out.writeUTF(name);
         out.writeUTF(surname);
@@ -143,10 +145,12 @@ public class FoxClientUtilities {
             out.writeUTF("List exams."); // Tell host which operation will occur.
             out.flush();
 
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+            ObjectInputStream ois = new ObjectInputStream(
+                    socket.getInputStream());
             Object examListObject = ois.readObject();
             examList = (Exam[]) examListObject;
-        } catch(IOException | ClassNotFoundException e) {
+        }
+        catch(IOException | ClassNotFoundException e) {
             throw e;
         }
         finally {
@@ -176,13 +180,15 @@ public class FoxClientUtilities {
      * @throws IOException           If an I/O error occurs.
      */
     public String createZipFile(File[] files) throws FileNotFoundException,
-                                                     IOException {
+            IOException {
         String zipFileName = files[0].getName();
         int pos = zipFileName.lastIndexOf('.');
-        if(pos > 0)
+        if(pos > 0) {
             zipFileName = zipFileName.substring(0, pos) + ".zip";
-        else
+        }
+        else {
             zipFileName = zipFileName + ".zip";
+        }
         FileOutputStream fos = new FileOutputStream(zipFileName);
         ZipOutputStream zos = new ZipOutputStream(fos);
         String fileName;
@@ -193,8 +199,9 @@ public class FoxClientUtilities {
             zos.putNextEntry(zipEntry);
             byte[] buffer = new byte[4096];
             int length;
-            while((length = fis.read(buffer)) > 0)
+            while((length = fis.read(buffer)) > 0) {
                 zos.write(buffer, 0, length);
+            }
             zos.closeEntry();
             fis.close();
         }
@@ -225,7 +232,7 @@ public class FoxClientUtilities {
      * @throws java.io.IOException           If an I/O error occurs.
      */
     public String sendFile(String fileName, String id, String exam,
-                           Object object) throws FileNotFoundException, SecurityException, IOException {
+            Object object) throws FileNotFoundException, SecurityException, IOException {
         // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
         JProgressBar jpb = (JProgressBar) object;
         Socket socket = new Socket(MainClient.getIpAddress(), 50101);
@@ -256,17 +263,21 @@ public class FoxClientUtilities {
                     jpb.setValue(progress++);
                 }
             }
-        }while(bytesCount > 0);
+        } while(bytesCount > 0);
         if(progress != 100) // Check if remainder exists.
+        {
             jpb.setValue(100);
+        }
 
         os_out.flush();
         socket.shutdownOutput(); // Shut down output to tell server no more data.
         String checksum;
-        if(in.readUTF().equals("Exam file is found."))
+        if(in.readUTF().equals("Exam file is found.")) {
             checksum = in.readUTF(); //Read checksum from socket.
-        else
+        }
+        else {
             checksum = null;
+        }
         fileIn.close();
         socket.close();
         return checksum;

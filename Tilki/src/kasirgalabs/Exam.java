@@ -6,6 +6,7 @@ import java.io.Serializable;
  * The {@code Exam} class represents exams.
  */
 public class Exam implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private final String name;
     private final String description;
