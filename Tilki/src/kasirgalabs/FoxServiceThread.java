@@ -244,8 +244,8 @@ public class FoxServiceThread implements Callable<Integer> {
      */
     private void fileManager() throws IOException, NoSuchAlgorithmException {
         PrintWriter logFile = null;
-        FileOutputStream fileOut = null;
         FileInputStream fileIn = null;
+        FileOutputStream fileOut = null;
         try {
             String fileName = in.readUTF();
             String id = in.readUTF();
@@ -274,6 +274,7 @@ public class FoxServiceThread implements Callable<Integer> {
                 }
             }
 
+            MessageDigest md = MessageDigest.getInstance("MD5");
             int byteCount;
             byte[] data = new byte[1024];
             InputStream os_in = socket.getInputStream();
@@ -282,12 +283,11 @@ public class FoxServiceThread implements Callable<Integer> {
             // Read file data from the socket and write it to a created file.
             while((byteCount = os_in.read(data)) > 0) {
                 fileOut.write(data, 0, byteCount);
+                md.update(data, 0, byteCount);
             }
-            fileOut.close();
 
             logFile = new PrintWriter(new FileOutputStream(new File(studentFile,
-                    id + "_logfile.txt"),
-                    true));
+                    id + "_logfile.txt"), true));
 
             logFile.print(id + " | ");
             logFile.print("File is received. | ");
@@ -295,16 +295,7 @@ public class FoxServiceThread implements Callable<Integer> {
                     "yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             logFile.println(dateFormat.format(date));
-            logFile.close();
 
-            // Open file for reading to calculate it's MD5 checksum.
-            fileIn = new FileInputStream(incomingFile);
-            byte[] fileData = new byte[4096];
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            while((byteCount = fileIn.read(fileData)) > 0) {
-                md.update(fileData, 0, byteCount);
-            }
-            fileIn.close();
             byte[] rawChecksum = md.digest();
             StringBuilder md5hex = new StringBuilder();
             for(int i = 0; i < rawChecksum.length; i++) {
@@ -319,7 +310,7 @@ public class FoxServiceThread implements Callable<Integer> {
                 logFile.close();
             }
             if(fileIn != null) {
-                logFile.close();
+                fileIn.close();
             }
             if(fileOut != null) {
                 fileOut.close();
@@ -349,7 +340,7 @@ public class FoxServiceThread implements Callable<Integer> {
 
         BufferedReader fileIn = new BufferedReader(new FileReader(
                 "exam_list.txt"));
-        ArrayList<Exam> examList = new ArrayList<>(); // Array list of Exam object contains available exams.
+        ArrayList<Exam> examList = new ArrayList<Exam>(); // Array list of Exam object contains available exams.
         String exam;
         while((exam = fileIn.readLine()) != null) { // Read exam list.
             if(new File(exam).exists()) {
@@ -398,7 +389,9 @@ public class FoxServiceThread implements Callable<Integer> {
             }
         }
         finally {
-            fileOut.close();
+            if(fileOut != null) {
+                fileOut.close();
+            }
         }
     }
 }

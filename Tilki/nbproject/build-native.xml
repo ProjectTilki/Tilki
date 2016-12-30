@@ -67,7 +67,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
         <echo message="running.on.mac = ${running.on.mac}" level="verbose"/>
         <echo message="running.on.unix = ${running.on.unix}" level="verbose"/>
         <echo message="running.on.windows = ${running.on.windows}" level="verbose"/>
-    </target>
+     </target>
 
 
     <!-- Check availability of JavaFX SDK deployment support (ant-javafx.jar) -->
@@ -89,27 +89,19 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
         <condition property="javafx.sdk.defined">
             <and>
                 <isset property="javafx.sdk"/>
-                <not>
-                    <contains string="${javafx.sdk}" substring="$${platform" casesensitive="false"/>
-                </not>
+                <not><contains string="${javafx.sdk}" substring="$${platform" casesensitive="false"/></not>
             </and>
         </condition>
         <condition property="javafx.sdk.missing+default">
             <and>
                 <equals arg1="${platform.active}" arg2="Default_JavaFX_Platform" trim="true"/>
-                <not>
-                    <isset property="javafx.sdk.defined"/>
-                </not>
+                <not><isset property="javafx.sdk.defined"/></not>
             </and>
         </condition>
         <condition property="javafx.sdk.missing-default">
             <and>
-                <not>
-                    <equals arg1="${platform.active}" arg2="Default_JavaFX_Platform" trim="true"/>
-                </not>
-                <not>
-                    <isset property="javafx.sdk.defined"/>
-                </not>
+                <not><equals arg1="${platform.active}" arg2="Default_JavaFX_Platform" trim="true"/></not>
+                <not><isset property="javafx.sdk.defined"/></not>
             </and>
         </condition>
         <echo message="javafx.sdk.defined = ${javafx.sdk.defined}" level="verbose"/>
@@ -120,9 +112,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
     <target name="-check-ant-javafx-in-fxsdk-lib" depends="-check-property-javafx.sdk" if="javafx.sdk.defined">
         <condition property="do.set.ant-javafx.in.fxsdk.lib">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${javafx.sdk}${file.separator}lib${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -133,9 +123,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
     <target name="-check-ant-javafx-in-fxsdk-tools" depends="-check-property-javafx.sdk" if="javafx.sdk.defined">
         <condition property="do.set.ant-javafx.in.fxsdk.tools">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${javafx.sdk}${file.separator}tools${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -146,9 +134,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
     <target name="-check-ant-javafx-in-platform-home-lib" if="platform.home">
         <condition property="do.set.ant-javafx.in.platform.home.lib">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${platform.home}${file.separator}lib${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -159,9 +145,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
     <target name="-check-ant-javafx-in-platform-home-tools" if="platform.home">
         <condition property="do.set.ant-javafx.in.platform.home.tools">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${platform.home}${file.separator}tools${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -172,9 +156,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
     <target name="-check-ant-javafx-in-probjdk-lib" unless="ant-javafx.jar.location">
         <condition property="do.set.ant-javafx.in.probjdk.lib">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${java.home}${file.separator}..${file.separator}lib${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -185,9 +167,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
     <target name="-check-ant-javafx-in-probjdk-tools" unless="ant-javafx.jar.location">
         <condition property="do.set.ant-javafx.in.probjdk.tools">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${java.home}${file.separator}..${file.separator}tools${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -198,9 +178,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
     <target name="-check-ant-javafx-in-macjdk-lib" unless="ant-javafx.jar.location">
         <condition property="do.set.ant-javafx.in.macjdk.lib">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${java.home}${file.separator}lib${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -212,9 +190,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
         <property environment="env"/>
         <condition property="do.set.ant-javafx.in.envjdk.lib">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${env.JAVA_HOME}${file.separator}lib${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -226,9 +202,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
         <property environment="env"/>
         <condition property="do.set.ant-javafx.in.envjdk.tools">
             <and>
-                <not>
-                    <isset property="ant-javafx.jar.location"/>
-                </not>
+                <not><isset property="ant-javafx.jar.location"/></not>
                 <available file="${env.JAVA_HOME}${file.separator}tools${file.separator}ant-javafx.jar"/>
             </and>
         </condition>
@@ -240,9 +214,7 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
         <condition property="do.check.ant-javafx.version">
             <and>
                 <isset property="ant-javafx.jar.location"/>
-                <not>
-                    <isset property="ant-javafx-version-already-checked-in-jfximpl"/>
-                </not>
+                <not><isset property="ant-javafx-version-already-checked-in-jfximpl"/></not>
             </and>
         </condition>
     </target>
@@ -258,8 +230,8 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
         <echo message="ant-javafx.jar.location = ${ant-javafx.jar.location}" level="verbose"/>
         <echo message="javafx.ant.classpath = ${javafx.ant.classpath}" level="verbose"/>
         <taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
-                 uri="javafx:com.sun.javafx.tools.ant"
-                 classpath="${javafx.ant.classpath}"/>
+            uri="javafx:com.sun.javafx.tools.ant"
+            classpath="${javafx.ant.classpath}"/>
         <condition property="have-fx-ant-init">
             <typefound name="javafx:com.sun.javafx.tools.ant:init-ant"/>
         </condition>
@@ -397,23 +369,13 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
         <echo message="exec-error:${exec-error}" level="verbose"/>
         <echo message="exec-result:${exec-result}" level="verbose"/>
         <condition property="missing.Inno">
-            <not>
-                <and>
-                    <contains string="${exec-output}" substring="Inno Setup"/>
-                    <not>
-                        <contains string="${exec-output}" substring="Inno Setup 1"/>
-                    </not>
-                    <not>
-                        <contains string="${exec-output}" substring="Inno Setup 2"/>
-                    </not>
-                    <not>
-                        <contains string="${exec-output}" substring="Inno Setup 3"/>
-                    </not>
-                    <not>
-                        <contains string="${exec-output}" substring="Inno Setup 4"/>
-                    </not>
-                </and>
-            </not>
+            <not><and>
+                <contains string="${exec-output}" substring="Inno Setup"/>
+                <not><contains string="${exec-output}" substring="Inno Setup 1"/></not>
+                <not><contains string="${exec-output}" substring="Inno Setup 2"/></not>
+                <not><contains string="${exec-output}" substring="Inno Setup 3"/></not>
+                <not><contains string="${exec-output}" substring="Inno Setup 4"/></not>
+            </and></not>
         </condition>
     </target>
     <target name="-check-WiX-presence" depends="-check-native-bundling-type" if="need.WiX.presence">
@@ -439,16 +401,12 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
             <arg line="-v dpkg"/>
         </exec>
         <condition property="missing.dpkg">
-            <not>
-                <and>
-                    <isset property="exec.which.dpkg.result"/>
-                    <equals arg1="${exec.which.dpkg.result}" arg2="0"/>
-                    <isset property="exec.which.dpkg.output"/>
-                    <not>
-                        <equals arg1="${exec.which.dpkg.output}" arg2=""/>
-                    </not>
-                </and>
-            </not>
+            <not><and>
+                <isset property="exec.which.dpkg.result"/>
+                <equals arg1="${exec.which.dpkg.result}" arg2="0"/>
+                <isset property="exec.which.dpkg.output"/>
+                <not><equals arg1="${exec.which.dpkg.output}" arg2=""/></not>
+            </and></not>
         </condition>
     </target>
     <target name="-check-rpmbuild-presence" depends="-check-native-bundling-type" if="need.rpmbuild.presence">
@@ -458,16 +416,12 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
             <arg line="-v rpmbuild"/>
         </exec>
         <condition property="missing.rpmbuild">
-            <not>
-                <and>
-                    <isset property="exec.which.rpmbuild.result"/>
-                    <equals arg1="${exec.which.rpmbuild.result}" arg2="0"/>
-                    <isset property="exec.which.rpmbuild.output"/>
-                    <not>
-                        <equals arg1="${exec.which.rpmbuild.output}" arg2=""/>
-                    </not>
-                </and>
-            </not>
+            <not><and>
+                <isset property="exec.which.rpmbuild.result"/>
+                <equals arg1="${exec.which.rpmbuild.result}" arg2="0"/>
+                <isset property="exec.which.rpmbuild.output"/>
+                <not><equals arg1="${exec.which.rpmbuild.output}" arg2=""/></not>
+            </and></not>
         </condition>
     </target>
     <target name="-check-native-packager-external-tools" depends="-check-Inno-presence, -check-WiX-presence, -check-dpkg-presence, -check-rpmbuild-presence">
@@ -506,11 +460,11 @@ Portions Copyrighted 2013 Sun Microsystems, Inc.
                 <map from="${basedir}${file.separator}${dist.jar}" to=""/>
                 <scriptmapper language="javascript">
                     self.addMappedName(
-                    (source.indexOf("jfxrt.jar") >= 0) ||
-                    (source.indexOf("deploy.jar") >= 0) ||
-                    (source.indexOf("javaws.jar") >= 0) ||
-                    (source.indexOf("plugin.jar") >= 0)
-                    ? "" : source
+                        (source.indexOf("jfxrt.jar") >= 0) ||
+                        (source.indexOf("deploy.jar") >= 0) ||
+                        (source.indexOf("javaws.jar") >= 0) ||
+                        (source.indexOf("plugin.jar") >= 0)
+                        ? "" : source
                     );
                 </scriptmapper>
             </pathconvert>
