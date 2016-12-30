@@ -61,8 +61,12 @@ public class FoxServiceThread implements Callable<Integer> {
     public Integer call() throws Exception {
         try {
             String data = in.readUTF(); // Read the requested operation.
+            ServiceFactory serviceFactory = new ServiceFactory(socket);
             if(data.equals("Check in.")) {
-                checkInManager();
+                Service service = serviceFactory.getService(data);
+                service.serve();
+                //new ConnectionManager(socket).checkIn();
+                //checkInManager();
             }
             else if(data.equals("Key verify.")) {
                 keyVerifyManager();
