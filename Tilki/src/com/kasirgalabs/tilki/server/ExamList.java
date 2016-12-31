@@ -2,8 +2,6 @@ package com.kasirgalabs.tilki.server;
 
 import com.kasirgalabs.tilki.utils.Exam;
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,23 +9,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ExamList implements Service {
+public class ExamList extends DefaultService {
 
-    private final Socket socket;
-    private final DataInputStream in;
-    private final DataOutputStream out;
-
-    /**
-     * Constructor for initializing instance variables.
-     *
-     * @param socket The incoming socket for receiving and sending data.
-     *
-     * @throws java.io.IOException If an IO error occurs on socket's streams.
-     */
     public ExamList(Socket socket) throws IOException {
-        this.socket = socket;
-        in = new DataInputStream(socket.getInputStream());
-        out = new DataOutputStream(socket.getOutputStream());
+        super(socket);
     }
 
     /**

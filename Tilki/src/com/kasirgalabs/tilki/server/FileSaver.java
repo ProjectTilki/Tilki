@@ -1,7 +1,5 @@
 package com.kasirgalabs.tilki.server;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,27 +12,10 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- *
- * @author rootg
- */
-public class FileSaver implements Service {
+public class FileSaver extends DefaultService {
 
-    private final Socket socket;
-    private final DataInputStream in;
-    private final DataOutputStream out;
-
-    /**
-     * Constructor for initializing instance variables.
-     *
-     * @param socket The incoming socket for receiving and sending data.
-     *
-     * @throws java.io.IOException If an IO error occurs on socket's streams.
-     */
     public FileSaver(Socket socket) throws IOException {
-        this.socket = socket;
-        in = new DataInputStream(socket.getInputStream());
-        out = new DataOutputStream(socket.getOutputStream());
+        super(socket);
     }
 
     /**

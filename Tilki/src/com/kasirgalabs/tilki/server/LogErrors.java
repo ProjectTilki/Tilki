@@ -1,30 +1,15 @@
 package com.kasirgalabs.tilki.server;
 
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.Socket;
 
-public class LogErrors implements Service {
+public class LogErrors extends DefaultService {
 
-    private final Socket socket;
-    private final DataInputStream in;
-    private final DataOutputStream out;
-
-    /**
-     * Constructor for initializing instance variables.
-     *
-     * @param socket The incoming socket for receiving and sending data.
-     *
-     * @throws java.io.IOException If an IO error occurs on socket's streams.
-     */
     public LogErrors(Socket socket) throws IOException {
-        this.socket = socket;
-        in = new DataInputStream(socket.getInputStream());
-        out = new DataOutputStream(socket.getOutputStream());
+        super(socket);
     }
 
     @Override
