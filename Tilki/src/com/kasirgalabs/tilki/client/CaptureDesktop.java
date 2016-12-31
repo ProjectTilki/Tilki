@@ -1,4 +1,4 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.client;
 
 import com.teamdev.jxcapture.Codec;
 import com.teamdev.jxcapture.CompressionQuality;

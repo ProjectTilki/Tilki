@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package kasirgalabs;
+package com.kasirgalabs.tilki.server;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,10 +11,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-/**
- *
- * @author rootg
- */
 public class ExamList implements Service {
 
     private final Socket socket;

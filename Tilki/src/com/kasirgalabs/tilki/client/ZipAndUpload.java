@@ -1,4 +1,4 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.client;
 
 import java.awt.Cursor;
 import java.awt.Toolkit;
@@ -353,7 +353,8 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         name = null;
         id = null;
         initComponents();
-        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource(
+                "../../images/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
     }

@@ -1,5 +1,8 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
+import com.kasirgalabs.tilki.utils.ExamListModel;
+import com.kasirgalabs.tilki.utils.FileListModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
@@ -42,7 +45,8 @@ public class MainClient extends javax.swing.JFrame {
 
         initComponents();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
+        ImageIcon img = new ImageIcon(getClass().getResource(
+                "../../images/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
 

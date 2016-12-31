@@ -1,4 +1,4 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.server;
 
 import java.io.IOException;
 import static java.lang.System.setProperty;

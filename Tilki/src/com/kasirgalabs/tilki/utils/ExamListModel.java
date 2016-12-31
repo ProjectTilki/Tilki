@@ -1,5 +1,6 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.utils;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import javax.swing.AbstractListModel;
 
 public class ExamListModel extends AbstractListModel {

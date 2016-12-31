@@ -1,4 +1,4 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.server;
 
 import java.io.IOException;
 import java.net.Socket;

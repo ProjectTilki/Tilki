@@ -1,4 +1,4 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

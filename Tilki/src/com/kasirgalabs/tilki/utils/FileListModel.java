@@ -1,4 +1,4 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.utils;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

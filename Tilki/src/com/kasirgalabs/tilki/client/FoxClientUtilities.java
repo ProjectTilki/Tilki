@@ -1,5 +1,6 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;

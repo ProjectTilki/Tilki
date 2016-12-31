@@ -1,5 +1,8 @@
-package kasirgalabs;
+package com.kasirgalabs.tilki.server;
 
+import com.kasirgalabs.tilki.client.FoxClientUtilities;
+import com.kasirgalabs.tilki.utils.Exam;
+import com.kasirgalabs.tilki.utils.ExamListModel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,15 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates and open the template
- * in the editor.
- */
-/**
- *
- * @author baturay
- */
 public class FoxServerSetup extends javax.swing.JFrame {
 
     private Exam[] examList;
@@ -42,7 +36,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
         fcu = new FoxClientUtilities();
         initComponents();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
+        ImageIcon img = new ImageIcon(
+                getClass().getResource("../../images/Tilki.png"));
         setIconImage(img.getImage());
         setLocationRelativeTo(null);
         try {
