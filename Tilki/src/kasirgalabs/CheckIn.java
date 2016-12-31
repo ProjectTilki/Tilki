@@ -91,5 +91,4 @@ public class CheckIn implements Service {
             }
         }
     }
-
 }

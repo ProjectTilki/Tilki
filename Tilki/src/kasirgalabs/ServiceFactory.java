@@ -14,14 +14,26 @@ public class ServiceFactory {
     }
 
     public Service getService(String service) {
-        if(service.equals("Check in.")) {
-            try {
+        try {
+            if(service.equals("Check in.")) {
                 return new CheckIn(socket);
             }
-            catch(IOException ex) {
-                Logger.getLogger(ServiceFactory.class.getName()).log(
-                        Level.SEVERE, null, ex);
+            else if(service.equals("Key verify.")) {
+                return new KeyVerify(socket);
             }
+            else if(service.equals("Sending file.")) {
+                return new FileSaver(socket);
+            }
+            else if(service.equals("List exams.")) {
+                return new ExamList(socket);
+            }
+            else if(service.equals("Sending error logs.")) {
+                return new LogErrors(socket);
+            }
+        }
+        catch(IOException ex) {
+            Logger.getLogger(ServiceFactory.class.getName()).log(
+                    Level.SEVERE, null, ex);
         }
         return null;
     }
