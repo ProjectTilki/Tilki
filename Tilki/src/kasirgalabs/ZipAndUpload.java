@@ -353,9 +353,16 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         name = null;
         id = null;
         initComponents();
-        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
-        setIconImage(img.getImage());
-        setLocationRelativeTo(null);
+
+        try {
+            ImageIcon img = new ImageIcon(getClass().getResource(
+                    "images/Tilki.png"));
+            setIconImage(img.getImage());
+            setLocationRelativeTo(null);
+        }
+        catch(NullPointerException ex) {
+            ClientExceptionHandler.logAnException(ex);
+        }
     }
 
     public ZipAndUpload(File[] codeFiles, File[] videoFiles, String name,

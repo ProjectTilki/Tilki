@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -42,9 +43,12 @@ public class FoxServerSetup extends javax.swing.JFrame {
         fcu = new FoxClientUtilities();
         initComponents();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
-        setIconImage(img.getImage());
-        setLocationRelativeTo(null);
+        URL url = getClass().getResource("images/Tilki.png");
+        if(url != null) {
+            ImageIcon img = new ImageIcon(url);
+            setIconImage(img.getImage());
+            setLocationRelativeTo(null);
+        }
         try {
             examList = fcu.availableExams();
             jList6.setModel(new ExamListModel(examList));

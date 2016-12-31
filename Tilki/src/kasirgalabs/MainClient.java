@@ -42,9 +42,15 @@ public class MainClient extends javax.swing.JFrame {
 
         initComponents();
 
-        ImageIcon img = new ImageIcon(getClass().getResource("images/Tilki.png"));
-        setIconImage(img.getImage());
-        setLocationRelativeTo(null);
+        try {
+            ImageIcon img = new ImageIcon(getClass().getResource(
+                    "images/Tilki.png"));
+            setIconImage(img.getImage());
+            setLocationRelativeTo(null);
+        }
+        catch(NullPointerException ex) {
+            ClientExceptionHandler.logAnException(ex);
+        }
 
         yenileButtonActionListener = new java.awt.event.ActionListener() {
             @Override
