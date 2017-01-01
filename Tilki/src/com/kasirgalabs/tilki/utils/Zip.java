@@ -112,6 +112,11 @@ public class Zip implements Callable {
         ZipResult lastResult = result.peekLast();
         ZipResult currentResult = new ZipResult(file,
                 (int) ((double) writtenBytes / fileSize * 100));
+
+        if(lastResult == null) {
+            result.offerLast(currentResult);
+            return;
+        }
         if(!lastResult.equals(currentResult)) {
             result.offerLast(currentResult);
         }
@@ -122,8 +127,8 @@ public class Zip implements Callable {
     }
 
     @Override
-    public Object call() throws Exception {
+    public Integer call() throws Exception {
         createZipFile();
-        return null;
+        return 1;
     }
 }

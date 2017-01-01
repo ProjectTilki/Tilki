@@ -1,5 +1,6 @@
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.FileFinder;
 import com.teamdev.jxcapture.Codec;
 import com.teamdev.jxcapture.CompressionQuality;
 import com.teamdev.jxcapture.EncodingParameters;
@@ -22,21 +23,12 @@ public class CaptureDesktop {
         a = a.toLowerCase();
         personName = a;
         format = videoCapture.getVideoFormat().getId().toString();
-        String videoName = personName + "." + format;
-        File videoFileObject = new File(personName + "." + format);
-        if(videoFileObject.exists()) // File exists, try finding new file name.
-        {
-            for(int i = 0; i < 100; i++) {
-                videoFileObject = new File(i + "_" + videoName);
-                if(!videoFileObject.exists()) {
-                    videoName = i + "_" + videoName;
-                    break;
-                }
-            }
-        }
+        String videoName = FileFinder.generateFileName(
+                personName + "." + format);
+        File video = new File(videoName);
+
         CompressionQuality q = CompressionQuality.BEST;
 
-        File video = new File(videoName);
         EncodingParameters encodingParameters = new EncodingParameters(video);
         // Resize output video
         encodingParameters.setSize(new Dimension(800, 600));

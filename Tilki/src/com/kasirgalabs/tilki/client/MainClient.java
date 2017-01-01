@@ -2,6 +2,7 @@ package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
 import com.kasirgalabs.tilki.utils.ExamListModel;
+import com.kasirgalabs.tilki.utils.FileFinder;
 import com.kasirgalabs.tilki.utils.FileListModel;
 import java.awt.Color;
 import java.awt.Component;
@@ -824,15 +825,10 @@ public class MainClient extends javax.swing.JFrame {
             }
 
             String target_file = cam.getPersonName() + "." + cam.getFormat();
-            File target_file_object = new File(target_file);
-            if(target_file_object.exists()) {
-                filesThatWillUpload.add(new File(target_file));
-                for(int i = 0; i < 100; i++) {
-                    target_file_object = new File(i + "_" + target_file);
-                    if(target_file_object.exists()) {
-                        filesThatWillUpload.add(new File(i + "_" + target_file));
-                    }
-                }
+            ArrayList<String> fileList = FileFinder.findGeneratedFileNames(
+                    target_file);
+            for(String fileName : fileList) {
+                filesThatWillUpload.add(new File(fileName));
             }
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {

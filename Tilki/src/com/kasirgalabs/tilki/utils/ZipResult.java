@@ -13,7 +13,7 @@ public class ZipResult {
         this.resultStatus = resultStatus;
     }
 
-    public File getResultName() {
+    public File getResultFile() {
         return this.resultFile;
     }
 
@@ -33,7 +33,7 @@ public class ZipResult {
             return false;
         }
         ZipResult zipResult = (ZipResult) object;
-        return this.resultFile.equals(zipResult.getResultName())
+        return this.resultFile.equals(zipResult.getResultFile())
                 && this.resultStatus == zipResult.getResultStatus();
     }
 

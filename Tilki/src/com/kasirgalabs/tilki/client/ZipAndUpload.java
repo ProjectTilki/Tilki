@@ -1,5 +1,7 @@
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Zip;
+import com.kasirgalabs.tilki.utils.ZipResult;
 import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,7 +20,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.ImageIcon;
@@ -57,7 +67,40 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
         @Override
         public String doInBackground() throws IOException {
-            String zipName = createZipFile(codeFiles);
+            //String zipName = createZipFile(codeFiles);
+            String zipName = "Test.zip";
+            Zip zip = new Zip(zipName, codeFiles);
+            ExecutorService executor = Executors.newFixedThreadPool(1);
+            Future future = executor.submit(zip);
+            HashSet<String> set = new HashSet<String>();
+            while(!future.isDone()) {
+                try {
+                    ZipResult zipResult = zip.getProgress(100,
+                            TimeUnit.MILLISECONDS);
+                    if(zipResult == null) {
+                        continue;
+                    }
+
+                    if(!set.contains(zipResult.getResultFile().getName())) {
+                        queue.add(zipResult.getResultFile().getName() + "\n");
+                        set.add(zipResult.getResultFile().getName());
+                    }
+                    setProgress(zipResult.getResultStatus());
+                }
+                catch(InterruptedException ex) {
+                }
+            }
+            try {
+                int i = (int) future.get();
+            }
+            catch(InterruptedException ex) {
+                Logger.getLogger(ZipAndUpload.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
+            catch(ExecutionException ex) {
+                Logger.getLogger(ZipAndUpload.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
             codes_md5 = sendFile(zipName, name, id);
             codeFilesAreDone = true;
             codes_md5 = codes_md5.toUpperCase();
