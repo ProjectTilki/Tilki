@@ -5,11 +5,13 @@ import com.kasirgalabs.tilki.utils.ExamList;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import javax.swing.JLabel;
 
-public class GetExams extends DefaultService<ExamList> {
+public class GetExams extends DefaultService<ExamList, JLabel> {
 
-    public GetExams(Socket socket) throws IOException {
-        super(socket);
+    public GetExams(Socket socket,
+            DefaultActionListener<JLabel> defaultActionListener) throws IOException {
+        super(socket, defaultActionListener);
     }
 
     /**

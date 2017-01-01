@@ -1,23 +1,21 @@
 package com.kasirgalabs.tilki.client;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 
-public class SimpleTimerActionListener implements ActionListener {
+public class SimpleTimerActionListener extends DefaultActionListener<JLabel> {
 
-    private final JLabel label;
     private final long currentTime;
 
-    public SimpleTimerActionListener(JLabel label) {
-        this.label = label;
+    public SimpleTimerActionListener(JLabel component) {
+        super(component);
         this.currentTime = System.currentTimeMillis();
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        label.setText(getElapsedTime());
+        component.setText(getElapsedTime());
     }
 
     private String getElapsedTime() {

@@ -836,7 +836,8 @@ public class MainClient extends javax.swing.JFrame {
         try {
             //examList = fcu.availableExams();
             Socket socket = new Socket(MainClient.getIpAddress(), 50101);
-            Service<ExamList> service = new GetExams(socket);
+            Service<ExamList> service = new GetExams(socket,
+                    new GetExamsActionListener(durumLabel));
             service.request();
             ExamList temp = null;
             try {
@@ -850,9 +851,9 @@ public class MainClient extends javax.swing.JFrame {
             for(int i = 0; i < examList.length; i++) {
                 examList[i] = temp.get(i);
             }
-            durumLabel.setEnabled(true);
-            durumLabel.setText("Ba\u011Fland\u0131");
-            durumLabel.setForeground(c);
+            //durumLabel.setEnabled(true);
+            //durumLabel.setText("Ba\u011Fland\u0131");
+            //durumLabel.setForeground(c);
         }
         catch(IOException e) {
             examList = null;
