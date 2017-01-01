@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class Zip implements Callable {
+public class Zip implements Callable<Void> {
 
     private final LinkedBlockingDeque<ZipResult> result;
     private final String zipFileName;
@@ -127,8 +127,8 @@ public class Zip implements Callable {
     }
 
     @Override
-    public Integer call() throws Exception {
+    public Void call() throws Exception {
         createZipFile();
-        return 1;
+        return null;
     }
 }

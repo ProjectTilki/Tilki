@@ -1,6 +1,7 @@
 package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
+import com.kasirgalabs.tilki.utils.ExamList;
 import com.kasirgalabs.tilki.utils.ExamListModel;
 import com.kasirgalabs.tilki.utils.FileFinder;
 import com.kasirgalabs.tilki.utils.FileListModel;
@@ -10,14 +11,15 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -36,7 +38,7 @@ public class MainClient extends javax.swing.JFrame {
     private final Color c = new Color(26, 126, 36);
     private static java.awt.event.ActionListener yenileButtonActionListener;
     private static long timeAtStart = 0;
-    private Timer simpleTimer;
+    private SimpleTimer timer;
 
     /**
      *
@@ -416,7 +418,7 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        jLabel9.setText("Zaman");
+        jLabel9.setText("00:00:00");
 
         dosyaListesi.setModel(new FileListModel());
         jScrollPane3.setViewportView(dosyaListesi);
@@ -620,14 +622,10 @@ public class MainClient extends javax.swing.JFrame {
                             }
                         }
                     });
-                    timeAtStart = System.currentTimeMillis();
-                    simpleTimer = new Timer(1000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            jLabel9.setText(getTimeElapsed());
-                        }
-                    });
-                    simpleTimer.start();
+                    SimpleTimerActionListener listener = new SimpleTimerActionListener(
+                            jLabel9);
+                    timer = new SimpleTimer(1000, listener);
+                    timer.start();
                 }
                 else {
                     loginLabel.setText("Bilinmeyen hata.");
@@ -693,29 +691,6 @@ public class MainClient extends javax.swing.JFrame {
         }
         FileChooserFrame.setVisible(true);
     }//GEN-LAST:event_jButton3MouseClicked
-
-    private static String getTimeElapsed() {
-        long elapsedTime = System.currentTimeMillis() - timeAtStart;
-        elapsedTime = elapsedTime / 1000;
-
-        String seconds = Integer.toString((int) (elapsedTime % 60));
-        String minutes = Integer.toString((int) ((elapsedTime % 3600) / 60));
-        String hours = Integer.toString((int) (elapsedTime / 3600));
-
-        if(seconds.length() < 2) {
-            seconds = "0" + seconds;
-        }
-
-        if(minutes.length() < 2) {
-            minutes = "0" + minutes;
-        }
-
-        if(hours.length() < 2) {
-            hours = "0" + hours;
-        }
-
-        return hours + ":" + minutes + ":" + seconds;
-    }
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         if(jCheckBox1.isSelected()) {
@@ -834,14 +809,12 @@ public class MainClient extends javax.swing.JFrame {
             for(int i = 0; i < flm.getSize(); i++) {
                 codeFiles.add(new File((String) flm.getElementAt(i)));
             }
-            simpleTimer.stop();
+            timer.stop();
             File[] temp = new File[filesThatWillUpload.size()];
             File[] temp2 = new File[codeFiles.size()];
             zau = new ZipAndUpload(codeFiles.toArray(temp2),
-                    filesThatWillUpload.toArray(
-                            temp), number,
-                    jLabel16.getText(),
-                    instructorKey);
+                    filesThatWillUpload.toArray(temp), number,
+                    jLabel16.getText(), instructorKey);
             zau.setVisible(true);
             for(Component component : dosyaListesi.getComponents()) {
                 component.setEnabled(false);
@@ -861,7 +834,22 @@ public class MainClient extends javax.swing.JFrame {
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
         try {
-            examList = fcu.availableExams();
+            //examList = fcu.availableExams();
+            Socket socket = new Socket(MainClient.getIpAddress(), 50101);
+            Service<ExamList> service = new GetExams(socket);
+            service.request();
+            ExamList temp = null;
+            try {
+                temp = service.getResult();
+            }
+            catch(Exception ex) {
+                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
+            examList = new Exam[temp.size()];
+            for(int i = 0; i < examList.length; i++) {
+                examList[i] = temp.get(i);
+            }
             durumLabel.setEnabled(true);
             durumLabel.setText("Ba\u011Fland\u0131");
             durumLabel.setForeground(c);
@@ -872,12 +860,12 @@ public class MainClient extends javax.swing.JFrame {
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
         }
-        catch(ClassNotFoundException e) {
+        /*catch(ClassNotFoundException e) {
             examList = null;
             durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
-        }
+        }*/
         jList1.setModel(new ExamListModel(examList));
         jTextArea1.setText("");
     }//GEN-LAST:event_yenileButtonActionPerformed

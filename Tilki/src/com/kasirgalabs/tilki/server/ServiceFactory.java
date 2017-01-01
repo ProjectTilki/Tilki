@@ -25,7 +25,7 @@ public class ServiceFactory {
                 return new FileSaver(socket);
             }
             else if(service.equals("List exams.")) {
-                return new ExamList(socket);
+                return new GetExams(socket);
             }
             else if(service.equals("Sending error logs.")) {
                 return new LogErrors(socket);

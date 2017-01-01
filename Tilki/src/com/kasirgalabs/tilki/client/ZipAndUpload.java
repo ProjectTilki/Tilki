@@ -1,5 +1,6 @@
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Hex;
 import com.kasirgalabs.tilki.utils.Zip;
 import com.kasirgalabs.tilki.utils.ZipResult;
 import java.awt.Cursor;
@@ -14,8 +15,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,10 +26,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -66,41 +61,10 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          * Main task. Executed in background thread.
          */
         @Override
-        public String doInBackground() throws IOException {
+        public String doInBackground() throws IOException, ExecutionException {
             //String zipName = createZipFile(codeFiles);
-            String zipName = "Test.zip";
-            Zip zip = new Zip(zipName, codeFiles);
-            ExecutorService executor = Executors.newFixedThreadPool(1);
-            Future future = executor.submit(zip);
-            HashSet<String> set = new HashSet<String>();
-            while(!future.isDone()) {
-                try {
-                    ZipResult zipResult = zip.getProgress(100,
-                            TimeUnit.MILLISECONDS);
-                    if(zipResult == null) {
-                        continue;
-                    }
-
-                    if(!set.contains(zipResult.getResultFile().getName())) {
-                        queue.add(zipResult.getResultFile().getName() + "\n");
-                        set.add(zipResult.getResultFile().getName());
-                    }
-                    setProgress(zipResult.getResultStatus());
-                }
-                catch(InterruptedException ex) {
-                }
-            }
-            try {
-                int i = (int) future.get();
-            }
-            catch(InterruptedException ex) {
-                Logger.getLogger(ZipAndUpload.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
-            catch(ExecutionException ex) {
-                Logger.getLogger(ZipAndUpload.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
+            String zipName = "codes_" + videoFiles[0].getName() + ".zip";
+            zipFiles(zipName, codeFiles);
             codes_md5 = sendFile(zipName, name, id);
             codeFilesAreDone = true;
             codes_md5 = codes_md5.toUpperCase();
@@ -111,13 +75,11 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             FileWriter fw = new FileWriter(logFile, true);
             fw.append(codes_md5 + "\r\n");
             task.firePropertyChange("enableCloseButton", 0, 1);
-            String temp = createZipFile(videoFiles);
-            if(Thread.currentThread().isInterrupted()) {
-                return "";
-            }
-            videos_md5 = sendFile(temp, name, id);
+            zipName = "videos_" + videoFiles[0].getName() + ".zip";
+            zipFiles(zipName, videoFiles);
+            videos_md5 = sendFile(zipName, name, id);
             videos_md5 = videos_md5.toUpperCase();
-            xor_md5 = xorHex(codes_md5, videos_md5);
+            xor_md5 = Hex.xorHex(codes_md5, videos_md5);
             fw.append(xor_md5 + "\r\n");
             fw.close();
             queue.add(
@@ -170,93 +132,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 dialog.setVisible(true);
             }
-        }
-
-        /**
-         * Creates a zip file on the current working directory which contains
-         * file(s) specified with the parameter. Original files will not be
-         * moved and their contents will not be changed.
-         * <p>
-         * The name of the zip file will be same with the first
-         * {@link java.io.File} object's name specified with the parameter. If
-         * the file already exists it will be overwritten.
-         *
-         * @param files Array queue of {@link java.io.File} objects, which will
-         *              be zipped. All files must be in the current working
-         *              directory.
-         *
-         * @return The name of the zip file.
-         *
-         * @throws FileNotFoundException File with the specified pathname does
-         *                               not exist or is a directory.
-         * @throws IOException           If an I/O error occurs.
-         */
-        private String createZipFile(File[] files) throws IOException {
-            String zipFileName = videoFiles[0].getName();
-            int pos = zipFileName.lastIndexOf('.');
-            if(pos > 0) {
-                zipFileName = zipFileName.substring(0, pos) + ".zip";
-            }
-            else {
-                zipFileName += ".zip";
-            }
-            if(codeFilesAreDone) {
-                zipFileName = "videos_" + zipFileName;
-            }
-            else {
-                zipFileName = "codes_" + zipFileName;
-            }
-
-            FileOutputStream fos = null;
-            FileInputStream fis = null;
-            ZipOutputStream zos = null;
-            try {
-                fos = new FileOutputStream(zipFileName);
-                zos = new ZipOutputStream(fos);
-                String fileName;
-                long fileSize;
-                for(File file : files) {
-                    int progress = 0;
-                    long sentBytes = 0;
-                    fileName = file.getName();
-                    fileSize = file.length();
-                    fis = new FileInputStream(file);
-                    if(Thread.currentThread().isInterrupted()) {
-                        return null;
-                    }
-                    queue.add("Dosya zipleniyor: " + file.getName() + "\n");
-                    ZipEntry zipEntry = new ZipEntry(fileName);
-                    zos.putNextEntry(zipEntry);
-                    byte[] buffer = new byte[4096];
-                    int length;
-                    while((length = fis.read(buffer)) > 0 && !Thread.
-                            currentThread().isInterrupted()) {
-                        zos.write(buffer, 0, length);
-                        sentBytes += length;
-                        if(sentBytes >= fileSize / 100) {
-                            sentBytes = 0;
-                            setProgress(progress++);
-                        }
-                    }
-                    zos.closeEntry();
-                    fis.close();
-                }
-            }
-            catch(Exception e) {
-                throw e;
-            }
-            finally {
-                if(zos != null) {
-                    zos.close();
-                }
-                if(fos != null) {
-                    fos.close();
-                }
-                if(fis != null) {
-                    fis.close();
-                }
-            }
-            return zipFileName;
         }
 
         /**
@@ -361,32 +236,34 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             return checksum;
         }
 
-        private String xorHex(String a, String b) {
-            char[] chars = new char[a.length()];
-            for(int i = 0; i < chars.length; i++) {
-                chars[i] = toHex(fromHex(a.charAt(i)) ^ fromHex(b.charAt(i)));
-            }
-            return new String(chars);
-        }
+        private void zipFiles(String zipName, File[] files) throws ExecutionException {
+            Zip zip = new Zip(zipName, files);
+            ExecutorService executor = Executors.newFixedThreadPool(1);
+            Future<Void> future = executor.submit(zip);
+            HashSet<String> set = new HashSet<>();
+            while(!future.isDone()) {
+                try {
+                    ZipResult zipResult = zip.getProgress(100,
+                            TimeUnit.MILLISECONDS);
+                    if(zipResult == null) {
+                        continue;
+                    }
 
-        private int fromHex(char c) {
-            if(c >= '0' && c <= '9') {
-                return c - '0';
+                    if(!set.contains(zipResult.getResultFile().getName())) {
+                        queue.add(
+                                "Dosya zipleniyor: " + zipResult.getResultFile().getName() + "\n");
+                        set.add(zipResult.getResultFile().getName());
+                    }
+                    setProgress(zipResult.getResultStatus());
+                }
+                catch(InterruptedException ex) {
+                }
             }
-            if(c >= 'A' && c <= 'F') {
-                return c - 'A' + 10;
+            try {
+                future.get();
             }
-            if(c >= 'a' && c <= 'f') {
-                return c - 'a' + 10;
+            catch(InterruptedException ex) {
             }
-            throw new IllegalArgumentException();
-        }
-
-        private char toHex(int index) {
-            if(index < 0 || index > 15) {
-                throw new IllegalArgumentException();
-            }
-            return "0123456789ABCDEF".charAt(index);
         }
     }
 

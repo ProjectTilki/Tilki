@@ -9,9 +9,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ExamList extends DefaultService {
+public class GetExams extends DefaultService {
 
-    public ExamList(Socket socket) throws IOException {
+    public GetExams(Socket socket) throws IOException {
         super(socket);
     }
 
