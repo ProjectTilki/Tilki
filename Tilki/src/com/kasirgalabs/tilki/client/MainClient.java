@@ -1,7 +1,6 @@
 package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
-import com.kasirgalabs.tilki.utils.ExamList;
 import com.kasirgalabs.tilki.utils.ExamListModel;
 import com.kasirgalabs.tilki.utils.FileFinder;
 import com.kasirgalabs.tilki.utils.FileListModel;
@@ -15,11 +14,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -834,26 +830,10 @@ public class MainClient extends javax.swing.JFrame {
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
         try {
-            //examList = fcu.availableExams();
-            Socket socket = new Socket(MainClient.getIpAddress(), 50101);
-            Service<ExamList> service = new GetExams(socket,
-                    new GetExamsActionListener(durumLabel));
-            service.request();
-            ExamList temp = null;
-            try {
-                temp = service.getResult();
-            }
-            catch(Exception ex) {
-                Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
-            examList = new Exam[temp.size()];
-            for(int i = 0; i < examList.length; i++) {
-                examList[i] = temp.get(i);
-            }
-            //durumLabel.setEnabled(true);
-            //durumLabel.setText("Ba\u011Fland\u0131");
-            //durumLabel.setForeground(c);
+            examList = fcu.availableExams();
+            durumLabel.setEnabled(true);
+            durumLabel.setText("Ba\u011Fland\u0131");
+            durumLabel.setForeground(c);
         }
         catch(IOException e) {
             examList = null;
@@ -861,12 +841,12 @@ public class MainClient extends javax.swing.JFrame {
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
         }
-        /*catch(ClassNotFoundException e) {
+        catch(ClassNotFoundException e) {
             examList = null;
             durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
-        }*/
+        }
         jList1.setModel(new ExamListModel(examList));
         jTextArea1.setText("");
     }//GEN-LAST:event_yenileButtonActionPerformed

@@ -1,14 +1,17 @@
 package com.kasirgalabs.tilki.client;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 
-public class SimpleTimerActionListener extends DefaultActionListener<JLabel> {
+public class SimpleTimerActionListener implements ActionListener {
 
     private final long currentTime;
+    JLabel component;
 
     public SimpleTimerActionListener(JLabel component) {
-        super(component);
+        super();
+        this.component = component;
         this.currentTime = System.currentTimeMillis();
 
     }

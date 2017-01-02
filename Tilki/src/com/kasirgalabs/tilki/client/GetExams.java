@@ -2,16 +2,17 @@ package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
 import com.kasirgalabs.tilki.utils.ExamList;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import javax.swing.JLabel;
+import java.util.ArrayList;
 
-public class GetExams extends DefaultService<ExamList, JLabel> {
+public class GetExams extends DefaultService<ServiceListener<ExamList>, ExamList> {
 
-    public GetExams(Socket socket,
-            DefaultActionListener<JLabel> defaultActionListener) throws IOException {
-        super(socket, defaultActionListener);
+    public GetExams(ArrayList<ServiceListener<ExamList>> listeners) {
+        super(listeners);
     }
 
     /**
@@ -26,10 +27,14 @@ public class GetExams extends DefaultService<ExamList, JLabel> {
      *                                          exceptions.
      * @see Exam
      */
+    @Override
     public ExamList call() throws IOException, ClassNotFoundException {
         Exam[] examList = null;
+        Socket socket = null;
         try {
-
+            socket = new Socket("localhost", 50101);
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.writeUTF("List exams."); // Tell host which operation will occur.
             out.flush();
 

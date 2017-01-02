@@ -1,14 +1,28 @@
 package com.kasirgalabs.tilki.client;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JComponent;
+import java.util.ArrayList;
+import java.util.concurrent.Future;
 
-public abstract class DefaultActionListener<V extends JComponent> implements
+public class ServiceResultDispatcher<E extends ServiceListener<V>, V> implements
         ActionListener {
 
-    protected V component;
+    private final ArrayList<E> listeners;
+    private Future<V> future;
 
-    protected DefaultActionListener(V component) {
-        this.component = component;
+    public ServiceResultDispatcher(ArrayList<E> listeners) {
+        this.listeners = listeners;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for(E listener : listeners) {
+            listener.servicePerformed(future);
+        }
+    }
+
+    public void setResult(Future<V> future) {
+        this.future = future;
     }
 }
