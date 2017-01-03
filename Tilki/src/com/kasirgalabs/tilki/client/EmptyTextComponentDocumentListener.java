@@ -6,45 +6,55 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-public class EmptyTextFieldDocumentListener implements DocumentListener {
+public class EmptyTextComponentDocumentListener implements DocumentListener {
 
     private final JTextComponent component;
     private final Container container;
+    private final EmptyTextComponentCounter emptyTextComponentCounter;
 
-    public EmptyTextFieldDocumentListener(JTextComponent component,
-            Container container) {
+    public EmptyTextComponentDocumentListener(JTextComponent component,
+            Container container,
+            EmptyTextComponentCounter emptyTextComponentCounter) {
         this.component = component;
         this.container = container;
+        this.emptyTextComponentCounter = emptyTextComponentCounter;
+        emptyTextComponentCounter.addComponent(component);
     }
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        ifEmptyDisable();
+        adjustCounter();
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        ifEmptyDisable();
+        adjustCounter();
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        ifEmptyDisable();
+        adjustCounter();
     }
 
-    private void ifEmptyDisable() {
+    private void adjustCounter() {
         if(component instanceof JPasswordField) {
             JPasswordField passwordField = (JPasswordField) component;
             if(passwordField.getPassword().length == 0) {
+                emptyTextComponentCounter.addComponent(component);
                 container.setEnabled(false);
                 return;
             }
         }
         if(component.getText().trim().isEmpty()) {
+            emptyTextComponentCounter.addComponent(component);
             container.setEnabled(false);
             return;
         }
-        container.setEnabled(true);
+        emptyTextComponentCounter.removeComponent(component);
+        if(emptyTextComponentCounter.isEmpty()) {
+            container.setEnabled(true);
+            return;
+        }
+        container.setEnabled(false);
     }
-
 }

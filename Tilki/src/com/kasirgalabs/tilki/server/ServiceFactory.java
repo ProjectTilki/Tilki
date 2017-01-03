@@ -30,6 +30,9 @@ public class ServiceFactory {
             else if(service.equals("Sending error logs.")) {
                 return new LogErrors(socket);
             }
+            else if(service.equals("KeyVerifyRefactored")) {
+                return new KeyVerifyRefactored(socket);
+            }
         }
         catch(IOException ex) {
             Logger.getLogger(ServiceFactory.class.getName()).log(

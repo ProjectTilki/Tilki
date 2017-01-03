@@ -1,6 +1,6 @@
 package com.kasirgalabs.tilki.client;
 
-public interface Service<E> {
+public interface Service<E, T> {
 
-    void request();
+    void request(T data);
 }

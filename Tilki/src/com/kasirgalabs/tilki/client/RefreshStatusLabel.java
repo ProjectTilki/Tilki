@@ -6,16 +6,13 @@
 package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.ExamList;
-import java.awt.Color;
+import com.kasirgalabs.tilki.utils.TilkiColor;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.swing.JLabel;
 
 public class RefreshStatusLabel extends JLabel implements
         ServiceListener<ExamList> {
-
-    private static final Color RED = new Color(204, 0, 0);
-    private static final Color GREEN = new Color(0, 204, 0);
 
     @Override
 
@@ -26,11 +23,11 @@ public class RefreshStatusLabel extends JLabel implements
         }
         catch(InterruptedException | ExecutionException ex) {
             setText("Bağlantı kurulamadı.");
-            setForeground(RED);
+            setForeground(TilkiColor.RED);
             return;
         }
         setText("Bağlantı kuruldu.");
-        setForeground(GREEN);
+        setForeground(TilkiColor.GREEN);
     }
 
 }

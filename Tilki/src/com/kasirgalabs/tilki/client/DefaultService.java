@@ -7,19 +7,21 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javax.swing.Timer;
 
-public abstract class DefaultService<E extends ServiceListener<V>, V> implements
-        Callable<V>, Service<V> {
+public abstract class DefaultService<E extends ServiceListener<V>, V, T> implements
+        Callable<V>, Service<V, T> {
 
     private final ArrayList<E> listeners;
     private final ExecutorService executor = Executors.newFixedThreadPool(2);
     private Future<V> future;
+    protected T data;
 
     protected DefaultService(ArrayList<E> listeners) {
         this.listeners = listeners;
     }
 
     @Override
-    public final void request() {
+    public final void request(T data) {
+        this.data = data;
         future = executor.submit(this);
         executor.submit(new ServiceWaiter());
     }

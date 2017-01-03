@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class GetExams extends DefaultService<ServiceListener<ExamList>, ExamList> {
+public class GetExams extends DefaultService<ServiceListener<ExamList>, ExamList, Object> {
 
     public GetExams(ArrayList<ServiceListener<ExamList>> listeners) {
         super(listeners);

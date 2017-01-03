@@ -2,28 +2,47 @@ package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.ExamList;
 import com.kasirgalabs.tilki.utils.ExamListModel;
-import java.awt.Color;
+import com.kasirgalabs.tilki.utils.TilkiColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 
 public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         MouseListener,
         ComponentListener,
-        ListSelectionListener {
+        ListSelectionListener,
+        KeyListener,
+        PropertyChangeListener {
 
     private final MainScreen mainScreen;
     private ExamList examList;
-    private static final Color BLUE = new Color(0, 0, 204);
 
     public ExamPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
         initComponents();
         instructorPasswordField.getDocument().addDocumentListener(
-                new EmptyTextFieldDocumentListener(instructorPasswordField,
-                        nextButton));
+                new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                checkPassword();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                checkPassword();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                checkPassword();
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -34,7 +53,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         jSeparator1 = new javax.swing.JSeparator();
         instructorLabel = new javax.swing.JLabel();
         instructorPasswordField = new javax.swing.JPasswordField();
-        passwordStatusLabel = new javax.swing.JLabel();
+        passwordStatusLabel = new PasswordStatusLabel();
         jSeparator3 = new javax.swing.JSeparator();
         examNameLabel = new javax.swing.JLabel();
         refreshButton = new javax.swing.JButton();
@@ -57,6 +76,9 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
 
         instructorLabel.setText("\u015Eifre");
 
+        instructorPasswordField.addPropertyChangeListener(this);
+        instructorPasswordField.addKeyListener(this);
+
         passwordStatusLabel.setMaximumSize(new java.awt.Dimension(0, 17));
         passwordStatusLabel.setMinimumSize(new java.awt.Dimension(0, 17));
         passwordStatusLabel.setPreferredSize(new java.awt.Dimension(0, 17));
@@ -67,7 +89,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         refreshButton.setText("Yenile");
         refreshButton.addActionListener(this);
 
-        refreshStatusLabel.setForeground(BLUE);
+        refreshStatusLabel.setForeground(TilkiColor.BLUE);
         refreshStatusLabel.setText("Bağlanıyor...");
         refreshStatusLabel.setMaximumSize(new java.awt.Dimension(0, 17));
         refreshStatusLabel.setMinimumSize(new java.awt.Dimension(0, 17));
@@ -193,6 +215,18 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         }
     }
 
+    public void keyPressed(java.awt.event.KeyEvent evt) {
+    }
+
+    public void keyReleased(java.awt.event.KeyEvent evt) {
+    }
+
+    public void keyTyped(java.awt.event.KeyEvent evt) {
+        if (evt.getSource() == instructorPasswordField) {
+            ExamPanel.this.instructorPasswordFieldKeyTyped(evt);
+        }
+    }
+
     public void mouseClicked(java.awt.event.MouseEvent evt) {
     }
 
@@ -209,6 +243,12 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     }
 
     public void mouseReleased(java.awt.event.MouseEvent evt) {
+    }
+
+    public void propertyChange(java.beans.PropertyChangeEvent evt) {
+        if (evt.getSource() == instructorPasswordField) {
+            ExamPanel.this.instructorPasswordFieldPropertyChange(evt);
+        }
     }
 
     public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -230,9 +270,26 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     }//GEN-LAST:event_formComponentShown
 
     private void examNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_examNameListValueChanged
+        instructorPasswordField.setEnabled(true);
+        if(examNameList.getSelectedIndex() == -1) {
+            instructorPasswordField.setEnabled(false);
+            instructorPasswordField.setText("");
+        }
         ExamNameList temp = (ExamNameList) examNameList;
         examDescriptionTextPane.setText(temp.getSelectedExamDescription());
     }//GEN-LAST:event_examNameListValueChanged
+
+    private void instructorPasswordFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_instructorPasswordFieldKeyTyped
+
+    }//GEN-LAST:event_instructorPasswordFieldKeyTyped
+
+    private void instructorPasswordFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_instructorPasswordFieldPropertyChange
+        passwordStatusLabel.setText("");
+        if(!instructorPasswordField.isEnabled()) {
+            passwordStatusLabel.setText("Aşağıdaki listeden sınav seçiniz.");
+            passwordStatusLabel.setForeground(TilkiColor.BLUE);
+        }
+    }//GEN-LAST:event_instructorPasswordFieldPropertyChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel examDescriptionLabel;
@@ -255,12 +312,28 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     // End of variables declaration//GEN-END:variables
 
     private void fetchExamList() {
+        instructorPasswordField.setEnabled(false);
+        instructorPasswordField.setText("");
+        examNameList.setModel(new ExamListModel());
         refreshStatusLabel.setText("Bağlanıyor...");
-        refreshStatusLabel.setForeground(BLUE);
+        refreshStatusLabel.setForeground(TilkiColor.BLUE);
         ArrayList<ServiceListener<ExamList>> listeners = new ArrayList<>();
         listeners.add((ServiceListener<ExamList>) refreshStatusLabel);
         listeners.add((ServiceListener<ExamList>) examNameList);
-        Service<ExamList> service = new GetExams(listeners);
-        service.request();
+        Service<ExamList, Object> service = new GetExams(listeners);
+        service.request(null);
+    }
+
+    private void checkPassword() {
+        char[] key = instructorPasswordField.getPassword();
+        if(key.length == 0) {
+            return;
+        }
+        passwordStatusLabel.setText("Şifre kontrol ediliyor.");
+        passwordStatusLabel.setForeground(TilkiColor.BLUE);
+        ArrayList<ServiceListener<Boolean>> listeners = new ArrayList<>();
+        listeners.add((ServiceListener<Boolean>) passwordStatusLabel);
+        Service<Boolean, char[]> service = new KeyVerifyRefactored(listeners);
+        service.request(key);
     }
 }

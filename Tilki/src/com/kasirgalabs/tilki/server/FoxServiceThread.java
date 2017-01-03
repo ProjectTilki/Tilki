@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,9 +52,9 @@ public class FoxServiceThread implements Callable<Integer> {
                 service.serve();
             }
         }
-        catch(IOException | NoSuchAlgorithmException e) {
+        catch(IOException ex) {
             Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE,
-                    "Error during session.", e);
+                    "Error during session.", ex);
         }
         finally {
             socket.close();

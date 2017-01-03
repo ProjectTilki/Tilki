@@ -3,16 +3,22 @@ package com.kasirgalabs.tilki.client;
 public class LoginPanel extends javax.swing.JPanel {
 
     private final MainScreen mainScreen;
+    private static int emptyDocumentCount;
 
     public LoginPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
         initComponents();
+        EmptyTextComponentCounter emptyTextComponentCounter = new EmptyTextComponentCounter();
         nameTextField.getDocument().addDocumentListener(
-                new EmptyTextFieldDocumentListener(idTextField, nextButton));
+                new EmptyTextComponentDocumentListener(nameTextField, nextButton,
+                        emptyTextComponentCounter));
         surnameTextField.getDocument().addDocumentListener(
-                new EmptyTextFieldDocumentListener(idTextField, nextButton));
+                new EmptyTextComponentDocumentListener(surnameTextField,
+                        nextButton,
+                        emptyTextComponentCounter));
         idTextField.getDocument().addDocumentListener(
-                new EmptyTextFieldDocumentListener(idTextField, nextButton));
+                new EmptyTextComponentDocumentListener(idTextField, nextButton,
+                        emptyTextComponentCounter));
     }
 
     @SuppressWarnings("unchecked")

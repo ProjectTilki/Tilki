@@ -2,7 +2,7 @@ package com.kasirgalabs.tilki.utils;
 
 import javax.swing.AbstractListModel;
 
-public class ExamListModel extends AbstractListModel {
+public class ExamListModel extends AbstractListModel<String> {
 
     private final Exam[] examList;
 
