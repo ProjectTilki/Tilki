@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.event.ListSelectionListener;
 
 public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         MouseListener,
-        ComponentListener {
+        ComponentListener,
+        ListSelectionListener {
 
     private final MainScreen mainScreen;
     private ExamList examList;
@@ -73,11 +75,14 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
 
         examNameList.setModel(new ExamListModel());
         examNameList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        examNameList.addListSelectionListener(this);
         examNameScrollPane.setViewportView(examNameList);
 
         examDescriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         examDescriptionLabel.setText("S\u0131nav A\u00E7\u0131klamas\u0131");
 
+        examDescriptionTextPane.setEditable(false);
+        examDescriptionTextPane.setFocusable(false);
         examDescriptionScrollPane.setViewportView(examDescriptionTextPane);
 
         previousButton.setText("Geri");
@@ -204,6 +209,12 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     }
 
     public void mouseReleased(java.awt.event.MouseEvent evt) {
+    }
+
+    public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+        if (evt.getSource() == examNameList) {
+            ExamPanel.this.examNameListValueChanged(evt);
+        }
     }// </editor-fold>//GEN-END:initComponents
 
     private void previousButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousButtonMousePressed
@@ -217,6 +228,11 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         fetchExamList();
     }//GEN-LAST:event_formComponentShown
+
+    private void examNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_examNameListValueChanged
+        ExamNameList temp = (ExamNameList) examNameList;
+        examDescriptionTextPane.setText(temp.getSelectedExamDescription());
+    }//GEN-LAST:event_examNameListValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel examDescriptionLabel;

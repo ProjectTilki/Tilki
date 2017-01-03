@@ -11,9 +11,11 @@ import javax.swing.JList;
 public class ExamNameList extends JList<String> implements
         ServiceListener<ExamList> {
 
+    private ExamList examList;
+
     @Override
     public void servicePerformed(Future<ExamList> future) {
-        ExamList examList = null;
+        examList = null;
         try {
             examList = future.get();
         }
@@ -22,7 +24,12 @@ public class ExamNameList extends JList<String> implements
                     null, ex);
         }
         setModel(new ExamListModel(examList));
-
     }
 
+    public String getSelectedExamDescription() {
+        if(examList == null || getSelectedIndex() == -1) {
+            return null;
+        }
+        return examList.get(getSelectedIndex()).getDescription();
+    }
 }
