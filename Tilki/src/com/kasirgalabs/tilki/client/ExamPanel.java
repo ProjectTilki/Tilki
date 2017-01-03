@@ -1,19 +1,27 @@
 package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.ExamList;
+import com.kasirgalabs.tilki.utils.ExamListModel;
+import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class ExamPanel extends javax.swing.JPanel implements ActionListener,
-        MouseListener {
+        MouseListener,
+        ComponentListener {
 
     private final MainScreen mainScreen;
     private ExamList examList;
+    private static final Color BLUE = new Color(0, 0, 204);
 
     public ExamPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
         initComponents();
+        instructorPasswordField.getDocument().addDocumentListener(
+                new EmptyTextFieldDocumentListener(instructorPasswordField,
+                        nextButton));
     }
 
     @SuppressWarnings("unchecked")
@@ -30,7 +38,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         refreshButton = new javax.swing.JButton();
         refreshStatusLabel = new RefreshStatusLabel();
         examNameScrollPane = new javax.swing.JScrollPane();
-        examNameList = new javax.swing.JList<>();
+        examNameList = new ExamNameList();
         examDescriptionLabel = new javax.swing.JLabel();
         examDescriptionScrollPane = new javax.swing.JScrollPane();
         examDescriptionTextPane = new javax.swing.JTextPane();
@@ -40,6 +48,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
 
         setMaximumSize(new java.awt.Dimension(524, 429));
         setMinimumSize(new java.awt.Dimension(524, 429));
+        addComponentListener(this);
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("S\u0131nav Se\u00E7im Ekran\u0131");
@@ -56,10 +65,13 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         refreshButton.setText("Yenile");
         refreshButton.addActionListener(this);
 
+        refreshStatusLabel.setForeground(BLUE);
+        refreshStatusLabel.setText("Bağlanıyor...");
         refreshStatusLabel.setMaximumSize(new java.awt.Dimension(0, 17));
         refreshStatusLabel.setMinimumSize(new java.awt.Dimension(0, 17));
         refreshStatusLabel.setPreferredSize(new java.awt.Dimension(0, 17));
 
+        examNameList.setModel(new ExamListModel());
         examNameList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         examNameScrollPane.setViewportView(examNameList);
 
@@ -161,6 +173,21 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         }
     }
 
+    public void componentHidden(java.awt.event.ComponentEvent evt) {
+    }
+
+    public void componentMoved(java.awt.event.ComponentEvent evt) {
+    }
+
+    public void componentResized(java.awt.event.ComponentEvent evt) {
+    }
+
+    public void componentShown(java.awt.event.ComponentEvent evt) {
+        if (evt.getSource() == ExamPanel.this) {
+            ExamPanel.this.formComponentShown(evt);
+        }
+    }
+
     public void mouseClicked(java.awt.event.MouseEvent evt) {
     }
 
@@ -184,11 +211,12 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     }//GEN-LAST:event_previousButtonMousePressed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        ArrayList<ServiceListener<ExamList>> listeners = new ArrayList<>();
-        listeners.add((ServiceListener<ExamList>) refreshStatusLabel);
-        Service<ExamList> service = new GetExams(listeners);
-        service.request();
+        fetchExamList();
     }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        fetchExamList();
+    }//GEN-LAST:event_formComponentShown
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel examDescriptionLabel;
@@ -210,12 +238,13 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     private javax.swing.JLabel refreshStatusLabel;
     // End of variables declaration//GEN-END:variables
 
-    private void nextButtonState() {
-        char[] instructorPassword = instructorPasswordField.getPassword();
-        if(instructorPassword.length == 0) {
-            nextButton.setEnabled(false);
-            return;
-        }
-        nextButton.setEnabled(true);
+    private void fetchExamList() {
+        refreshStatusLabel.setText("Bağlanıyor...");
+        refreshStatusLabel.setForeground(BLUE);
+        ArrayList<ServiceListener<ExamList>> listeners = new ArrayList<>();
+        listeners.add((ServiceListener<ExamList>) refreshStatusLabel);
+        listeners.add((ServiceListener<ExamList>) examNameList);
+        Service<ExamList> service = new GetExams(listeners);
+        service.request();
     }
 }

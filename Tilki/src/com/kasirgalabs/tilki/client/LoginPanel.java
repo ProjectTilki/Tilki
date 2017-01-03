@@ -7,6 +7,12 @@ public class LoginPanel extends javax.swing.JPanel {
     public LoginPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
         initComponents();
+        nameTextField.getDocument().addDocumentListener(
+                new EmptyTextFieldDocumentListener(idTextField, nextButton));
+        surnameTextField.getDocument().addDocumentListener(
+                new EmptyTextFieldDocumentListener(idTextField, nextButton));
+        idTextField.getDocument().addDocumentListener(
+                new EmptyTextFieldDocumentListener(idTextField, nextButton));
     }
 
     @SuppressWarnings("unchecked")
@@ -39,20 +45,10 @@ public class LoginPanel extends javax.swing.JPanel {
                 nameTextFieldActionPerformed(evt);
             }
         });
-        nameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                nameTextFieldKeyReleased(evt);
-            }
-        });
 
         surnameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 surnameTextFieldActionPerformed(evt);
-            }
-        });
-        surnameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                surnameTextFieldKeyReleased(evt);
             }
         });
 
@@ -64,9 +60,6 @@ public class LoginPanel extends javax.swing.JPanel {
         idTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 idTextFieldKeyTyped(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                idTextFieldKeyReleased(evt);
             }
         });
 
@@ -138,36 +131,6 @@ public class LoginPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nameTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyReleased
-        nextButtonState();
-    }//GEN-LAST:event_nameTextFieldKeyReleased
-
-    private void surnameTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyReleased
-        nextButtonState();
-    }//GEN-LAST:event_surnameTextFieldKeyReleased
-
-    private void idTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyReleased
-        nextButtonState();
-    }//GEN-LAST:event_idTextFieldKeyReleased
-
-    private void idTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyTyped
-        if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0') {
-            evt.consume();
-        }
-    }//GEN-LAST:event_idTextFieldKeyTyped
-
-    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
-        enterPressed();
-    }//GEN-LAST:event_nameTextFieldActionPerformed
-
-    private void surnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextFieldActionPerformed
-        enterPressed();
-    }//GEN-LAST:event_surnameTextFieldActionPerformed
-
-    private void idTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextFieldActionPerformed
-        enterPressed();
-    }//GEN-LAST:event_idTextFieldActionPerformed
-
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         String name = nameTextField.getText();
         String surname = surnameTextField.getText();
@@ -176,6 +139,24 @@ public class LoginPanel extends javax.swing.JPanel {
         mainScreen.setUser(user);
         mainScreen.nextScreen();
     }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void idTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyTyped
+        if(evt.getKeyChar() > '9' || evt.getKeyChar() < '0') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_idTextFieldKeyTyped
+
+    private void idTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextFieldActionPerformed
+        enterPressed();
+    }//GEN-LAST:event_idTextFieldActionPerformed
+
+    private void surnameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_surnameTextFieldActionPerformed
+        enterPressed();
+    }//GEN-LAST:event_surnameTextFieldActionPerformed
+
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
+        enterPressed();
+    }//GEN-LAST:event_nameTextFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel idLabel;
@@ -190,20 +171,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JTextField surnameTextField;
     // End of variables declaration//GEN-END:variables
 
-    private boolean nextButtonState() {
-        if(idTextField.getText().trim().isEmpty()
-                || nameTextField.getText().trim().isEmpty()
-                || surnameTextField.getText().trim().isEmpty()) {
-            nextButton.setEnabled(false);
-            return false;
-        }
-        nextButton.setEnabled(true);
-        return true;
-    }
-
     private void enterPressed() {
-        if(nextButtonState()) {
-            nextButton.doClick();
-        }
+        nextButton.doClick();
     }
 }
