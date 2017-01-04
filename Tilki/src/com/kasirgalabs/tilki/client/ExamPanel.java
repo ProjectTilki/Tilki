@@ -5,8 +5,8 @@ import com.kasirgalabs.tilki.utils.ExamListModel;
 import com.kasirgalabs.tilki.utils.TilkiColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import javax.swing.event.DocumentEvent;
@@ -17,11 +17,11 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         MouseListener,
         ComponentListener,
         ListSelectionListener,
-        KeyListener,
-        PropertyChangeListener {
+        PropertyChangeListener,
+        MouseMotionListener {
 
     private final MainScreen mainScreen;
-    private ExamList examList;
+    private String exam;
 
     public ExamPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -67,8 +67,8 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         previousButton = new javax.swing.JButton();
         nextButton = new ExamPanelNextButton();
 
-        setMaximumSize(new java.awt.Dimension(524, 429));
-        setMinimumSize(new java.awt.Dimension(524, 429));
+        setMaximumSize(new java.awt.Dimension(524, 440));
+        setMinimumSize(new java.awt.Dimension(524, 440));
         addComponentListener(this);
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -77,7 +77,6 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         instructorLabel.setText("\u015Eifre");
 
         instructorPasswordField.addPropertyChangeListener(this);
-        instructorPasswordField.addKeyListener(this);
 
         passwordStatusLabel.setMaximumSize(new java.awt.Dimension(0, 17));
         passwordStatusLabel.setMinimumSize(new java.awt.Dimension(0, 17));
@@ -97,6 +96,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
 
         examNameList.setModel(new ExamListModel());
         examNameList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        examNameList.addMouseMotionListener(this);
         examNameList.addListSelectionListener(this);
         examNameScrollPane.setViewportView(examNameList);
 
@@ -112,6 +112,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
 
         nextButton.setText("\u0130leri");
         nextButton.setEnabled(false);
+        nextButton.addMouseListener(this);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -215,18 +216,6 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         }
     }
 
-    public void keyPressed(java.awt.event.KeyEvent evt) {
-    }
-
-    public void keyReleased(java.awt.event.KeyEvent evt) {
-    }
-
-    public void keyTyped(java.awt.event.KeyEvent evt) {
-        if (evt.getSource() == instructorPasswordField) {
-            ExamPanel.this.instructorPasswordFieldKeyTyped(evt);
-        }
-    }
-
     public void mouseClicked(java.awt.event.MouseEvent evt) {
     }
 
@@ -240,9 +229,21 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         if (evt.getSource() == previousButton) {
             ExamPanel.this.previousButtonMousePressed(evt);
         }
+        else if (evt.getSource() == nextButton) {
+            ExamPanel.this.nextButtonMousePressed(evt);
+        }
     }
 
     public void mouseReleased(java.awt.event.MouseEvent evt) {
+    }
+
+    public void mouseDragged(java.awt.event.MouseEvent evt) {
+    }
+
+    public void mouseMoved(java.awt.event.MouseEvent evt) {
+        if (evt.getSource() == examNameList) {
+            ExamPanel.this.examNameListMouseMoved(evt);
+        }
     }
 
     public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -275,13 +276,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
             instructorPasswordField.setEnabled(false);
             instructorPasswordField.setText("");
         }
-        ExamNameList temp = (ExamNameList) examNameList;
-        examDescriptionTextPane.setText(temp.getSelectedExamDescription());
     }//GEN-LAST:event_examNameListValueChanged
-
-    private void instructorPasswordFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_instructorPasswordFieldKeyTyped
-
-    }//GEN-LAST:event_instructorPasswordFieldKeyTyped
 
     private void instructorPasswordFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_instructorPasswordFieldPropertyChange
         passwordStatusLabel.setText("");
@@ -290,6 +285,23 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
             passwordStatusLabel.setForeground(TilkiColor.BLUE);
         }
     }//GEN-LAST:event_instructorPasswordFieldPropertyChange
+
+    private void nextButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextButtonMousePressed
+        if(!nextButton.isEnabled()) {
+            evt.consume();
+            return;
+        }
+        mainScreen.nextScreen();
+        mainScreen.getUser().setExam(exam);
+    }//GEN-LAST:event_nextButtonMousePressed
+
+    private void examNameListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_examNameListMouseMoved
+        int index = examNameList.getSelectedIndex();
+        if(index != -1) {
+            ExamListModel model = (ExamListModel) examNameList.getModel();
+            examNameList.setToolTipText(model.getElementAt(index).toString());
+        }
+    }//GEN-LAST:event_examNameListMouseMoved
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel examDescriptionLabel;

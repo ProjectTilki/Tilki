@@ -10,16 +10,7 @@ public class MainScreenLayout extends CardLayout {
 
     @Override
     public Dimension preferredLayoutSize(Container parent) {
-
-        Component current = findCurrentComponent(parent);
-        if(current != null) {
-            Insets insets = parent.getInsets();
-            Dimension pref = current.getPreferredSize();
-            pref.width += insets.left + insets.right;
-            pref.height += insets.top + insets.bottom;
-            return pref;
-        }
-        return super.preferredLayoutSize(parent);
+        return currentComponentSize(parent);
     }
 
     private Component findCurrentComponent(Container parent) {
@@ -29,5 +20,14 @@ public class MainScreenLayout extends CardLayout {
             }
         }
         return null;
+    }
+
+    private Dimension currentComponentSize(Container parent) {
+        Component current = findCurrentComponent(parent);
+        Insets insets = parent.getInsets();
+        Dimension pref = current.getPreferredSize();
+        pref.width += insets.left + insets.right;
+        pref.height += insets.top + insets.bottom;
+        return pref;
     }
 }

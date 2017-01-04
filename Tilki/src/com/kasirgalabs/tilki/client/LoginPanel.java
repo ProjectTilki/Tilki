@@ -3,7 +3,6 @@ package com.kasirgalabs.tilki.client;
 public class LoginPanel extends javax.swing.JPanel {
 
     private final MainScreen mainScreen;
-    private static int emptyDocumentCount;
 
     public LoginPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -35,6 +34,7 @@ public class LoginPanel extends javax.swing.JPanel {
         idTextField = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         nextButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("\u00D6\u011Frenci Bilgileri");
@@ -45,7 +45,6 @@ public class LoginPanel extends javax.swing.JPanel {
 
         idLabel.setText("Numara");
 
-        nameTextField.setPreferredSize(new java.awt.Dimension(172, 27));
         nameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameTextFieldActionPerformed(evt);
@@ -69,13 +68,15 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
-        nextButton.setText("Tamam");
+        nextButton.setText("İleri");
         nextButton.setEnabled(false);
         nextButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nextButtonActionPerformed(evt);
             }
         });
+
+        jButton1.setText("Çıkış");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -85,30 +86,30 @@ public class LoginPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator2)
-                    .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(surnameLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(idLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(nameLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(nextButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(surnameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(surnameTextField))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(idLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(idTextField))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(nameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(nameTextField))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nextButton)))
                 .addContainerGap())
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {idLabel, nameLabel, surnameLabel});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {idTextField, nameTextField, surnameTextField});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, nextButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,7 +133,9 @@ public class LoginPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(nextButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nextButton)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -168,6 +171,7 @@ public class LoginPanel extends javax.swing.JPanel {
     private javax.swing.JLabel idLabel;
     private javax.swing.JTextField idTextField;
     private javax.swing.JLabel infoLabel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel nameLabel;

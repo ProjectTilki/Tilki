@@ -3,10 +3,10 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[524, 429]"/>
+      <Dimension value="[524, 440]"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[524, 429]"/>
+      <Dimension value="[524, 440]"/>
     </Property>
   </Properties>
   <Events>
@@ -138,7 +138,6 @@
     <Component class="javax.swing.JPasswordField" name="instructorPasswordField">
       <Events>
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="instructorPasswordFieldPropertyChange"/>
-        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="instructorPasswordFieldKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="passwordStatusLabel">
@@ -210,6 +209,7 @@
             <Property name="selectionMode" type="int" value="0"/>
           </Properties>
           <Events>
+            <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="examNameListMouseMoved"/>
             <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="examNameListValueChanged"/>
           </Events>
           <AuxValues>
@@ -259,6 +259,9 @@
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nextButtonMousePressed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ExamPanelNextButton()"/>
       </AuxValues>

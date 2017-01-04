@@ -49,7 +49,7 @@
         </node>
         <node name="error-in-javadoc">
             <attribute name="enabled" value="true"/>
-            <attribute name="availabilityfalse" value="false"/>
+            <attribute name="availabilityfalse" value="true"/>
             <attribute name="scope" value="private"/>
             <attribute name="hintSeverity" value="VERIFIER"/>
         </node>
@@ -120,6 +120,7 @@
             <attribute name="enabled" value="true"/>
             <attribute name="scope" value="private"/>
             <attribute name="availabilitytrue" value="true"/>
+            <attribute name="hintSeverity" value="HINT"/>
         </node>
         <node name="o.n.m.j2ee.jpa.verification.ValidPrimaryTableName">
             <attribute name="enabled" value="true"/>
