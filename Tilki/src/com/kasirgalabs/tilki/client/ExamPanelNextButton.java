@@ -16,7 +16,6 @@ public class ExamPanelNextButton extends JButton implements
             }
         }
         catch(InterruptedException | ExecutionException ex) {
-
         }
     }
 

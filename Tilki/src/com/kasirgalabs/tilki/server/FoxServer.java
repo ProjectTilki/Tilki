@@ -1,5 +1,6 @@
 package com.kasirgalabs.tilki.server;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import java.io.IOException;
 import static java.lang.System.setProperty;
 import java.net.ServerSocket;
@@ -61,6 +62,8 @@ public class FoxServer {
             e.printStackTrace();
             System.exit(0);
         }
+        ExamManager.getInstance().addExam(new Exam("deneme", "description",
+                new char[]{'1', '2', '3'}));
     }
 
     /**
@@ -70,7 +73,7 @@ public class FoxServer {
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
         try {
-            serverSocket = new ServerSocket(50101, 20000);
+            serverSocket = new ServerSocket(50101, 5);
         }
         catch(IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -78,7 +81,7 @@ public class FoxServer {
             System.exit(0);
         }
         futureList = new ConcurrentLinkedDeque<Future<Integer>>();
-        executor = Executors.newFixedThreadPool(20000);
+        executor = Executors.newFixedThreadPool(5);
 
         //FoxServerSetup.main(null);
         while(true && !Thread.currentThread().isInterrupted()) {

@@ -1,8 +1,13 @@
 package com.kasirgalabs.tilki.server;
 
+import com.kasirgalabs.tilki.utils.Exam;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class ExamManager {
 
-    private static ExamManager instance = null;
+    private static volatile ExamManager instance = null;
 
     public static ExamManager getInstance() {
         if(instance == null) {
@@ -14,15 +19,44 @@ public class ExamManager {
         }
         return instance;
     }
+    private final List<Exam> examList = Collections.synchronizedList(
+            new ArrayList<>());
 
     private ExamManager() {
     }
 
-    public boolean isExamExists(String examName) {
+    public synchronized boolean addExam(Exam exam) {
+        if(examList.contains(exam)) {
+            return false;
+        }
+        examList.add(exam);
         return true;
     }
 
+    public boolean isExamExists(String examName) {
+        for(Exam exam : examList) {
+            if(exam.getName().equals(examName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getExamDescription(String examName) {
+        for(Exam exam : examList) {
+            if(exam.getName().equals(examName)) {
+                return exam.getDescription();
+            }
+        }
+        return null;
+    }
+
     public char[] getExamKey(String examName) {
-        return new char[]{'1', '2', '3'};
+        for(Exam exam : examList) {
+            if(exam.getName().equals(examName)) {
+                return exam.getKey();
+            }
+        }
+        return null;
     }
 }

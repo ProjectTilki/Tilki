@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/*
+ * This service sends the exam key to the server and ask if it's matches with
+ * the original exam key than notifies the registered listeners if there is any.
+ */
 public class KeyVerifyRefactored extends DefaultService<ServiceListener<Boolean>, Boolean, char[]> {
-
-    private static final Object LOCK = new Object();
 
     public KeyVerifyRefactored(ArrayList<ServiceListener<Boolean>> listeners) {
         super(listeners);
@@ -21,16 +23,18 @@ public class KeyVerifyRefactored extends DefaultService<ServiceListener<Boolean>
             socket = new Socket("localhost", 50101);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+            // Tell the server which service we want it to perform.
             out.writeUTF("KeyVerifyRefactored");
+            // Send exam name.
             out.writeUTF("deneme");
+            // Send the typed key.
             for(char c : data) {
                 out.writeChar(c);
             }
             out.flush();
-            socket.shutdownOutput();
-            if(in.readBoolean()) {
-                return true;
-            }
+            socket.shutdownOutput(); // Send EOF since no more data will be sent.
+            return in.readBoolean(); // Return the response of the server.
         }
         catch(IOException ex) {
             throw ex;
@@ -40,6 +44,5 @@ public class KeyVerifyRefactored extends DefaultService<ServiceListener<Boolean>
                 socket.close();
             }
         }
-        return false;
     }
 }
