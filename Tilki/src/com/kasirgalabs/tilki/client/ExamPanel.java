@@ -65,7 +65,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         examDescriptionTextPane = new javax.swing.JTextPane();
         jSeparator2 = new javax.swing.JSeparator();
         previousButton = new javax.swing.JButton();
-        nextButton = new javax.swing.JButton();
+        nextButton = new ExamPanelNextButton();
 
         setMaximumSize(new java.awt.Dimension(524, 429));
         setMinimumSize(new java.awt.Dimension(524, 429));
@@ -314,6 +314,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     private void fetchExamList() {
         instructorPasswordField.setEnabled(false);
         instructorPasswordField.setText("");
+        nextButton.setEnabled(false);
         examNameList.setModel(new ExamListModel());
         refreshStatusLabel.setText("Bağlanıyor...");
         refreshStatusLabel.setForeground(TilkiColor.BLUE);
@@ -333,6 +334,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         passwordStatusLabel.setForeground(TilkiColor.BLUE);
         ArrayList<ServiceListener<Boolean>> listeners = new ArrayList<>();
         listeners.add((ServiceListener<Boolean>) passwordStatusLabel);
+        listeners.add((ServiceListener<Boolean>) nextButton);
         Service<Boolean, char[]> service = new KeyVerifyRefactored(listeners);
         service.request(key);
     }

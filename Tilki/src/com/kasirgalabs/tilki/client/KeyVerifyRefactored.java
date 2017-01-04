@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class KeyVerifyRefactored extends DefaultService<ServiceListener<Boolean>, Boolean, char[]> {
 
+    private static final Object LOCK = new Object();
+
     public KeyVerifyRefactored(ArrayList<ServiceListener<Boolean>> listeners) {
         super(listeners);
     }

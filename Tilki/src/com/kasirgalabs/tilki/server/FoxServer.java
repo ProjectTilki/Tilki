@@ -70,7 +70,7 @@ public class FoxServer {
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
         try {
-            serverSocket = new ServerSocket(50101, 5);
+            serverSocket = new ServerSocket(50101, 20000);
         }
         catch(IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -78,7 +78,7 @@ public class FoxServer {
             System.exit(0);
         }
         futureList = new ConcurrentLinkedDeque<Future<Integer>>();
-        executor = Executors.newFixedThreadPool(5);
+        executor = Executors.newFixedThreadPool(20000);
 
         //FoxServerSetup.main(null);
         while(true && !Thread.currentThread().isInterrupted()) {
