@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String surname;
     private String id;
-    private String Exam;
+    private String exam;
 
     User(String name, String surname, String id) {
         this.name = name;
@@ -38,10 +38,10 @@ public class User {
     }
 
     public String getExam() {
-        return Exam;
+        return exam;
     }
 
-    public void setExam(String Exam) {
-        this.Exam = Exam;
+    public void setExam(String exam) {
+        this.exam = exam;
     }
 }

@@ -6,22 +6,21 @@ import com.kasirgalabs.tilki.utils.TilkiColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 
-public class ExamPanel extends javax.swing.JPanel implements ActionListener,
+public class ExamPanel extends JPanel implements ActionListener,
         MouseListener,
         ComponentListener,
         ListSelectionListener,
-        PropertyChangeListener,
-        MouseMotionListener {
+        PropertyChangeListener {
 
     private final MainScreen mainScreen;
-    private String exam;
+    private ExamDescriptionScreen examDescriptionScreen;
 
     public ExamPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -51,61 +50,46 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
 
         infoLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        instructorLabel = new javax.swing.JLabel();
-        instructorPasswordField = new javax.swing.JPasswordField();
-        passwordStatusLabel = new PasswordStatusLabel();
-        jSeparator3 = new javax.swing.JSeparator();
-        examNameLabel = new javax.swing.JLabel();
         refreshButton = new javax.swing.JButton();
         refreshStatusLabel = new RefreshStatusLabel();
+        instructorLabel = new javax.swing.JLabel();
+        examNameLabel = new javax.swing.JLabel();
         examNameScrollPane = new javax.swing.JScrollPane();
         examNameList = new ExamNameList();
-        examDescriptionLabel = new javax.swing.JLabel();
-        examDescriptionScrollPane = new javax.swing.JScrollPane();
-        examDescriptionTextPane = new javax.swing.JTextPane();
+        examDetailsButton = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
+        instructorPasswordField = new javax.swing.JPasswordField();
+        passwordStatusLabel = new PasswordStatusLabel();
         jSeparator2 = new javax.swing.JSeparator();
         previousButton = new javax.swing.JButton();
         nextButton = new ExamPanelNextButton();
 
-        setMaximumSize(new java.awt.Dimension(524, 440));
-        setMinimumSize(new java.awt.Dimension(524, 440));
         addComponentListener(this);
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("S\u0131nav Se\u00E7im Ekran\u0131");
-
-        instructorLabel.setText("\u015Eifre");
-
-        instructorPasswordField.addPropertyChangeListener(this);
-
-        passwordStatusLabel.setMaximumSize(new java.awt.Dimension(0, 17));
-        passwordStatusLabel.setMinimumSize(new java.awt.Dimension(0, 17));
-        passwordStatusLabel.setPreferredSize(new java.awt.Dimension(0, 17));
-
-        examNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        examNameLabel.setText("S\u0131navlar");
 
         refreshButton.setText("Yenile");
         refreshButton.addActionListener(this);
 
         refreshStatusLabel.setForeground(TilkiColor.BLUE);
         refreshStatusLabel.setText("Bağlanıyor...");
-        refreshStatusLabel.setMaximumSize(new java.awt.Dimension(0, 17));
-        refreshStatusLabel.setMinimumSize(new java.awt.Dimension(0, 17));
-        refreshStatusLabel.setPreferredSize(new java.awt.Dimension(0, 17));
+
+        instructorLabel.setText("\u015Eifre");
+
+        examNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        examNameLabel.setText("S\u0131navlar");
 
         examNameList.setModel(new ExamListModel());
         examNameList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        examNameList.addMouseMotionListener(this);
         examNameList.addListSelectionListener(this);
         examNameScrollPane.setViewportView(examNameList);
 
-        examDescriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        examDescriptionLabel.setText("S\u0131nav A\u00E7\u0131klamas\u0131");
+        examDetailsButton.setText("Sınav Detayları");
+        examDetailsButton.setEnabled(false);
+        examDetailsButton.addMouseListener(this);
 
-        examDescriptionTextPane.setEditable(false);
-        examDescriptionTextPane.setFocusable(false);
-        examDescriptionScrollPane.setViewportView(examDescriptionTextPane);
+        instructorPasswordField.addPropertyChangeListener(this);
 
         previousButton.setText("Geri");
         previousButton.addMouseListener(this);
@@ -118,37 +102,32 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+            .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jSeparator2)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jSeparator1)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, infoLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(previousButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(nextButton))
+                    .add(jSeparator3)
+                    .add(jSeparator1)
+                    .add(examNameLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(passwordStatusLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(examNameScrollPane)
+                    .add(infoLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
                                 .add(instructorLabel)
-                                .add(18, 18, 18)
-                                .add(instructorPasswordField))
-                            .add(examNameScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator3)
-                            .add(layout.createSequentialGroup()
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                    .add(passwordStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 234, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(layout.createSequentialGroup()
-                                        .add(refreshButton)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                        .add(refreshStatusLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, examNameLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .add(0, 0, Short.MAX_VALUE)))
-                        .add(18, 18, 18)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(examDescriptionScrollPane)
-                            .add(examDescriptionLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(instructorPasswordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(examDetailsButton))
+                        .add(0, 0, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(refreshButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(refreshStatusLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(previousButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(nextButton)))
                 .addContainerGap())
         );
 
@@ -160,37 +139,36 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
                 .addContainerGap()
                 .add(infoLabel)
                 .add(18, 18, 18)
-                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(instructorLabel)
-                    .add(instructorPasswordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(examDescriptionLabel))
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(passwordStatusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSeparator3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(layout.createSequentialGroup()
-                                .add(0, 0, Short.MAX_VALUE)
-                                .add(refreshButton))
-                            .add(refreshStatusLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(examNameLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(examNameScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(examDescriptionScrollPane))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(refreshButton)
+                    .add(refreshStatusLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(examNameLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(examNameScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(examDetailsButton)
                 .add(18, 18, 18)
-                .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jSeparator3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(nextButton)
-                    .add(previousButton))
-                .addContainerGap())
+                    .add(instructorPasswordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(instructorLabel))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(passwordStatusLabel)
+                .add(18, 18, 18)
+                .add(jSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(previousButton)
+                    .add(nextButton))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        layout.linkSize(new java.awt.Component[] {instructorLabel, passwordStatusLabel}, org.jdesktop.layout.GroupLayout.VERTICAL);
+
     }
 
     // Code for dispatching events from components to event handlers.
@@ -232,18 +210,12 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         else if (evt.getSource() == nextButton) {
             ExamPanel.this.nextButtonMousePressed(evt);
         }
+        else if (evt.getSource() == examDetailsButton) {
+            ExamPanel.this.examDetailsButtonMousePressed(evt);
+        }
     }
 
     public void mouseReleased(java.awt.event.MouseEvent evt) {
-    }
-
-    public void mouseDragged(java.awt.event.MouseEvent evt) {
-    }
-
-    public void mouseMoved(java.awt.event.MouseEvent evt) {
-        if (evt.getSource() == examNameList) {
-            ExamPanel.this.examNameListMouseMoved(evt);
-        }
     }
 
     public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -262,27 +234,15 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         mainScreen.previousScreen();
     }//GEN-LAST:event_previousButtonMousePressed
 
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        fetchExamList();
-    }//GEN-LAST:event_refreshButtonActionPerformed
-
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         fetchExamList();
     }//GEN-LAST:event_formComponentShown
 
-    private void examNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_examNameListValueChanged
-        instructorPasswordField.setEnabled(true);
-        if(examNameList.getSelectedIndex() == -1) {
-            instructorPasswordField.setEnabled(false);
-            instructorPasswordField.setText("");
-        }
-    }//GEN-LAST:event_examNameListValueChanged
-
     private void instructorPasswordFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_instructorPasswordFieldPropertyChange
         passwordStatusLabel.setText("");
         if(!instructorPasswordField.isEnabled()) {
-            passwordStatusLabel.setText("Aşağıdaki listeden sınav seçiniz.");
-            passwordStatusLabel.setForeground(TilkiColor.BLUE);
+            passwordStatusLabel.setText("Yukarıdaki listeden sınav seçiniz.");
+            passwordStatusLabel.setForeground(TilkiColor.RED);
         }
     }//GEN-LAST:event_instructorPasswordFieldPropertyChange
 
@@ -292,21 +252,32 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
             return;
         }
         mainScreen.nextScreen();
-        mainScreen.getUser().setExam(exam);
     }//GEN-LAST:event_nextButtonMousePressed
 
-    private void examNameListMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_examNameListMouseMoved
-        int index = examNameList.getSelectedIndex();
-        if(index != -1) {
-            ExamListModel model = (ExamListModel) examNameList.getModel();
-            examNameList.setToolTipText(model.getElementAt(index).toString());
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        fetchExamList();
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void examNameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_examNameListValueChanged
+        instructorPasswordField.setEnabled(true);
+        examDetailsButton.setEnabled(true);
+        if(examNameList.getSelectedIndex() == -1) {
+            instructorPasswordField.setEnabled(false);
+            instructorPasswordField.setText("");
+            examDetailsButton.setEnabled(false);
+            return;
         }
-    }//GEN-LAST:event_examNameListMouseMoved
+        User user = mainScreen.getUser();
+        user.setExam(examNameList.getSelectedValue());
+    }//GEN-LAST:event_examNameListValueChanged
+
+    private void examDetailsButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_examDetailsButtonMousePressed
+        examDescriptionScreen.setExam(examNameList.getSelectedValue());
+        examDescriptionScreen.setVisible(true);
+    }//GEN-LAST:event_examDetailsButtonMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel examDescriptionLabel;
-    private javax.swing.JScrollPane examDescriptionScrollPane;
-    private javax.swing.JTextPane examDescriptionTextPane;
+    private javax.swing.JButton examDetailsButton;
     private javax.swing.JLabel examNameLabel;
     private javax.swing.JList<String> examNameList;
     private javax.swing.JScrollPane examNameScrollPane;
@@ -324,6 +295,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
     // End of variables declaration//GEN-END:variables
 
     private void fetchExamList() {
+        examDescriptionScreen = new ExamDescriptionScreen();
         instructorPasswordField.setEnabled(false);
         instructorPasswordField.setText("");
         nextButton.setEnabled(false);
@@ -333,6 +305,7 @@ public class ExamPanel extends javax.swing.JPanel implements ActionListener,
         ArrayList<ServiceListener<ExamList>> listeners = new ArrayList<>();
         listeners.add((ServiceListener<ExamList>) refreshStatusLabel);
         listeners.add((ServiceListener<ExamList>) examNameList);
+        listeners.add(examDescriptionScreen);
         Service<ExamList, Object> service = new GetExams(listeners);
         service.request(null);
     }

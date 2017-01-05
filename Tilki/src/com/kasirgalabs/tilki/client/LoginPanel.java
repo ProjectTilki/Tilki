@@ -1,6 +1,8 @@
 package com.kasirgalabs.tilki.client;
 
-public class LoginPanel extends javax.swing.JPanel {
+import javax.swing.JPanel;
+
+public class LoginPanel extends JPanel {
 
     private final MainScreen mainScreen;
 

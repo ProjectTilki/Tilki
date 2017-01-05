@@ -13,7 +13,9 @@ public class ExamPanelNextButton extends JButton implements
         try {
             if(future.get()) {
                 setEnabled(true);
+                return;
             }
+            setEnabled(false);
         }
         catch(InterruptedException | ExecutionException ex) {
         }
