@@ -1,5 +1,6 @@
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import com.kasirgalabs.tilki.utils.ExamList;
 import com.kasirgalabs.tilki.utils.ExamListModel;
 import com.kasirgalabs.tilki.utils.TilkiColor;
@@ -20,7 +21,7 @@ public class ExamPanel extends JPanel implements ActionListener,
         PropertyChangeListener {
 
     private final MainScreen mainScreen;
-    private ExamDescriptionScreen examDescriptionScreen;
+    private final ExamDescriptionScreen examDescriptionScreen = ExamDescriptionScreen.getInstance();
 
     public ExamPanel(MainScreen mainScreen) {
         this.mainScreen = mainScreen;
@@ -204,14 +205,14 @@ public class ExamPanel extends JPanel implements ActionListener,
     }
 
     public void mousePressed(java.awt.event.MouseEvent evt) {
-        if (evt.getSource() == previousButton) {
+        if (evt.getSource() == examDetailsButton) {
+            ExamPanel.this.examDetailsButtonMousePressed(evt);
+        }
+        else if (evt.getSource() == previousButton) {
             ExamPanel.this.previousButtonMousePressed(evt);
         }
         else if (evt.getSource() == nextButton) {
             ExamPanel.this.nextButtonMousePressed(evt);
-        }
-        else if (evt.getSource() == examDetailsButton) {
-            ExamPanel.this.examDetailsButtonMousePressed(evt);
         }
     }
 
@@ -268,11 +269,14 @@ public class ExamPanel extends JPanel implements ActionListener,
             return;
         }
         User user = mainScreen.getUser();
-        user.setExam(examNameList.getSelectedValue());
+        Exam exam = new Exam(examNameList.getSelectedValue());
+        user.setExam(exam);
     }//GEN-LAST:event_examNameListValueChanged
 
     private void examDetailsButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_examDetailsButtonMousePressed
-        examDescriptionScreen.setExam(examNameList.getSelectedValue());
+        examDescriptionScreen.showExamDescription(
+                examNameList.getSelectedValue());
+        examDescriptionScreen.pack();
         examDescriptionScreen.setVisible(true);
     }//GEN-LAST:event_examDetailsButtonMousePressed
 
@@ -295,7 +299,6 @@ public class ExamPanel extends JPanel implements ActionListener,
     // End of variables declaration//GEN-END:variables
 
     private void fetchExamList() {
-        examDescriptionScreen = new ExamDescriptionScreen();
         instructorPasswordField.setEnabled(false);
         instructorPasswordField.setText("");
         nextButton.setEnabled(false);

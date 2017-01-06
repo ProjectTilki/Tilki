@@ -9,19 +9,12 @@ import javax.swing.JFrame;
 public class ExamDescriptionScreen extends JFrame implements
         ServiceListener<ExamList> {
 
+    private static volatile ExamDescriptionScreen instance = null;
     private ExamList examList;
 
-    public ExamDescriptionScreen() {
+    private ExamDescriptionScreen() {
         super("Tilki");
         initComponents();
-
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }
-
-    public void setExam(String examName) {
-        String examDescription = findExamDescription(examName);
-        examDescriptionTextPane.setText(examDescription);
-        examNameLabel.setText(examName);
     }
 
     @SuppressWarnings("unchecked")
@@ -31,8 +24,6 @@ public class ExamDescriptionScreen extends JFrame implements
         jScrollPane1 = new javax.swing.JScrollPane();
         examDescriptionTextPane = new javax.swing.JTextPane();
         examNameLabel = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         examDescriptionTextPane.setEditable(false);
         examDescriptionTextPane.setFocusable(false);
@@ -70,6 +61,17 @@ public class ExamDescriptionScreen extends JFrame implements
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
+    public static ExamDescriptionScreen getInstance() {
+        if(instance == null) {
+            synchronized(ExamDescriptionScreen.class) {
+                if(instance == null) {
+                    instance = new ExamDescriptionScreen();
+                }
+            }
+        }
+        return instance;
+    }
+
     private String findExamDescription(String examName) {
         for(Exam exam : examList) {
             if(exam.getName().equals(examName)) {
@@ -86,5 +88,13 @@ public class ExamDescriptionScreen extends JFrame implements
         }
         catch(InterruptedException | ExecutionException ex) {
         }
+    }
+
+    public void showExamDescription(String examName) {
+        String examDescription = findExamDescription(examName);
+        examDescriptionTextPane.setText(examDescription);
+        examNameLabel.setText(examName);
+        pack();
+        setVisible(true);
     }
 }

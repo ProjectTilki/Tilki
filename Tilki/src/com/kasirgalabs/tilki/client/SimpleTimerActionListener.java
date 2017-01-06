@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 public class SimpleTimerActionListener implements ActionListener {
 
     private final long currentTime;
-    JLabel component;
+    private final JLabel component;
 
     public SimpleTimerActionListener(JLabel component) {
         super();
@@ -29,18 +29,17 @@ public class SimpleTimerActionListener implements ActionListener {
         String minutes = Integer.toString((int) ((elapsedTime % 3600) / 60));
         String hours = Integer.toString((int) (elapsedTime / 3600));
 
-        if(seconds.length() < 2) {
-            seconds = "0" + seconds;
-        }
-
-        if(minutes.length() < 2) {
-            minutes = "0" + minutes;
-        }
-
-        if(hours.length() < 2) {
-            hours = "0" + hours;
-        }
+        seconds = addPrefixZero(seconds);
+        minutes = addPrefixZero(minutes);
+        hours = addPrefixZero(hours);
 
         return hours + ":" + minutes + ":" + seconds;
+    }
+
+    private String addPrefixZero(String s) {
+        if(s.length() < 2) {
+            return "0" + s;
+        }
+        return s;
     }
 }

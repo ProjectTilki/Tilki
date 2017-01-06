@@ -164,7 +164,7 @@ public class ConfirmationPanel extends JPanel {
         name.setText(user.getName());
         surname.setText(user.getSurname());
         id.setText(user.getId());
-        exam.setText(user.getExam());
+        exam.setText(user.getExam().getName());
         confirmCheckBox.setSelected(false);
     }//GEN-LAST:event_formComponentShown
 

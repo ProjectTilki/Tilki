@@ -1,11 +1,13 @@
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
+
 public class User {
 
     private String name;
     private String surname;
     private String id;
-    private String exam;
+    private Exam exam;
 
     User(String name, String surname, String id) {
         this.name = name;
@@ -37,11 +39,11 @@ public class User {
         this.id = id;
     }
 
-    public String getExam() {
+    public Exam getExam() {
         return exam;
     }
 
-    public void setExam(String exam) {
+    public void setExam(Exam exam) {
         this.exam = exam;
     }
 }

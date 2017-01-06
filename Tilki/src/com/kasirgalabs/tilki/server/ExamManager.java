@@ -8,6 +8,8 @@ import java.util.List;
 public class ExamManager {
 
     private static volatile ExamManager instance = null;
+    private final List<Exam> examList = Collections.synchronizedList(
+            new ArrayList<>());
 
     public static ExamManager getInstance() {
         if(instance == null) {
@@ -19,8 +21,6 @@ public class ExamManager {
         }
         return instance;
     }
-    private final List<Exam> examList = Collections.synchronizedList(
-            new ArrayList<>());
 
     private ExamManager() {
     }
