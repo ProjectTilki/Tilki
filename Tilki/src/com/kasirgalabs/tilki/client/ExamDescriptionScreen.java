@@ -90,11 +90,9 @@ public class ExamDescriptionScreen extends JFrame implements
         }
     }
 
-    public void showExamDescription(String examName) {
+    public void setExamDescription(String examName) {
         String examDescription = findExamDescription(examName);
         examDescriptionTextPane.setText(examDescription);
         examNameLabel.setText(examName);
-        pack();
-        setVisible(true);
     }
 }

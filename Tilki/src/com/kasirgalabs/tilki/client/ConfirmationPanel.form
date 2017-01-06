@@ -187,6 +187,9 @@
         <Property name="text" type="java.lang.String" value="S&#x131;nav&#x131; Ba&#x15f;lat"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startExamButtonMousePressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator3">
     </Component>

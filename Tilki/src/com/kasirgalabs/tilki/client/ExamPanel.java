@@ -268,15 +268,17 @@ public class ExamPanel extends JPanel implements ActionListener,
             examDetailsButton.setEnabled(false);
             return;
         }
+        examDescriptionScreen.setExamDescription(examNameList.getSelectedValue());
         User user = mainScreen.getUser();
         Exam exam = new Exam(examNameList.getSelectedValue());
         user.setExam(exam);
     }//GEN-LAST:event_examNameListValueChanged
 
     private void examDetailsButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_examDetailsButtonMousePressed
-        examDescriptionScreen.showExamDescription(
-                examNameList.getSelectedValue());
-        examDescriptionScreen.pack();
+        if(!examDetailsButton.isEnabled()) {
+            evt.consume();
+            return;
+        }
         examDescriptionScreen.setVisible(true);
     }//GEN-LAST:event_examDetailsButtonMousePressed
 

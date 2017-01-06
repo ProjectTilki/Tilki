@@ -73,6 +73,11 @@ public class ConfirmationPanel extends JPanel {
 
         startExamButton.setText("Sınavı Başlat");
         startExamButton.setEnabled(false);
+        startExamButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                startExamButtonMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -176,6 +181,23 @@ public class ConfirmationPanel extends JPanel {
             startExamButton.setEnabled(true);
         }
     }//GEN-LAST:event_confirmCheckBoxStateChanged
+
+    private void startExamButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startExamButtonMousePressed
+        if(!startExamButton.isEnabled()) {
+            evt.consume();
+            return;
+        }
+        mainScreen.nextScreen();
+        TimerLabel label = TimerLabel.getInstance();
+        SimpleTimerActionListener listener = new SimpleTimerActionListener(label);
+        SimpleTimer timer = new SimpleTimer(1000, listener);
+        timer.setRepeats(true);
+        timer.start();
+
+        CaptureDesktopRefactored captureDesktopRefactored = CaptureDesktopRefactored.getInstance();
+        User user = mainScreen.getUser();
+        captureDesktopRefactored.StartCaptureDesktop(user.getId());
+    }//GEN-LAST:event_startExamButtonMousePressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox confirmCheckBox;
