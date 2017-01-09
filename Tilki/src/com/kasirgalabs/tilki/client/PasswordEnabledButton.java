@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.swing.JButton;
 
-public class ExamPanelNextButton extends JButton implements
+public class PasswordEnabledButton extends JButton implements
         ServiceListener<Boolean> {
 
     @Override

@@ -117,6 +117,9 @@
         <Property name="text" type="java.lang.String" value="&#x130;leri"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nextButtonMousePressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

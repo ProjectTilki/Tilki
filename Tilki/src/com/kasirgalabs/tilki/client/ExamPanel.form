@@ -32,7 +32,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="instructorLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="instructorPasswordLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="instructorPasswordField" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
@@ -46,9 +46,9 @@
                       <Component id="refreshStatusLabel" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="previousButton" linkSize="6" min="-2" max="-2" attributes="0"/>
+                      <Component id="previousButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="nextButton" linkSize="6" min="-2" max="-2" attributes="0"/>
+                      <Component id="nextButton" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -78,7 +78,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="instructorPasswordField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="instructorLabel" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="instructorPasswordLabel" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="passwordStatusLabel" linkSize="4" min="-2" max="-2" attributes="0"/>
@@ -124,13 +124,6 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RefreshStatusLabel()"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="instructorLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="&quot;\u015Eifre&quot;" type="code"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="examNameLabel">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
@@ -174,6 +167,13 @@
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator3">
     </Component>
+    <Component class="javax.swing.JLabel" name="instructorPasswordLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;\u015Eifre&quot;" type="code"/>
+        </Property>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JPasswordField" name="instructorPasswordField">
       <Events>
         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="instructorPasswordFieldPropertyChange"/>
@@ -205,7 +205,7 @@
         <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nextButtonMousePressed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ExamPanelNextButton()"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.kasirgalabs.tilki.client.PasswordEnabledButton()"/>
       </AuxValues>
     </Component>
   </SubComponents>

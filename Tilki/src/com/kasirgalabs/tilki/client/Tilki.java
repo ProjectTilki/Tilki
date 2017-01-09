@@ -66,12 +66,16 @@ public class Tilki {
         LoginPanel loginPanel = new LoginPanel(mainScreen);
         ExamPanel examPanel = new ExamPanel(mainScreen);
         ConfirmationPanel confirmationPanel = new ConfirmationPanel(mainScreen);
-        CaptureDesktopPanel screenCapturePanel = new CaptureDesktopPanel();
+        CaptureDesktopPanel screenCapturePanel = new CaptureDesktopPanel(
+                mainScreen);
+        FileChooserPanel fileChooserPanel = new FileChooserPanel(mainScreen);
 
         contentPane.setLayout(mainScreenLayout);
         contentPane.add(loginPanel, "card0");
         contentPane.add(examPanel, "card1");
         contentPane.add(confirmationPanel, "card2");
         contentPane.add(screenCapturePanel, "card3");
+        contentPane.add(fileChooserPanel, "card4");
+
     }
 }

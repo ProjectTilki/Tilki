@@ -16,13 +16,12 @@ public class PasswordStatusLabel extends JLabel implements
                 setForeground(TilkiColor.GREEN);
                 return;
             }
+            setText("Şifre yanlış.");
+            setForeground(TilkiColor.RED);
         }
         catch(InterruptedException | ExecutionException ex) {
             setText("Bağlanamadı.");
             setForeground(TilkiColor.BLUE);
         }
-        setText("Şifre yanlış.");
-        setForeground(TilkiColor.RED);
     }
-
 }

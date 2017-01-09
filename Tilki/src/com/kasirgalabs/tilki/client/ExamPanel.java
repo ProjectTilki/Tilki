@@ -53,17 +53,17 @@ public class ExamPanel extends JPanel implements ActionListener,
         jSeparator1 = new javax.swing.JSeparator();
         refreshButton = new javax.swing.JButton();
         refreshStatusLabel = new RefreshStatusLabel();
-        instructorLabel = new javax.swing.JLabel();
         examNameLabel = new javax.swing.JLabel();
         examNameScrollPane = new javax.swing.JScrollPane();
         examNameList = new ExamNameList();
         examDetailsButton = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
+        instructorPasswordLabel = new javax.swing.JLabel();
         instructorPasswordField = new javax.swing.JPasswordField();
         passwordStatusLabel = new PasswordStatusLabel();
         jSeparator2 = new javax.swing.JSeparator();
         previousButton = new javax.swing.JButton();
-        nextButton = new ExamPanelNextButton();
+        nextButton = new PasswordEnabledButton();
 
         addComponentListener(this);
 
@@ -76,8 +76,6 @@ public class ExamPanel extends JPanel implements ActionListener,
         refreshStatusLabel.setForeground(TilkiColor.BLUE);
         refreshStatusLabel.setText("Bağlanıyor...");
 
-        instructorLabel.setText("\u015Eifre");
-
         examNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         examNameLabel.setText("S\u0131navlar");
 
@@ -89,6 +87,8 @@ public class ExamPanel extends JPanel implements ActionListener,
         examDetailsButton.setText("Sınav Detayları");
         examDetailsButton.setEnabled(false);
         examDetailsButton.addMouseListener(this);
+
+        instructorPasswordLabel.setText("\u015Eifre");
 
         instructorPasswordField.addPropertyChangeListener(this);
 
@@ -116,7 +116,7 @@ public class ExamPanel extends JPanel implements ActionListener,
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
-                                .add(instructorLabel)
+                                .add(instructorPasswordLabel)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(instructorPasswordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(examDetailsButton))
@@ -131,9 +131,6 @@ public class ExamPanel extends JPanel implements ActionListener,
                         .add(nextButton)))
                 .addContainerGap())
         );
-
-        layout.linkSize(new java.awt.Component[] {nextButton, previousButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
@@ -156,7 +153,7 @@ public class ExamPanel extends JPanel implements ActionListener,
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(instructorPasswordField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(instructorLabel))
+                    .add(instructorPasswordLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(passwordStatusLabel)
                 .add(18, 18, 18)
@@ -168,7 +165,7 @@ public class ExamPanel extends JPanel implements ActionListener,
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(new java.awt.Component[] {instructorLabel, passwordStatusLabel}, org.jdesktop.layout.GroupLayout.VERTICAL);
+        layout.linkSize(new java.awt.Component[] {instructorPasswordLabel, passwordStatusLabel}, org.jdesktop.layout.GroupLayout.VERTICAL);
 
     }
 
@@ -282,24 +279,6 @@ public class ExamPanel extends JPanel implements ActionListener,
         examDescriptionScreen.setVisible(true);
     }//GEN-LAST:event_examDetailsButtonMousePressed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton examDetailsButton;
-    private javax.swing.JLabel examNameLabel;
-    private javax.swing.JList<String> examNameList;
-    private javax.swing.JScrollPane examNameScrollPane;
-    private javax.swing.JLabel infoLabel;
-    private javax.swing.JLabel instructorLabel;
-    private javax.swing.JPasswordField instructorPasswordField;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JButton nextButton;
-    private javax.swing.JLabel passwordStatusLabel;
-    private javax.swing.JButton previousButton;
-    private javax.swing.JButton refreshButton;
-    private javax.swing.JLabel refreshStatusLabel;
-    // End of variables declaration//GEN-END:variables
-
     private void fetchExamList() {
         instructorPasswordField.setEnabled(false);
         instructorPasswordField.setText("");
@@ -328,4 +307,22 @@ public class ExamPanel extends JPanel implements ActionListener,
         Service<Boolean, char[]> service = new KeyVerifyRefactored(listeners);
         service.request(key);
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton examDetailsButton;
+    private javax.swing.JLabel examNameLabel;
+    private javax.swing.JList<String> examNameList;
+    private javax.swing.JScrollPane examNameScrollPane;
+    private javax.swing.JLabel infoLabel;
+    private javax.swing.JPasswordField instructorPasswordField;
+    private javax.swing.JLabel instructorPasswordLabel;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JLabel passwordStatusLabel;
+    private javax.swing.JButton previousButton;
+    private javax.swing.JButton refreshButton;
+    private javax.swing.JLabel refreshStatusLabel;
+    // End of variables declaration//GEN-END:variables
 }

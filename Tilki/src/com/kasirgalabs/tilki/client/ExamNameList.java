@@ -4,8 +4,6 @@ import com.kasirgalabs.tilki.utils.ExamList;
 import com.kasirgalabs.tilki.utils.ExamListModel;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JList;
 
 public class ExamNameList extends JList<String> implements
@@ -20,8 +18,7 @@ public class ExamNameList extends JList<String> implements
             examList = future.get();
         }
         catch(InterruptedException | ExecutionException ex) {
-            Logger.getLogger(ExamNameList.class.getName()).log(Level.SEVERE,
-                    null, ex);
+            return;
         }
         setModel(new ExamListModel(examList));
     }
