@@ -2,8 +2,8 @@ package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
 import com.kasirgalabs.tilki.utils.ExamListModel;
-import com.kasirgalabs.tilki.utils.FileManager;
 import com.kasirgalabs.tilki.utils.FileListModel;
+import com.kasirgalabs.tilki.utils.FileManager;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
@@ -20,7 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
-public class MainClient extends javax.swing.JFrame {
+public class MainClient extends javax.swing.JFrame implements Observer<String> {
 
     private static String ipAddress = "localhost";
     private Exam[] examList;
@@ -34,7 +34,7 @@ public class MainClient extends javax.swing.JFrame {
     private final Color c = new Color(26, 126, 36);
     private static java.awt.event.ActionListener yenileButtonActionListener;
     private static long timeAtStart = 0;
-    private SimpleTimer timer;
+    private static Timer timer;
 
     /**
      *
@@ -55,6 +55,11 @@ public class MainClient extends javax.swing.JFrame {
                 yenileButtonActionPerformed(evt);
             }
         };
+    }
+
+    @Override
+    public void update(String time) {
+        jLabel9.setText(time);
     }
 
     /**
@@ -618,9 +623,9 @@ public class MainClient extends javax.swing.JFrame {
                             }
                         }
                     });
-                    SimpleTimerActionListener listener = new SimpleTimerActionListener(
-                            jLabel9);
-                    timer = new SimpleTimer(1000, listener);
+                    SimpleTimerActionListener listener = SimpleTimerActionListener.getInstance();
+                    Timer timer = new Timer(1000, listener);
+                    listener.addObserver(this);
                     timer.start();
                 }
                 else {
@@ -885,7 +890,7 @@ public class MainClient extends javax.swing.JFrame {
             @Override
             public void run() {
                 new MainClient().setVisible(true);
-                Timer timer = new Timer(100, yenileButtonActionListener);
+                timer = new Timer(100, yenileButtonActionListener);
                 timer.setRepeats(false);
                 timer.start();
             }

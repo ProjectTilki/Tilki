@@ -2,6 +2,7 @@ package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.TilkiColor;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class ConfirmationPanel extends JPanel {
 
@@ -186,9 +187,8 @@ public class ConfirmationPanel extends JPanel {
             return;
         }
         mainScreen.nextScreen();
-        TimerLabel label = TimerLabel.getInstance();
-        SimpleTimerActionListener listener = new SimpleTimerActionListener(label);
-        SimpleTimer timer = new SimpleTimer(1000, listener);
+        SimpleTimerActionListener listener = SimpleTimerActionListener.getInstance();
+        Timer timer = new Timer(1000, listener);
         timer.setRepeats(true);
         timer.start();
 

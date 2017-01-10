@@ -2,23 +2,45 @@ package com.kasirgalabs.tilki.client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JLabel;
+import java.util.ArrayList;
 
-public class SimpleTimerActionListener implements ActionListener {
+public class SimpleTimerActionListener implements
+        ActionListener {
+
+    private static volatile SimpleTimerActionListener instance = null;
 
     private final long currentTime;
-    private final JLabel component;
+    private final ArrayList<Observer<String>> observers;
 
-    public SimpleTimerActionListener(JLabel component) {
-        super();
-        this.component = component;
+    private SimpleTimerActionListener() {
         this.currentTime = System.currentTimeMillis();
+        observers = new ArrayList<>();
 
+    }
+
+    public static SimpleTimerActionListener getInstance() {
+        if(instance == null) {
+            synchronized(SimpleTimerActionListener.class) {
+                if(instance == null) {
+                    instance = new SimpleTimerActionListener();
+                }
+            }
+        }
+        return instance;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        component.setText(getElapsedTime());
+        if(observers == null || observers.isEmpty()) {
+            return;
+        }
+        for(Observer<String> observer : observers) {
+            observer.update(getElapsedTime());
+        }
+    }
+
+    public <E extends Observer<String>> void addObserver(E observer) {
+        observers.add(observer);
     }
 
     private String getElapsedTime() {

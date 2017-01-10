@@ -1,8 +1,9 @@
 package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.TilkiColor;
+import java.awt.Panel;
 
-public class CaptureDesktopPanel extends javax.swing.JPanel {
+public class CaptureDesktopPanel extends Panel implements Observer<String> {
 
     private final MainScreen mainScreen;
 
@@ -18,17 +19,24 @@ public class CaptureDesktopPanel extends javax.swing.JPanel {
         infoLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         timeLabel = new javax.swing.JLabel();
-        elapsedTimeLabel = TimerLabel.getInstance();
+        elapsedTimeLabel = new javax.swing.JLabel();
         examDetailsButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         readyCheckBox = new javax.swing.JCheckBox();
         nextButton = new javax.swing.JButton();
+
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("Sınavınız Başlamıştır");
 
         timeLabel.setText("Geçen Süre");
 
+        elapsedTimeLabel.setForeground(TilkiColor.BLUE);
         elapsedTimeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         elapsedTimeLabel.setText("00:00:00");
 
@@ -126,6 +134,16 @@ public class CaptureDesktopPanel extends javax.swing.JPanel {
         }
         mainScreen.nextScreen();
     }//GEN-LAST:event_nextButtonMousePressed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        SimpleTimerActionListener listener = SimpleTimerActionListener.getInstance();
+        listener.addObserver(this);
+    }//GEN-LAST:event_formComponentShown
+
+    @Override
+    public void update(String time) {
+        elapsedTimeLabel.setText(time);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel elapsedTimeLabel;

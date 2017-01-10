@@ -2,10 +2,11 @@ package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.TilkiColor;
 import java.util.ArrayList;
+import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class FileChooserPanel extends javax.swing.JPanel {
+public class FileChooserPanel extends JPanel implements Observer<String> {
 
     private final MainScreen mainScreen;
 
@@ -64,6 +65,12 @@ public class FileChooserPanel extends javax.swing.JPanel {
         backButton = new javax.swing.JButton();
         endExamButton = new PasswordEnabledButton();
 
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
+
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         infoLabel.setText("Dosya Seç ve Sınavı Bitir");
 
@@ -71,6 +78,8 @@ public class FileChooserPanel extends javax.swing.JPanel {
 
         timeLabel.setText("Geçen Süre");
 
+        elapsedTimeLabel.setForeground(TilkiColor.BLUE);
+        elapsedTimeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         elapsedTimeLabel.setText("00:00:00");
 
         fileListLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -101,27 +110,26 @@ public class FileChooserPanel extends javax.swing.JPanel {
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator1)
                     .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(fileChooserButton)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(timeLabel)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(elapsedTimeLabel))
-                                .addComponent(jScrollPane1)
-                                .addComponent(fileListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(instructorPasswordLabel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(instructorPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(passwordStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(backButton)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(endExamButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(fileChooserButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(timeLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(elapsedTimeLabel))
+                            .addComponent(jScrollPane1)
+                            .addComponent(fileListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(instructorPasswordLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(instructorPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(passwordStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(backButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(endExamButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -162,6 +170,16 @@ public class FileChooserPanel extends javax.swing.JPanel {
     private void backButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backButtonMousePressed
         mainScreen.previousScreen();
     }//GEN-LAST:event_backButtonMousePressed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        SimpleTimerActionListener listener = SimpleTimerActionListener.getInstance();
+        listener.addObserver(this);
+    }//GEN-LAST:event_formComponentShown
+
+    @Override
+    public void update(String time) {
+        elapsedTimeLabel.setText(time);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
