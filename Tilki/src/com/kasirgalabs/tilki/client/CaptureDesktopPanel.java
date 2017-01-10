@@ -29,6 +29,9 @@ public class CaptureDesktopPanel extends Panel implements Observer<String> {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
             }
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
         });
 
         infoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -139,6 +142,10 @@ public class CaptureDesktopPanel extends Panel implements Observer<String> {
         SimpleTimerActionListener listener = SimpleTimerActionListener.getInstance();
         listener.addObserver(this);
     }//GEN-LAST:event_formComponentShown
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        readyCheckBox.setSelected(false);
+    }//GEN-LAST:event_formComponentHidden
 
     @Override
     public void update(String time) {
