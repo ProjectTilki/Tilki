@@ -30,6 +30,7 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
                 checkPassword();
             }
         });
+        fileList.setDropTarget(new FileListDropTarget());
     }
 
     private void checkPassword() {
@@ -57,7 +58,7 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
         elapsedTimeLabel = new javax.swing.JLabel();
         fileListLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        fileList = new javax.swing.JList<>();
+        fileList = new FileList();
         instructorPasswordLabel = new javax.swing.JLabel();
         instructorPasswordField = new javax.swing.JPasswordField();
         passwordStatusLabel = new PasswordStatusLabel();
