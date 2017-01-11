@@ -1,5 +1,6 @@
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.FileManager;
 import com.kasirgalabs.tilki.utils.TilkiColor;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -86,6 +87,7 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
         fileListLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fileListLabel.setText("Seçtiğiniz Dosyalar");
 
+        fileList.setModel(FileManager.getInstance().getFileListModel());
         fileList.setToolTipText("Sürükle ve bırak.");
         jScrollPane1.setViewportView(fileList);
 

@@ -2,11 +2,13 @@ package com.kasirgalabs.tilki.utils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ListModel;
 
 public class FileManager {
 
     private static volatile FileManager instance = null;
-    private final ArrayList<File> fileList = new ArrayList<>();
+    private final FileListModel fileListModel = new FileListModel();
 
     public static FileManager getInstance() {
         if(instance == null) {
@@ -47,14 +49,32 @@ public class FileManager {
     }
 
     public void trackFile(File file) {
-        if(fileList.contains(file)) {
-            return;
+        fileListModel.addElement(file);
+    }
+
+    public void trackFile(String fileName) {
+        fileListModel.addElement(fileName);
+
+    }
+
+    public void trackFiles(File[] files) {
+        for(File file : files) {
+            fileListModel.addElement(file);
         }
-        fileList.add(file);
+    }
+
+    public void trackFiles(List<File> files) {
+        for(File file : files) {
+            fileListModel.addElement(file);
+        }
     }
 
     public void untrackFile(File file) {
-        fileList.remove(file);
+        fileListModel.removeElement(file);
+    }
+
+    public void untrackFile(String fileName) {
+        fileListModel.removeElement(fileName);
     }
 
     private String generateFileName(String fileName) {
@@ -70,5 +90,9 @@ public class FileManager {
     private boolean isFileNameValid(String fileName) {
         File file = new File(fileName);
         return !file.exists();
+    }
+
+    public ListModel<String> getFileListModel() {
+        return fileListModel;
     }
 }

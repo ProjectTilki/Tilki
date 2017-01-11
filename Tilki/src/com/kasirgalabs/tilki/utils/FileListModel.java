@@ -4,43 +4,35 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
-public class FileListModel extends DefaultListModel {
+public class FileListModel extends DefaultListModel<String> {
 
     private String errorMessage = "";
     private final ArrayList<File> list = new ArrayList<File>();
 
     @Override
-    public void addElement(Object element) {
-        File fileElement = new File((String) element);
-        if(fileElement.isDirectory()) {
-            this.setErrorMessage("Klas\u00F6r y\u00FCkleyemezsiniz.");
+    public void addElement(String fileName) {
+        if(contains(fileName)) {
             return;
         }
-        for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).getAbsolutePath().equals(
-                    fileElement.getAbsolutePath())) {
-                return;
-            }
-            if(fileElement.getName().equals(list.get(i).getName())) {
-                this.setErrorMessage(
-                        "\"" + fileElement.getName() + "\" isimli bir dosya zaten mevcut.");
-                return;
-            }
-        }
-        list.add(fileElement);
-        super.addElement(element);
+        super.addElement(fileName);
+    }
+
+    public void addElement(File file) {
+        addElement(file.getAbsolutePath());
     }
 
     @Override
-    public boolean removeElement(Object element) {
-        File fileElement = new File((String) element);
-        for(int i = 0; i < list.size(); i++) {
-            if(list.get(i).getAbsolutePath().equals(
-                    fileElement.getAbsolutePath())) {
-                list.remove(i);
-            }
+    public boolean removeElement(Object obj) {
+        if(!contains(obj)) {
+            return true;
         }
-        return super.removeElement(element);
+        if(obj instanceof File) {
+            return super.removeElement(((File) obj).getAbsolutePath());
+        }
+        if(obj instanceof String) {
+            return super.removeElement(obj);
+        }
+        return false;
     }
 
     public boolean areAllFilesExists() {
@@ -48,32 +40,26 @@ public class FileListModel extends DefaultListModel {
         for(int i = 0; i < list.size(); i++) {
             if(!list.get(i).exists()) {
                 this.removeElement(list.get(i).getAbsolutePath());
-                this.setErrorMessage(
-                        "Se\u00E7ti\u011Finiz dosyalardan biri bulunamadi!");
                 fileIsNotMissing = false;
             }
         }
         return fileIsNotMissing;
     }
 
-    @Override
-    public boolean isEmpty() {
-        if(list.isEmpty()) {
-            this.setErrorMessage("Hi\u00E7bir dosya se\u00E7mediniz!");
-            return true;
-        }
-        return false;
-    }
-
-    private void setErrorMessage(String errorMessage) {
-        this.errorMessage = "<html><font color='red'>";
-        this.errorMessage += errorMessage;
-        this.errorMessage += "</font><html>";
-    }
-
     public String getErrorMessage() {
         String temp = errorMessage;
         errorMessage = "";
         return temp;
+    }
+
+    @Override
+    public boolean contains(Object elem) {
+        if(elem instanceof File) {
+            return super.contains(((File) elem).getAbsolutePath());
+        }
+        if(elem instanceof String) {
+            return super.contains(elem);
+        }
+        return false;
     }
 }

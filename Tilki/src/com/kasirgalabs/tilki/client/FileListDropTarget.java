@@ -1,5 +1,6 @@
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.FileManager;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -16,11 +17,13 @@ public class FileListDropTarget extends DropTarget {
 
     @Override
     public synchronized void drop(DropTargetDropEvent evt) {
+        FileManager fileManager = FileManager.getInstance();
         evt.acceptDrop(DnDConstants.ACTION_COPY);
         Transferable transferable = evt.getTransferable();
         List<File> droppedFiles;
         try {
             droppedFiles = (List<File>) transferable.getTransferData(FLAVOR);
+            fileManager.trackFiles(droppedFiles);
         }
         catch(UnsupportedFlavorException ex) {
         }
