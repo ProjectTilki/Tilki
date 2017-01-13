@@ -3,6 +3,7 @@ package com.kasirgalabs.tilki.client;
 import com.kasirgalabs.tilki.utils.FileManager;
 import com.kasirgalabs.tilki.utils.TilkiColor;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -66,6 +67,7 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
         jSeparator2 = new javax.swing.JSeparator();
         backButton = new javax.swing.JButton();
         endExamButton = new PasswordEnabledButton();
+        untrackSelectedFiles = new javax.swing.JButton();
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -87,6 +89,9 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
         fileListLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         fileListLabel.setText("Seçtiğiniz Dosyalar");
 
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(258, 130));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(258, 130));
+
         fileList.setModel(FileManager.getInstance().getFileListModel());
         fileList.setToolTipText("Sürükle ve bırak.");
         jScrollPane1.setViewportView(fileList);
@@ -103,6 +108,13 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
         endExamButton.setText("Sınavı Bitir");
         endExamButton.setEnabled(false);
 
+        untrackSelectedFiles.setText("Seçili Dosyaları Sil");
+        untrackSelectedFiles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                untrackSelectedFilesMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,29 +122,31 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1)
+                    .addComponent(jSeparator2)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(fileListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(backButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(endExamButton))
                     .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(instructorPasswordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(instructorPasswordField)
+                        .addGap(39, 39, 39)
+                        .addComponent(untrackSelectedFiles))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(fileChooserButton)
                                 .addGap(18, 18, 18)
                                 .addComponent(timeLabel)
                                 .addGap(18, 18, 18)
                                 .addComponent(elapsedTimeLabel))
-                            .addComponent(jScrollPane1)
-                            .addComponent(fileListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(instructorPasswordLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(instructorPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(passwordStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(passwordStatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(backButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(endExamButton)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -141,7 +155,7 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
                 .addContainerGap()
                 .addComponent(infoLabel)
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fileChooserButton)
@@ -154,11 +168,12 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(instructorPasswordLabel)
-                    .addComponent(instructorPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(instructorPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(untrackSelectedFiles))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordStatusLabel)
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton)
@@ -178,6 +193,17 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
         SimpleTimerActionListener listener = SimpleTimerActionListener.getInstance();
         listener.addObserver(this);
     }//GEN-LAST:event_formComponentShown
+
+    private void untrackSelectedFilesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_untrackSelectedFilesMousePressed
+        List<String> selectedFiles = fileList.getSelectedValuesList();
+        if(selectedFiles.isEmpty()) {
+            return;
+        }
+        FileManager fileManager = FileManager.getInstance();
+        for(String file : selectedFiles) {
+            fileManager.untrackFile(file);
+        }
+    }//GEN-LAST:event_untrackSelectedFilesMousePressed
 
     @Override
     public void update(String time) {
@@ -199,5 +225,6 @@ public class FileChooserPanel extends JPanel implements Observer<String> {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel passwordStatusLabel;
     private javax.swing.JLabel timeLabel;
+    private javax.swing.JButton untrackSelectedFiles;
     // End of variables declaration//GEN-END:variables
 }

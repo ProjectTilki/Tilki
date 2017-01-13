@@ -1,13 +1,9 @@
 package com.kasirgalabs.tilki.utils;
 
 import java.io.File;
-import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
 public class FileListModel extends DefaultListModel<String> {
-
-    private String errorMessage = "";
-    private final ArrayList<File> list = new ArrayList<File>();
 
     @Override
     public void addElement(String fileName) {
@@ -36,20 +32,11 @@ public class FileListModel extends DefaultListModel<String> {
     }
 
     public boolean areAllFilesExists() {
-        boolean fileIsNotMissing = true;
-        for(int i = 0; i < list.size(); i++) {
-            if(!list.get(i).exists()) {
-                this.removeElement(list.get(i).getAbsolutePath());
-                fileIsNotMissing = false;
-            }
-        }
-        return fileIsNotMissing;
+        return true;
     }
 
     public String getErrorMessage() {
-        String temp = errorMessage;
-        errorMessage = "";
-        return temp;
+        return "";
     }
 
     @Override
