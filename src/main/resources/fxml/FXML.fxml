@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane fx:id="gridPane" alignment="CENTER" hgap="20.0" vgap="20.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kasirgalabs.tilki.client.FXMLController">
+    <stylesheets>
+        <URL value="@/styles/tilki.css" />
+    </stylesheets>
+  <columnConstraints>
+    <ColumnConstraints hgrow="NEVER" />
+    <ColumnConstraints hgrow="NEVER" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="NEVER" />
+  </rowConstraints>
+   <children>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label fx:id="timeLabel" text="Label" />
+            <Label id="infoLabel" fx:id="elapsedTimeLabel" text="00:00:00" />
+         </children>
+      </HBox>
+      <VBox spacing="10.0" GridPane.rowIndex="1">
+         <children>
+            <Label fx:id="listViewLabel" text="Label" />
+            <ListView fx:id="listView" onDragDropped="#listViewOnDragDropped" onDragOver="#listViewOnDragOver" prefHeight="100.0" prefWidth="400.0" />
+         </children>
+      </VBox>
+      <VBox alignment="BOTTOM_LEFT" spacing="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Button fx:id="fileChooserButton" mnemonicParsing="false" onAction="#fileChooserButtonOnAction" text="Button" />
+            <Button fx:id="removeSelectedButton" mnemonicParsing="false" onAction="#removeSelectedButtonOnAction" text="Button" />
+         </children>
+      </VBox>
+      <VBox alignment="BOTTOM_LEFT" fillWidth="false" spacing="10.0" GridPane.rowIndex="2">
+         <children>
+            <Label fx:id="passwordFieldLabel" text="Label" />
+            <PasswordField fx:id="passwordField" />
+            <Label fx:id="passwordFieldStatusLabel" text="Label" />
+         </children>
+      </VBox>
+      <Button fx:id="submitButton" disable="true" mnemonicParsing="false" onAction="#submitButtonOnAction" text="Button" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+      <Button fx:id="examDescriptionButton" mnemonicParsing="false" onAction="#examDescriptionButtonOnAction" text="Button" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</GridPane>
