@@ -22,3 +22,5 @@ jacocoTestReport {
         html.enabled false
     }
 }
+
+test.finalizedBy(jacocoTestReport)
