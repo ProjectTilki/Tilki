@@ -1,6 +1,6 @@
-/FoxProject/build/
-/FoxProject/dist/
-/bin/
+/build
+/dist
+/bin
 *.AVI
 *.zip
 *~
@@ -10,9 +10,10 @@ server.log
 clientErrors.log
 tilki.log
 exam_list.txt
-/Tilki/nbproject/private/
-/Tilki/build/
-/Tilki/dist/
-/Tilki/deneme/
+/nbproject/private
+/private
+/deneme
+/.gradle
+/.nb-gradle
 server.log.lck
 *.WMV
