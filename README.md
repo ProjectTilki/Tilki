@@ -1,5 +1,8 @@
+[![Build Status](https://travis-ci.org/kasirgalabs/Tilki.svg?branch=javafx)](https://travis-ci.org/kasirgalabs/Tilki)
+[![codecov](https://codecov.io/gh/kasirgalabs/Tilki/branch/javafx/graph/badge.svg)](https://codecov.io/gh/kasirgalabs/Tilki)
+
 #READ ME
-Requires: Oracle JDK/JRE 1.5 or newer.  
+Requires: Oracle JDK/JRE 1.5 or newer.
 All the zip/jar libraries must be included to classpath. <br>
 Server IP can be edited from FoxClientUtilities. <br>
 To create, delete or edit exams; use FoxServerSetup   <br>

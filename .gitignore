@@ -10,7 +10,8 @@ server.log
 clientErrors.log
 tilki.log
 exam_list.txt
-/nbproject/private
+/nbproject
+/.nbproject
 /private
 /deneme
 /.gradle
