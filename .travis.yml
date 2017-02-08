@@ -5,6 +5,11 @@ sudo: false
 language: java
 jdk: oraclejdk8
 
+before_install:
+  - curl -sL https://github.com/jpm4j/jpm4j.installers/raw/master/dist/biz.aQute.jpm.run.jar >jpm4j.jar
+  - java -jar jpm4j.jar -u init
+  - ~/jpm/bin/jpm install com.codacy:codacy-coverage-reporter:assembly
+
 branches:
   only:
     - javafx
@@ -15,7 +20,7 @@ before_script:
   - sleep 3 # give xvfb some time to start
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 
 cache:
@@ -24,4 +29,6 @@ cache:
     - $HOME/.gradle/wrapper/
 
 after_success:
+  - gradle jacocoTestReport
   - bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+  - ~/jpm/bin/codacy-coverage-reporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
