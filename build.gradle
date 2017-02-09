@@ -22,3 +22,7 @@ jacocoTestReport {
         html.enabled false
     }
 }
+
+test {
+    forkEvery = 1
+}

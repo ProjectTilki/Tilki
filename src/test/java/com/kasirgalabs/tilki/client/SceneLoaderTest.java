@@ -16,8 +16,6 @@
  */
 package com.kasirgalabs.tilki.client;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -31,7 +29,6 @@ public class SceneLoaderTest extends Application {
     @Test
     public void testSetStageAndLoadScene() {
         launch(SceneLoaderTest.class);
-        assertTrue(true);
     }
 
     @Override
