@@ -24,7 +24,7 @@ import org.junit.Test;
 
 public class SceneLoaderTest extends Application {
     /**
-     * Test of setStage and loadScene method, of class SceneLoader.
+     * Test of setStage and loadScene methods, of class SceneLoader.
      */
     @Test
     public void testSetStageAndLoadScene() {

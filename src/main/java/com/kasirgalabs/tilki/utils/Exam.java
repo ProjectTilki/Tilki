@@ -98,12 +98,12 @@ public class Exam implements Serializable {
     }
 
     /**
-     * Two exams are considered equal if their exam names are same.
+     * Two exams are considered equal if their names contain same string same.
      *
      * @param object The reference object with which to compare.
      *
-     * @return {@code true} if this object is the same as the object argument;
-     *         {@code false} otherwise.
+     * @return {@code true} if this object is the same as the object argument; {@code false}
+     *         otherwise.
      */
     @Override
     public boolean equals(Object object) {
@@ -121,9 +121,8 @@ public class Exam implements Serializable {
     }
 
     /**
-     * Returns a hash code value for the object. This method is supported for
-     * the benefit of hash tables such as those provided by
-     * {@link java.util.HashMap}.
+     * Returns a hash code value for the object. This method is supported for the benefit of hash
+     * tables such as those provided by {@link java.util.HashMap}.
      *
      * @return A hash code value for this object.
      */
@@ -135,6 +134,9 @@ public class Exam implements Serializable {
     }
 
     private char[] deepCopy(char[] key) {
+        if(key == null) {
+            return null;
+        }
         char[] copy = new char[key.length];
         System.arraycopy(key, 0, copy, 0, copy.length);
         return copy;
