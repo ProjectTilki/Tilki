@@ -33,11 +33,12 @@ public class SceneLoader {
     }
 
     public static void loadScene(String fxml) {
-        Parent parent = null;
+        Parent parent;
         try {
             parent = FXMLLoader.load(SceneLoader.class.getClassLoader().getResource("fxml/" + fxml + ".fxml"));
         } catch(IOException ex) {
             Logger.getLogger(SceneLoader.class.getName()).log(Level.SEVERE, null, ex);
+            return;
         }
         Scene scene = new Scene(parent);
         primaryStage.close();

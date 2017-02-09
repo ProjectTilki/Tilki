@@ -16,10 +16,11 @@
  */
 package com.kasirgalabs.tilki.client;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class TilkiTest {

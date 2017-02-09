@@ -167,7 +167,8 @@ public class ExamSelectionController implements Initializable {
             User.setExam(new Exam(newValue, findExamDesciption(newValue)));
             if(newValue != null && !newValue.isEmpty()) {
                 setFields();
-            } else {
+            }
+            else {
                 resetFields();
             }
             ExamDescriptionStage examDescription = ExamDescriptionStage.getInstance();
@@ -211,7 +212,8 @@ public class ExamSelectionController implements Initializable {
             if(newValue == Worker.State.CANCELLED || newValue == Worker.State.FAILED) {
                 connectionStatusLabel.setText("Bağlanamadı.");
                 connectionStatusLabel.setId("errorLabel");
-            } else if(newValue == Worker.State.SUCCEEDED) {
+            }
+            else if(newValue == Worker.State.SUCCEEDED) {
                 connectionStatusLabel.setText("Bağlandı.");
                 connectionStatusLabel.setId("successLabel");
                 exams = examService.getValue();
@@ -230,7 +232,8 @@ public class ExamSelectionController implements Initializable {
         passwordService.stateProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue == Worker.State.CANCELLED || newValue == Worker.State.FAILED) {
                 getExams();
-            } else if(newValue == Worker.State.SUCCEEDED) {
+            }
+            else if(newValue == Worker.State.SUCCEEDED) {
                 if(passwordService.getValue()) {
                     changeScene();
                     return;
