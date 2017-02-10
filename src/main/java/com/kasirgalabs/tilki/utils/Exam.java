@@ -63,9 +63,6 @@ public class Exam implements Serializable {
      * @return Key of the exam. If the key does not exist returns null.
      */
     public char[] getKey() {
-        if(key == null) {
-            return null;
-        }
         return deepCopy(key);
     }
 
@@ -98,7 +95,7 @@ public class Exam implements Serializable {
     }
 
     /**
-     * Two exams are considered equal if their names contain same string same.
+     * Two exams are considered equal if their names are equal.
      *
      * @param object The reference object with which to compare.
      *
@@ -117,6 +114,9 @@ public class Exam implements Serializable {
             return false;
         }
         Exam exam = (Exam) object;
+        if(this.hashCode() == 0 || this.hashCode() != exam.hashCode()) {
+            return false;
+        }
         return this.getName().equals(exam.getName());
     }
 
@@ -124,10 +124,13 @@ public class Exam implements Serializable {
      * Returns a hash code value for the object. This method is supported for the benefit of hash
      * tables such as those provided by {@link java.util.HashMap}.
      *
-     * @return A hash code value for this object.
+     * @return The hash code of a non-{@code null} argument and 0 for a {@code null} argument
      */
     @Override
     public int hashCode() {
+        if(this.name == null) {
+            return 0;
+        }
         int hash = 7;
         hash = 83 * hash + Objects.hashCode(this.name);
         return hash;
