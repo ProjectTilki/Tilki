@@ -27,8 +27,8 @@ import javafx.util.Duration;
  */
 public class TilkiTimer extends Observable {
 
-    private static long initialTime = 0;
     private static String elapsedTime = "00:00:00";
+    private static long initialTime = 0;
     private static TilkiTimer instance;
 
     private TilkiTimer() {
@@ -53,6 +53,13 @@ public class TilkiTimer extends Observable {
         timer.play();
     }
 
+    private String addPrefixZero(String s) {
+        if(s.length() < 2) {
+            return "0" + s;
+        }
+        return s;
+    }
+
     private String updateTime() {
         long time = System.currentTimeMillis() - initialTime;
         time /= 1000;
@@ -63,12 +70,5 @@ public class TilkiTimer extends Observable {
         minutes = addPrefixZero(minutes);
         hours = addPrefixZero(hours);
         return hours + ":" + minutes + ":" + seconds;
-    }
-
-    private String addPrefixZero(String s) {
-        if(s.length() < 2) {
-            return "0" + s;
-        }
-        return s;
     }
 }

@@ -34,48 +34,55 @@ import javafx.scene.control.PasswordField;
 public class ExamSelectionController implements Initializable {
 
     private static ExamSelectionController controller;
-
     @FXML
-    private Label nameLabel;
+    private Label choiceBoxLabel;
     @FXML
-    private Label surnameLabel;
+    private ComboBox<String> comboBox;
+    @FXML
+    private Label connectionStatusLabel;
+    @FXML
+    private Button examDescriptionButton;
+    @FXML
+    private Label examLabel;
+    private TilkiService<Exam[]> examService;
+    private Exam[] exams;
     @FXML
     private Label idLabel;
     @FXML
-    private Label examLabel;
+    private Label nameLabel;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Label passwordFieldLabel;
+    @FXML
+    private Label passwordFieldStatusLabel;
+    private TilkiService<Boolean> passwordService;
+    @FXML
+    private Button refreshButton;
+    @FXML
+    private Button submitButton;
+    @FXML
+    private Label surnameLabel;
+    @FXML
+    private Label userExamLabel;
+    @FXML
+    private Label userIdLabel;
     @FXML
     private Label userNameLabel;
     @FXML
     private Label userSurnameLabel;
-    @FXML
-    private Label userIdLabel;
-    @FXML
-    private Label userExamLabel;
-    @FXML
-    private Button refreshButton;
-    @FXML
-    private Label connectionStatusLabel;
-    @FXML
-    private Label passwordFieldLabel;
-    @FXML
-    private Button submitButton;
-    @FXML
-    private Label choiceBoxLabel;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private Label passwordFieldStatusLabel;
-    @FXML
-    private ComboBox<String> comboBox;
-    @FXML
-    private Button examDescriptionButton;
-
-    private TilkiService<Exam[]> examService;
-    private TilkiService<Boolean> passwordService;
-    private Exam[] exams;
 
     public static ExamSelectionController getController() {
         return controller;
+    }
+
+    public void getExams() {
+        resetFields();
+        if(examService.isRunning()) {
+            return;
+        }
+        examService.reset();
+        examService.start();
     }
 
     /**
@@ -95,18 +102,8 @@ public class ExamSelectionController implements Initializable {
         initKeyVerifyRefactoredService();
     }
 
-    public void getExams() {
-        resetFields();
-        if(examService.isRunning()) {
-            return;
-        }
-        examService.reset();
-        examService.start();
-    }
-
-    @FXML
-    private void refreshButtonOnAction(ActionEvent event) {
-        getExams();
+    private void changeScene() {
+        SceneLoader.loadScene("FXML");
     }
 
     @FXML
@@ -116,49 +113,16 @@ public class ExamSelectionController implements Initializable {
         examDescription.show();
     }
 
-    @FXML
-    private void submitButtonOnAction(ActionEvent event) {
-        User.getExam().setKey(passwordField.getText().toCharArray());
-        if(passwordService.isRunning()) {
-            return;
+    private String findExamDesciption(String examName) {
+        if(exams == null) {
+            return null;
         }
-        passwordService.reset();
-        passwordService.start();
-    }
-
-    private void initTexts() {
-        nameLabel.setText("Ad: ");
-        surnameLabel.setText("Soyad: ");
-        idLabel.setText("Numara: ");
-        examLabel.setText("Sınav: ");
-        userNameLabel.setText(User.getName());
-        userSurnameLabel.setText(User.getSurname());
-        userIdLabel.setText(User.getId());
-        userExamLabel.setText("");
-        refreshButton.setText("Yenile");
-        connectionStatusLabel.setText("");
-        choiceBoxLabel.setText("Sınav Listesi");
-        examDescriptionButton.setText("Sınav Açıklaması");
-        passwordFieldLabel.setText("Gözetmen Şifresi");
-        passwordFieldStatusLabel.setText("");
-        submitButton.setText("Sınavı Başlat");
-    }
-
-    private void initIdPasswordFieldPropertyListener() {
-        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.isEmpty()) {
-                submitButton.setDisable(false);
-                return;
+        for(Exam exam : exams) {
+            if(exam.getName().equals(examName)) {
+                return exam.getDescription();
             }
-            submitButton.setDisable(true);
-        });
-    }
-
-    private void initTooltips() {
-        userNameLabel.setTooltip(TooltipHacker.customTooltip(User.getName()));
-        userSurnameLabel.setTooltip(TooltipHacker.customTooltip(User.getSurname()));
-        userIdLabel.setTooltip(TooltipHacker.customTooltip(User.getId()));
-        userExamLabel.setTooltip(TooltipHacker.customTooltip(null));
+        }
+        return null;
     }
 
     private void initComboBoxSelectedItemListener() {
@@ -174,34 +138,6 @@ public class ExamSelectionController implements Initializable {
             ExamDescriptionStage examDescription = ExamDescriptionStage.getInstance();
             examDescription.updateExam();
         });
-    }
-
-    private void setFields() {
-        userExamLabel.setText(User.getExam().getName());
-        userExamLabel.getTooltip().setText(User.getExam().getName());
-        passwordField.setDisable(false);
-        examDescriptionButton.setDisable(false);
-    }
-
-    private void resetFields() {
-        comboBox.setItems(FXCollections.observableArrayList(new String[]{}));
-        userExamLabel.setText("");
-        userExamLabel.getTooltip().setText("");
-        passwordField.clear();
-        passwordField.setDisable(true);
-        examDescriptionButton.setDisable(true);
-    }
-
-    private String findExamDesciption(String examName) {
-        if(exams == null) {
-            return null;
-        }
-        for(Exam exam : exams) {
-            if(exam.getName().equals(examName)) {
-                return exam.getDescription();
-            }
-        }
-        return null;
     }
 
     private void initGetExamsService() {
@@ -227,6 +163,16 @@ public class ExamSelectionController implements Initializable {
         });
     }
 
+    private void initIdPasswordFieldPropertyListener() {
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.isEmpty()) {
+                submitButton.setDisable(false);
+                return;
+            }
+            submitButton.setDisable(true);
+        });
+    }
+
     private void initKeyVerifyRefactoredService() {
         passwordService = new TilkiService<>("KeyVerifyRefactored");
         passwordService.stateProperty().addListener((observable, oldValue, newValue) -> {
@@ -243,7 +189,60 @@ public class ExamSelectionController implements Initializable {
         });
     }
 
-    private void changeScene() {
-        SceneLoader.loadScene("FXML");
+    private void initTexts() {
+        nameLabel.setText("Ad: ");
+        surnameLabel.setText("Soyad: ");
+        idLabel.setText("Numara: ");
+        examLabel.setText("Sınav: ");
+        userNameLabel.setText(User.getName());
+        userSurnameLabel.setText(User.getSurname());
+        userIdLabel.setText(User.getId());
+        userExamLabel.setText("");
+        refreshButton.setText("Yenile");
+        connectionStatusLabel.setText("");
+        choiceBoxLabel.setText("Sınav Listesi");
+        examDescriptionButton.setText("Sınav Açıklaması");
+        passwordFieldLabel.setText("Gözetmen Şifresi");
+        passwordFieldStatusLabel.setText("");
+        submitButton.setText("Sınavı Başlat");
     }
+
+    private void initTooltips() {
+        userNameLabel.setTooltip(TooltipHacker.customTooltip(User.getName(), 100));
+        userSurnameLabel.setTooltip(TooltipHacker.customTooltip(User.getSurname(), 100));
+        userIdLabel.setTooltip(TooltipHacker.customTooltip(User.getId(), 100));
+        userExamLabel.setTooltip(TooltipHacker.customTooltip(null, 100));
+    }
+
+    @FXML
+    private void refreshButtonOnAction(ActionEvent event) {
+        getExams();
+    }
+
+    private void resetFields() {
+        comboBox.setItems(FXCollections.observableArrayList(new String[]{}));
+        userExamLabel.setText("");
+        userExamLabel.getTooltip().setText("");
+        passwordField.clear();
+        passwordField.setDisable(true);
+        examDescriptionButton.setDisable(true);
+    }
+
+    private void setFields() {
+        userExamLabel.setText(User.getExam().getName());
+        userExamLabel.getTooltip().setText(User.getExam().getName());
+        passwordField.setDisable(false);
+        examDescriptionButton.setDisable(false);
+    }
+
+    @FXML
+    private void submitButtonOnAction(ActionEvent event) {
+        User.getExam().setKey(passwordField.getText().toCharArray());
+        if(passwordService.isRunning()) {
+            return;
+        }
+        passwordService.reset();
+        passwordService.start();
+    }
+
 }

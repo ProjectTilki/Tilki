@@ -23,13 +23,6 @@ import javafx.stage.Stage;
 import org.junit.Test;
 
 public class SceneLoaderTest extends Application {
-    /**
-     * Test of setStage and loadScene methods, of class SceneLoader.
-     */
-    @Test
-    public void testSetStageAndLoadScene() {
-        launch(SceneLoaderTest.class);
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -42,11 +35,19 @@ public class SceneLoaderTest extends Application {
         Platform.exit();
     }
 
-    private File[] getFxmlFiles() {
-        return new File(getClass().getClassLoader().getResource("fxml").getPath()).listFiles();
+    /**
+     * Test of setStage and loadScene methods, of class SceneLoader.
+     */
+    @Test
+    public void testSetStageAndLoadScene() {
+        launch(SceneLoaderTest.class);
     }
 
     private String fileNameWithoutFxmlExtension(File file) {
         return file.getName().substring(0, file.getName().length() - 5);
+    }
+
+    private File[] getFxmlFiles() {
+        return new File(getClass().getClassLoader().getResource("fxml").getPath()).listFiles();
     }
 }
