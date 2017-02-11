@@ -9,9 +9,9 @@ import java.util.Objects;
 public class Exam implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String description;
-    private char[] key;
-    private String name;
+    private String examDescription;
+    private char[] examKey;
+    private String examName;
 
     /**
      * Initializes a newly created {@code Exam} object so that it represents
@@ -21,12 +21,12 @@ public class Exam implements Serializable {
     }
 
     /**
-     * Creates an exam with empty description and key.
+     * Creates an exam with empty examDescription and examKey.
      *
      * @param name Name of the exam.
      */
     public Exam(String name) {
-        this.name = name;
+        this.examName = name;
     }
 
     /**
@@ -36,8 +36,8 @@ public class Exam implements Serializable {
      * @param description Description of the exam.
      */
     public Exam(String name, String description) {
-        this.name = name;
-        this.description = description;
+        this.examName = name;
+        this.examDescription = description;
     }
 
     /**
@@ -48,9 +48,9 @@ public class Exam implements Serializable {
      * @param key         Key of the exam.
      */
     public Exam(String name, String description, char[] key) {
-        this.name = name;
-        this.description = description;
-        this.key = deepCopy(key);
+        this.examName = name;
+        this.examDescription = description;
+        this.examKey = deepCopy(key);
     }
 
     /**
@@ -83,14 +83,14 @@ public class Exam implements Serializable {
      * @return Description of the exam.
      */
     public String getDescription() {
-        return description;
+        return examDescription;
     }
 
     /**
-     * @param description The description to set
+     * @param description Description to set.
      */
     public void setDescription(String newDescription) {
-        this.description = newDescription;
+        this.examDescription = newDescription;
     }
 
     /**
@@ -99,28 +99,28 @@ public class Exam implements Serializable {
      * @return Key of the exam. If the key does not exist returns null.
      */
     public char[] getKey() {
-        return deepCopy(key);
+        return deepCopy(examKey);
     }
 
     /**
-     * @param newKey the key to set
+     * @param newKey Key to set.
      */
     public void setKey(char[] newKey) {
-        this.key = deepCopy(newKey);
+        this.examKey = deepCopy(newKey);
     }
 
     /**
      * @return Name of the exam.
      */
     public String getName() {
-        return name;
+        return examName;
     }
 
     /**
-     * @param newName The name to set
+     * @param newName Name to set
      */
     public void setName(String newName) {
-        this.name = newName;
+        this.examName = newName;
     }
 
     /**
@@ -131,11 +131,11 @@ public class Exam implements Serializable {
      */
     @Override
     public int hashCode() {
-        if(this.name == null) {
+        if(this.examName == null) {
             return 0;
         }
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.name);
+        hash = 83 * hash + Objects.hashCode(this.examName);
         return hash;
     }
 
