@@ -24,10 +24,11 @@ import javafx.application.Application;
 import org.junit.Test;
 
 public class TilkiTest {
+    private static final Logger LOG = Logger.getLogger(TilkiTest.class.getName());
 
     // Wrapper thread updates this if
     // the JavaFX application runs without problem.
-    private volatile boolean success = false;
+    private volatile boolean success;
 
     /**
      * Test that a JavaFX application launches.
@@ -37,19 +38,20 @@ public class TilkiTest {
         Thread thread = new Thread() { // Wrapper thread.
             @Override
             public void run() {
+                success = true;
                 try {
                     Application.launch(Tilki.class); // Run JavaFX application.
-                    success = true;
                 } catch(Throwable t) {
-                    if(t.getCause() != null && t.getCause().getClass().equals(InterruptedException.class)) {
+                    Throwable cause = t.getCause();
+                    if(cause != null && cause.getCause().equals(InterruptedException.class)) {
                         // We expect to get this exception since we interrupted
                         // the JavaFX application.
-                        success = true;
                         return;
                     }
                     // This is not the exception we are looking for so log it.
-                    Logger.getLogger(TilkiTest.class.getName()).log(Level.SEVERE, null, t);
+                    LOG.log(Level.SEVERE, null, t);
                 }
+                success = false;
             }
         };
         thread.setDaemon(true);

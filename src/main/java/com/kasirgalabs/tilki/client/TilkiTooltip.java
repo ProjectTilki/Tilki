@@ -16,29 +16,38 @@
  */
 package com.kasirgalabs.tilki.client;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Tooltip;
-import org.junit.Rule;
-import org.junit.Test;
+import javafx.util.Duration;
 
-public class TooltipHackerTest {
-    @Rule
-    public JavaFXThread javaFXThread = new JavaFXThread();
+/**
+ * TilkiTooltip is a utility class for creating custom tooltips.
+ * Such as a tooltip with short delays.
+ *
+ * @author rootg
+ */
+public final class TilkiTooltip {
+    public static final double DEFAULT_DURATION = 100.0;
+    private static final Logger LOG = Logger.getLogger(TilkiTooltip.class.getName());
+
+    private TilkiTooltip() {
+
+    }
 
     /**
-     * Test of customTooltip method, of class TooltipHacker.
+     * Returns a custom tooltip with the specified text.
+     * The tooltip will have short delays.
+     *
+     * @param message The text to display in the tooltip.
+     *
+     * @return A custom tooltip.
      */
-    @Test
-    public void testCustomTooltip() {
-        final double durationToTest = 100.0;
-        Tooltip tooltip = TooltipHacker.customTooltip("TEST", durationToTest);
-        assertEquals("TEST", tooltip.getText());
+    public static Tooltip getCustomTooltip(String message) {
+        Tooltip tooltip = new Tooltip(message);
         try {
             Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
             fieldBehavior.setAccessible(true);
@@ -46,13 +55,11 @@ public class TooltipHackerTest {
             Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
             fieldTimer.setAccessible(true);
             Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
-            double duration = objTimer.getCycleDuration().toMillis();
-            // We expect duration difference less than or equal to 1.
-            if(durationToTest - duration > 1) {
-                fail();
-            }
-        } catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(TooltipHacker.class.getName()).log(Level.SEVERE, null, ex);
+            objTimer.getKeyFrames().clear();
+            objTimer.getKeyFrames().add(new KeyFrame(new Duration(DEFAULT_DURATION)));
+        } catch(NoSuchFieldException | IllegalAccessException ex) {
+            LOG.log(Level.SEVERE, null, ex);
         }
+        return tooltip;
     }
 }

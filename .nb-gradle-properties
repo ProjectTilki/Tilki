@@ -36,6 +36,7 @@
     <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.keepGettersAndSettersTogether>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.keepGettersAndSettersTogether>
     <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.placeElseOnNewLine>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.placeElseOnNewLine>
     <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.placeFinallyOnNewLine>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.placeFinallyOnNewLine>
+    <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.preserveNewLinesInComments>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.preserveNewLinesInComments>
     <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.separateStaticImports>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.separateStaticImports>
     <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.sortMembersByVisibility>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.sortMembersByVisibility>
     <org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.sortMembersInGroups>true</org-netbeans-modules-editor-indent.text.x-java.CodeStyle.project.sortMembersInGroups>

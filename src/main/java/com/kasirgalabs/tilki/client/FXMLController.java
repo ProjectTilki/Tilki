@@ -38,31 +38,30 @@ import javafx.stage.FileChooser;
 public class FXMLController implements Initializable {
 
     @FXML
-    private GridPane gridPane;
-    @FXML
-    private Label timeLabel;
-    @FXML
     private Label elapsedTimeLabel;
     @FXML
     private Button examDescriptionButton;
     @FXML
-    private Label listViewLabel;
+    private Button fileChooserButton;
+    @FXML
+    private GridPane gridPane;
     @FXML
     private ListView<File> listView;
     @FXML
-    private Button fileChooserButton;
-    @FXML
-    private Button removeSelectedButton;
-    @FXML
-    private Label passwordFieldLabel;
+    private Label listViewLabel;
     @FXML
     private PasswordField passwordField;
     @FXML
+    private Label passwordFieldLabel;
+    @FXML
     private Label passwordFieldStatusLabel;
+    private TilkiService<Boolean> passwordService;
+    @FXML
+    private Button removeSelectedButton;
     @FXML
     private Button submitButton;
-
-    private TilkiService<Boolean> passwordService;
+    @FXML
+    private Label timeLabel;
 
     /**
      * Initializes the controller class.
@@ -79,50 +78,19 @@ public class FXMLController implements Initializable {
         initTimer();
     }
 
+    private void addFiles(List<File> files) {
+        for(File file : files) {
+            if(!listView.getItems().contains(file)) {
+                listView.getItems().add(file);
+            }
+        }
+    }
+
     @FXML
     private void examDescriptionButtonOnAction(ActionEvent event) {
         ExamDescriptionStage examDescription = ExamDescriptionStage.getInstance();
         examDescription.updateExam();
         examDescription.show();
-    }
-
-    @FXML
-    private void submitButtonOnAction(ActionEvent event) {
-        User.getExam().setKey(passwordField.getText().toCharArray());
-        if(passwordService.isRunning()) {
-            return;
-        }
-        passwordService.reset();
-        passwordService.start();
-    }
-
-    @FXML
-    private void listViewOnDragOver(DragEvent event) {
-        Dragboard dragboard = event.getDragboard();
-        if(!dragboard.hasFiles()) {
-            event.consume();
-            return;
-        }
-        for(File file : dragboard.getFiles()) {
-            if(file.isDirectory()) {
-                event.consume();
-                return;
-            }
-        }
-        event.acceptTransferModes(TransferMode.COPY);
-    }
-
-    @FXML
-    private void listViewOnDragDropped(DragEvent event) {
-        Dragboard dragboard = event.getDragboard();
-        addFiles(dragboard.getFiles());
-        event.setDropCompleted(true);
-        event.consume();
-    }
-
-    @FXML
-    private void removeSelectedButtonOnAction(ActionEvent event) {
-        listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
     }
 
     @FXML
@@ -134,17 +102,6 @@ public class FXMLController implements Initializable {
             return;
         }
         addFiles(files);
-    }
-
-    private void initTexts() {
-        timeLabel.setText("Geçen Süre:");
-        examDescriptionButton.setText("Sınav Açıklaması");
-        listViewLabel.setText("Dosyalar");
-        fileChooserButton.setText("Dosya Seç");
-        passwordFieldLabel.setText("Gözetmen Şifresi");
-        passwordFieldStatusLabel.setText("");
-        submitButton.setText("Sınavı Bitir");
-        removeSelectedButton.setText("Seçili Dosyaları Sil");
     }
 
     private void initIdPasswordFieldPropertyListener() {
@@ -164,25 +121,30 @@ public class FXMLController implements Initializable {
             passwordFieldStatusLabel.setId("errorLabel");
             if(newValue == Worker.State.CANCELLED || newValue == Worker.State.FAILED) {
                 passwordFieldStatusLabel.setText("Bağlanamadı.");
-            } else if(newValue == Worker.State.SUCCEEDED) {
+            }
+            else if(newValue == Worker.State.SUCCEEDED) {
                 if(passwordService.getValue()) {
                     passwordFieldStatusLabel.setText("");
                     return;
                 }
                 passwordFieldStatusLabel.setText("Şifre yanlış.");
-            } else {
+            }
+            else {
                 passwordFieldStatusLabel.setText("Bağlanıyor.");
                 passwordFieldStatusLabel.setId("infoLabel");
             }
         });
     }
 
-    private void addFiles(List<File> files) {
-        for(File file : files) {
-            if(!listView.getItems().contains(file)) {
-                listView.getItems().add(file);
-            }
-        }
+    private void initTexts() {
+        timeLabel.setText("Geçen Süre:");
+        examDescriptionButton.setText("Sınav Açıklaması");
+        listViewLabel.setText("Dosyalar");
+        fileChooserButton.setText("Dosya Seç");
+        passwordFieldLabel.setText("Gözetmen Şifresi");
+        passwordFieldStatusLabel.setText("");
+        submitButton.setText("Sınavı Bitir");
+        removeSelectedButton.setText("Seçili Dosyaları Sil");
     }
 
     private void initTimer() {
@@ -191,5 +153,44 @@ public class FXMLController implements Initializable {
         tilkiTimer.addObserver((o, arg) -> {
             elapsedTimeLabel.setText((String) arg);
         });
+    }
+
+    @FXML
+    private void listViewOnDragDropped(DragEvent event) {
+        Dragboard dragboard = event.getDragboard();
+        addFiles(dragboard.getFiles());
+        event.setDropCompleted(true);
+        event.consume();
+    }
+
+    @FXML
+    private void listViewOnDragOver(DragEvent event) {
+        Dragboard dragboard = event.getDragboard();
+        if(!dragboard.hasFiles()) {
+            event.consume();
+            return;
+        }
+        for(File file : dragboard.getFiles()) {
+            if(file.isDirectory()) {
+                event.consume();
+                return;
+            }
+        }
+        event.acceptTransferModes(TransferMode.COPY);
+    }
+
+    @FXML
+    private void removeSelectedButtonOnAction(ActionEvent event) {
+        listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
+    }
+
+    @FXML
+    private void submitButtonOnAction(ActionEvent event) {
+        User.getExam().setKey(passwordField.getText().toCharArray());
+        if(passwordService.isRunning()) {
+            return;
+        }
+        passwordService.reset();
+        passwordService.start();
     }
 }

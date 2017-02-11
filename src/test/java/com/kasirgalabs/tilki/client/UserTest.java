@@ -35,6 +35,67 @@ public class UserTest {
     }
 
     /**
+     * Test of setExam And getExam method, of class User.
+     */
+    @Test
+    public void testSetExamAndGetExam() {
+        assertNull(null, User.getExam());
+
+        User.setExam(new Exam(""));
+        assertEquals(new Exam(""), User.getExam());
+
+        User.setExam(new Exam("Exam0"));
+        assertNotSame(new Exam("Exam1"), User.getExam());
+
+        User.setExam(new Exam("  1  "));
+        assertEquals(new Exam("  1  "), User.getExam());
+
+        User.setExam(new Exam(null, null, null));
+        assertNotSame(new Exam(null, null, null), User.getExam());
+
+        User.setExam(new Exam("", ""));
+        assertEquals(new Exam("", ""), User.getExam());
+
+        User.setExam(new Exam("NAME", "DESCRIPTION___0"));
+        assertEquals(new Exam("NAME", "DESCRIPTION___1"), User.getExam());
+
+        User.setExam(new Exam(null, null, new char[]{'p', 'a', 's', 's'}));
+        assertNotSame(new Exam(null, null, new char[]{'p', 'a', 's', 's'}), User.getExam());
+
+        User.setExam(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}));
+        assertEquals(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}), User.getExam());
+
+        User.setExam(new Exam("__0__", null, null));
+        assertNotSame(new Exam("__1__", null, null), User.getExam());
+
+        User.setExam(new Exam(null, "DESCRIPTION", new char[]{'p', 's', 's'}));
+        assertNotSame(new Exam(null, "DESCRIPTION", new char[]{'p', 's', 's'}), User.getExam());
+    }
+
+    /**
+     * Test of setId and getId methods, of class User.
+     */
+    @Test
+    public void testSetIdAndGetId() {
+        assertNull(null, User.getId());
+
+        User.setId("1234");
+        assertEquals("1234", User.getId());
+
+        User.setId("");
+        assertEquals("", User.getId());
+
+        User.setId("ID Without Number");
+        assertEquals("ID Without Number", User.getId());
+
+        User.setId("1234567890");
+        assertEquals("1234567890", User.getId());
+
+        User.setId("\n\t ");
+        assertEquals("\n\t ", User.getId());
+    }
+
+    /**
      * Test of setName and getName methods, of class User.
      */
     @Test
@@ -84,66 +145,5 @@ public class UserTest {
 
         User.setSurname("\n\t Whitespace Before and After Surname\n\t ");
         assertEquals("\n\t Whitespace Before and After Surname\n\t ", User.getSurname());
-    }
-
-    /**
-     * Test of setId and getId methods, of class User.
-     */
-    @Test
-    public void testSetIdAndGetId() {
-        assertNull(null, User.getId());
-
-        User.setId("1234");
-        assertEquals("1234", User.getId());
-
-        User.setId("");
-        assertEquals("", User.getId());
-
-        User.setId("ID Without Number");
-        assertEquals("ID Without Number", User.getId());
-
-        User.setId("1234567890");
-        assertEquals("1234567890", User.getId());
-
-        User.setId("\n\t ");
-        assertEquals("\n\t ", User.getId());
-    }
-
-    /**
-     * Test of setExam And getExam method, of class User.
-     */
-    @Test
-    public void testSetExamAndGetExam() {
-        assertNull(null, User.getExam());
-
-        User.setExam(new Exam(""));
-        assertEquals(new Exam(""), User.getExam());
-
-        User.setExam(new Exam("Exam0"));
-        assertNotSame(new Exam("Exam1"), User.getExam());
-
-        User.setExam(new Exam("  1  "));
-        assertEquals(new Exam("  1  "), User.getExam());
-
-        User.setExam(new Exam(null, null, null));
-        assertNotSame(new Exam(null, null, null), User.getExam());
-
-        User.setExam(new Exam("", ""));
-        assertEquals(new Exam("", ""), User.getExam());
-
-        User.setExam(new Exam("NAME", "DESCRIPTION___0"));
-        assertEquals(new Exam("NAME", "DESCRIPTION___1"), User.getExam());
-
-        User.setExam(new Exam(null, null, new char[]{'p', 'a', 's', 's'}));
-        assertNotSame(new Exam(null, null, new char[]{'p', 'a', 's', 's'}), User.getExam());
-
-        User.setExam(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}));
-        assertEquals(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}), User.getExam());
-
-        User.setExam(new Exam("__0__", null, null));
-        assertNotSame(new Exam("__1__", null, null), User.getExam());
-
-        User.setExam(new Exam(null, "DESCRIPTION", new char[]{'p', 'a', 's', 's'}));
-        assertNotSame(new Exam(null, "DESCRIPTION", new char[]{'p', 'a', 's', 's'}), User.getExam());
     }
 }

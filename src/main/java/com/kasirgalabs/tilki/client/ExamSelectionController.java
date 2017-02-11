@@ -208,10 +208,10 @@ public class ExamSelectionController implements Initializable {
     }
 
     private void initTooltips() {
-        userNameLabel.setTooltip(TooltipHacker.customTooltip(User.getName(), 100));
-        userSurnameLabel.setTooltip(TooltipHacker.customTooltip(User.getSurname(), 100));
-        userIdLabel.setTooltip(TooltipHacker.customTooltip(User.getId(), 100));
-        userExamLabel.setTooltip(TooltipHacker.customTooltip(null, 100));
+        userNameLabel.setTooltip(TilkiTooltip.getCustomTooltip(User.getName()));
+        userSurnameLabel.setTooltip(TilkiTooltip.getCustomTooltip(User.getSurname()));
+        userIdLabel.setTooltip(TilkiTooltip.getCustomTooltip(User.getId()));
+        userExamLabel.setTooltip(TilkiTooltip.getCustomTooltip(null));
     }
 
     @FXML

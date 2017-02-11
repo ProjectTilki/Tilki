@@ -16,18 +16,29 @@
  */
 package com.kasirgalabs.tilki.client;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Tooltip;
-import javafx.util.Duration;
+import org.junit.Rule;
+import org.junit.Test;
 
-public class TooltipHacker {
+public class TilkiTooltipTest {
+    private static final Logger LOG = Logger.getLogger(TilkiTooltipTest.class.getName());
+    @Rule
+    public JavaFXThread javaFXThread = new JavaFXThread();
 
-    public static Tooltip customTooltip(String message, double duration) {
-        Tooltip tooltip = new Tooltip(message);
+    /**
+     * Test of getCustomTooltip method, of class TilkiTooltip.
+     */
+    @Test
+    public void testCustomTooltip() {
+        Tooltip tooltip = TilkiTooltip.getCustomTooltip("TEST");
+        assertEquals("TEST", tooltip.getText());
         try {
             Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
             fieldBehavior.setAccessible(true);
@@ -35,11 +46,13 @@ public class TooltipHacker {
             Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
             fieldTimer.setAccessible(true);
             Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
-            objTimer.getKeyFrames().clear();
-            objTimer.getKeyFrames().add(new KeyFrame(new Duration(duration)));
-        } catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(ExamSelectionController.class.getName()).log(Level.SEVERE, null, ex);
+            double duration = objTimer.getCycleDuration().toMillis();
+            // We expect duration difference less than or equal to 1.
+            if(TilkiTooltip.DEFAULT_DURATION - duration > 1) {
+                fail();
+            }
+        } catch(NoSuchFieldException | IllegalAccessException ex) {
+            LOG.log(Level.SEVERE, null, ex);
         }
-        return tooltip;
     }
 }

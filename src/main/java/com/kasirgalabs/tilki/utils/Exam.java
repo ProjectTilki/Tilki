@@ -7,12 +7,18 @@ import java.util.Objects;
  * The {@code Exam} class represents exams.
  */
 public class Exam implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
-    private String name;
     private String description;
     private char[] key;
+    private String name;
+
+    /**
+     * Initializes a newly created {@code Exam} object so that it represents
+     * an empty character Exam.
+     */
+    public Exam() {
+    }
 
     /**
      * Creates an exam with empty description and key.
@@ -21,8 +27,6 @@ public class Exam implements Serializable {
      */
     public Exam(String name) {
         this.name = name;
-        this.description = null;
-        this.key = null;
     }
 
     /**
@@ -34,7 +38,6 @@ public class Exam implements Serializable {
     public Exam(String name, String description) {
         this.name = name;
         this.description = description;
-        this.key = null;
     }
 
     /**
@@ -48,50 +51,6 @@ public class Exam implements Serializable {
         this.name = name;
         this.description = description;
         this.key = deepCopy(key);
-    }
-
-    /**
-     * @param key the key to set
-     */
-    public void setKey(char[] key) {
-        this.key = deepCopy(key);
-    }
-
-    /**
-     * A deep copy of the key will be returned on call.
-     *
-     * @return Key of the exam. If the key does not exist returns null.
-     */
-    public char[] getKey() {
-        return deepCopy(key);
-    }
-
-    /**
-     * @param name The name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return Name of the exam.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param description The description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * @return Description of the exam.
-     */
-    public String getDescription() {
-        return description;
     }
 
     /**
@@ -121,6 +80,50 @@ public class Exam implements Serializable {
     }
 
     /**
+     * @return Description of the exam.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * @param description The description to set
+     */
+    public void setDescription(String newDescription) {
+        this.description = newDescription;
+    }
+
+    /**
+     * A deep copy of the key will be returned on call.
+     *
+     * @return Key of the exam. If the key does not exist returns null.
+     */
+    public char[] getKey() {
+        return deepCopy(key);
+    }
+
+    /**
+     * @param newKey the key to set
+     */
+    public void setKey(char[] newKey) {
+        this.key = deepCopy(newKey);
+    }
+
+    /**
+     * @return Name of the exam.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param newName The name to set
+     */
+    public void setName(String newName) {
+        this.name = newName;
+    }
+
+    /**
      * Returns a hash code value for the object. This method is supported for the benefit of hash
      * tables such as those provided by {@link java.util.HashMap}.
      *
@@ -136,12 +139,12 @@ public class Exam implements Serializable {
         return hash;
     }
 
-    private char[] deepCopy(char[] key) {
-        if(key == null) {
+    private char[] deepCopy(char[] original) {
+        if(original == null) {
             return null;
         }
-        char[] copy = new char[key.length];
-        System.arraycopy(key, 0, copy, 0, copy.length);
+        char[] copy = new char[original.length];
+        System.arraycopy(original, 0, copy, 0, copy.length);
         return copy;
     }
 }

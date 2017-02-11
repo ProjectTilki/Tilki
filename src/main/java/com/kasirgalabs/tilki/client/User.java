@@ -18,45 +18,44 @@ package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
 
-public class User {
-
+public final class User {
+    private static Exam exam;
+    private static String id;
     private static String name;
     private static String surname;
-    private static String id;
-    private static Exam exam;
 
     private User() {
-    }
-
-    public static String getName() {
-        return name;
-    }
-
-    public static void setName(String name) {
-        User.name = name;
-    }
-
-    public static String getSurname() {
-        return surname;
-    }
-
-    public static void setSurname(String surname) {
-        User.surname = surname;
-    }
-
-    public static String getId() {
-        return id;
-    }
-
-    public static void setId(String id) {
-        User.id = id;
     }
 
     public static Exam getExam() {
         return exam;
     }
 
-    public static void setExam(Exam exam) {
-        User.exam = exam;
+    public static void setExam(Exam newExam) {
+        User.exam = newExam;
+    }
+
+    public static String getId() {
+        return id;
+    }
+
+    public static void setId(String newId) {
+        User.id = newId;
+    }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String newName) {
+        User.name = newName;
+    }
+
+    public static String getSurname() {
+        return surname;
+    }
+
+    public static void setSurname(String newSurname) {
+        User.surname = newSurname;
     }
 }
