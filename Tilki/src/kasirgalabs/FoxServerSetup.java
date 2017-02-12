@@ -152,18 +152,6 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
-            }
-        });
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("S\u0131nav Olu\u015Ftur");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -364,17 +352,10 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jList6MouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                "S\u0131nav\u0131 olu\u015Fturmak istedi\u011Finize emin misiniz?",
+                "S\u0131nav\u0131 olu\u015Fturmak istedi\u011Finize emin" +
+                " misiniz?",
                 "Tilki", 1);
         if(dialogResult == JOptionPane.YES_OPTION) {
             examName = jTextField1.getText();
@@ -388,8 +369,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
                     new FileWriter(filePath + "/exam_list.txt", true)))) {
                 PrintWriter out1 = new PrintWriter(new BufferedWriter(
                         new FileWriter(
-                                exam.getAbsolutePath() + "/exam_description.txt",
-                                true)));
+                                exam.getAbsolutePath() + "/exam_description.txt"
+                                ,true)));
                 PrintWriter out2 = new PrintWriter(new BufferedWriter(
                         new FileWriter(exam.getAbsolutePath() + "/exam_key.txt",
                                 true)));
@@ -439,8 +420,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
         String lineToRemove = examList[jList6.getSelectedIndex()].getName();
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                "Se\u00E7ili s\u0131nav\u0131 kald\u0131rmak istedi\u011Finize emin misiniz?",
-                "Tilki", 1);
+                "Se\u00E7ili s\u0131nav\u0131 kald\u0131rmak" + 
+                " istedi\u011Finize emin misiniz?", "Tilki", 1);
         exam = new File("");
         if(dialogResult == JOptionPane.YES_OPTION) {
             File file = new File(exam.getAbsolutePath() + "/" + examList[jList6.
@@ -453,14 +434,15 @@ public class FoxServerSetup extends javax.swing.JFrame {
             else {
                 JOptionPane.
                         showMessageDialog(null,
-                                "Silme i\u015Flemi ba\u015Far\u0131lamad\u0131.",
-                                "Tilki", 1);
+                                "Silme i\u015Flemi ba\u015Far\u0131lamad\u0131."
+                                ,"Tilki", 1);
             }
         }
         jButton7.doClick();
 
         File inputFile = new File(exam.getAbsolutePath() + "/exam_list.txt");
-        File tempFile = new File(exam.getAbsolutePath() + "/temp_exam_list.txt");
+        File tempFile = new File(exam.getAbsolutePath() + "/temp_exam_list" + 
+                ".txt");
 
         BufferedReader reader = null;
         try {
@@ -571,8 +553,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                "De\u011Fi\u015Fiklikleri uygulamak istedi\u011Finize emin misiniz?",
-                "Tilki", 1);
+                "De\u011Fi\u015Fiklikleri uygulamak istedi\u011Finize" + 
+                " emin misiniz?", "Tilki", 1);
         if(dialogResult == JOptionPane.YES_OPTION) {
             jButton1.setEnabled(true);
             jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
