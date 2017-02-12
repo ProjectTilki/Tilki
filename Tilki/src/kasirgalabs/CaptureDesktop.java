@@ -10,6 +10,7 @@ import java.io.File;
 
 public class CaptureDesktop {
 
+    private final int KEYFRAMEINTERVAL = 1000;
     private String personName;
     private String format;
     private VideoCapture videoCapture = VideoCapture.create();
@@ -43,8 +44,10 @@ public class CaptureDesktop {
         encodingParameters.setBitrate(800000);
         encodingParameters.setFramerate(1);
         encodingParameters.setCodec(videoCodec);
-
-        encodingParameters.setKeyFrameInterval(1);
+        
+        /*Please don't change the parameter of the method below.*/
+        encodingParameters.setKeyFrameInterval(KEYFRAMEINTERVAL);
+        
         encodingParameters.setCompressionQuality(q);
 
         videoCapture.setEncodingParameters(encodingParameters);
