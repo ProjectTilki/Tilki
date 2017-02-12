@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class Tilki extends Application {
 
     /**
-     * @param args the command line arguments
+     * @param args The command line arguments.
      */
     public static void main(String[] args) {
         launch(args);

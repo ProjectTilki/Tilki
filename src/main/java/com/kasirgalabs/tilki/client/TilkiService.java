@@ -19,10 +19,6 @@ package com.kasirgalabs.tilki.client;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
-/**
- *
- * @author rootg
- */
 public class TilkiService<V> extends Service<V> {
 
     private String taskName;

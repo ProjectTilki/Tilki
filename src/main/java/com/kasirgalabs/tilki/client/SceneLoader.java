@@ -24,18 +24,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SceneLoader {
+public final class SceneLoader {
 
     private static Stage primaryStage;
 
-    public static void setStage(Stage primaryStage) {
-        SceneLoader.primaryStage = primaryStage;
+    private SceneLoader() {
+    }
+
+    public static void setStage(Stage newPrimaryStage) {
+        SceneLoader.primaryStage = newPrimaryStage;
     }
 
     public static void loadScene(String fxml) {
         Parent parent;
         try {
-            parent = FXMLLoader.load(SceneLoader.class.getClassLoader().getResource("fxml/" + fxml + ".fxml"));
+            ClassLoader classLoader = SceneLoader.class.getClassLoader();
+            parent = FXMLLoader.load(classLoader.getResource("fxml/" + fxml + ".fxml"));
         } catch(IOException ex) {
             Logger.getLogger(SceneLoader.class.getName()).log(Level.SEVERE, null, ex);
             return;

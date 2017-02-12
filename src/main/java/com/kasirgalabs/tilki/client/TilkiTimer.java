@@ -21,11 +21,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-/**
- *
- * @author rootg
- */
-public class TilkiTimer extends Observable {
+public final class TilkiTimer extends Observable {
 
     private static String elapsedTime = "00:00:00";
     private static long initialTime = 0;

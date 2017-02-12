@@ -21,7 +21,7 @@ public class Exam implements Serializable {
     }
 
     /**
-     * Creates an exam with empty examDescription and examKey.
+     * Creates an exam with empty description and key.
      *
      * @param name Name of the exam.
      */
@@ -117,7 +117,7 @@ public class Exam implements Serializable {
     }
 
     /**
-     * @param newName Name to set
+     * @param newName Name to set.
      */
     public void setName(String newName) {
         this.examName = newName;

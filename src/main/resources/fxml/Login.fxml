@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 
 <GridPane alignment="CENTER" hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kasirgalabs.tilki.client.LoginController">
-    <stylesheets>
-        <URL value="@/styles/tilki.css" />
-    </stylesheets>
+  <stylesheets>
+    <URL value="@/styles/tilki.css" />
+  </stylesheets>
   <columnConstraints>
     <ColumnConstraints hgrow="NEVER" />
     <ColumnConstraints hgrow="NEVER" />
@@ -34,9 +34,9 @@
       <Label fx:id="nameLabel" text="Label" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
       <Label fx:id="surnameLabel" text="Label" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
       <Label fx:id="idLabel" text="Label" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-      <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-      <TextField fx:id="surnameTextField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <TextField fx:id="idTextField" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+      <fx:include source="NameTextField.fxml" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+      <fx:include source="SurnameTextField.fxml" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+      <fx:include source="IdTextField.fxml" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
       <Label id="errorLabel" fx:id="errorLabel" text="Label" GridPane.columnSpan="2" GridPane.rowIndex="4" />
       <Button fx:id="submitButton" mnemonicParsing="false" onAction="#submitButtonOnAction" text="Button" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
    </children>

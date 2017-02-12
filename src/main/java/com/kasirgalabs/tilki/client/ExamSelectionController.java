@@ -44,8 +44,6 @@ public class ExamSelectionController implements Initializable {
     private Button examDescriptionButton;
     @FXML
     private Label examLabel;
-    private TilkiService<Exam[]> examService;
-    private Exam[] exams;
     @FXML
     private Label idLabel;
     @FXML
@@ -56,7 +54,6 @@ public class ExamSelectionController implements Initializable {
     private Label passwordFieldLabel;
     @FXML
     private Label passwordFieldStatusLabel;
-    private TilkiService<Boolean> passwordService;
     @FXML
     private Button refreshButton;
     @FXML
@@ -71,6 +68,10 @@ public class ExamSelectionController implements Initializable {
     private Label userNameLabel;
     @FXML
     private Label userSurnameLabel;
+
+    private TilkiService<Boolean> passwordService;
+    private TilkiService<Exam[]> examService;
+    private Exam[] exams;
 
     public static ExamSelectionController getController() {
         return controller;

@@ -18,13 +18,11 @@ package com.kasirgalabs.tilki.client;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 /**
  * FXML Controller class
@@ -32,67 +30,48 @@ import javafx.scene.control.TextField;
  * @author rootg
  */
 public class LoginController implements Initializable {
-
-    @FXML
-    private Label welcomeLabel;
-    @FXML
-    private Label nameLabel;
-    @FXML
-    private Label surnameLabel;
-    @FXML
-    private Label idLabel;
-    @FXML
-    private TextField nameTextField;
-    @FXML
-    private TextField surnameTextField;
-    @FXML
-    private TextField idTextField;
     @FXML
     private Label errorLabel;
     @FXML
+    private Label idLabel;
+    @FXML
+    private Label nameLabel;
+    @FXML
     private Button submitButton;
+    @FXML
+    private Label surnameLabel;
+    @FXML
+    private Label welcomeLabel;
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initTexts();
-        initIdTextFieldPropertyListener();
     }
 
     @FXML
     private void submitButtonOnAction(ActionEvent event) {
-        if(!areFieldsValid()) {
-            return;
+        if(areFieldsValid()) {
+            changeScene();
         }
-        userLoggedIn();
-        changeScene();
     }
 
     private boolean areFieldsValid() {
-        if(nameTextField.getText().trim().isEmpty()) {
+        String name = User.getName();
+        String surname = User.getSurname();
+        String id = User.getId();
+        if(name.isEmpty()) {
             errorLabel.setText("Ad kısmı boş.");
             return false;
         }
-        if(surnameTextField.getText().trim().isEmpty()) {
+        if(surname.isEmpty()) {
             errorLabel.setText("Soyad kısmı boş.");
             return false;
         }
-        if(idTextField.getText().trim().isEmpty()) {
+        if(id.isEmpty()) {
             errorLabel.setText("Numara kısmı boş.");
             return false;
         }
         return true;
-    }
-
-    private void userLoggedIn() {
-        User.setName(nameTextField.getText().trim());
-        User.setSurname(surnameTextField.getText().trim());
-        User.setId(idTextField.getText().trim());
     }
 
     private void changeScene() {
@@ -107,13 +86,5 @@ public class LoginController implements Initializable {
         idLabel.setText("Numara:");
         submitButton.setText("Giriş");
         errorLabel.setText("");
-    }
-
-    private void initIdTextFieldPropertyListener() {
-        idTextField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            if(!newValue.matches("\\d*")) {
-                idTextField.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
     }
 }
