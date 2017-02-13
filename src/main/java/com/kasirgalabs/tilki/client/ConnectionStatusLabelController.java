@@ -18,46 +18,48 @@ package com.kasirgalabs.tilki.client;
  */
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.concurrent.Worker;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-/**
- * FXML Controller class
- *
- * @author rootg
- */
-public class ConnectionStatusLabelController implements Initializable, EventHandler<WorkerStateEvent> {
+public class ConnectionStatusLabelController implements Initializable {
     @FXML
     private Label label;
+    private static ChangeListener<State> listener;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         label.setText("");
+        listener = new ConnectionStatusStatusListener();
     }
 
-    @Override
-    public void handle(WorkerStateEvent event) {
-        State state = event.getSource().getState();
-        if(state == Worker.State.RUNNING) {
-            label.setText("Bağlanıyor.");
-            label.setId("errorLabel");
-        }
-        else if(state == Worker.State.SUCCEEDED) {
-            label.setText("Bağlandı.");
-            label.setId("successLabel");
-        }
-        else if(state == Worker.State.CANCELLED || state == Worker.State.FAILED) {
-            label.setText("Bağlanamadı.");
-            label.setId("errorLabel");
-        }
+    public static ChangeListener<State> getListener() {
+        return listener;
     }
 
+    private class ConnectionStatusStatusListener implements ChangeListener<State> {
+        @Override
+        public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+            switch(newValue) {
+                case RUNNING:
+                    label.setText("Bağlanıyor.");
+                    label.setId("infoLabel");
+                    break;
+                case SUCCEEDED:
+                    label.setText("Bağlandı.");
+                    label.setId("successLabel");
+                    break;
+                case CANCELLED:
+                case FAILED:
+                    label.setText("Bağlanamadı.");
+                    label.setId("errorLabel");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

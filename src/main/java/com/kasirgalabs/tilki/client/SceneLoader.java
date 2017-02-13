@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public final class SceneLoader {
@@ -44,7 +45,18 @@ public final class SceneLoader {
             Logger.getLogger(SceneLoader.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        Scene scene = new Scene(parent);
+        Scene scene = null;
+        Class parentClass = parent.getClass();
+        if(parentClass.equals(Label.class)) {
+            Label label = (Label) parent;
+            if(label.getText().isEmpty()) {
+                scene = new Scene(parent, 100, 100);
+            }
+
+        }
+        else {
+            scene = new Scene(parent);
+        }
         primaryStage.close();
         primaryStage.setScene(scene);
         primaryStage.show();

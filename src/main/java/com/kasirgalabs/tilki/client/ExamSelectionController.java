@@ -19,7 +19,6 @@ package com.kasirgalabs.tilki.client;
 import com.kasirgalabs.tilki.utils.Exam;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Worker;
@@ -38,8 +37,6 @@ public class ExamSelectionController implements Initializable {
     private Label choiceBoxLabel;
     @FXML
     private ComboBox<String> comboBox;
-    @FXML
-    private Label connectionStatusLabel;
     @FXML
     private Button examDescriptionButton;
     @FXML
@@ -143,25 +140,7 @@ public class ExamSelectionController implements Initializable {
 
     private void initGetExamsService() {
         examService = new TilkiService<>("GetExams");
-        examService.stateProperty().addListener((observable, oldValue, newValue) -> {
-            connectionStatusLabel.setText("Bağlanıyor.");
-            connectionStatusLabel.setId("infoLabel");
-            if(newValue == Worker.State.CANCELLED || newValue == Worker.State.FAILED) {
-                connectionStatusLabel.setText("Bağlanamadı.");
-                connectionStatusLabel.setId("errorLabel");
-            }
-            else if(newValue == Worker.State.SUCCEEDED) {
-                connectionStatusLabel.setText("Bağlandı.");
-                connectionStatusLabel.setId("successLabel");
-                exams = examService.getValue();
-                ArrayList<String> examList = new ArrayList<>();
-                for(Exam exam : exams) {
-                    examList.add(exam.getName());
-                }
-                comboBox.setItems(FXCollections.observableArrayList(examList));
-                comboBox.getSelectionModel().selectFirst();
-            }
-        });
+        examService.stateProperty().addListener(ConnectionStatusLabelController.getListener());
     }
 
     private void initIdPasswordFieldPropertyListener() {
@@ -200,7 +179,6 @@ public class ExamSelectionController implements Initializable {
         userIdLabel.setText(User.getId());
         userExamLabel.setText("");
         refreshButton.setText("Yenile");
-        connectionStatusLabel.setText("");
         choiceBoxLabel.setText("Sınav Listesi");
         examDescriptionButton.setText("Sınav Açıklaması");
         passwordFieldLabel.setText("Gözetmen Şifresi");
