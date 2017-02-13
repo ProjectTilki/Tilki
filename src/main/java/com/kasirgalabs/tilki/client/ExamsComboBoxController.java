@@ -47,6 +47,7 @@ public class ExamsComboBoxController implements Initializable, Observer {
     public void update(Observable o, Object arg) {
         List<String> examList = examManager.availableExamNames();
         comboBox.setItems(FXCollections.observableArrayList(examList));
+        comboBox.getSelectionModel().selectFirst();
     }
 
     private class SelectedExamListener implements ChangeListener<String> {

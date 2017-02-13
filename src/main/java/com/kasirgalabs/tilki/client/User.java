@@ -54,7 +54,6 @@ public class User extends Observable {
         User.id = id;
         setChanged();
         notifyObservers();
-
     }
 
     public String getName() {
@@ -65,7 +64,6 @@ public class User extends Observable {
         User.name = name;
         setChanged();
         notifyObservers();
-
     }
 
     public String getSurname() {
@@ -76,6 +74,5 @@ public class User extends Observable {
         User.surname = surname;
         setChanged();
         notifyObservers();
-
     }
 }

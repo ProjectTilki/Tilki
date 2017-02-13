@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -39,7 +40,7 @@ public class ExamPasswordStatusLabelController implements Initializable, Observe
     @Override
     public void update(Observable o, Object arg) {
         label.setText("");
-        if(!passwordManager.isCorrect()) {
+        if(passwordManager.getState() == Worker.State.SUCCEEDED && !passwordManager.isCorrect()) {
             label.setText("Şifre yanlış!");
         }
     }

@@ -57,7 +57,7 @@
                 </HBox>
                 <Label fx:id="choiceBoxLabel" text="Label" />
                 <fx:include source="ExamsComboBox.fxml" />
-                <fx:include disable="true" source="ExamDescriptionButton.fxml" />
+                <fx:include source="ExamDescriptionButton.fxml" disable="true" />
             </children>
             <opaqueInsets>
                 <Insets />
@@ -71,7 +71,7 @@
                 <fx:include source="ExamPasswordStatusLabel.fxml" id="errorLabel" />
             </children>
         </VBox>
-        <fx:include source="ExamSelectionSubmitButton.fxml" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+        <fx:include source="ExamSelectionSubmitButton.fxml" disable="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
     </children>
     <opaqueInsets>
         <Insets />

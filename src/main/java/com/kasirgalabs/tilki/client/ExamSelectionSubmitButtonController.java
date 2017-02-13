@@ -20,6 +20,8 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,12 +31,25 @@ public class ExamSelectionSubmitButtonController implements Initializable, Obser
     @FXML
     private Button button;
     private PasswordManager passwordManager;
+    private ExamManager examManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         button.setText("Sınavı Başlat");
+        examManager = ExamManager.getInstance();
         passwordManager = PasswordManager.getInstance();
         passwordManager.addObserver(this);
+
+        User user = User.getInstance();
+        user.addObserver(new Observer() {
+            @Override
+            public void update(Observable o, Object arg) {
+                button.setDisable(false);
+                if(user.getExam() == null) {
+                    button.setDisable(true);
+                }
+            }
+        });
     }
 
     @FXML
@@ -44,6 +59,12 @@ public class ExamSelectionSubmitButtonController implements Initializable, Obser
 
     @Override
     public void update(Observable o, Object arg) {
+        State state = passwordManager.getState();
+        if(state == Worker.State.CANCELLED || state == Worker.State.FAILED) {
+            examManager.fetchExams();
+            return;
+        }
+        User user = User.getInstance();
         if(passwordManager.isCorrect()) {
             SceneLoader.loadScene("FXML");
         }
