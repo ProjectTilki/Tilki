@@ -17,29 +17,30 @@
 package com.kasirgalabs.tilki.client;
 
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 
-public class NameTextFieldController implements Initializable {
+public class ExamPasswordStatusLabelController implements Initializable, Observer {
     @FXML
-    private TextField textField;
+    private Label label;
+    private PasswordManager passwordManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        textField.setText("");
-        NameListener nameListener = new NameListener();
-        textField.textProperty().addListener(nameListener);
+        label.setText("");
+        passwordManager = PasswordManager.getInstance();
+        passwordManager.addObserver(this);
     }
 
-    private class NameListener implements ChangeListener<String> {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            User user = User.getInstance();
-            user.setName(newValue.trim());
+    @Override
+    public void update(Observable o, Object arg) {
+        label.setText("");
+        if(!passwordManager.isCorrect()) {
+            label.setText("Şifre yanlış!");
         }
     }
 }

@@ -22,7 +22,6 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 public final class TilkiTimer extends Observable {
-
     private static String elapsedTime = "00:00:00";
     private static long initialTime = 0;
     private static TilkiTimer instance;

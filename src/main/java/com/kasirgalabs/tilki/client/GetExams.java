@@ -24,10 +24,6 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import javafx.concurrent.Task;
 
-/**
- *
- * @author rootg
- */
 public class GetExams extends Task<Exam[]> {
 
     @Override
@@ -48,7 +44,8 @@ public class GetExams extends Task<Exam[]> {
         } catch(IOException | ClassNotFoundException ex) {
             //Logger.getLogger(GetExams.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
-        } finally {
+        }
+        finally {
             if(socket != null) {
                 socket.close();
             }

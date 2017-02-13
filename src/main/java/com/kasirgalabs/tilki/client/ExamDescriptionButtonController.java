@@ -16,30 +16,42 @@
  */
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 
-public class NameTextFieldController implements Initializable {
+public class ExamDescriptionButtonController implements Initializable, Observer {
     @FXML
-    private TextField textField;
+    private Button button;
+    private User user;
+    private ExamDescriptionStage examDescription;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        textField.setText("");
-        NameListener nameListener = new NameListener();
-        textField.textProperty().addListener(nameListener);
+        user = User.getInstance();
+        button.setText("Sınav Açıklaması");
+        user.addObserver(this);
+        examDescription = ExamDescriptionStage.getInstance();
+
     }
 
-    private class NameListener implements ChangeListener<String> {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            User user = User.getInstance();
-            user.setName(newValue.trim());
+    @Override
+    public void update(Observable o, Object arg) {
+        button.setDisable(false);
+        Exam exam = user.getExam();
+        if(exam == null) {
+            button.setDisable(true);
         }
+    }
+
+    @FXML
+    private void onAction(ActionEvent event) {
+        examDescription.show();
     }
 }

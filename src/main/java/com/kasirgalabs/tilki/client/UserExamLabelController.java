@@ -16,30 +16,37 @@
  */
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 
-public class NameTextFieldController implements Initializable {
+public class UserExamLabelController implements Initializable, Observer {
     @FXML
-    private TextField textField;
+    private Label label;
+    private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        textField.setText("");
-        NameListener nameListener = new NameListener();
-        textField.textProperty().addListener(nameListener);
+        user = User.getInstance();
+        user.addObserver(this);
+        label.setText("");
+        label.setTooltip(TilkiTooltip.getCustomTooltip());
     }
 
-    private class NameListener implements ChangeListener<String> {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            User user = User.getInstance();
-            user.setName(newValue.trim());
+    @Override
+    public void update(Observable o, Object arg) {
+        Exam exam = user.getExam();
+        label.getTooltip().setText("");
+        label.setText("");
+        if(exam == null) {
+            return;
         }
+        label.getTooltip().setText(exam.getName());
+        label.setText(exam.getName());
     }
 }

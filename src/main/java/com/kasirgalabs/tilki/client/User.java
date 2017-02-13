@@ -17,8 +17,10 @@
 package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
+import java.util.Observable;
 
-public final class User {
+public class User extends Observable {
+    private static User instance;
     private static Exam exam;
     private static String id = "";
     private static String name = "";
@@ -27,35 +29,53 @@ public final class User {
     private User() {
     }
 
-    public static Exam getExam() {
+    public static User getInstance() {
+        if(instance == null) {
+            instance = new User();
+        }
+        return instance;
+    }
+
+    public Exam getExam() {
         return exam;
     }
 
-    public static void setExam(Exam exam) {
+    public void setExam(Exam exam) {
         User.exam = exam;
+        setChanged();
+        notifyObservers();
     }
 
-    public static String getId() {
+    public String getId() {
         return id;
     }
 
-    public static void setId(String id) {
+    public void setId(String id) {
         User.id = id;
+        setChanged();
+        notifyObservers();
+
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setName(String name) {
+    public void setName(String name) {
         User.name = name;
+        setChanged();
+        notifyObservers();
+
     }
 
-    public static String getSurname() {
+    public String getSurname() {
         return surname;
     }
 
-    public static void setSurname(String surname) {
+    public void setSurname(String surname) {
         User.surname = surname;
+        setChanged();
+        notifyObservers();
+
     }
 }

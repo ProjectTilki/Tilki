@@ -26,124 +26,126 @@ import org.junit.Test;
 
 public class UserTest {
 
+    private User user = User.getInstance();
+
     @Before
     public void setUp() {
-        User.setName(null);
-        User.setSurname(null);
-        User.setId(null);
-        User.setExam(null);
+        user.setName(null);
+        user.setSurname(null);
+        user.setId(null);
+        user.setExam(null);
     }
 
     /**
-     * Test of setExam And getExam method, of class User.
+     * Test of setExam And getExam method, of class user.
      */
     @Test
     public void testSetExamAndGetExam() {
-        assertNull(null, User.getExam());
+        assertNull(null, user.getExam());
 
-        User.setExam(new Exam(""));
-        assertEquals(new Exam(""), User.getExam());
+        user.setExam(new Exam(""));
+        assertEquals(new Exam(""), user.getExam());
 
-        User.setExam(new Exam("Exam0"));
-        assertNotSame(new Exam("Exam1"), User.getExam());
+        user.setExam(new Exam("Exam0"));
+        assertNotSame(new Exam("Exam1"), user.getExam());
 
-        User.setExam(new Exam("  1  "));
-        assertEquals(new Exam("  1  "), User.getExam());
+        user.setExam(new Exam("  1  "));
+        assertEquals(new Exam("  1  "), user.getExam());
 
-        User.setExam(new Exam(null, null, null));
-        assertNotSame(new Exam(null, null, null), User.getExam());
+        user.setExam(new Exam(null, null, null));
+        assertNotSame(new Exam(null, null, null), user.getExam());
 
-        User.setExam(new Exam("", ""));
-        assertEquals(new Exam("", ""), User.getExam());
+        user.setExam(new Exam("", ""));
+        assertEquals(new Exam("", ""), user.getExam());
 
-        User.setExam(new Exam("NAME", "DESCRIPTION___0"));
-        assertEquals(new Exam("NAME", "DESCRIPTION___1"), User.getExam());
+        user.setExam(new Exam("NAME", "DESCRIPTION___0"));
+        assertEquals(new Exam("NAME", "DESCRIPTION___1"), user.getExam());
 
-        User.setExam(new Exam(null, null, new char[]{'p', 'a', 's', 's'}));
-        assertNotSame(new Exam(null, null, new char[]{'p', 'a', 's', 's'}), User.getExam());
+        user.setExam(new Exam(null, null, new char[]{'p', 'a', 's', 's'}));
+        assertNotSame(new Exam(null, null, new char[]{'p', 'a', 's', 's'}), user.getExam());
 
-        User.setExam(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}));
-        assertEquals(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}), User.getExam());
+        user.setExam(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}));
+        assertEquals(new Exam("NAME", null, new char[]{'p', 'a', 's', 's'}), user.getExam());
 
-        User.setExam(new Exam("__0__", null, null));
-        assertNotSame(new Exam("__1__", null, null), User.getExam());
+        user.setExam(new Exam("__0__", null, null));
+        assertNotSame(new Exam("__1__", null, null), user.getExam());
 
-        User.setExam(new Exam(null, "DESCRIPTION", new char[]{'p', 's', 's'}));
-        assertNotSame(new Exam(null, "DESCRIPTION", new char[]{'p', 's', 's'}), User.getExam());
+        user.setExam(new Exam(null, "DESCRIPTION", new char[]{'p', 's', 's'}));
+        assertNotSame(new Exam(null, "DESCRIPTION", new char[]{'p', 's', 's'}), user.getExam());
     }
 
     /**
-     * Test of setId and getId methods, of class User.
+     * Test of setId and getId methods, of class user.
      */
     @Test
     public void testSetIdAndGetId() {
-        assertNull(null, User.getId());
+        assertNull(null, user.getId());
 
-        User.setId("1234");
-        assertEquals("1234", User.getId());
+        user.setId("1234");
+        assertEquals("1234", user.getId());
 
-        User.setId("");
-        assertEquals("", User.getId());
+        user.setId("");
+        assertEquals("", user.getId());
 
-        User.setId("ID Without Number");
-        assertEquals("ID Without Number", User.getId());
+        user.setId("ID Without Number");
+        assertEquals("ID Without Number", user.getId());
 
-        User.setId("1234567890");
-        assertEquals("1234567890", User.getId());
+        user.setId("1234567890");
+        assertEquals("1234567890", user.getId());
 
-        User.setId("\n\t ");
-        assertEquals("\n\t ", User.getId());
+        user.setId("\n\t ");
+        assertEquals("\n\t ", user.getId());
     }
 
     /**
-     * Test of setName and getName methods, of class User.
+     * Test of setName and getName methods, of class user.
      */
     @Test
     public void testSetNameAndGetName() {
-        assertNull(null, User.getName());
+        assertNull(null, user.getName());
 
-        User.setName("Name");
-        assertEquals("Name", User.getName());
+        user.setName("Name");
+        assertEquals("Name", user.getName());
 
-        User.setName("");
-        assertEquals("", User.getName());
+        user.setName("");
+        assertEquals("", user.getName());
 
-        User.setName("Name With Space");
-        assertEquals("Name With Space", User.getName());
+        user.setName("Name With Space");
+        assertEquals("Name With Space", user.getName());
 
-        User.setName("Name With Trailing Whitespace\n\t ");
-        assertEquals("Name With Trailing Whitespace\n\t ", User.getName());
+        user.setName("Name With Trailing Whitespace\n\t ");
+        assertEquals("Name With Trailing Whitespace\n\t ", user.getName());
 
-        User.setName("\n\t Whitespace Before Name");
-        assertEquals("\n\t Whitespace Before Name", User.getName());
+        user.setName("\n\t Whitespace Before Name");
+        assertEquals("\n\t Whitespace Before Name", user.getName());
 
-        User.setName("\n\t Whitespace Before and After Name\n\t ");
-        assertEquals("\n\t Whitespace Before and After Name\n\t ", User.getName());
+        user.setName("\n\t Whitespace Before and After Name\n\t ");
+        assertEquals("\n\t Whitespace Before and After Name\n\t ", user.getName());
     }
 
     /**
-     * Test of setSurname and getSurname methods, of class User.
+     * Test of setSurname and getSurname methods, of class user.
      */
     @Test
     public void testSetSurnameAndGetSurname() {
-        assertNull(null, User.getSurname());
+        assertNull(null, user.getSurname());
 
-        User.setSurname("Surname");
-        assertEquals("Surname", User.getSurname());
+        user.setSurname("Surname");
+        assertEquals("Surname", user.getSurname());
 
-        User.setSurname("");
-        assertEquals("", User.getSurname());
+        user.setSurname("");
+        assertEquals("", user.getSurname());
 
-        User.setSurname("Name With Space");
-        assertEquals("Name With Space", User.getSurname());
+        user.setSurname("Name With Space");
+        assertEquals("Name With Space", user.getSurname());
 
-        User.setSurname("Surname With Trailing Whitespace\n\t ");
-        assertEquals("Surname With Trailing Whitespace\n\t ", User.getSurname());
+        user.setSurname("Surname With Trailing Whitespace\n\t ");
+        assertEquals("Surname With Trailing Whitespace\n\t ", user.getSurname());
 
-        User.setSurname("\n\t Whitespace Before Surname");
-        assertEquals("\n\t Whitespace Before Surname", User.getSurname());
+        user.setSurname("\n\t Whitespace Before Surname");
+        assertEquals("\n\t Whitespace Before Surname", user.getSurname());
 
-        User.setSurname("\n\t Whitespace Before and After Surname\n\t ");
-        assertEquals("\n\t Whitespace Before and After Surname\n\t ", User.getSurname());
+        user.setSurname("\n\t Whitespace Before and After Surname\n\t ");
+        assertEquals("\n\t Whitespace Before and After Surname\n\t ", user.getSurname());
     }
 }

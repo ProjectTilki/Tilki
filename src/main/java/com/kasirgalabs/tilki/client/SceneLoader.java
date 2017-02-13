@@ -26,7 +26,6 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public final class SceneLoader {
-
     private static Stage primaryStage;
 
     private SceneLoader() {

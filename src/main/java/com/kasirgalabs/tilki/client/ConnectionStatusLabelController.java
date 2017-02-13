@@ -17,49 +17,46 @@ package com.kasirgalabs.tilki.client;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class ConnectionStatusLabelController implements Initializable {
+public class ConnectionStatusLabelController implements Initializable, Observer {
     @FXML
     private Label label;
-    private static ChangeListener<State> listener;
+    private ExamManager examManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         label.setText("");
-        listener = new ConnectionStatusStatusListener();
+        examManager = ExamManager.getInstance();
+        examManager.addObserver(this);
     }
 
-    public static ChangeListener<State> getListener() {
-        return listener;
-    }
-
-    private class ConnectionStatusStatusListener implements ChangeListener<State> {
-        @Override
-        public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-            switch(newValue) {
-                case RUNNING:
-                    label.setText("Bağlanıyor.");
-                    label.setId("infoLabel");
-                    break;
-                case SUCCEEDED:
-                    label.setText("Bağlandı.");
-                    label.setId("successLabel");
-                    break;
-                case CANCELLED:
-                case FAILED:
-                    label.setText("Bağlanamadı.");
-                    label.setId("errorLabel");
-                    break;
-                default:
-                    break;
-            }
+    @Override
+    public void update(Observable o, Object arg) {
+        State state = examManager.getState();
+        switch(state) {
+            case RUNNING:
+                label.setText("Bağlanıyor.");
+                label.setId("infoLabel");
+                break;
+            case SUCCEEDED:
+                label.setText("Bağlandı.");
+                label.setId("successLabel");
+                break;
+            case CANCELLED:
+            case FAILED:
+                label.setText("Bağlanamadı.");
+                label.setId("errorLabel");
+                break;
+            default:
+                break;
         }
     }
+
 }

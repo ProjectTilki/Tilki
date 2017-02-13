@@ -40,7 +40,8 @@ public class IdTextFieldController implements Initializable {
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
             String numbers = newValue.replaceAll("[^\\d]", "");
             textField.setText(numbers);
-            User.setId(numbers);
+            User user = User.getInstance();
+            user.setId(numbers);
         }
     }
 }

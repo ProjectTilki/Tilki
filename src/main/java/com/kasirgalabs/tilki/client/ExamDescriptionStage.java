@@ -25,9 +25,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ExamDescriptionStage extends Stage {
-
     private static ExamDescriptionStage instance = null;
-    private final ExamDescriptionController controller;
 
     private ExamDescriptionStage() {
         this.setTitle("Tilki");
@@ -41,7 +39,6 @@ public class ExamDescriptionStage extends Stage {
         }
         Scene scene = new Scene(examDescription, 250, 250);
         this.setScene(scene);
-        controller = ExamDescriptionController.getController();
     }
 
     public static ExamDescriptionStage getInstance() {
@@ -49,9 +46,5 @@ public class ExamDescriptionStage extends Stage {
             instance = new ExamDescriptionStage();
         }
         return instance;
-    }
-
-    public void updateExam() {
-        controller.updateExam();
     }
 }

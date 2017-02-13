@@ -16,44 +16,40 @@
  */
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
-public class ExamDescriptionController implements Initializable {
-
-    private static ExamDescriptionController controller;
-
+public class ExamDescriptionController implements Initializable, Observer {
     @FXML
     private Label examNameLabel;
     @FXML
     private TextArea examDescriptionTextArea;
+    private User user;
 
-    public static ExamDescriptionController getController() {
-        return controller;
-    }
-
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        controller = this;
+        user = User.getInstance();
+        user.addObserver(this);
         examNameLabel.setText("");
         examDescriptionTextArea.setText("");
     }
 
-    public void updateExam() {
-        if(User.getExam() == null) {
+    @Override
+    public void update(Observable o, Object arg) {
+        examNameLabel.setText("");
+        examDescriptionTextArea.setText("");
+        Exam exam = user.getExam();
+        if(exam == null) {
             return;
         }
-        examNameLabel.setText(User.getExam().getName());
-        examDescriptionTextArea.setText(User.getExam().getDescription());
+        examNameLabel.setText(exam.getName());
+        examDescriptionTextArea.setText(exam.getDescription());
     }
 }

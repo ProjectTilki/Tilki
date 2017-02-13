@@ -16,29 +16,17 @@
  */
 package com.kasirgalabs.tilki.client;
 
-import com.kasirgalabs.tilki.utils.Exam;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 
 public class ExamSelectionController implements Initializable {
-
-    private static ExamSelectionController controller;
     @FXML
     private Label choiceBoxLabel;
-    @FXML
-    private ComboBox<String> comboBox;
-    @FXML
-    private Button examDescriptionButton;
     @FXML
     private Label examLabel;
     @FXML
@@ -46,19 +34,11 @@ public class ExamSelectionController implements Initializable {
     @FXML
     private Label nameLabel;
     @FXML
-    private PasswordField passwordField;
-    @FXML
     private Label passwordFieldLabel;
-    @FXML
-    private Label passwordFieldStatusLabel;
     @FXML
     private Button refreshButton;
     @FXML
-    private Button submitButton;
-    @FXML
     private Label surnameLabel;
-    @FXML
-    private Label userExamLabel;
     @FXML
     private Label userIdLabel;
     @FXML
@@ -66,107 +46,13 @@ public class ExamSelectionController implements Initializable {
     @FXML
     private Label userSurnameLabel;
 
-    private TilkiService<Boolean> passwordService;
-    private TilkiService<Exam[]> examService;
-    private Exam[] exams;
+    private User user;
 
-    public static ExamSelectionController getController() {
-        return controller;
-    }
-
-    public void getExams() {
-        resetFields();
-        if(examService.isRunning()) {
-            return;
-        }
-        examService.reset();
-        examService.start();
-    }
-
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        controller = this;
+        user = User.getInstance();
         initTexts();
-        initIdPasswordFieldPropertyListener();
         initTooltips();
-        initComboBoxSelectedItemListener();
-        initGetExamsService();
-        initKeyVerifyRefactoredService();
-    }
-
-    private void changeScene() {
-        SceneLoader.loadScene("FXML");
-    }
-
-    @FXML
-    private void examDescriptionButtonOnAction(ActionEvent event) throws IOException {
-        ExamDescriptionStage examDescription = ExamDescriptionStage.getInstance();
-        examDescription.updateExam();
-        examDescription.show();
-    }
-
-    private String findExamDesciption(String examName) {
-        if(exams == null) {
-            return null;
-        }
-        for(Exam exam : exams) {
-            if(exam.getName().equals(examName)) {
-                return exam.getDescription();
-            }
-        }
-        return null;
-    }
-
-    private void initComboBoxSelectedItemListener() {
-        comboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            userExamLabel.getTooltip().setText(newValue);
-            User.setExam(new Exam(newValue, findExamDesciption(newValue)));
-            if(newValue != null && !newValue.isEmpty()) {
-                setFields();
-            }
-            else {
-                resetFields();
-            }
-            ExamDescriptionStage examDescription = ExamDescriptionStage.getInstance();
-            examDescription.updateExam();
-        });
-    }
-
-    private void initGetExamsService() {
-        examService = new TilkiService<>("GetExams");
-        examService.stateProperty().addListener(ConnectionStatusLabelController.getListener());
-    }
-
-    private void initIdPasswordFieldPropertyListener() {
-        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue.isEmpty()) {
-                submitButton.setDisable(false);
-                return;
-            }
-            submitButton.setDisable(true);
-        });
-    }
-
-    private void initKeyVerifyRefactoredService() {
-        passwordService = new TilkiService<>("KeyVerifyRefactored");
-        passwordService.stateProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue == Worker.State.CANCELLED || newValue == Worker.State.FAILED) {
-                getExams();
-            }
-            else if(newValue == Worker.State.SUCCEEDED) {
-                if(passwordService.getValue()) {
-                    changeScene();
-                    return;
-                }
-                passwordFieldStatusLabel.setText("Şifre yanlış.");
-            }
-        });
     }
 
     private void initTexts() {
@@ -174,54 +60,23 @@ public class ExamSelectionController implements Initializable {
         surnameLabel.setText("Soyad: ");
         idLabel.setText("Numara: ");
         examLabel.setText("Sınav: ");
-        userNameLabel.setText(User.getName());
-        userSurnameLabel.setText(User.getSurname());
-        userIdLabel.setText(User.getId());
-        userExamLabel.setText("");
+        userNameLabel.setText(user.getName());
+        userSurnameLabel.setText(user.getSurname());
+        userIdLabel.setText(user.getId());
         refreshButton.setText("Yenile");
         choiceBoxLabel.setText("Sınav Listesi");
-        examDescriptionButton.setText("Sınav Açıklaması");
         passwordFieldLabel.setText("Gözetmen Şifresi");
-        passwordFieldStatusLabel.setText("");
-        submitButton.setText("Sınavı Başlat");
     }
 
     private void initTooltips() {
-        userNameLabel.setTooltip(TilkiTooltip.getCustomTooltip(User.getName()));
-        userSurnameLabel.setTooltip(TilkiTooltip.getCustomTooltip(User.getSurname()));
-        userIdLabel.setTooltip(TilkiTooltip.getCustomTooltip(User.getId()));
-        userExamLabel.setTooltip(TilkiTooltip.getCustomTooltip(null));
+        userNameLabel.setTooltip(TilkiTooltip.getCustomTooltip(user.getName()));
+        userSurnameLabel.setTooltip(TilkiTooltip.getCustomTooltip(user.getSurname()));
+        userIdLabel.setTooltip(TilkiTooltip.getCustomTooltip(user.getId()));
     }
 
     @FXML
     private void refreshButtonOnAction(ActionEvent event) {
-        getExams();
+        ExamManager examManager = ExamManager.getInstance();
+        examManager.fetchExams();
     }
-
-    private void resetFields() {
-        comboBox.setItems(FXCollections.observableArrayList(new String[]{}));
-        userExamLabel.setText("");
-        userExamLabel.getTooltip().setText("");
-        passwordField.clear();
-        passwordField.setDisable(true);
-        examDescriptionButton.setDisable(true);
-    }
-
-    private void setFields() {
-        userExamLabel.setText(User.getExam().getName());
-        userExamLabel.getTooltip().setText(User.getExam().getName());
-        passwordField.setDisable(false);
-        examDescriptionButton.setDisable(false);
-    }
-
-    @FXML
-    private void submitButtonOnAction(ActionEvent event) {
-        User.getExam().setKey(passwordField.getText().toCharArray());
-        if(passwordService.isRunning()) {
-            return;
-        }
-        passwordService.reset();
-        passwordService.start();
-    }
-
 }

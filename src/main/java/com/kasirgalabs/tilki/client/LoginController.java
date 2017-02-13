@@ -24,11 +24,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-/**
- * FXML Controller class
- *
- * @author rootg
- */
 public class LoginController implements Initializable {
     @FXML
     private Label errorLabel;
@@ -56,9 +51,10 @@ public class LoginController implements Initializable {
     }
 
     private boolean areFieldsValid() {
-        String name = User.getName();
-        String surname = User.getSurname();
-        String id = User.getId();
+        User user = User.getInstance();
+        String name = user.getName();
+        String surname = user.getSurname();
+        String id = user.getId();
         if(name.isEmpty()) {
             errorLabel.setText("Ad kısmı boş.");
             return false;
@@ -76,7 +72,6 @@ public class LoginController implements Initializable {
 
     private void changeScene() {
         SceneLoader.loadScene("ExamSelection");
-        ExamSelectionController.getController().getExams();
     }
 
     private void initTexts() {

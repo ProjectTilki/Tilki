@@ -36,7 +36,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 
 public class FXMLController implements Initializable {
-
     @FXML
     private Label elapsedTimeLabel;
     @FXML
@@ -63,12 +62,6 @@ public class FXMLController implements Initializable {
     @FXML
     private Label timeLabel;
 
-    /**
-     * Initializes the controller class.
-     *
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initTexts();
@@ -89,7 +82,6 @@ public class FXMLController implements Initializable {
     @FXML
     private void examDescriptionButtonOnAction(ActionEvent event) {
         ExamDescriptionStage examDescription = ExamDescriptionStage.getInstance();
-        examDescription.updateExam();
         examDescription.show();
     }
 
@@ -186,7 +178,8 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void submitButtonOnAction(ActionEvent event) {
-        User.getExam().setKey(passwordField.getText().toCharArray());
+        User user = User.getInstance();
+        user.getExam().setKey(passwordField.getText().toCharArray());
         if(passwordService.isRunning()) {
             return;
         }

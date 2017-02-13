@@ -18,10 +18,6 @@ package com.kasirgalabs.tilki.client;
 
 import javafx.concurrent.Task;
 
-/**
- *
- * @author rootg
- */
 public class TaskFactory<V> {
 
     @SuppressWarnings("unchecked")

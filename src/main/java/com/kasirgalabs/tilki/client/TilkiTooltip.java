@@ -27,8 +27,6 @@ import javafx.util.Duration;
 /**
  * TilkiTooltip is a utility class for creating custom tooltips.
  * Such as a tooltip with short delays.
- *
- * @author rootg
  */
 public final class TilkiTooltip {
     public static final double DEFAULT_DURATION = 100.0;
@@ -61,5 +59,9 @@ public final class TilkiTooltip {
             LOG.log(Level.SEVERE, null, ex);
         }
         return tooltip;
+    }
+
+    public static Tooltip getCustomTooltip() {
+        return getCustomTooltip("");
     }
 }

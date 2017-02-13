@@ -25,7 +25,8 @@ public class KeyVerifyRefactored extends Task<Boolean> {
             // Send exam name.
             out.writeUTF("deneme");
             // Send the typed key.
-            for(char c : User.getExam().getKey()) {
+            User user = User.getInstance();
+            for(char c : user.getExam().getKey()) {
                 out.writeChar(c);
             }
             out.flush();
@@ -34,7 +35,8 @@ public class KeyVerifyRefactored extends Task<Boolean> {
         } catch(IOException ex) {
             //Logger.getLogger(KeyVerifyRefactored.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
-        } finally {
+        }
+        finally {
             if(socket != null) {
                 socket.close();
             }

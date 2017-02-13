@@ -20,8 +20,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 public class TilkiService<V> extends Service<V> {
-
-    private String taskName;
+    private final String taskName;
 
     public TilkiService(String taskName) {
         this.taskName = taskName;

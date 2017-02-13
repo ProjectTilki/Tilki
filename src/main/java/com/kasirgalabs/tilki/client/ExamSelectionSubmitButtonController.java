@@ -17,29 +17,35 @@
 package com.kasirgalabs.tilki.client;
 
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 
-public class NameTextFieldController implements Initializable {
+public class ExamSelectionSubmitButtonController implements Initializable, Observer {
     @FXML
-    private TextField textField;
+    private Button button;
+    private PasswordManager passwordManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        textField.setText("");
-        NameListener nameListener = new NameListener();
-        textField.textProperty().addListener(nameListener);
+        button.setText("Sınavı Başlat");
+        passwordManager = PasswordManager.getInstance();
+        passwordManager.addObserver(this);
     }
 
-    private class NameListener implements ChangeListener<String> {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            User user = User.getInstance();
-            user.setName(newValue.trim());
+    @FXML
+    private void onAction(ActionEvent event) {
+        passwordManager.checkPassword();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(passwordManager.isCorrect()) {
+            SceneLoader.loadScene("FXML");
         }
     }
 }

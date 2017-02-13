@@ -16,30 +16,44 @@
  */
 package com.kasirgalabs.tilki.client;
 
+import com.kasirgalabs.tilki.utils.Exam;
 import java.net.URL;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 
-public class NameTextFieldController implements Initializable {
+public class ExamsComboBoxController implements Initializable, Observer {
     @FXML
-    private TextField textField;
+    private ComboBox<String> comboBox;
+    private final ExamManager examManager = ExamManager.getInstance();
+    private User user;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        textField.setText("");
-        NameListener nameListener = new NameListener();
-        textField.textProperty().addListener(nameListener);
+        user = User.getInstance();
+        comboBox.setItems(FXCollections.observableArrayList(new String[]{}));
+        comboBox.getSelectionModel().selectedItemProperty().addListener(new SelectedExamListener());
+        examManager.addObserver(this);
     }
 
-    private class NameListener implements ChangeListener<String> {
+    @Override
+    public void update(Observable o, Object arg) {
+        List<String> examList = examManager.availableExamNames();
+        comboBox.setItems(FXCollections.observableArrayList(examList));
+    }
+
+    private class SelectedExamListener implements ChangeListener<String> {
         @Override
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            User user = User.getInstance();
-            user.setName(newValue.trim());
+            Exam exam = examManager.getExamByName(newValue);
+            user.setExam(exam);
         }
     }
 }
