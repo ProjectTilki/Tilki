@@ -52,7 +52,8 @@ public class ExamsComboBoxController implements Initializable, Observer {
 
     private class SelectedExamListener implements ChangeListener<String> {
         @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        public void changed(ObservableValue<? extends String> observable, String oldValue,
+                            String newValue) {
             Exam exam = examManager.getExamByName(newValue);
             user.setExam(exam);
         }

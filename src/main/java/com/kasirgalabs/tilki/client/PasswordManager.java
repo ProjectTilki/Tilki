@@ -65,7 +65,8 @@ public class PasswordManager extends Observable {
 
     private static class PasswordServiceListener implements ChangeListener<State> {
         @Override
-        public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+        public void changed(ObservableValue<? extends State> observable, State oldValue,
+                            State newValue) {
             state = newValue;
             correct = false;
             if(newValue == Worker.State.SUCCEEDED) {

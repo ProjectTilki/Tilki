@@ -83,7 +83,8 @@ public final class ExamManager extends Observable {
 
     private static class ExamServiceListener implements ChangeListener<State> {
         @Override
-        public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
+        public void changed(ObservableValue<? extends State> observable, State oldValue,
+                            State newValue) {
             state = newValue;
             exams = new Exam[0];
             if(newValue == Worker.State.SUCCEEDED) {

@@ -37,7 +37,8 @@ public class IdTextFieldController implements Initializable {
 
     private class IdListener implements ChangeListener<String> {
         @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        public void changed(ObservableValue<? extends String> observable, String oldValue,
+                            String newValue) {
             String numbers = newValue.replaceAll("[^\\d]", "");
             textField.setText(numbers);
             User user = User.getInstance();

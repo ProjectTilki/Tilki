@@ -37,7 +37,8 @@ public class SurnameTextFieldController implements Initializable {
 
     private class SurnameListener implements ChangeListener<String> {
         @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        public void changed(ObservableValue<? extends String> observable, String oldValue,
+                            String newValue) {
             User user = User.getInstance();
             user.setSurname(newValue.trim());
         }

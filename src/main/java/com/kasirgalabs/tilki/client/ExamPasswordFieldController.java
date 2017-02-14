@@ -49,7 +49,8 @@ public class ExamPasswordFieldController implements Initializable, Observer {
 
     private class PasswordListener implements ChangeListener<String> {
         @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        public void changed(ObservableValue<? extends String> observable, String oldValue,
+                            String newValue) {
             if(user.getExam() == null) {
                 return;
             }

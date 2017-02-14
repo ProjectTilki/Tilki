@@ -37,7 +37,8 @@ public class NameTextFieldController implements Initializable {
 
     private class NameListener implements ChangeListener<String> {
         @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+        public void changed(ObservableValue<? extends String> observable, String oldValue,
+                            String newValue) {
             User user = User.getInstance();
             user.setName(newValue.trim());
         }

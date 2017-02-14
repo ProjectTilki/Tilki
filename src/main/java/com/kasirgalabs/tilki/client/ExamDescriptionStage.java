@@ -33,7 +33,8 @@ public class ExamDescriptionStage extends Stage {
         this.setY(0);
         Parent examDescription = null;
         try {
-            examDescription = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/ExamDescription.fxml"));
+            ClassLoader classLoader = getClass().getClassLoader();
+            examDescription = FXMLLoader.load(classLoader.getResource("fxml/ExamDescription.fxml"));
         } catch(IOException ex) {
             Logger.getLogger(ExamDescriptionStage.class.getName()).log(Level.SEVERE, null, ex);
         }
