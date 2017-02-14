@@ -2,7 +2,8 @@
 
 Tilki is a Java based desktop app which planned to be used on exams. During the exam, the program takes <br>
 snapshots at given intervals and merges the snapshots together, finally outputs a video. <br>
-At the end of the exam, client chooses the files to upload and uploads them using the gui.(The video uploads automatically with the files.) <br>
+At the end of the exam, client chooses the files to upload and uploads them using the GUI. <br>
+The video uploads automatically with the files. <br>
 It's also possible to manage multiple exams at a same time with Tilki. <br> <br>
 
 ##Requirements
@@ -16,7 +17,7 @@ To create, delete or edit exams; use FoxServerSetup   <br>
 Server IP can be edited from MainClient(Defaultly localhost). <br> <br> 
 
 ##User Manual
-<b>Turkish:</b>http://www.kasirgalabs.com/wp-content/uploads/2017/02/Tilki_Kullanim_Rehberi.pdf <br> <br>
+<b>Turkish: </b>http://www.kasirgalabs.com/wp-content/uploads/2017/02/Tilki_Kullanim_Rehberi.pdf <br> <br>
 
 ##Licences
 <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
