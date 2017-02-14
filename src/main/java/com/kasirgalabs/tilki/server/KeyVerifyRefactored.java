@@ -28,16 +28,14 @@ public class KeyVerifyRefactored extends DefaultService {
             }
             char[] receivedKey = readChars(key.length);
             out.writeBoolean(Arrays.equals(key, receivedKey));
-        }
-        catch(EOFException ex) {
+        } catch(EOFException ex) {
             // We got this exception beacuse we tried to read more data
             // than user send. It's okay to ignore this one since user
             // does not know how many characters key has. (S)he may tried to send
             // shorter key. It means that orginal key length did not
             // match with the one user send. So do not accept.
             out.writeBoolean(false);
-        }
-        catch(IOException ex) {
+        } catch(IOException ex) {
             out.writeBoolean(false);
             throw ex;
         }

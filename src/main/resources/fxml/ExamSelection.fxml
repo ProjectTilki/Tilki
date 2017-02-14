@@ -41,7 +41,7 @@
                 <Label fx:id="surnameLabel" text="Label" GridPane.rowIndex="1" />
                 <Label fx:id="idLabel" text="Label" GridPane.rowIndex="2" />
                 <Label fx:id="examLabel" text="Label" GridPane.rowIndex="3" />
-                <Label id="infoLabel" fx:id="userNameLabel" minHeight="-Infinity" text="Label" GridPane.columnIndex="1" />
+                <Label id="infoLabel" fx:id="userNameLabel" text="Label" GridPane.columnIndex="1" />
                 <Label id="infoLabel" fx:id="userSurnameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label id="infoLabel" fx:id="userIdLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <fx:include id="infoLabel" source="UserExamLabel.fxml" GridPane.columnIndex="1" GridPane.rowIndex="3" />

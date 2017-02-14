@@ -20,34 +20,26 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 
-public class ExamSelectionSubmitButtonController implements Initializable, Observer {
+public class FXMLSubmitButtonController implements Initializable, Observer {
     @FXML
     private Button button;
+    private User user;
     private PasswordManager passwordManager;
-    private ExamManager examManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        button.setText("Sınavı Başlat");
-        examManager = ExamManager.getInstance();
+        user = User.getInstance();
+        user.getExam().setKey(new char[0]);
+        button.setText("Sınavı Bitir");
         passwordManager = PasswordManager.getInstance();
         passwordManager.addObserver(this);
-
-        User user = User.getInstance();
-        user.addObserver(new Observer() {
-            @Override
-            public void update(Observable o, Object arg) {
-                button.setDisable(false);
-                if(user.getExam() == null) {
-                    button.setDisable(true);
-                }
-            }
-        });
     }
 
     @FXML
@@ -57,8 +49,12 @@ public class ExamSelectionSubmitButtonController implements Initializable, Obser
 
     @Override
     public void update(Observable o, Object arg) {
+        State state = passwordManager.getState();
+        if(state == Worker.State.CANCELLED || state == Worker.State.FAILED) {
+            return;
+        }
         if(passwordManager.isCorrect()) {
-            SceneLoader.loadScene("FXML");
+            System.out.println("Bitti.");
         }
     }
 }

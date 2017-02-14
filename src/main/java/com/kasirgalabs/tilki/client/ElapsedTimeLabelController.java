@@ -16,43 +16,33 @@
  */
 package com.kasirgalabs.tilki.client;
 
-import java.util.Observable;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.util.Duration;
 
-public final class TilkiTimer extends Observable {
-    private static String elapsedTime = "00:00:00";
+public class ElapsedTimeLabelController implements Initializable {
+    @FXML
+    private Label label;
     private static long initialTime = 0;
-    private static TilkiTimer instance;
 
-    private TilkiTimer() {
-    }
-
-    public static TilkiTimer getInstance() {
-        if(instance == null) {
-            instance = new TilkiTimer();
-        }
-        return instance;
-    }
-
-    public void initTimer() {
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
         initialTime = System.currentTimeMillis();
-        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), (event) -> {
-            elapsedTime = updateTime();
-            setChanged();
-            notifyObservers(elapsedTime);
-            clearChanged();
+        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                label.setText(updateTime());
+            }
         }));
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
-    }
-
-    private String addPrefixZero(String s) {
-        if(s.length() < 2) {
-            return "0" + s;
-        }
-        return s;
     }
 
     private String updateTime() {
@@ -65,5 +55,12 @@ public final class TilkiTimer extends Observable {
         minutes = addPrefixZero(minutes);
         hours = addPrefixZero(hours);
         return hours + ":" + minutes + ":" + seconds;
+    }
+
+    private String addPrefixZero(String s) {
+        if(s.length() < 2) {
+            return "0" + s;
+        }
+        return s;
     }
 }

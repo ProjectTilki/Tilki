@@ -45,7 +45,6 @@ public class ExamSelectionController implements Initializable {
     private Label userNameLabel;
     @FXML
     private Label userSurnameLabel;
-
     private User user;
 
     @Override
@@ -53,6 +52,7 @@ public class ExamSelectionController implements Initializable {
         user = User.getInstance();
         initTexts();
         initTooltips();
+        ExamManager.getInstance().fetchExams();
     }
 
     private void initTexts() {

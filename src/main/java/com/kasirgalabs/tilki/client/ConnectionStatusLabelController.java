@@ -29,17 +29,27 @@ public class ConnectionStatusLabelController implements Initializable, Observer 
     @FXML
     private Label label;
     private ExamManager examManager;
+    private PasswordManager passwordManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         label.setText("");
         examManager = ExamManager.getInstance();
         examManager.addObserver(this);
+        passwordManager = PasswordManager.getInstance();
+        passwordManager.addObserver(this);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        State state = examManager.getState();
+        if(o.getClass().equals(examManager.getClass())) {
+            updateStatus(examManager.getState());
+            return;
+        }
+        updateStatus(passwordManager.getState());
+    }
+
+    private void updateStatus(State state) {
         switch(state) {
             case RUNNING:
                 label.setText("Bağlanıyor.");

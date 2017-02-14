@@ -16,6 +16,11 @@ public class KeyVerifyRefactored extends Task<Boolean> {
     public Boolean call() throws Exception {
         Socket socket = null;
         try {
+            User user = User.getInstance();
+            if(user.getExam() == null || user.getExam().getKey() == null) {
+                return false;
+            }
+
             socket = new Socket("localhost", 50101);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -25,7 +30,6 @@ public class KeyVerifyRefactored extends Task<Boolean> {
             // Send exam name.
             out.writeUTF("deneme");
             // Send the typed key.
-            User user = User.getInstance();
             for(char c : user.getExam().getKey()) {
                 out.writeChar(c);
             }

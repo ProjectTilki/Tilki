@@ -16,51 +16,29 @@
  */
 package com.kasirgalabs.tilki.client;
 
-import java.io.File;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
 
-public class FXMLController implements Initializable {
+public class RemoveSelectedButtonController implements Initializable {
     @FXML
-    private Button fileChooserButton;
-    @FXML
-    private GridPane gridPane;
-    @FXML
-    private Label listViewLabel;
-    @FXML
-    private Label passwordFieldLabel;
-    @FXML
-    private Label timeLabel;
+    private Button button;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initTexts();
+        button.setText("Seçili Dosyaları Sil");
     }
 
     @FXML
-    private void fileChooserButtonOnAction(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Tilki");
-        List<File> files = fileChooser.showOpenMultipleDialog(gridPane.getScene().getWindow());
-        if(files == null) {
+    private void onAction(ActionEvent event) {
+        FileManager fileManager = FileManager.getInstance();
+        if(fileManager.getSelectedFiles() == null) {
             return;
         }
-        FileManager fileManager = FileManager.getInstance();
-        fileManager.trackFiles(files);
-    }
-
-    private void initTexts() {
-        timeLabel.setText("Geçen Süre:");
-        listViewLabel.setText("Dosyalar");
-        fileChooserButton.setText("Dosya Seç");
-        passwordFieldLabel.setText("Gözetmen Şifresi");
+        fileManager.untrackFiles(fileManager.getSelectedFiles());
+        fileManager.setSelectedFiles(null);
     }
 }

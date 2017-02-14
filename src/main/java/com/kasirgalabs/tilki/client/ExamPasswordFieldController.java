@@ -57,5 +57,4 @@ public class ExamPasswordFieldController implements Initializable, Observer {
             user.getExam().setKey(passwordField.getText().toCharArray());
         }
     }
-
 }

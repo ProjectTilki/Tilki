@@ -16,43 +16,36 @@
  */
 package com.kasirgalabs.tilki.client;
 
-import com.kasirgalabs.tilki.utils.Exam;
 import java.util.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.concurrent.Worker.State;
 
-public class PasswordManager extends Observable {
-    private static TilkiService<Boolean> PASSWORD_SERVICE;
+public final class PasswordManager extends Observable {
     private static PasswordManager instance;
-    private static State state;
+    private static TilkiService<Boolean> passwordService;
     private static boolean correct;
+    private static State state;
 
     private PasswordManager() {
+        passwordService = new TilkiService<>("KeyVerifyRefactored");
+        passwordService.stateProperty().addListener(new PasswordServiceListener());
     }
 
     public static PasswordManager getInstance() {
         if(instance == null) {
             instance = new PasswordManager();
-            PASSWORD_SERVICE = new TilkiService<>("KeyVerifyRefactored");
-            PASSWORD_SERVICE.stateProperty().addListener(new PasswordServiceListener());
         }
         return instance;
     }
 
     public void checkPassword() {
-        User user = User.getInstance();
-        Exam exam = user.getExam();
-        if(exam == null || exam.getKey() == null) {
-            correct = false;
+        if(passwordService.isRunning()) {
             return;
         }
-        if(PASSWORD_SERVICE.isRunning()) {
-            return;
-        }
-        PASSWORD_SERVICE.reset();
-        PASSWORD_SERVICE.start();
+        passwordService.reset();
+        passwordService.start();
     }
 
     public State getState() {
@@ -70,7 +63,7 @@ public class PasswordManager extends Observable {
             state = newValue;
             correct = false;
             if(newValue == Worker.State.SUCCEEDED) {
-                correct = PASSWORD_SERVICE.getValue();
+                correct = passwordService.getValue();
             }
             instance.setChanged();
             instance.notifyObservers();

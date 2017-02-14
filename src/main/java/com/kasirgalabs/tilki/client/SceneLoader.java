@@ -36,6 +36,7 @@ public final class SceneLoader {
     }
 
     public static void loadScene(String fxml) {
+        deleteObservers();
         Parent parent;
         try {
             ClassLoader classLoader = SceneLoader.class.getClassLoader();
@@ -44,20 +45,27 @@ public final class SceneLoader {
             Logger.getLogger(SceneLoader.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        Scene scene = null;
+        Scene scene = getValidScene(parent);
+        primaryStage.close();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private static void deleteObservers() {
+        ExamManager examManager = ExamManager.getInstance();
+        examManager.deleteObservers();
+        PasswordManager passwordManager = PasswordManager.getInstance();
+        passwordManager.deleteObservers();
+    }
+
+    private static Scene getValidScene(Parent parent) {
         Class parentClass = parent.getClass();
         if(parentClass.equals(Label.class)) {
             Label label = (Label) parent;
             if(label.getText().isEmpty()) {
-                scene = new Scene(parent, 100, 100);
+                return new Scene(parent, 100, 100);
             }
-
         }
-        else {
-            scene = new Scene(parent);
-        }
-        primaryStage.close();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return new Scene(parent);
     }
 }

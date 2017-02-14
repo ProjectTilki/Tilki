@@ -26,19 +26,19 @@ import javafx.concurrent.Worker;
 import javafx.concurrent.Worker.State;
 
 public final class ExamManager extends Observable {
+    private static ExamManager instance;
     private static TilkiService<Exam[]> examService;
     private static Exam[] exams;
-    private static ExamManager instance;
     private static State state;
 
     private ExamManager() {
+        examService = new TilkiService<>("GetExams");
+        examService.stateProperty().addListener(new ExamServiceListener());
     }
 
     public static ExamManager getInstance() {
         if(instance == null) {
             instance = new ExamManager();
-            examService = new TilkiService<>("GetExams");
-            examService.stateProperty().addListener(new ExamServiceListener());
         }
         return instance;
     }
