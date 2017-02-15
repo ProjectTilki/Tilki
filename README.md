@@ -1,6 +1,5 @@
 #Tilki  
-
-https://cloud.githubusercontent.com/assets/20816596/22962432/697ddb0c-f355-11e6-8715-b0e4366ef041.png <br>
+![Tilki-main-icon](https://cloud.githubusercontent.com/assets/20816596/22962432/697ddb0c-f355-11e6-8715-b0e4366ef041.png)<br>
 Tilki is a Java based desktop app which planned to be used on exams. During the exam, the program takes <br>
 snapshots at given intervals and merges the snapshots together, finally outputs a video. <br>
 At the end of the exam, client chooses the files to upload and uploads them using the GUI. <br>
