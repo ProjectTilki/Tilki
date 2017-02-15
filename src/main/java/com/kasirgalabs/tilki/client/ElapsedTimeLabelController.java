@@ -17,51 +17,29 @@
 package com.kasirgalabs.tilki.client;
 
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.util.Duration;
 
-public class ElapsedTimeLabelController implements Initializable {
-    private static long initialTime = 0;
+public class ElapsedTimeLabelController implements Initializable, Observer {
     @FXML
     private Label label;
+    private TilkiTimer tilkiTimer;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initialTime = System.currentTimeMillis();
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                label.setText(updateTime());
-            }
-        });
-        Timeline timer = new Timeline(keyFrame);
-        timer.setCycleCount(Timeline.INDEFINITE);
-        timer.play();
+        tilkiTimer = TilkiTimer.getInstance();
+        tilkiTimer.addObserver(this);
+        label.setText(tilkiTimer.getElapsedTime());
+        tilkiTimer.start();
+
     }
 
-    private String updateTime() {
-        long time = System.currentTimeMillis() - initialTime;
-        time /= 1000;
-        String seconds = Integer.toString((int) (time % 60));
-        String minutes = Integer.toString((int) ((time % 3600) / 60));
-        String hours = Integer.toString((int) (time / 3600));
-        seconds = addPrefixZero(seconds);
-        minutes = addPrefixZero(minutes);
-        hours = addPrefixZero(hours);
-        return hours + ":" + minutes + ":" + seconds;
-    }
-
-    private String addPrefixZero(String s) {
-        if(s.length() < 2) {
-            return "0" + s;
-        }
-        return s;
+    @Override
+    public void update(Observable o, Object arg) {
+        label.setText(tilkiTimer.getElapsedTime());
     }
 }

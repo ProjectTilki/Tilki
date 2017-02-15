@@ -54,6 +54,8 @@ public class FXMLSubmitButtonController implements Initializable, Observer {
             return;
         }
         if(passwordManager.isCorrect()) {
+            TilkiTimer tilkiTimer = TilkiTimer.getInstance();
+            tilkiTimer.stop();
             System.out.println("Bitti.");
         }
     }
