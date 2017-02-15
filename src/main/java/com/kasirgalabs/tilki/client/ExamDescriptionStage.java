@@ -24,7 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ExamDescriptionStage extends Stage {
+public final class ExamDescriptionStage extends Stage {
     private static ExamDescriptionStage instance = null;
 
     private ExamDescriptionStage() {

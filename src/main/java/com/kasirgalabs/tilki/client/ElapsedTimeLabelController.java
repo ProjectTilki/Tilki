@@ -28,19 +28,20 @@ import javafx.scene.control.Label;
 import javafx.util.Duration;
 
 public class ElapsedTimeLabelController implements Initializable {
+    private static long initialTime = 0;
     @FXML
     private Label label;
-    private static long initialTime = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initialTime = System.currentTimeMillis();
-        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 label.setText(updateTime());
             }
-        }));
+        });
+        Timeline timer = new Timeline(keyFrame);
         timer.setCycleCount(Timeline.INDEFINITE);
         timer.play();
     }

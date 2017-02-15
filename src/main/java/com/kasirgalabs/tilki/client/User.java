@@ -19,7 +19,7 @@ package com.kasirgalabs.tilki.client;
 import com.kasirgalabs.tilki.utils.Exam;
 import java.util.Observable;
 
-public class User extends Observable {
+public final class User extends Observable {
     private static User instance;
     private static Exam exam;
     private static String id = "";
