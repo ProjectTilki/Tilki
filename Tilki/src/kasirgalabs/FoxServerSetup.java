@@ -355,8 +355,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(null,
                 "S\u0131nav\u0131 olu\u015Fturmak istedi\u011Finize emin" +
-                " misiniz?",
-                "Tilki", 1);
+                " misiniz?", "Tilki", 1);
         if(dialogResult == JOptionPane.YES_OPTION) {
             examName = jTextField1.getText();
             examKey = new String(jPasswordField1.getPassword());

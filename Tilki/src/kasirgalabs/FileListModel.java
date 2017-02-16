@@ -23,7 +23,8 @@ public class FileListModel extends DefaultListModel {
             }
             if(fileElement.getName().equals(list.get(i).getName())) {
                 this.setErrorMessage(
-                        "\"" + fileElement.getName() + "\" isimli bir dosya zaten mevcut.");
+                        "\"" + fileElement.getName() + "\" isimli bir dosya" + 
+                        " zaten mevcut.");
                 return;
             }
         }
