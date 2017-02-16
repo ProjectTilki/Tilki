@@ -47,7 +47,7 @@ public class FileListViewController implements Initializable, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        List<File> files = fileManager.getTrackedFiles();
+        List<File> files = fileManager.getTrackedUserFiles();
         if(files == null) {
             return;
         }
@@ -73,7 +73,7 @@ public class FileListViewController implements Initializable, Observer {
     @FXML
     private void onDragDropped(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
-        fileManager.trackFiles(dragboard.getFiles());
+        fileManager.trackUserFiles(dragboard.getFiles());
         event.setDropCompleted(true);
         event.consume();
     }

@@ -20,43 +20,31 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.concurrent.Worker;
-import javafx.concurrent.Worker.State;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 
-public class FXMLSubmitButtonController implements Initializable, Observer {
+public class ProgressBarController implements Initializable, Observer {
     @FXML
-    private Button button;
-    private User user;
-    private PasswordManager passwordManager;
+    private ProgressBar progressBar;
+    private ZipManager zipManager;
+    private UploadManager uploadManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        user = User.getInstance();
-        user.getExam().setKey(new char[0]);
-        button.setText("Sınavı Bitir");
-        passwordManager = PasswordManager.getInstance();
-        passwordManager.addObserver(this);
-    }
-
-    @FXML
-    private void onAction(ActionEvent event) {
-        passwordManager.checkPassword();
+        zipManager = ZipManager.getInstance();
+        zipManager.addObserver(this);
+        uploadManager = UploadManager.getInstance();
+        uploadManager.addObserver(this);
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        State state = passwordManager.getState();
-        if(state == Worker.State.CANCELLED || state == Worker.State.FAILED) {
-            return;
+        if(o.getClass().equals(ZipManager.class) && zipManager.getProgress() != null) {
+            progressBar.setProgress(zipManager.getProgress().doubleValue());
         }
-        if(passwordManager.isCorrect()) {
-            TilkiTimer tilkiTimer = TilkiTimer.getInstance();
-            tilkiTimer.stop();
-            SceneLoader.loadScene("ZipAndUpload");
+        else if(o.getClass().equals(UploadManager.class) && uploadManager.getProgress() != null) {
+            progressBar.setProgress(uploadManager.getProgress().doubleValue());
         }
     }
 }

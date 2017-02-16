@@ -46,15 +46,18 @@ public class FoxServiceThread implements Callable<Integer> {
     public Integer call() throws Exception {
         try {
             String data = in.readUTF(); // Read the requested operation.
+            if(data.equals("Upload")) {
+                new Upload(socket).call();
+                return 1;
+            }
             ServiceFactory serviceFactory = new ServiceFactory(socket);
             Service service = serviceFactory.getService(data);
             if(service != null) {
                 service.serve();
             }
-        }
-        catch(IOException ex) {
+        } catch(IOException ex) {
             Logger.getLogger(FoxServer.class.getName()).log(Level.SEVERE,
-                    "Error during session.", ex);
+                "Error during session.", ex);
         }
         finally {
             socket.close();

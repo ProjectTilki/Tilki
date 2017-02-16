@@ -16,24 +16,16 @@
  */
 package com.kasirgalabs.tilki.client;
 
-import javafx.concurrent.Task;
+import javafx.event.Event;
+import javafx.event.EventType;
 
-public class TaskFactory<V> {
-
-    @SuppressWarnings("unchecked")
-    public Task<V> getTask(String taskName) {
-        if(taskName.equals("GetExams")) {
-            return (Task<V>) new GetExams();
-        }
-        if(taskName.equals("KeyVerifyRefactored")) {
-            return (Task<V>) new KeyVerifyRefactored();
-        }
-        if(taskName.equals("Zip")) {
-            return (Task<V>) new Zip();
-        }
-        if(taskName.equals("Upload")) {
-            return (Task<V>) new Upload();
-        }
-        return null;
+/**
+ *
+ * @author rootg
+ */
+public class ZipEvent extends Event {
+    public ZipEvent(EventType<? extends Event> eventType) {
+        super(eventType);
     }
+
 }

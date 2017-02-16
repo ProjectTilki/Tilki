@@ -25,9 +25,11 @@ public final class FileManager extends Observable {
     private static FileManager instance;
     private static List<File> trackedFiles;
     private static List<File> selectedFiles;
+    private static List<File> filesToUpload;
 
     private FileManager() {
         trackedFiles = new ArrayList<>();
+        filesToUpload = new ArrayList<>();
     }
 
     public static FileManager getInstance() {
@@ -37,13 +39,13 @@ public final class FileManager extends Observable {
         return instance;
     }
 
-    public void trackFiles(List<File> files) {
+    public void trackUserFiles(List<File> files) {
         for(File file : files) {
-            trackFile(file);
+            trackUserFile(file);
         }
     }
 
-    public void trackFile(File file) {
+    public void trackUserFile(File file) {
         if(file.isDirectory() || trackedFiles.contains(file)) {
             return;
         }
@@ -52,11 +54,11 @@ public final class FileManager extends Observable {
         notifyObservers();
     }
 
-    public List<File> getTrackedFiles() {
+    public List<File> getTrackedUserFiles() {
         return trackedFiles;
     }
 
-    public void untrackFiles(List<File> files) {
+    public void untrackUserFiles(List<File> files) {
         for(File file : files) {
             trackedFiles.remove(file);
         }
@@ -64,7 +66,7 @@ public final class FileManager extends Observable {
         notifyObservers();
     }
 
-    public void untrackFile(File file) {
+    public void untrackUserFile(File file) {
         trackedFiles.remove(file);
         setChanged();
         notifyObservers();
@@ -76,5 +78,28 @@ public final class FileManager extends Observable {
 
     public List<File> getSelectedFiles() {
         return selectedFiles;
+    }
+
+    public String generateFileName(String name) {
+        File file = new File(name);
+        if(!file.exists()) {
+            return name;
+        }
+        String temp = name;
+        for(int i = 0; i < 100; i++) {
+            temp = i + "_" + temp;
+            if(!new File(temp).exists()) {
+                return temp;
+            }
+        }
+        return name;
+    }
+
+    public void addFileForUpload(File file) {
+        filesToUpload.add(file);
+    }
+
+    public List<File> getFilesForUpload() {
+        return filesToUpload;
     }
 }

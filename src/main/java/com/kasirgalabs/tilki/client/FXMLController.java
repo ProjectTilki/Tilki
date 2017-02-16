@@ -25,14 +25,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
 public class FXMLController implements Initializable {
     @FXML
     private Button fileChooserButton;
-    @FXML
-    private GridPane gridPane;
     @FXML
     private Label listViewLabel;
     @FXML
@@ -49,12 +47,13 @@ public class FXMLController implements Initializable {
     private void fileChooserButtonOnAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Tilki");
-        List<File> files = fileChooser.showOpenMultipleDialog(gridPane.getScene().getWindow());
+        Window window = fileChooserButton.getScene().getWindow();
+        List<File> files = fileChooser.showOpenMultipleDialog(window);
         if(files == null) {
             return;
         }
         FileManager fileManager = FileManager.getInstance();
-        fileManager.trackFiles(files);
+        fileManager.trackUserFiles(files);
     }
 
     private void initTexts() {

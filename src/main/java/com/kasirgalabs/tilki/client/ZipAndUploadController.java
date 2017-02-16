@@ -20,43 +20,31 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
-import javafx.concurrent.Worker;
-import javafx.concurrent.Worker.State;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
-public class FXMLSubmitButtonController implements Initializable, Observer {
+public class ZipAndUploadController implements Initializable, Observer {
     @FXML
-    private Button button;
-    private User user;
-    private PasswordManager passwordManager;
+    private Label messageLabel;
+    private ZipManager zipManager;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        user = User.getInstance();
-        user.getExam().setKey(new char[0]);
-        button.setText("Sınavı Bitir");
-        passwordManager = PasswordManager.getInstance();
-        passwordManager.addObserver(this);
-    }
-
-    @FXML
-    private void onAction(ActionEvent event) {
-        passwordManager.checkPassword();
+        initTexts();
+        zipManager = ZipManager.getInstance();
+        zipManager.addObserver(this);
+        zipManager.zip();
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        State state = passwordManager.getState();
-        if(state == Worker.State.CANCELLED || state == Worker.State.FAILED) {
-            return;
+        if(zipManager.isDone()) {
+            UploadManager.getInstance().upload();
         }
-        if(passwordManager.isCorrect()) {
-            TilkiTimer tilkiTimer = TilkiTimer.getInstance();
-            tilkiTimer.stop();
-            SceneLoader.loadScene("ZipAndUpload");
-        }
+    }
+
+    private void initTexts() {
+        messageLabel.setText("Dosyalarınız ve kullanım verileriniz\nkarşıya yüklenirken lütfen bekleyiniz.");
     }
 }

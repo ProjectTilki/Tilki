@@ -38,7 +38,7 @@ public class RemoveSelectedButtonController implements Initializable {
         if(fileManager.getSelectedFiles() == null) {
             return;
         }
-        fileManager.untrackFiles(fileManager.getSelectedFiles());
+        fileManager.untrackUserFiles(fileManager.getSelectedFiles());
         fileManager.setSelectedFiles(null);
     }
 }

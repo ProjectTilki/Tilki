@@ -33,10 +33,9 @@ public class ServiceFactory {
             else if(service.equals("KeyVerifyRefactored")) {
                 return new KeyVerifyRefactored(socket);
             }
-        }
-        catch(IOException ex) {
+        } catch(IOException ex) {
             Logger.getLogger(ServiceFactory.class.getName()).log(
-                    Level.SEVERE, null, ex);
+                Level.SEVERE, null, ex);
         }
         return null;
     }

@@ -54,8 +54,7 @@ public class Zip implements Callable<Void> {
             for(File file : files) {
                 addFileToZip(zos, file);
             }
-        }
-        catch(IOException ex) {
+        } catch(IOException ex) {
             throw ex;
         }
         finally {
@@ -86,8 +85,7 @@ public class Zip implements Callable<Void> {
             }
             updateProgress(file, writtenBytes, fileSize);
             zos.closeEntry();
-        }
-        catch(IOException ex) {
+        } catch(IOException ex) {
             throw ex;
         }
         finally {
@@ -111,7 +109,7 @@ public class Zip implements Callable<Void> {
 
         ZipResult lastResult = result.peekLast();
         ZipResult currentResult = new ZipResult(file,
-                (int) ((double) writtenBytes / fileSize * 100));
+            (int) ((double) writtenBytes / fileSize * 100));
 
         if(lastResult == null) {
             result.offerLast(currentResult);
