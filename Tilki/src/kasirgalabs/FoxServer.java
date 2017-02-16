@@ -129,8 +129,8 @@ public class FoxServer {
                 LOGGER.info("No running process.");
             }
             catch(InterruptedException ex) {
-                LOGGER.log(Level.WARNING, "Some processes may not be completed.",
-                        ex);
+                LOGGER.log(Level.WARNING, "Some processes may" + 
+                        " not be completed.", ex);
             }
             finally {
                 try {
@@ -156,8 +156,8 @@ public class FoxServer {
                 }
                 catch(TimeoutException ex) {
                     LOGGER.log(Level.WARNING,
-                            "Shuting down without waiting for uncompleted tasks.",
-                            ex);
+                            "Shuting down without" + 
+                            " waiting for uncompleted tasks.", ex);
                 }
             }
             LOGGER.info("Shutting down is completed.");
