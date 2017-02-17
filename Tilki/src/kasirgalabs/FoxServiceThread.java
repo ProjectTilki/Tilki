@@ -121,7 +121,8 @@ public class FoxServiceThread implements Callable<Integer> {
 
             File file = new File(examFileObject, id + "_logfile.txt");
             boolean isCheckedIn = false;
-            if(file.exists()) { // if log file is exists, student trying to reconnect else check in.
+            // if log file is exists, student trying to reconnect else check in.
+            if(file.exists()) { 
                 isCheckedIn = true;
             }
 
@@ -279,7 +280,8 @@ public class FoxServiceThread implements Callable<Integer> {
             byte[] data = new byte[1024];
             InputStream os_in = socket.getInputStream();
             File incomingFile = new File(studentFile, fileName);
-            fileOut = new FileOutputStream(incomingFile); // Creates a file to be filled.
+            // Creates a file to be filled.
+            fileOut = new FileOutputStream(incomingFile); 
             // Read file data from the socket and write it to a created file.
             while((byteCount = os_in.read(data)) > 0) {
                 fileOut.write(data, 0, byteCount);
@@ -331,7 +333,8 @@ public class FoxServiceThread implements Callable<Integer> {
      * @throws IOException If an I/O error occurs.
      */
     private void examListManager() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        ObjectOutputStream oos = new ObjectOutputStream(
+                                    socket.getOutputStream());
         if(!new File("exam_list.txt").exists()) { // No exams are available.
             oos.writeObject(null);
             oos.flush();
@@ -340,11 +343,13 @@ public class FoxServiceThread implements Callable<Integer> {
 
         BufferedReader fileIn = new BufferedReader(new FileReader(
                 "exam_list.txt"));
-        ArrayList<Exam> examList = new ArrayList<Exam>(); // Array list of Exam object contains available exams.
+         // Array list of Exam object contains available exams.
+        ArrayList<Exam> examList = new ArrayList<Exam>();
         String exam;
         while((exam = fileIn.readLine()) != null) { // Read exam list.
             if(new File(exam).exists()) {
-                if(!new File(exam, "exam_description.txt").exists()) { // Look for the descripton.
+                // Look for the descripton.
+                if(!new File(exam, "exam_description.txt").exists()) { 
                     examList.add(new Exam(exam, null));
                     continue;
                 }
@@ -353,7 +358,8 @@ public class FoxServiceThread implements Callable<Integer> {
                 String examDescription = "";
                 String temp;
                 boolean firstLine = true;
-                while((temp = description.readLine()) != null) { // Description is available.
+                // Description is available.
+                while((temp = description.readLine()) != null) { 
                     if(firstLine) {
                         examDescription += temp;
                         firstLine = false;
@@ -368,7 +374,8 @@ public class FoxServiceThread implements Callable<Integer> {
         fileIn.close();
 
         Exam[] exams = new Exam[examList.size()];
-        for(int i = 0; i < examList.size(); i++) { // Convert array list to array.
+         // Convert array list to array.
+        for(int i = 0; i < examList.size(); i++) {
             exams[i] = examList.get(i);
         }
         oos.writeObject(exams); // Send exam list to the client.

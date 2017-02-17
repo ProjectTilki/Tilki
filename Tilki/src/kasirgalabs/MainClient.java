@@ -600,7 +600,8 @@ public class MainClient extends javax.swing.JFrame {
                                 List<File> droppedFiles = (List<File>) evt.
                                         getTransferable().getTransferData(
                                                 DataFlavor.javaFileListFlavor);
-                                FileListModel flm = (FileListModel) dosyaListesi.getModel();
+                                FileListModel flm = (FileListModel) 
+                                dosyaListesi.getModel();
                                 droppedFiles.forEach((f) -> {
                                     flm.addElement(f.getAbsolutePath());
                                 });
