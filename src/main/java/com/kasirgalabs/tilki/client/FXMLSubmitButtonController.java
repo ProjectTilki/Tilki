@@ -45,6 +45,7 @@ public class FXMLSubmitButtonController implements Initializable, Observer {
     @FXML
     private void onAction(ActionEvent event) {
         passwordManager.checkPassword();
+        CaptureDesktop.getInstance().stop();
     }
 
     @Override

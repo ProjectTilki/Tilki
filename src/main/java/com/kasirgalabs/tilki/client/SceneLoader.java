@@ -37,15 +37,16 @@ public final class SceneLoader {
 
     public static void loadScene(String fxml) {
         deleteObservers();
-        Parent parent;
+        Parent root;
         try {
             ClassLoader classLoader = SceneLoader.class.getClassLoader();
-            parent = FXMLLoader.load(classLoader.getResource("fxml/" + fxml + ".fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(classLoader.getResource("fxml/" + fxml + ".fxml"));
+            root = (Parent) fxmlLoader.load();
         } catch(IOException ex) {
             Logger.getLogger(SceneLoader.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
-        Scene scene = getValidScene(parent);
+        Scene scene = getValidScene(root);
         primaryStage.close();
         primaryStage.setScene(scene);
         primaryStage.show();

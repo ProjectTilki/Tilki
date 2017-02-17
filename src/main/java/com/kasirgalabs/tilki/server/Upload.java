@@ -1,5 +1,6 @@
 package com.kasirgalabs.tilki.server;
 
+import com.kasirgalabs.tilki.utils.MD5;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -8,7 +9,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Callable;
 
@@ -54,30 +54,17 @@ public class Upload implements Callable<Void> {
     }
 
     private String readFileFromInput(File file) throws IOException, NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("MD5");
+        MD5 md5 = new MD5();
         FileOutputStream fis = new FileOutputStream(file);
         try(BufferedOutputStream bos = new BufferedOutputStream(fis)) {
             int readBytes;
             byte[] buffer = new byte[8192];
             while((readBytes = in.read(buffer)) > 0) {
                 bos.write(buffer, 0, readBytes);
-                updateHash(md, buffer, readBytes);
+                md5.updateHash(buffer, readBytes);
             }
         }
-        return md5Hex(md);
-    }
-
-    private void updateHash(MessageDigest md, byte[] buffer, int len) {
-        md.update(buffer, 0, len);
-    }
-
-    private String md5Hex(MessageDigest md) {
-        byte[] hash = md.digest();
-        StringBuilder md5Hex = new StringBuilder();
-        for(int i = 0; i < hash.length; i++) {
-            md5Hex.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
-        }
-        return md5Hex.toString();
+        return md5.md5Hex();
     }
 
     private void writeMD5(String md5Hex) throws IOException {

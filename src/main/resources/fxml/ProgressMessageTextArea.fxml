@@ -3,4 +3,4 @@
 <?import javafx.scene.control.TextArea?>
 
 
-<TextArea fx:id="textArea" editable="false" prefHeight="100.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kasirgalabs.tilki.client.ProgressMessageTextAreaController" />
+<TextArea fx:id="textArea" editable="false" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kasirgalabs.tilki.client.ProgressMessageTextAreaController" />

@@ -23,12 +23,14 @@ import java.util.Observable;
 
 public final class FileManager extends Observable {
     private static FileManager instance;
-    private static List<File> trackedFiles;
+    private static List<File> trackedUserFiles;
+    private static List<File> trackedSystemFiles;
     private static List<File> selectedFiles;
     private static List<File> filesToUpload;
 
     private FileManager() {
-        trackedFiles = new ArrayList<>();
+        trackedUserFiles = new ArrayList<>();
+        trackedSystemFiles = new ArrayList<>();
         filesToUpload = new ArrayList<>();
     }
 
@@ -46,28 +48,28 @@ public final class FileManager extends Observable {
     }
 
     public void trackUserFile(File file) {
-        if(file.isDirectory() || trackedFiles.contains(file)) {
+        if(file.isDirectory() || trackedUserFiles.contains(file)) {
             return;
         }
-        trackedFiles.add(file);
+        trackedUserFiles.add(file);
         setChanged();
         notifyObservers();
     }
 
     public List<File> getTrackedUserFiles() {
-        return trackedFiles;
+        return trackedUserFiles;
     }
 
     public void untrackUserFiles(List<File> files) {
         for(File file : files) {
-            trackedFiles.remove(file);
+            trackedUserFiles.remove(file);
         }
         setChanged();
         notifyObservers();
     }
 
     public void untrackUserFile(File file) {
-        trackedFiles.remove(file);
+        trackedUserFiles.remove(file);
         setChanged();
         notifyObservers();
     }
@@ -85,9 +87,8 @@ public final class FileManager extends Observable {
         if(!file.exists()) {
             return name;
         }
-        String temp = name;
         for(int i = 0; i < 100; i++) {
-            temp = i + "_" + temp;
+            String temp = i + "_" + name;
             if(!new File(temp).exists()) {
                 return temp;
             }
@@ -101,5 +102,13 @@ public final class FileManager extends Observable {
 
     public List<File> getFilesForUpload() {
         return filesToUpload;
+    }
+
+    public void trackSystemFile(File file) {
+        trackedSystemFiles.add(file);
+    }
+
+    public List<File> getTrackedSystemFiles() {
+        return trackedSystemFiles;
     }
 }

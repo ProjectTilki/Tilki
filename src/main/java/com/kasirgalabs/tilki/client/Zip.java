@@ -20,13 +20,26 @@ public class Zip extends Task<Void> {
     protected Void call() throws Exception {
         fileManager = FileManager.getInstance();
         zipUserFiles();
+        zipSystemFiles();
         return null;
     }
 
     private void zipUserFiles() throws IOException, InterruptedException {
         List<File> files = fileManager.getTrackedUserFiles();
+        if(files.isEmpty()) {
+            return;
+        }
         String id = User.getInstance().getId();
         String zipFileName = fileManager.generateFileName("user" + id + ".zip");
+        createZipFile(zipFileName, files);
+        fileManager.addFileForUpload(new File(zipFileName));
+        sendMessage("\tZip: " + zipFileName);
+    }
+
+    private void zipSystemFiles() throws IOException, InterruptedException {
+        List<File> files = fileManager.getTrackedSystemFiles();
+        String id = User.getInstance().getId();
+        String zipFileName = fileManager.generateFileName("system" + id + ".zip");
         createZipFile(zipFileName, files);
         fileManager.addFileForUpload(new File(zipFileName));
         sendMessage("\tZip: " + zipFileName);

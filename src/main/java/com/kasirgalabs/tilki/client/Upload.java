@@ -1,6 +1,7 @@
 package com.kasirgalabs.tilki.client;
 
 import com.kasirgalabs.tilki.utils.Exam;
+import com.kasirgalabs.tilki.utils.MD5;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,13 +18,15 @@ public class Upload extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-        tilkiConnection = new TilkiConnection();
-        tilkiConnection.connect();
-
         FileManager fileManager = FileManager.getInstance();
         List<File> files = fileManager.getFilesForUpload();
+
         for(File file : files) {
-            sendMessage("\tMD5: " + sendFile(file));
+            tilkiConnection = new TilkiConnection();
+            tilkiConnection.connect();
+            String md5 = "";
+            md5 = MD5.xorHex(md5, sendFile(file));
+            sendMessage("\tMD5: " + md5);
         }
         return null;
     }
