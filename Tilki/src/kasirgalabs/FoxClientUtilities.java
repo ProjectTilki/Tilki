@@ -54,8 +54,8 @@ public class FoxClientUtilities {
             throw new NullPointerException();
         }
         // Save informations to instance variables.
-
-        Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
+        // Connect to the host.
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101); 
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -83,7 +83,8 @@ public class FoxClientUtilities {
      * <p>
      * Implementation note: Student informations are stored in instance
      * variables. Before using this method,
-     * {@link #checkIn(java.lang.String, java.lang.String, java.lang.String, java.lang.String)}
+     * {@link #checkIn(java.lang.String, java.lang.String, 
+     * java.lang.String, java.lang.String)}
      * method must be used to store them. If not, returns -1.
      *
      * @param instructorKey The instructor key
@@ -97,10 +98,12 @@ public class FoxClientUtilities {
      */
     public int verifyInstructorKey(String name, String surname, String id,
             String exam, String instructorKey) throws IOException {
-        if(name == null || surname == null || id == null || exam == null || instructorKey == null) {
+        if(name == null || surname == null || id == null || exam == null || 
+                instructorKey == null) {
             return -1;
         }
-        Socket socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
+        // Connect to the host.
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101); 
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
@@ -139,10 +142,13 @@ public class FoxClientUtilities {
         Socket socket = null;
         Exam[] examList = null;
         try {
-            socket = new Socket(MainClient.getIpAddress(), 50101); // Connect to the host.
-            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-
-            out.writeUTF("List exams."); // Tell host which operation will occur.
+            // Connect to the host.
+            socket = new Socket(MainClient.getIpAddress(), 50101); 
+            DataOutputStream out = new DataOutputStream
+                                       (socket.getOutputStream());
+            
+            // Tell host which operation will occur.
+            out.writeUTF("List exams."); 
             out.flush();
 
             ObjectInputStream ois = new ObjectInputStream(
@@ -232,8 +238,10 @@ public class FoxClientUtilities {
      * @throws java.io.IOException           If an I/O error occurs.
      */
     public String sendFile(String fileName, String id, String exam,
-            Object object) throws FileNotFoundException, SecurityException, IOException {
-        // Create a socket and initialize it's streams.// Create a socket and initialize it's streams.
+            Object object) throws FileNotFoundException, SecurityException, 
+                                                              IOException {
+        // Create a socket and initialize it's streams.
+        // Create a socket and initialize it's streams.
         JProgressBar jpb = (JProgressBar) object;
         Socket socket = new Socket(MainClient.getIpAddress(), 50101);
         DataInputStream in = new DataInputStream(socket.getInputStream());
@@ -270,9 +278,11 @@ public class FoxClientUtilities {
         }
 
         os_out.flush();
-        socket.shutdownOutput(); // Shut down output to tell server no more data.
+        // Shut down output to tell server no more data.
+        socket.shutdownOutput(); 
         String checksum;
         if(in.readUTF().equals("Exam file is found.")) {
+            
             checksum = in.readUTF(); //Read checksum from socket.
         }
         else {
