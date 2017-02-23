@@ -1,4 +1,7 @@
 #Tilki <img src="https://cloud.githubusercontent.com/assets/20816596/22962432/697ddb0c-f355-11e6-8715-b0e4366ef041.png" width="35" height="35" alt="Tilki main icon">
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c19478e19090405298f9558da3a3cadb)](https://www.codacy.com/app/RootG/Tilki?utm_source=github.com&utm_medium=referral&utm_content=kasirgalabs/Tilki&utm_campaign=badger)
+
 Tilki is a Java based desktop app which planned to be used on exams. During the exam, the program takes <br>
 snapshots at given intervals and merges the snapshots together, finally outputs a video. <br>
 At the end of the exam, client chooses the files to upload and uploads them using the GUI. <br>
