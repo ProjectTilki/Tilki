@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/kasirgalabs/Tilki.svg?branch=javafx)](https://travis-ci.org/kasirgalabs/Tilki)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c19478e19090405298f9558da3a3cadb)](https://www.codacy.com/app/RootG/Tilki?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kasirgalabs/Tilki&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/c19478e19090405298f9558da3a3cadb)](https://www.codacy.com/app/RootG/Tilki?utm_source=github.com&utm_medium=referral&utm_content=kasirgalabs/Tilki&utm_campaign=Badge_Coverage)
 [![codecov](https://codecov.io/gh/kasirgalabs/Tilki/branch/javafx/graph/badge.svg)](https://codecov.io/gh/kasirgalabs/Tilki)
+[![Dependency Status](https://www.versioneye.com/user/projects/58aefdf99ceb4500303f1624/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58aefdf99ceb4500303f1624)
 
 #READ ME
 Requires: Oracle JDK/JRE 1.5 or newer.
