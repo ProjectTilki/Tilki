@@ -20,7 +20,7 @@ import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
 
-    private static String ipAddress = "localhost";
+    private static String ipAddress = "10.5.147.210";
     private Exam[] examList;
     private CaptureDesktop cam;
     private static String number;
@@ -579,9 +579,9 @@ public class MainClient extends javax.swing.JFrame {
                         className, instructorKey);
                 if(status == 2) {
                     loginLabel.setText(
-                            "<html>\u015Eifre kabul edilmedi, ve kayda " + 
-                            "ge\u00E7ildi.<br>"+ "L\u00FCtfen tekrar" + 
-                            " deneyiniz.</html>");
+                            "<html>\u015Eifre kabul edilmedi, ve kayda "
+                            + "ge\u00E7ildi.<br>" + "L\u00FCtfen tekrar"
+                            + " deneyiniz.</html>");
                 }
                 else if(status == 1) {
                     GirisEkrani.setVisible(false);
@@ -600,8 +600,7 @@ public class MainClient extends javax.swing.JFrame {
                                 List<File> droppedFiles = (List<File>) evt.
                                         getTransferable().getTransferData(
                                                 DataFlavor.javaFileListFlavor);
-                                FileListModel flm = (FileListModel) 
-                                dosyaListesi.getModel();
+                                FileListModel flm = (FileListModel) dosyaListesi.getModel();
                                 droppedFiles.forEach((f) -> {
                                     flm.addElement(f.getAbsolutePath());
                                 });
@@ -614,15 +613,15 @@ public class MainClient extends javax.swing.JFrame {
                             catch(Exception ex) {
                                 jTextArea2.setForeground(Color.RED);
                                 jTextArea2.setText(
-                                        "\u0130\u015Fletim sisteminiz" + 
-                                        " s\u00FCr\u00FCkle b\u0131rak" + 
-                                        " \u00F6zelli\u011Fini destek" + 
-                                        "lemiyor.\n");
+                                        "\u0130\u015Fletim sisteminiz"
+                                        + " s\u00FCr\u00FCkle b\u0131rak"
+                                        + " \u00F6zelli\u011Fini destek"
+                                        + "lemiyor.\n");
                                 jTextArea2.append(
-                                        "L\u00FCtfen dosya" + 
-                                        "lar\u0131n\u0131z\u0131 \"G\u00F6z" +
-                                        "at\" butonuna t\u0131klayarak" + 
-                                        " se\u00E7iniz.");
+                                        "L\u00FCtfen dosya"
+                                        + "lar\u0131n\u0131z\u0131 \"G\u00F6z"
+                                        + "at\" butonuna t\u0131klayarak"
+                                        + " se\u00E7iniz.");
                                 jTextArea2.setDropTarget(null);
                                 //jTextArea2.setEnabled(false);
                                 ClientExceptionHandler.logAnException(ex);
@@ -840,8 +839,7 @@ public class MainClient extends javax.swing.JFrame {
                 for(int i = 0; i < 100; i++) {
                     target_file_object = new File(i + "_" + target_file);
                     if(target_file_object.exists()) {
-                        filesThatWillUpload.add(new File
-                            (i + "_" + target_file));
+                        filesThatWillUpload.add(new File(i + "_" + target_file));
                     }
                 }
             }

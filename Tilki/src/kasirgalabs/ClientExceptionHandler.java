@@ -82,7 +82,7 @@ public class ClientExceptionHandler {
                 DataOutputStream socketOut = new DataOutputStream(socket.
                         getOutputStream());
 
-                socketOut.writeUTF("Sending error logs.");
+                socketOut.writeUTF("Sending error logs");
                 socketOut.writeInt(lines);
                 if(id != null) {
                     socketOut.writeUTF(id);

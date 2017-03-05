@@ -55,11 +55,11 @@ public class FoxClientUtilities {
         }
         // Save informations to instance variables.
         // Connect to the host.
-        Socket socket = new Socket(MainClient.getIpAddress(), 50101); 
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-        out.writeUTF("Check in."); // Tell host which operation will occur.
+        out.writeUTF("Check in"); // Tell host which operation will occur.
 
         // Send informations to the host.
         out.writeUTF(name);
@@ -83,7 +83,7 @@ public class FoxClientUtilities {
      * <p>
      * Implementation note: Student informations are stored in instance
      * variables. Before using this method,
-     * {@link #checkIn(java.lang.String, java.lang.String, 
+     * {@link #checkIn(java.lang.String, java.lang.String,
      * java.lang.String, java.lang.String)}
      * method must be used to store them. If not, returns -1.
      *
@@ -98,16 +98,16 @@ public class FoxClientUtilities {
      */
     public int verifyInstructorKey(String name, String surname, String id,
             String exam, String instructorKey) throws IOException {
-        if(name == null || surname == null || id == null || exam == null || 
-                instructorKey == null) {
+        if(name == null || surname == null || id == null || exam == null
+                || instructorKey == null) {
             return -1;
         }
         // Connect to the host.
-        Socket socket = new Socket(MainClient.getIpAddress(), 50101); 
+        Socket socket = new Socket(MainClient.getIpAddress(), 50101);
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-        out.writeUTF("Key verify."); // Tell host which operation will occur.
+        out.writeUTF("Key verify"); // Tell host which operation will occur.
 
         // Send informations.
         out.writeUTF(name);
@@ -143,12 +143,11 @@ public class FoxClientUtilities {
         Exam[] examList = null;
         try {
             // Connect to the host.
-            socket = new Socket(MainClient.getIpAddress(), 50101); 
-            DataOutputStream out = new DataOutputStream
-                                       (socket.getOutputStream());
-            
+            socket = new Socket(MainClient.getIpAddress(), 50101);
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
             // Tell host which operation will occur.
-            out.writeUTF("List exams."); 
+            out.writeUTF("List exams");
             out.flush();
 
             ObjectInputStream ois = new ObjectInputStream(
@@ -238,8 +237,8 @@ public class FoxClientUtilities {
      * @throws java.io.IOException           If an I/O error occurs.
      */
     public String sendFile(String fileName, String id, String exam,
-            Object object) throws FileNotFoundException, SecurityException, 
-                                                              IOException {
+            Object object) throws FileNotFoundException, SecurityException,
+            IOException {
         // Create a socket and initialize it's streams.
         // Create a socket and initialize it's streams.
         JProgressBar jpb = (JProgressBar) object;
@@ -247,7 +246,7 @@ public class FoxClientUtilities {
         DataInputStream in = new DataInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-        out.writeUTF("Sending file.");
+        out.writeUTF("Sending file");
         out.writeUTF(fileName);
         out.writeUTF(id);
         out.writeUTF(exam);
@@ -279,10 +278,10 @@ public class FoxClientUtilities {
 
         os_out.flush();
         // Shut down output to tell server no more data.
-        socket.shutdownOutput(); 
+        socket.shutdownOutput();
         String checksum;
         if(in.readUTF().equals("Exam file is found.")) {
-            
+
             checksum = in.readUTF(); //Read checksum from socket.
         }
         else {
