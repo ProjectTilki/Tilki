@@ -1,0 +1,22 @@
+{
+  "name": "tilki",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tilki.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasirgalabs/Tilki.git"
+  },
+  "author": "Görkem Mülayim",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/kasirgalabs/Tilki/issues"
+  },
+  "homepage": "https://github.com/kasirgalabs/Tilki#readme",
+  "devDependencies": {
+    "electron": "^1.7.5"
+  }
+}
