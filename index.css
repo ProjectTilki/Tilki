@@ -12,3 +12,10 @@ body {
   vertical-align: middle;
 }
 
+.connecting {
+  color: green;
+}
+
+.error {
+  color: red;
+}
