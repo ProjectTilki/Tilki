@@ -20,8 +20,8 @@ import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
 
-    private static String ipAddress = "10.5.147.210";
-    private Exam[] examList;
+    private static String ipAddress = "localhost";
+    private Exam[] examList = {new Exam("deneme", "desc")};
     private CaptureDesktop cam;
     private static String number;
     private String name;
@@ -571,12 +571,15 @@ public class MainClient extends javax.swing.JFrame {
 
         if(!(name.isEmpty()) && !(surname.isEmpty())
                 && !(number.isEmpty()) && !(className.equals(
-                "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
-                        isEmpty()) {
+                "L\u00FCtfen bir s\u0131nav se\u00E7iniz."))) {
+//        if(!(name.isEmpty()) && !(surname.isEmpty())
+//            && !(number.isEmpty()) && !(className.equals(
+//            "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
+//                    isEmpty()) {
             int status = 4;
-            try {
-                status = fcu.verifyInstructorKey(name, surname, number,
-                        className, instructorKey);
+                //status = fcu.verifyInstructorKey(name, surname, number,
+                //        className, instructorKey);
+                status = 1;
                 if(status == 2) {
                     loginLabel.setText(
                             "<html>\u015Eifre kabul edilmedi, ve kayda "
@@ -640,21 +643,21 @@ public class MainClient extends javax.swing.JFrame {
                 else {
                     loginLabel.setText("Bilinmeyen hata.");
                 }
-            }
-            catch(IOException ex) {
-                durumLabel.setText("Ba\u011Flanamad\u0131");
-                durumLabel.setForeground(Color.red);
-                durumLabel.setVisible(true);
-                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
-                loginLabel.setVisible(true);
-                examList = null;
-                jList1.setModel(new ExamListModel(examList));
-                jTextArea1.setText("");
-            }
+            
+//            catch(IOException ex) {
+//                durumLabel.setText("Ba\u011Flanamad\u0131");
+//                durumLabel.setForeground(Color.red);
+//                durumLabel.setVisible(true);
+//                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
+//                loginLabel.setVisible(true);
+//                //examList = null;
+//                jList1.setModel(new ExamListModel(examList));
+//                jTextArea1.setText("");
+//            }
             if(status == 0) {
                 loginLabel.setText("Serverda dosya eksik!");
                 loginLabel.setVisible(true);
-                examList = null;
+                //examList = null;
                 jTextArea1.setText("");
                 jList1.setModel(new ExamListModel(examList));
             }
@@ -664,7 +667,7 @@ public class MainClient extends javax.swing.JFrame {
                 durumLabel.setVisible(true);
                 loginLabel.setText("Sunucuya eri\u015Filemiyor.");
                 loginLabel.setVisible(true);
-                examList = null;
+                //examList = null;
                 jTextArea1.setText("");
                 jList1.setModel(new ExamListModel(examList));
             }
@@ -821,55 +824,55 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if(jCheckBox1.isSelected()
-                && (new String(videoKayitGozetmenField.getPassword())).equals(
-                        instructorKey)) {
-            FileChooserFrame.setVisible(false);
-            ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
-            FileListModel flm = (FileListModel) dosyaListesi.getModel();
-
-            if(cam.status()) {
-                cam.StopCaptureDesktop();
-            }
-
-            String target_file = cam.getPersonName() + "." + cam.getFormat();
-            File target_file_object = new File(target_file);
-            if(target_file_object.exists()) {
-                filesThatWillUpload.add(new File(target_file));
-                for(int i = 0; i < 100; i++) {
-                    target_file_object = new File(i + "_" + target_file);
-                    if(target_file_object.exists()) {
-                        filesThatWillUpload.add(new File(i + "_" + target_file));
-                    }
-                }
-            }
-            ArrayList<File> codeFiles = new ArrayList<File>(0);
-            for(int i = 0; i < flm.getSize(); i++) {
-                codeFiles.add(new File((String) flm.getElementAt(i)));
-            }
-            simpleTimer.stop();
-            File[] temp = new File[filesThatWillUpload.size()];
-            File[] temp2 = new File[codeFiles.size()];
-            zau = new ZipAndUpload(codeFiles.toArray(temp2),
-                    filesThatWillUpload.toArray(
-                            temp), number,
-                    jLabel16.getText(),
-                    instructorKey);
-            zau.setVisible(true);
-            for(Component component : dosyaListesi.getComponents()) {
-                component.setEnabled(false);
-            }
-            dosyaListesi.setEnabled(false);
-            for(Component component : VideoKayitEkrani.getComponents()) {
-                component.setEnabled(false);
-            }
-            VideoKayitEkrani.setEnabled(false);
-            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        }
-        if(!(new String(videoKayitGozetmenField.getPassword())).equals(
-                instructorKey)) {
-            keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
-        }
+//        if(jCheckBox1.isSelected()
+//                && (new String(videoKayitGozetmenField.getPassword())).equals(
+//                        instructorKey)) {
+//            FileChooserFrame.setVisible(false);
+//            ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
+//            FileListModel flm = (FileListModel) dosyaListesi.getModel();
+//
+//            if(cam.status()) {
+//                cam.StopCaptureDesktop();
+//            }
+//
+//            String target_file = cam.getPersonName() + "." + cam.getFormat();
+//            File target_file_object = new File(target_file);
+//            if(target_file_object.exists()) {
+//                filesThatWillUpload.add(new File(target_file));
+//                for(int i = 0; i < 100; i++) {
+//                    target_file_object = new File(i + "_" + target_file);
+//                    if(target_file_object.exists()) {
+//                        filesThatWillUpload.add(new File(i + "_" + target_file));
+//                    }
+//                }
+//            }
+//            ArrayList<File> codeFiles = new ArrayList<File>(0);
+//            for(int i = 0; i < flm.getSize(); i++) {
+//                codeFiles.add(new File((String) flm.getElementAt(i)));
+//            }
+//            simpleTimer.stop();
+//            File[] temp = new File[filesThatWillUpload.size()];
+//            File[] temp2 = new File[codeFiles.size()];
+//            zau = new ZipAndUpload(codeFiles.toArray(temp2),
+//                    filesThatWillUpload.toArray(
+//                            temp), number,
+//                    jLabel16.getText(),
+//                    instructorKey);
+//            zau.setVisible(true);
+//            for(Component component : dosyaListesi.getComponents()) {
+//                component.setEnabled(false);
+//            }
+//            dosyaListesi.setEnabled(false);
+//            for(Component component : VideoKayitEkrani.getComponents()) {
+//                component.setEnabled(false);
+//            }
+//            VideoKayitEkrani.setEnabled(false);
+//            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+//        }
+//        if(!(new String(videoKayitGozetmenField.getPassword())).equals(
+//                instructorKey)) {
+//            keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
+//        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
@@ -880,13 +883,13 @@ public class MainClient extends javax.swing.JFrame {
             durumLabel.setForeground(c);
         }
         catch(IOException e) {
-            examList = null;
+            //examList = null;
             durumLabel.setText("Ba\u011Flanamad\u0131");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
         }
         catch(ClassNotFoundException e) {
-            examList = null;
+            //examList = null;
             durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
