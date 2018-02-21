@@ -23,6 +23,7 @@ public class MainClient extends javax.swing.JFrame {
     private static String ipAddress = "localhost";
     private Exam[] examList = {new Exam("deneme", "desc")};
     private CaptureDesktop cam;
+    private RunningProcesses rp;
     private static String number;
     private String name;
     private String surname;
@@ -590,11 +591,16 @@ public class MainClient extends javax.swing.JFrame {
                     GirisEkrani.setVisible(false);
                     this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
                     VideoKayitEkrani.setVisible(true);
-                    cam = new CaptureDesktop();
-                    cam.StartCaptureDesktop(idTextField.getText(),
+                    cam = new CaptureDesktop(idTextField.getText(),
                             surnameTextField.
                                     getText().charAt(0) + nameTextField.
                             getText());
+                    rp = new RunningProcesses();
+                    Thread t1 = new Thread(cam);
+		    Thread t2 = new Thread(rp);
+                    
+                    t1.start();
+                    t2.start();
                     jTextArea2.setDropTarget(new DropTarget() {
                         @Override
                         public synchronized void drop(DropTargetDropEvent evt) {

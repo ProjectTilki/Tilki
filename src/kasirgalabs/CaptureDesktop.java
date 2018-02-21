@@ -8,20 +8,46 @@ import com.teamdev.jxcapture.video.Desktop;
 import java.awt.Dimension;
 import java.io.File;
 
-public class CaptureDesktop {
+public class CaptureDesktop implements Runnable{
 
     private final int KEYFRAMEINTERVAL = 1000;
     private String personName;
     private String format;
     private VideoCapture videoCapture = VideoCapture.create();
 
-    public void StartCaptureDesktop(String a, String b) {
+    CaptureDesktop(String a, String b) {
+        a = a.toLowerCase();
+        personName = a;
+        
+    }
+
+    public void StartCaptureDesktop() {
+        
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void StopCaptureDesktop() {
+        videoCapture.stop();
+    }
+
+    public boolean status() {
+        return videoCapture.isStarted();
+    }
+
+    @Override
+    public void run() {
         videoCapture.setVideoSource(new Desktop());
         java.util.List<Codec> videoCodecs = videoCapture.getVideoCodecs();
         Codec videoCodec = videoCodecs.get(0);
 
-        a = a.toLowerCase();
-        personName = a;
+        
         format = videoCapture.getVideoFormat().getId().toString();
         String videoName = personName + "." + format;
         File videoFileObject = new File(personName + "." + format);
@@ -57,21 +83,6 @@ public class CaptureDesktop {
         catch(Exception e) {
             ClientExceptionHandler.logAnException(e);
         }
-    }
-
-    public String getPersonName() {
-        return personName;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void StopCaptureDesktop() {
-        videoCapture.stop();
-    }
-
-    public boolean status() {
-        return videoCapture.isStarted();
+        
     }
 }
