@@ -597,12 +597,15 @@ public class MainClient extends javax.swing.JFrame {
                             getText());
                     rp = new RunningProcesses();
                     CaptureAudio ca=new CaptureAudio();
+                    FaceDetection fd=new FaceDetection();
                     Thread t1 = new Thread(cam);
 		    Thread t2 = new Thread(rp);
                     Thread t3 = new Thread(ca);
+                    Thread t4 = new Thread(fd);
                     t1.start();
                     t2.start();
                     t3.start();
+                    t4.start();
                     jTextArea2.setDropTarget(new DropTarget() {
                         @Override
                         public synchronized void drop(DropTargetDropEvent evt) {

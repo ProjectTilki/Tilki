@@ -9,9 +9,6 @@ import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import javax.imageio.ImageIO;
-
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
@@ -28,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javax.imageio.ImageIO;
 /**
  *
  * @author goksu
@@ -66,6 +64,7 @@ public class FaceDetectionController {
 					public void run() {
 						Mat frame = grabFrame();
 						// convert and show the frame
+                                                
 						Image imageToShow = mat2Image(frame);
 						updateImageView(originalFrame, imageToShow);
 					}
@@ -76,10 +75,8 @@ public class FaceDetectionController {
 						for (int i = 0; i < 10; i++) {
 							Mat frame1 = new Mat();
 							capture.read(frame1);
-							takeSS(i);
 							takePicture(frame1, i);
-						
-							try {
+						try {
 								Thread.sleep(1000);
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
@@ -135,23 +132,6 @@ public class FaceDetectionController {
 		}
 
 		return frame;
-	}
-
-	public void takeSS(int i) {
-		String fileName="";
-		try {
-			Robot robot = new Robot();
-			String format = "jpg";
-			fileName = "FullScreenshot" + i + "." + format;
-//			rw.addText("Taked SS");
-			
-			Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-			BufferedImage screenFullImage = robot.createScreenCapture(screenRect);
-			ImageIO.write(screenFullImage, format, new File(fileName));
-			System.out.println("Screenshot taken!");
-		} catch (Exception ex) {
-			System.err.println(ex);
-		}
 	}
 
 	private void detectAndDisplay(Mat frame) {

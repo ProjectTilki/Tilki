@@ -1,23 +1,12 @@
 package kasirgalabs;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-
-import org.opencv.core.Core;
-
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.fxml.*;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.opencv.core.Core;
 
 /**
  *
@@ -85,4 +74,6 @@ public class FaceDetection extends Application implements Runnable
 		launch(null);
 		
 	}
+
+   
 }
