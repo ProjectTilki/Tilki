@@ -24,7 +24,6 @@ public class MainClient extends javax.swing.JFrame {
     private Exam[] examList = {new Exam("deneme", "desc")};
     private CaptureDesktop cam;
     private RunningProcesses rp;
-    private KeyboardActivities ka;
     private static String number;
     private String name;
     private String surname;
@@ -599,19 +598,14 @@ public class MainClient extends javax.swing.JFrame {
                     rp = new RunningProcesses();
                     CaptureAudio ca=new CaptureAudio();
                     FaceDetection fd=new FaceDetection();
-                    ka = new KeyboardActivities();
-                    
                     Thread t1 = new Thread(cam);
 		    Thread t2 = new Thread(rp);
                     Thread t3 = new Thread(ca);
-                    Thread t4 = new Thread(fd);                    
-                    Thread t5 = new Thread(ka);
-
+                    Thread t4 = new Thread(fd);
                     t1.start();
                     t2.start();
                     t3.start();
                     t4.start();
-                    t5.start();
                     jTextArea2.setDropTarget(new DropTarget() {
                         @Override
                         public synchronized void drop(DropTargetDropEvent evt) {
