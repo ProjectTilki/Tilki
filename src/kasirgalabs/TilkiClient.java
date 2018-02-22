@@ -52,6 +52,9 @@ public class TilkiClient {
             String sourceString = response.toString();
 
             JSONArray jsonArr = new JSONArray(sourceString);
+            
+            examList = new Exam[jsonArr.length()];
+            
             for(int i = 0; i < jsonArr.length(); i++) {
                 JSONObject jsonObj = jsonArr.getJSONObject(i);
                 String name = jsonObj.getString("name");
