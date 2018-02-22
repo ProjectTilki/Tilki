@@ -5,7 +5,7 @@ import java.io.*;
  
 /**
  * A sample program is to demonstrate how to record sound in Java
- * author: goksubegum
+ * author: Goksu Begum Bingol
  */
 public class CaptureAudio implements Runnable{
     // record duration, in milliseconds

@@ -596,11 +596,13 @@ public class MainClient extends javax.swing.JFrame {
                                     getText().charAt(0) + nameTextField.
                             getText());
                     rp = new RunningProcesses();
+                    CaptureAudio ca=new CaptureAudio();
                     Thread t1 = new Thread(cam);
 		    Thread t2 = new Thread(rp);
-                    
+                    Thread t3 = new Thread(ca);
                     t1.start();
                     t2.start();
+                    t3.start();
                     jTextArea2.setDropTarget(new DropTarget() {
                         @Override
                         public synchronized void drop(DropTargetDropEvent evt) {
