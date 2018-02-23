@@ -42,25 +42,15 @@ public class FaceDetection extends Application implements Runnable
 
 			// set the proper behavior on closing the application
 			
-			primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
-				
-				public void handle(WindowEvent we)
-				{
-					controller.setClosed();
-					/*
-						ExamPrepFrame epf = new ExamPrepFrame();
-						epf.caStop();
-						epf.fdStop();
-						epf.rpStop();
-					
-					
-
-					LastFrame lf = new LastFrame();
-					*/
-					
-				}
-			
-			}));
+//			primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
+//				
+//				public void handle(WindowEvent we)
+//				{
+//					controller.setClosed();
+//			
+//				}
+//			
+//			}));
 		}
 		catch (Exception e)
 		{

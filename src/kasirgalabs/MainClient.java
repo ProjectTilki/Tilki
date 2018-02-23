@@ -1,5 +1,6 @@
 package kasirgalabs;
 
+import static com.sun.javafx.runtime.async.BackgroundExecutor.getTimer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
