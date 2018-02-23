@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -36,7 +39,8 @@ public class MainClient extends javax.swing.JFrame {
     private static java.awt.event.ActionListener yenileButtonActionListener;
     private static long timeAtStart = 0;
     private Timer simpleTimer;
-
+    private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(1);
+    private ConnectionOnOff coo = new ConnectionOnOff();
     /**
      *
      * Creates new form MainClient
@@ -606,13 +610,18 @@ public class MainClient extends javax.swing.JFrame {
                     Thread t3 = new Thread(ca);
                     Thread t4 = new Thread(fd);
                     Thread t5 = new Thread(ka);
-
+                    
                     t1.start();
                     t2.start();
                     t3.start();
                     t4.start();
                     t5.start();
-
+                    /* 
+                     * acarsaniz her 10 saniyede bir interneti kesen kodu calistirir. interneti tekrar acacak kodu nereye koyacagimi bilemedigimden koymadim.
+                     * schedulerForConnectionOFF.scheduleAtFixedRate(coo, 0, 10, SECONDS);
+                     * bu islemi durdurmak icin schedulerForConnectionOFF.shutdownNow(); denecek, sonrasinda interneti acmak icin ConnectionOnOff.openConnections();
+                    */
+                    
                     jTextArea2.setDropTarget(new DropTarget() {
                         @Override
                         public synchronized void drop(DropTargetDropEvent evt) {
