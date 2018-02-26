@@ -25,7 +25,7 @@ import javax.swing.UIManager;
 public class MainClient extends javax.swing.JFrame {
 
     private static String ipAddress = "localhost";
-    private Exam[] examList = {new Exam("deneme", "desc")};
+    private Exam[] examList;
     private CaptureDesktop cam;
     private RunningProcesses rp;
     private KeyboardActivities ka;
@@ -36,18 +36,21 @@ public class MainClient extends javax.swing.JFrame {
     private String blockedApps;
     private static ZipAndUpload zau;
     private final FoxClientUtilities fcu = new FoxClientUtilities();
+    private final TilkiClient tc = new TilkiClient();
     private final Color c = new Color(26, 126, 36);
     private static java.awt.event.ActionListener yenileButtonActionListener;
     private static long timeAtStart = 0;
     private Timer simpleTimer;
-    private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(1);
+    private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
+            1);
     private ConnectionOnOff coo = new ConnectionOnOff();
+
     /**
      *
      * Creates new form MainClient
      */
     public MainClient() {
-
+        examList = tc.listExams();
         initComponents();
 
         try {
@@ -439,7 +442,7 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 415, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 7, Short.MAX_VALUE)))
@@ -608,148 +611,135 @@ public class MainClient extends javax.swing.JFrame {
         if(!(name.isEmpty()) && !(surname.isEmpty())
                 && !(number.isEmpty()) && !(className.equals(
                 "L\u00FCtfen bir s\u0131nav se\u00E7iniz."))) {
-//        if(!(name.isEmpty()) && !(surname.isEmpty())
-//            && !(number.isEmpty()) && !(className.equals(
-//            "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
-//                    isEmpty()) {
-            int status = 4;
-                //status = fcu.verifyInstructorKey(name, surname, number,
-                //        className, instructorKey);
-                status = 1;
-                if(status == 2) {
+            if(!(name.isEmpty()) && !(surname.isEmpty())
+                    && !(number.isEmpty()) && !(className.equals(
+                    "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
+                            isEmpty()) {
+                //int status = 4;
+
+                int studentStatus = tc.checkIn(name, surname, Integer.parseInt(
+                        number), className);
+                int instructorStatus = tc.verifyInstructorKey(className,
+                        instructorKey);
+
+                if(instructorStatus == 0) {
                     loginLabel.setText(
-                            "<html>\u015Eifre kabul edilmedi, ve kayda "
-                            + "ge\u00E7ildi.<br>" + "L\u00FCtfen tekrar"
+                            "<html>\u015Eifre kabul edilmedi. Yanlis asistan sifresi"
+                            + "<br>" + "L\u00FCtfen tekrar"
                             + " deneyiniz.</html>");
                 }
-                else if(status == 1) {
-                    GirisEkrani.setVisible(false);
-                    this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-                    VideoKayitEkrani.setVisible(true);
-                    cam = new CaptureDesktop(idTextField.getText(),
-                            surnameTextField.
-                                    getText().charAt(0) + nameTextField.
-                            getText());
-                    rp = new RunningProcesses(blockedApps);
-                    CaptureAudio ca=new CaptureAudio();
-                    FaceDetection fd=new FaceDetection();
-                    ka = new KeyboardActivities();
-                    Thread t1 = new Thread(cam);
-		    Thread t2 = new Thread(rp);
-                    Thread t3 = new Thread(ca);
-                    Thread t4 = new Thread(fd);
-                    Thread t5 = new Thread(ka);
-                    
-                    t1.start();
-                    t2.start();
-                    t3.start();
-                    t4.start();
-                    t5.start();
-                    /* 
-                     * acarsaniz her 10 saniyede bir interneti kesen kodu calistirir. interneti tekrar acacak kodu nereye koyacagimi bilemedigimden koymadim.
-                     * schedulerForConnectionOFF.scheduleAtFixedRate(coo, 0, 10, SECONDS);
-                     * bu islemi durdurmak icin schedulerForConnectionOFF.shutdownNow(); denecek, sonrasinda interneti acmak icin ConnectionOnOff.openConnections();
-                    */
-                    
-                    jTextArea2.setDropTarget(new DropTarget() {
-                        @Override
-                        public synchronized void drop(DropTargetDropEvent evt) {
-                            try {
-                                evt.acceptDrop(DnDConstants.ACTION_COPY);
-                                List<File> droppedFiles = (List<File>) evt.
-                                        getTransferable().getTransferData(
-                                                DataFlavor.javaFileListFlavor);
-                                FileListModel flm = (FileListModel) dosyaListesi.getModel();
-                                droppedFiles.forEach((f) -> {
-                                    flm.addElement(f.getAbsolutePath());
-                                });
-                                if(jCheckBox1.isSelected()) {
-                                    jCheckBox1.doClick();
-                                }
-                                dosyaEksikLabel.setText(flm.getErrorMessage());
-                                dosyaListesi.setModel(flm);
-                            }
-                            catch(Exception ex) {
-                                jTextArea2.setForeground(Color.RED);
-                                jTextArea2.setText(
-                                        "\u0130\u015Fletim sisteminiz"
-                                        + " s\u00FCr\u00FCkle b\u0131rak"
-                                        + " \u00F6zelli\u011Fini destek"
-                                        + "lemiyor.\n");
-                                jTextArea2.append(
-                                        "L\u00FCtfen dosya"
-                                        + "lar\u0131n\u0131z\u0131 \"G\u00F6z"
-                                        + "at\" butonuna t\u0131klayarak"
-                                        + " se\u00E7iniz.");
-                                jTextArea2.setDropTarget(null);
-                                //jTextArea2.setEnabled(false);
-                                ClientExceptionHandler.logAnException(ex);
-                            }
-                        }
-                    });
-                    timeAtStart = System.currentTimeMillis();
-                    simpleTimer = new Timer(1000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            jLabel9.setText(getTimeElapsed());
-                        }
-                    });
-                    simpleTimer.start();
-                }
                 else {
-                    loginLabel.setText("Bilinmeyen hata.");
+                    if(studentStatus == 1) {
+                        GirisEkrani.setVisible(false);
+                        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                        VideoKayitEkrani.setVisible(true);
+                        cam = new CaptureDesktop(idTextField.getText(),
+                                surnameTextField.
+                                        getText().charAt(0) + nameTextField.
+                                getText());
+                        rp = new RunningProcesses(blockedApps);
+                        CaptureAudio ca = new CaptureAudio();
+                        FaceDetection fd = new FaceDetection();
+                        ka = new KeyboardActivities();
+                        Thread t1 = new Thread(cam);
+                        Thread t2 = new Thread(rp);
+                        Thread t3 = new Thread(ca);
+                        Thread t4 = new Thread(fd);
+                        Thread t5 = new Thread(ka);
+
+                        t1.start();
+                        t2.start();
+                        t3.start();
+                        t4.start();
+                        t5.start();
+                        /*
+                         * acarsaniz her 10 saniyede bir interneti kesen kodu
+                         * calistirir. interneti tekrar acacak kodu nereye
+                         * koyacagimi bilemedigimden koymadim.
+                         * schedulerForConnectionOFF.scheduleAtFixedRate(coo, 0,
+                         * 10, SECONDS);
+                         * bu islemi durdurmak icin
+                         * schedulerForConnectionOFF.shutdownNow(); denecek,
+                         * sonrasinda interneti acmak icin
+                         * ConnectionOnOff.openConnections();
+                         */
+
+                        jTextArea2.setDropTarget(new DropTarget() {
+                            @Override
+                            public synchronized void drop(
+                                    DropTargetDropEvent evt) {
+                                try {
+                                    evt.acceptDrop(DnDConstants.ACTION_COPY);
+                                    List<File> droppedFiles = (List<File>) evt.
+                                            getTransferable().getTransferData(
+                                                    DataFlavor.javaFileListFlavor);
+                                    FileListModel flm = (FileListModel) dosyaListesi.getModel();
+                                    droppedFiles.forEach((f) -> {
+                                        flm.addElement(f.getAbsolutePath());
+                                    });
+                                    if(jCheckBox1.isSelected()) {
+                                        jCheckBox1.doClick();
+                                    }
+                                    dosyaEksikLabel.setText(
+                                            flm.getErrorMessage());
+                                    dosyaListesi.setModel(flm);
+                                }
+                                catch(Exception ex) {
+                                    jTextArea2.setForeground(Color.RED);
+                                    jTextArea2.setText(
+                                            "\u0130\u015Fletim sisteminiz"
+                                            + " s\u00FCr\u00FCkle b\u0131rak"
+                                            + " \u00F6zelli\u011Fini destek"
+                                            + "lemiyor.\n");
+                                    jTextArea2.append(
+                                            "L\u00FCtfen dosya"
+                                            + "lar\u0131n\u0131z\u0131 \"G\u00F6z"
+                                            + "at\" butonuna t\u0131klayarak"
+                                            + " se\u00E7iniz.");
+                                    jTextArea2.setDropTarget(null);
+                                    //jTextArea2.setEnabled(false);
+                                    ClientExceptionHandler.logAnException(ex);
+                                }
+                            }
+                        });
+                        timeAtStart = System.currentTimeMillis();
+                        simpleTimer = new Timer(1000, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                jLabel9.setText(getTimeElapsed());
+                            }
+                        });
+                        simpleTimer.start();
+                    }
+                    else {
+                        loginLabel.setText("Bilinmeyen hata.");
+                    }
                 }
-            
-//            catch(IOException ex) {
-//                durumLabel.setText("Ba\u011Flanamad\u0131");
-//                durumLabel.setForeground(Color.red);
-//                durumLabel.setVisible(true);
-//                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
-//                loginLabel.setVisible(true);
-//                //examList = null;
-//                jList1.setModel(new ExamListModel(examList));
-//                jTextArea1.setText("");
-//            }
-            if(status == 0) {
-                loginLabel.setText("Serverda dosya eksik!");
-                loginLabel.setVisible(true);
-                //examList = null;
-                jTextArea1.setText("");
-                jList1.setModel(new ExamListModel(examList));
             }
-            else if(status == 4) {
-                durumLabel.setText("Ba\u011Flanamad\u0131");
-                durumLabel.setForeground(Color.red);
-                durumLabel.setVisible(true);
-                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
+            else if(name.isEmpty()) {
+                loginLabel.setText("Ad k\u0131sm\u0131 eksik.");
                 loginLabel.setVisible(true);
-                //examList = null;
-                jTextArea1.setText("");
-                jList1.setModel(new ExamListModel(examList));
             }
-        }
-        else if(name.isEmpty()) {
-            loginLabel.setText("Ad k\u0131sm\u0131 eksik.");
-            loginLabel.setVisible(true);
-        }
-        else if(surname.isEmpty()) {
-            loginLabel.setText("Soyad k\u0131sm\u0131 eksik.");
-            loginLabel.setVisible(true);
-        }
-        else if(number.isEmpty()) {
-            loginLabel.setText("Numara k\u0131sm\u0131 eksik.");
-            loginLabel.setVisible(true);
-        }
-        else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
-            loginLabel.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
-            loginLabel.setVisible(true);
-            jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
-        }
-        else if(instructorKey.isEmpty()) {
-            loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
-            loginLabel.setVisible(true);
-        }
-        else {
+            else if(surname.isEmpty()) {
+                loginLabel.setText("Soyad k\u0131sm\u0131 eksik.");
+                loginLabel.setVisible(true);
+            }
+            else if(number.isEmpty()) {
+                loginLabel.setText("Numara k\u0131sm\u0131 eksik.");
+                loginLabel.setVisible(true);
+            }
+            else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
+                loginLabel.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
+                loginLabel.setVisible(true);
+                jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
+            }
+            else if(instructorKey.isEmpty()) {
+                loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
+                loginLabel.setVisible(true);
+            }
+            else {
+                loginLabel.setVisible(false);
+            }
             loginLabel.setVisible(false);
         }
     }//GEN-LAST:event_loginButtonMouseClicked
@@ -880,55 +870,55 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-//        if(jCheckBox1.isSelected()
-//                && (new String(videoKayitGozetmenField.getPassword())).equals(
-//                        instructorKey)) {
-//            FileChooserFrame.setVisible(false);
-//            ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
-//            FileListModel flm = (FileListModel) dosyaListesi.getModel();
-//
-//            if(cam.status()) {
-//                cam.StopCaptureDesktop();
-//            }
-//
-//            String target_file = cam.getPersonName() + "." + cam.getFormat();
-//            File target_file_object = new File(target_file);
-//            if(target_file_object.exists()) {
-//                filesThatWillUpload.add(new File(target_file));
-//                for(int i = 0; i < 100; i++) {
-//                    target_file_object = new File(i + "_" + target_file);
-//                    if(target_file_object.exists()) {
-//                        filesThatWillUpload.add(new File(i + "_" + target_file));
-//                    }
-//                }
-//            }
-//            ArrayList<File> codeFiles = new ArrayList<File>(0);
-//            for(int i = 0; i < flm.getSize(); i++) {
-//                codeFiles.add(new File((String) flm.getElementAt(i)));
-//            }
-//            simpleTimer.stop();
-//            File[] temp = new File[filesThatWillUpload.size()];
-//            File[] temp2 = new File[codeFiles.size()];
-//            zau = new ZipAndUpload(codeFiles.toArray(temp2),
-//                    filesThatWillUpload.toArray(
-//                            temp), number,
-//                    jLabel16.getText(),
-//                    instructorKey);
-//            zau.setVisible(true);
-//            for(Component component : dosyaListesi.getComponents()) {
-//                component.setEnabled(false);
-//            }
-//            dosyaListesi.setEnabled(false);
-//            for(Component component : VideoKayitEkrani.getComponents()) {
-//                component.setEnabled(false);
-//            }
-//            VideoKayitEkrani.setEnabled(false);
-//            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-//        }
-//        if(!(new String(videoKayitGozetmenField.getPassword())).equals(
-//                instructorKey)) {
-//            keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
-//        }
+        if(jCheckBox1.isSelected()
+                && (new String(videoKayitGozetmenField.getPassword())).equals(
+                        instructorKey)) {
+            FileChooserFrame.setVisible(false);
+            ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
+            FileListModel flm = (FileListModel) dosyaListesi.getModel();
+
+            if(cam.status()) {
+                cam.StopCaptureDesktop();
+            }
+
+            String target_file = cam.getPersonName() + "." + cam.getFormat();
+            File target_file_object = new File(target_file);
+            if(target_file_object.exists()) {
+                filesThatWillUpload.add(new File(target_file));
+                for(int i = 0; i < 100; i++) {
+                    target_file_object = new File(i + "_" + target_file);
+                    if(target_file_object.exists()) {
+                        filesThatWillUpload.add(new File(i + "_" + target_file));
+                    }
+                }
+            }
+            ArrayList<File> codeFiles = new ArrayList<File>(0);
+            for(int i = 0; i < flm.getSize(); i++) {
+                codeFiles.add(new File((String) flm.getElementAt(i)));
+            }
+            simpleTimer.stop();
+            File[] temp = new File[filesThatWillUpload.size()];
+            File[] temp2 = new File[codeFiles.size()];
+            zau = new ZipAndUpload(codeFiles.toArray(temp2),
+                    filesThatWillUpload.toArray(
+                            temp), number,
+                    jLabel16.getText(),
+                    instructorKey);
+            zau.setVisible(true);
+            for(Component component : dosyaListesi.getComponents()) {
+                component.setEnabled(false);
+            }
+            dosyaListesi.setEnabled(false);
+            for(Component component : VideoKayitEkrani.getComponents()) {
+                component.setEnabled(false);
+            }
+            VideoKayitEkrani.setEnabled(false);
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        }
+        if(!(new String(videoKayitGozetmenField.getPassword())).equals(
+                instructorKey)) {
+            keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed

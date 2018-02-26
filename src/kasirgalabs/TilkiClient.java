@@ -26,7 +26,7 @@ public class TilkiClient {
         
         try {
             //This url will be changed after heroku deploy.
-            String url = "https://bitirme-projesi-kerimsiper.c9users.io/tilki/list_exams.json";
+            String url = "https://examwebserver.herokuapp.com/tilki/list_exams.json";
 
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -74,13 +74,14 @@ public class TilkiClient {
 
         try {
 
-            String url = "https://bitirme-projesi-kerimsiper.c9users.io/tilki/check_in.json";
+            String url = "https://examwebserver.herokuapp.com/tilki/check_in.json";
 
             url += "?name=" + name;
             url += "&surname=" + surname;
             url += "&number=" + number;
             url += "&exam=" + exam;
-
+            url = replaceSpaceInString(url);
+            
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -121,11 +122,12 @@ public class TilkiClient {
 
         try {
 
-            String url = "https://bitirme-projesi-kerimsiper.c9users.io/tilki/verify_key.json";
+            String url = "https://examwebserver.herokuapp.com/tilki/verify_key.json";
 
             url += "?exam=" + exam;
             url += "&key=" + key;
-
+            url = replaceSpaceInString(url);
+            
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -160,5 +162,19 @@ public class TilkiClient {
 
         return verifyStatus;
     }
+    
+    
+    public String replaceSpaceInString(String s){
+    int i;
+    for (i=0;i<s.length();i++){
+        System.out.println("i is "+i);
+        if (s.charAt(i)==(int)32){
+            s=s.substring(0, i)+"%20"+s.substring(i+1, s.length());
+            i=i+2;              
+            }
+    }
+    return s;
+    }
+    
 
 }

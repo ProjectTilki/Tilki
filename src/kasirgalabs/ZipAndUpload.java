@@ -8,16 +8,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URL;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -68,18 +65,13 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     + " \u00F6nce\n" + "kullan\u0131m verilerinizin"
                     + " kar\u015F\u0131ya y\u00FCklenmesini bekleyiniz.\n\n");
             logFile = new File("tilki.log");
-            FileWriter fw = new FileWriter(logFile, true);
-            fw.append(codes_md5 + "\r\n");
+
             task.firePropertyChange("enableCloseButton", 0, 1);
             String temp = createZipFile(videoFiles);
             if(Thread.currentThread().isInterrupted()) {
                 return "";
             }
             videos_md5 = sendFile(temp, name, id);
-            videos_md5 = videos_md5.toUpperCase();
-            xor_md5 = xorHex(codes_md5, videos_md5);
-            fw.append(xor_md5 + "\r\n");
-            fw.close();
             queue.add(
                     "Kullan\u0131m verileriniz kar\u015F\u0131ya"
                     + " y\u00FCklenmi\u015Ftir.\n\n");
@@ -93,7 +85,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     + "\nProgram\u0131 kapat\u0131p, s\u0131navdan"
                     + " \u00E7\u0131kabilirsiniz.");
             task.firePropertyChange("message", 0, 1);
-            return xor_md5;
+            return "success";
         }
 
         /*
@@ -247,86 +239,22 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          *                                       read access to the file.
          * @throws java.io.IOException           If an I/O error occurs.
          */
+        
         private String sendFile(String fileName, String id, String exam)
                 throws IOException {
-            // Create a socket and initialize it's streams.
-            socket = null;
-            DataInputStream in = null;
-            DataOutputStream out = null;
-            FileInputStream fileIn = null;
-            OutputStream os_out = null;
-            String checksum = null;
-            while(socket == null && !Thread.currentThread().isInterrupted()) {
-                try {
-                    socket = new Socket(MainClient.getIpAddress(), 50101);
-                }
-                catch(Exception ex0) {
-                    ClientExceptionHandler.logAnException(ex0);
-                    task.firePropertyChange("connectionError", 0, 1);
-                    socket = null;
-                    try {
-                        Thread.sleep(5000);
-                    }
-                    catch(InterruptedException ex1) {
-                        ClientExceptionHandler.logAnException(ex1);
-                    }
-                }
-            }
-            try {
-                task.firePropertyChange("connectionEstablished", 0, 1);
-                queue.add("Dosyalar y\u00FCkleniyor...\n");
-                in = new DataInputStream(socket.getInputStream());
-                out = new DataOutputStream(socket.getOutputStream());
 
-                out.writeUTF("Sending file");
-                out.writeUTF(fileName);
-                out.writeUTF(id);
-                out.writeUTF(exam);
-                out.flush();
-                if(!in.readUTF().equals("Exam file is found.")) {
-                    return null;
-                }
-
-                // Read file and send it over the socket.
-                long fileSize = new File(fileName).length();
-                fileIn = new FileInputStream(fileName);
-                os_out = socket.getOutputStream();
-                long sentBytes = 0;
-                int progress = 0;
-                int bytesCount;
-                byte[] fileData = new byte[1024];
-                do {
-                    bytesCount = fileIn.read(fileData);
-                    if(bytesCount > 0) {
-                        os_out.write(fileData, 0, bytesCount);
-                        sentBytes += bytesCount;
-                        if(sentBytes >= fileSize / 100) {
-                            sentBytes = 0;
-                            setProgress(progress++);
-                        }
-                    }
-                    if(Thread.currentThread().isInterrupted()) {
-                        return null;
-                    }
-                } while(bytesCount > 0);
-
-                os_out.flush();
-                // Shut down output to tell server no more data.
-                socket.shutdownOutput();
-                checksum = in.readUTF(); // Read codes_md5 from socket.
-            }
-            catch(Exception ex) {
-                throw ex;
-            }
-            finally {
-                if(fileIn != null) {
-                    fileIn.close();
-                }
-                if(socket != null) {
-                    socket.close();
-                }
-            }
-            return checksum;
+            URL url = new URL(
+                    "https://examwebserver.herokuapp.com/tilki/upload");
+            File uploadFile = new File(fileName);
+            final MultipartUtility http = new MultipartUtility(url);
+            task.firePropertyChange("connectionEstablished", 0, 1);
+            http.addFormField("number", id);
+            http.addFormField("exam", exam);
+            http.addFormField("someButton", "Submit");
+            http.addFilePart("fileName", uploadFile);
+            final byte[] bytes = http.finish();
+            String hash = bytes.toString();
+            return hash;
         }
 
         private String xorHex(String a, String b) {
@@ -593,11 +521,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             startButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent evt) {
-                    try {
-                        socket.close();
-                    }
-                    catch(IOException ex) {
-                    }
                     task.cancel(true);
                     taskOutput.append(
                             "\nDo\u011Frulama kodu:");
@@ -625,9 +548,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu"
                     + " imza ka\u011F\u0131d\u0131ndaki bo\u015F yere"
                     + " yaz\u0131n\u0131z.\n\n";
-            message += xor_md5.substring(0, 5) + " - " + xor_md5.
-                    substring(5, 10) + " - " + xor_md5.
-                    substring(10, 15);
+            message += codes_md5 + " " + videos_md5;
             JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
                     DEFAULT_OPTION, null, option);
             dialog2 = pane.createDialog(this, "Do\u011Frulama Kodu");
