@@ -18,12 +18,14 @@ import com.google.common.collect.Sets;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.win32.StdCallLibrary;
+import java.util.Arrays;
 
 public class RunningProcesses extends JFrame implements Runnable{
 
 	public static JFrame frame3 = null;
 	List<String> kapatilanUygulamalar = new ArrayList<String>();
 	List<String> acilanUygulamalar = new ArrayList<String>();
+        List<String> blockedAppsList = new ArrayList<String>();
 	
 	public List<String> getKapatilan(){
 		return this.kapatilanUygulamalar;
@@ -63,8 +65,14 @@ public class RunningProcesses extends JFrame implements Runnable{
 		return windowNames;
 	}
 
-	public RunningProcesses(){
-		
+	public RunningProcesses(String blockedApps){
+            
+            //System.out.println("Blocked apps: " + blockedApps);
+            blockedAppsList = Arrays.asList(blockedApps.split(","));
+            for(String element : blockedAppsList) {
+                System.out.println(element);
+                
+            }
 	}
 
 	public static void main(String[] args) {
@@ -219,18 +227,20 @@ public class RunningProcesses extends JFrame implements Runnable{
 						yeniEdgeSekme = winName;
 
 					}
+                                        
+                                        /*
 					if(winName.contains("pdf")){
 						JOptionPane.showMessageDialog(null, 
 								"PDF dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
 		            	 System.out.println("Pdf dosyasi acik !  " + winName);
 		             }
-		             /*
+		             
 					if(winName.contains("Office")){
 						JOptionPane.showMessageDialog(null, 
 								"Office dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
 						System.out.println("Office dosyasi acik ! " + winName);
 					}
-					*/
+					
 					if(winName.contains("Word")){
 						JOptionPane.showMessageDialog(null, 
 								"Word dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
@@ -246,8 +256,17 @@ public class RunningProcesses extends JFrame implements Runnable{
 								"Fotograf dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
 						System.out.println("Fotoğraflar dosyasi acik ! " + winName);
 					}
-					
-		             // office uygulamalari, video, fotolar
+					*/
+                                        for(String element : blockedAppsList) {
+                                           
+                                            if(winName.toLowerCase().contains(element.toLowerCase())){
+                                                //JOptionPane.showMessageDialog(null, 
+								//element +" dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
+						System.out.println(element +" dosyasi acik ! " + winName);
+                                            }
+                                            
+                                        }
+		             
 
 				}
 				if(!(eskiChromeSekme.equals(yeniChromeSekme))){

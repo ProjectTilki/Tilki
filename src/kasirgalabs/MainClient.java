@@ -33,6 +33,7 @@ public class MainClient extends javax.swing.JFrame {
     private String name;
     private String surname;
     private String instructorKey;
+    private String blockedApps;
     private static ZipAndUpload zau;
     private final FoxClientUtilities fcu = new FoxClientUtilities();
     private final Color c = new Color(26, 126, 36);
@@ -100,6 +101,8 @@ public class MainClient extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         jLabel16 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        blockedAppsField = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         SagPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
@@ -165,6 +168,11 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
+        nameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameTextFieldActionPerformed(evt);
+            }
+        });
         nameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 nameTextFieldKeyPressed(evt);
@@ -194,6 +202,11 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel4.setText("<html>S\u0131nava ba\u015Flamak i\u00E7in l\u00FCtfen gerekli bilgileri<br> doldurun ve s\u0131nav\u0131n\u0131z\u0131 se\u00E7in.<html/>\n");
 
+        keyField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                keyFieldActionPerformed(evt);
+            }
+        });
         keyField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 keyFieldKeyPressed(evt);
@@ -214,6 +227,14 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel10.setText("S\u0131nav");
 
+        blockedAppsField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blockedAppsFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Blocked apps");
+
         javax.swing.GroupLayout SolPanelLayout = new javax.swing.GroupLayout(SolPanel);
         SolPanel.setLayout(SolPanelLayout);
         SolPanelLayout.setHorizontalGroup(
@@ -228,7 +249,8 @@ public class MainClient extends javax.swing.JFrame {
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jSeparator3)
                                     .addComponent(jSeparator5)
-                                    .addComponent(jLabel10))
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(SolPanelLayout.createSequentialGroup()
                                         .addGap(21, 21, 21)
@@ -246,7 +268,9 @@ public class MainClient extends javax.swing.JFrame {
                                             .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(blockedAppsField, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addComponent(keyLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -309,8 +333,12 @@ public class MainClient extends javax.swing.JFrame {
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(blockedAppsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -411,10 +439,10 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 415, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 4, Short.MAX_VALUE)))
+                        .addGap(0, 7, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -575,6 +603,7 @@ public class MainClient extends javax.swing.JFrame {
         number = idTextField.getText();
         String className = jLabel16.getText();
         instructorKey = new String(keyField.getPassword());
+        blockedApps = blockedAppsField.getText();
 
         if(!(name.isEmpty()) && !(surname.isEmpty())
                 && !(number.isEmpty()) && !(className.equals(
@@ -601,7 +630,7 @@ public class MainClient extends javax.swing.JFrame {
                             surnameTextField.
                                     getText().charAt(0) + nameTextField.
                             getText());
-                    rp = new RunningProcesses();
+                    rp = new RunningProcesses(blockedApps);
                     CaptureAudio ca=new CaptureAudio();
                     FaceDetection fd=new FaceDetection();
                     ka = new KeyboardActivities();
@@ -932,6 +961,18 @@ public class MainClient extends javax.swing.JFrame {
             jLabel16.setText(examList[location].getName());
         }    }//GEN-LAST:event_jList1MousePressed
 
+    private void blockedAppsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockedAppsFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_blockedAppsFieldActionPerformed
+
+    private void keyFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keyFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_keyFieldActionPerformed
+
+    private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameTextFieldActionPerformed
+
     private static class ShutDownHook extends Thread {
 
         @Override
@@ -976,6 +1017,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JPanel SagPanel;
     private javax.swing.JPanel SolPanel;
     private javax.swing.JPanel VideoKayitEkrani;
+    private javax.swing.JTextField blockedAppsField;
     private javax.swing.JLabel dosyaEksikLabel;
     private javax.swing.JList<String> dosyaListesi;
     private javax.swing.JLabel durumLabel;
@@ -991,6 +1033,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
