@@ -263,6 +263,7 @@ public class RunningProcesses extends JFrame implements Runnable{
                                                 //JOptionPane.showMessageDialog(null, 
 								//element +" dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
 						System.out.println(element +" dosyasi acik ! " + winName);
+                                                closeApp(element);
                                             }
                                             
                                         }
@@ -323,9 +324,9 @@ public class RunningProcesses extends JFrame implements Runnable{
 
 				}
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt(); // Here!
+					Thread.currentThread().interrupt();
 					  //throw new RuntimeException(e);
 				}
 				
@@ -333,9 +334,7 @@ public class RunningProcesses extends JFrame implements Runnable{
 			}
 	}
 	private void closeApp(String taskName){
-		   
-		   // in progress
-		   
+		   		   
 		   try {
 				String line;
 				Process p = Runtime.getRuntime().exec
@@ -343,14 +342,14 @@ public class RunningProcesses extends JFrame implements Runnable{
 				BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				while ((line = input.readLine()) != null) {
 					//System.out.println(line);
-					if(line.contains("vlc")){
+					if(line.contains(taskName)){
 						System.out.println(line);
 						System.out.println("Kapatiliyor.");
 						String[] dizi = line.split(",");
 						String temp = dizi[1].substring(1, dizi[1].length()-1);
 						int pid = Integer.parseInt(temp);
 						System.out.println("pid : " + pid);
-						//Process k = Runtime.getRuntime().exec ("taskkill /pid " + pid);
+						Process k = Runtime.getRuntime().exec ("taskkill /pid " + pid);
 					}
 				}
 				input.close();
