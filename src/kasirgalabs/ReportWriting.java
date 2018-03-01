@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ReportWriting {
 	private static final String FILE_NAME = "reportForTeacher.pdf";
@@ -49,26 +51,32 @@ public class ReportWriting {
 
 	}
 
-	public void addImage() {
+	public void addImage(String path) {
 		document.open();
-		Image image1;
+		Image image1 = null;
 		try {
+			
 			for (int i = 0; i < 10; i++) {
-				image1 = Image.getInstance("FullScreenshot"+i+".jpg");
-				document.add(image1);
-				document.add(Chunk.NEWLINE);
-			}
-			for (int i = 0; i < 10; i++) {
-				image1 = Image.getInstance("Photo"+i+".png");
+                            try {
+                                image1 = Image.getInstance(path);
+                            }
+                            catch(BadElementException ex) {
+                                Logger.getLogger(ReportWriting.class.getName()).log(Level.SEVERE,
+                                        null, ex);
+                            }
+                            catch(IOException ex) {
+                                Logger.getLogger(ReportWriting.class.getName()).log(Level.SEVERE,
+                                        null, ex);
+                            }
 				document.add(image1);
 			}
 
 			
-		} catch (IOException | DocumentException e1) {
+		} catch (DocumentException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		document.close();
+		
 	}
 
 	// metin icin

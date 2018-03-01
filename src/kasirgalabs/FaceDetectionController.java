@@ -46,7 +46,7 @@ public class FaceDetectionController {
     private boolean cameraActive;
     private CascadeClassifier faceCascade;
     private int absoluteFaceSize;
-    //ReportWriting rw=new ReportWriting();
+    ReportWriting rw=new ReportWriting();
 
     protected void init() {
         this.capture = new VideoCapture();
@@ -120,10 +120,12 @@ public class FaceDetectionController {
                SimpleDateFormat dateFormat = new SimpleDateFormat(
                     "yyyyMMddHHmmss");
             Date date = new Date();
-            File outputfile = new File(dateFormat.format(date) + ".png");
+            String s=dateFormat.format(date) + ".png";
+            File outputfile = new File(s);
           
             ImageIO.write(img, "png", outputfile);
-//			rw.addText("Taked Picture");
+            rw.addText("Taked Picture");
+            rw.addImage(s);
             //System.out.println("take picture");
         }
         catch(Exception e) {
@@ -207,8 +209,9 @@ public class FaceDetectionController {
      * On application close, stop the acquisition from the camera
      */
     protected void setClosed() {
-//		rw.submitText();
-//		rw.addImage();
+		rw.submitText();
+		
+                rw.closed();
         this.stopAcquisition();
         Platform.exit();
         System.exit(0);
