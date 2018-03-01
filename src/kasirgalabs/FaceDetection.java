@@ -1,13 +1,19 @@
 package kasirgalabs;
 
 import java.util.Locale;
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import org.opencv.core.Core;
@@ -43,25 +49,33 @@ public class FaceDetection extends Application implements Runnable {
             primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
 
                 public void handle(WindowEvent we) {
-                    JOptionPane optionPane = new JOptionPane();
-                    JDialog dialog = optionPane.createDialog("Title");
-               
-                    dialog.setAlwaysOnTop(true);
-                    dialog.setVisible(true);
-                    int reply = optionPane.showConfirmDialog(
-                            JOptionPane.getRootFrame(),
-                            "Sınavdan çıkmak istiyor musunuz?",
-                            "EXIT", JOptionPane.YES_NO_OPTION);
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setTitle("EXIT");
+                    alert.setHeaderText("Sınavdan çıkmak istiyor musunuz?");
+                    
 
-                    if(reply == JOptionPane.YES_OPTION) {
-                        primaryStage.hide();
-                        controller.setClosed();
-                    }
-                    else {
+                    ButtonType buttonTypeYes = new ButtonType("Evet");
+                    ButtonType buttonTypeNo = new ButtonType("Hayır", ButtonData.CANCEL_CLOSE);
 
-                        primaryStage.show();
+                    alert.getButtonTypes().setAll(buttonTypeYes,  buttonTypeNo);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == buttonTypeYes){
+                       controller.setClosed();
+                    } else {
+                        
                     }
-                    // controller.setClosed();
+//                    JOptionPane optionPane = new JOptionPane();
+//                    JDialog dialog = optionPane.createDialog(
+//                            "EXIT");
+//
+//                    optionPane.setMessage("Sınavdan çıkmak istiyor musunuz?");
+//                     
+//                    optionPane.setOptions(new String[]{"Evet", "Hayır"});
+//                   
+//                    
+//                    dialog.setAlwaysOnTop(true);
+//                    dialog.setVisible(true);
 
                 }
 
@@ -76,7 +90,7 @@ public class FaceDetection extends Application implements Runnable {
     public void run() {
         // TODO Auto-generated method stub
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        launch(null);
+        launch((String) null);
 
     }
 

@@ -88,6 +88,7 @@ public class FaceDetectionController {
                                 e.printStackTrace();
                             }
                         }
+                        System.out.println("finiiiiiiisssssss");
                     }
                 };
                 Thread t1 = new Thread(frameGrabber);
@@ -125,8 +126,8 @@ public class FaceDetectionController {
           
             ImageIO.write(img, "png", outputfile);
             rw.addText("Taked Picture");
-            rw.addImage(s);
-            //System.out.println("take picture");
+            //rw.addImage(s);
+            System.out.println("take picture");
         }
         catch(Exception e) {
             System.out.println("error");
@@ -213,7 +214,7 @@ public class FaceDetectionController {
 		
                 rw.closed();
         this.stopAcquisition();
-        Platform.exit();
+       
         System.exit(0);
 
     }
