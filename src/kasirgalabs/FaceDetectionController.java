@@ -126,7 +126,7 @@ public class FaceDetectionController {
           
             ImageIO.write(img, "png", outputfile);
             rw.addText("Taked Picture");
-            //rw.addImage(s);
+            
             System.out.println("take picture");
         }
         catch(Exception e) {
@@ -210,12 +210,9 @@ public class FaceDetectionController {
      * On application close, stop the acquisition from the camera
      */
     protected void setClosed() {
-		rw.submitText();
-		
-                rw.closed();
+	
         this.stopAcquisition();
        
-        System.exit(0);
 
     }
 
