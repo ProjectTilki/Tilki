@@ -46,14 +46,14 @@ public class FaceDetection extends Application implements Runnable {
             FaceDetectionController controller = loader.getController();
             controller.init();
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-    @Override
-    public void handle(WindowEvent event) {
-       
-            event.consume();
-            primaryStage.show(); // I tried without this line also.
-        
-    }
-});
+                @Override
+                public void handle(WindowEvent event) {
+
+                    event.consume();
+                    primaryStage.show(); // I tried without this line also.
+
+                }
+            });
 
         }
         catch(Exception e) {
@@ -69,5 +69,4 @@ public class FaceDetection extends Application implements Runnable {
 
     }
 
-    
 }

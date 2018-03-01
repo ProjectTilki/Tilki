@@ -34,11 +34,8 @@ import javax.swing.JOptionPane;
  *
  * @author goksu
  */
-
 public class FaceDetectionController {
 
-    @FXML
-    private Button cameraButton;
     @FXML
     private ImageView originalFrame;
     private ScheduledExecutorService timer;
@@ -46,7 +43,8 @@ public class FaceDetectionController {
     private boolean cameraActive;
     private CascadeClassifier faceCascade;
     private int absoluteFaceSize;
-    ReportWriting rw=new ReportWriting();
+    ReportWriting rw = new ReportWriting();
+    int count=0;
 
     protected void init() {
         this.capture = new VideoCapture();
@@ -55,6 +53,7 @@ public class FaceDetectionController {
         this.faceCascade.load("haarcascades/haarcascade_frontalface_alt.xml");
         originalFrame.setFitWidth(600);
         originalFrame.setPreserveRatio(true);
+
         startCamera();
     }
 
@@ -76,20 +75,19 @@ public class FaceDetectionController {
                 Runnable takePhoto = new Runnable() {
                     @Override
                     public void run() {
-                        for(int i = 0; i < 10; i++) {
-                            Mat frame1 = new Mat();
-                            capture.read(frame1);
-                            takePicture(frame1, i);
-                            try {
-                                Thread.sleep(1000);
-                            }
-                            catch(InterruptedException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
+
+                        Mat frame1 = new Mat();
+                        capture.read(frame1);
+                        takePicture(frame1);
+                        try {
+                            Thread.sleep(600000);// 10 dk
                         }
-                        System.out.println("finiiiiiiisssssss");
+                        catch(InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     }
+
                 };
                 Thread t1 = new Thread(frameGrabber);
                 Thread t2 = new Thread(takePhoto);
@@ -103,8 +101,8 @@ public class FaceDetectionController {
             }
             else {
                 JOptionPane.showMessageDialog(null,
-                    "Failed to open the camera connection... ", "alert",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Failed to open the camera connection... ", "alert",
+                        JOptionPane.ERROR_MESSAGE);
                 System.err.println("Failed to open the camera connection...");
             }
 
@@ -115,18 +113,18 @@ public class FaceDetectionController {
         }
     }
 
-    public void takePicture(Mat frame, int count) {
+    public void takePicture(Mat frame) {
         BufferedImage img = matToBufferedImage(frame);
         try {
-               SimpleDateFormat dateFormat = new SimpleDateFormat(
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
                     "yyyyMMddHHmmss");
             Date date = new Date();
-            String s=dateFormat.format(date) + ".png";
+            String s = dateFormat.format(date) + ".png";
             File outputfile = new File(s);
-          
+
             ImageIO.write(img, "png", outputfile);
             rw.addText("Taked Picture");
-            
+
             System.out.println("take picture");
         }
         catch(Exception e) {
@@ -175,6 +173,15 @@ public class FaceDetectionController {
 
         // each rectangle in faces is a face: draw them!
         Rect[] facesArray = faces.toArray();
+        if(facesArray.length == 0) {
+            count++;
+
+            if(count % 10==0) {
+                System.out.println("yüz bulunamadı");
+                rw.addText("Couldn't find face... ");
+                takePicture(frame);
+            }
+        }
         for(int i = 0; i < facesArray.length; i++) {
             Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(),
                     new Scalar(0, 255, 0), 3);
@@ -210,9 +217,8 @@ public class FaceDetectionController {
      * On application close, stop the acquisition from the camera
      */
     protected void setClosed() {
-	
+
         this.stopAcquisition();
-       
 
     }
 

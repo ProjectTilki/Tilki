@@ -41,6 +41,7 @@ public class MainClient extends javax.swing.JFrame {
     private static java.awt.event.ActionListener yenileButtonActionListener;
     private static long timeAtStart = 0;
     private Timer simpleTimer;
+    FaceDetection fd ;
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
@@ -641,12 +642,13 @@ public class MainClient extends javax.swing.JFrame {
                                 getText());
                         rp = new RunningProcesses(blockedApps);
                         CaptureAudio ca = new CaptureAudio();
-                        FaceDetection fd = new FaceDetection();
+                        fd = new FaceDetection();
                         ka = new KeyboardActivities();
+                        Thread t4 = new Thread(fd);
                         Thread t1 = new Thread(cam);
                         Thread t2 = new Thread(rp);
                         Thread t3 = new Thread(ca);
-                        Thread t4 = new Thread(fd);
+
                         Thread t5 = new Thread(ka);
 
                         t1.start();
@@ -921,6 +923,18 @@ public class MainClient extends javax.swing.JFrame {
                 instructorKey)) {
             keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
         }
+        ReportWriting rw = new ReportWriting();
+        try {
+            fd.stop();
+            
+        }
+
+        catch(Exception ex) {
+            System.out.println(
+                    ex);
+        }
+        rw.submitText();
+        rw.closed();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
