@@ -165,7 +165,7 @@
             <attribute name="enabled" value="true"/>
         </node>
         <node name="Imports_STAR">
-            <attribute name="enabled" value="true"/>
+            <attribute name="enabled" value="false"/>
         </node>
         <node name="org.netbeans.modules.java.hints.ClassStructure.classMayBeInterface">
             <attribute name="enabled" value="true"/>

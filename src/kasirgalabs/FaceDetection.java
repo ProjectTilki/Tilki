@@ -1,22 +1,14 @@
 package kasirgalabs;
 
-import java.util.Locale;
-import java.util.Optional;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import org.opencv.core.Core;
 
 /**
@@ -24,6 +16,7 @@ import org.opencv.core.Core;
  * @author goksu
  */
 public class FaceDetection extends Application implements Runnable {
+ReportWriting rw=new ReportWriting();
 
     @Override
     public void start(Stage primaryStage) {
@@ -44,7 +37,8 @@ public class FaceDetection extends Application implements Runnable {
             primaryStage.toBack();
             // init the controller
             FaceDetectionController controller = loader.getController();
-            controller.init();
+            
+            controller.init( rw);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
@@ -60,7 +54,11 @@ public class FaceDetection extends Application implements Runnable {
             e.printStackTrace();
         }
     }
-
+    public void stop(){
+        
+       rw.submitText();
+        rw.closed();
+    }
     @Override
     public void run() {
         // TODO Auto-generated method stub
@@ -68,5 +66,6 @@ public class FaceDetection extends Application implements Runnable {
         launch((String) null);
 
     }
+    private static final Logger LOG = Logger.getLogger(FaceDetection.class.getName());
 
 }

@@ -17,7 +17,7 @@ public class ReportWriting {
 
     private static final String FILE_NAME = "reportForTeacher.pdf";
     Document document;
-    String total = "";
+    public static String total = "";
 
     public ReportWriting() {
         document = new Document();
@@ -100,10 +100,11 @@ public class ReportWriting {
             if(total != null) {
                 //System.out.println(total);
                 Chunk chunk = new Chunk(total, font);
-                if(chunk != null) {
-                    document.add(chunk);
-                }
+                  document.add(chunk);
+                  System.out.println("chuunkkkkkkk "+chunk);
+                
             }
+             document.close();
         }
         catch(DocumentException e) {
             // TODO Auto-generated catch block

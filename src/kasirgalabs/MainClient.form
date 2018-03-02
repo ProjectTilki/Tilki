@@ -289,9 +289,6 @@
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nameTextField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Beg&#xfc;m"/>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextFieldActionPerformed"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nameTextFieldKeyPressed"/>
@@ -299,8 +296,8 @@
             </Component>
             <Component class="javax.swing.JTextField" name="idTextField">
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idTextFieldKeyTyped"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idTextFieldKeyPressed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idTextFieldKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="loginButton">

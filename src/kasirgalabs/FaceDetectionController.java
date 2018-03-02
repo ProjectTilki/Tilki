@@ -43,17 +43,17 @@ public class FaceDetectionController {
     private boolean cameraActive;
     private CascadeClassifier faceCascade;
     private int absoluteFaceSize;
-    ReportWriting rw = new ReportWriting();
+    ReportWriting rw;
     int count=0;
 
-    protected void init() {
+    protected void init(ReportWriting rw) {
         this.capture = new VideoCapture();
         this.faceCascade = new CascadeClassifier();
         this.absoluteFaceSize = 0;
         this.faceCascade.load("haarcascades/haarcascade_frontalface_alt.xml");
         originalFrame.setFitWidth(600);
         originalFrame.setPreserveRatio(true);
-
+        this.rw=rw;
         startCamera();
     }
 
@@ -109,6 +109,10 @@ public class FaceDetectionController {
         }
         else {
             this.cameraActive = false;
+                    System.out.println(
+                    "girdiii");
+            rw.submitText();
+            
             this.stopAcquisition();
         }
     }
@@ -125,7 +129,7 @@ public class FaceDetectionController {
             ImageIO.write(img, "png", outputfile);
             rw.addText("Taked Picture");
 
-            System.out.println("take picture");
+            //System.out.println("take picture");
         }
         catch(Exception e) {
             System.out.println("error");
@@ -176,8 +180,8 @@ public class FaceDetectionController {
         if(facesArray.length == 0) {
             count++;
 
-            if(count % 10==0) {
-                System.out.println("yüz bulunamadı");
+            if(count % 50==0) {
+               // System.out.println("yüz bulunamadı");
                 rw.addText("Couldn't find face... ");
                 takePicture(frame);
             }

@@ -42,6 +42,7 @@ public class MainClient extends javax.swing.JFrame {
     private static long timeAtStart = 0;
     private Timer simpleTimer;
     FaceDetection fd ;
+    CaptureAudio ca;
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
@@ -172,7 +173,6 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        nameTextField.setText("Begüm");
         nameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameTextFieldActionPerformed(evt);
@@ -185,11 +185,11 @@ public class MainClient extends javax.swing.JFrame {
         });
 
         idTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                idTextFieldKeyTyped(evt);
-            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 idTextFieldKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                idTextFieldKeyTyped(evt);
             }
         });
 
@@ -641,7 +641,7 @@ public class MainClient extends javax.swing.JFrame {
                                         getText().charAt(0) + nameTextField.
                                 getText());
                         rp = new RunningProcesses(blockedApps);
-                        CaptureAudio ca = new CaptureAudio();
+                          ca = new CaptureAudio();
                         fd = new FaceDetection();
                         ka = new KeyboardActivities();
                         Thread t4 = new Thread(fd);
@@ -923,18 +923,23 @@ public class MainClient extends javax.swing.JFrame {
                 instructorKey)) {
             keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
         }
-        ReportWriting rw = new ReportWriting();
+        System.out.println(
+                    "girdiii1111");
+        ReportWriting rw=new ReportWriting();
         try {
             fd.stop();
-            
+            ca.stop();
+            System.out.println(
+                    "girdiii");
+            rw.submitText();
+           
         }
 
         catch(Exception ex) {
             System.out.println(
                     ex);
         }
-        rw.submitText();
-        rw.closed();
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
