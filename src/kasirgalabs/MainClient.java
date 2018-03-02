@@ -167,14 +167,12 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel7.setText("Ad");
 
-        surnameTextField.setText("Bingöl");
         surnameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 surnameTextFieldKeyPressed(evt);
             }
         });
 
-        nameTextField.setText("Begüm");
         nameTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameTextFieldActionPerformed(evt);
@@ -186,7 +184,6 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        idTextField.setText("123");
         idTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 idTextFieldKeyPressed(evt);
@@ -210,7 +207,6 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel4.setText("<html>S\u0131nava ba\u015Flamak i\u00E7in l\u00FCtfen gerekli bilgileri<br> doldurun ve s\u0131nav\u0131n\u0131z\u0131 se\u00E7in.<html/>\n");
 
-        keyField.setText("123456");
         keyField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 keyFieldActionPerformed(evt);

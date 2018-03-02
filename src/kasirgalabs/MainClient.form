@@ -284,26 +284,17 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="surnameTextField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Bing&#xf6;l"/>
-              </Properties>
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="surnameTextFieldKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="nameTextField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Beg&#xfc;m"/>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextFieldActionPerformed"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nameTextFieldKeyPressed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="idTextField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="123"/>
-              </Properties>
               <Events>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idTextFieldKeyPressed"/>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="idTextFieldKeyTyped"/>
@@ -341,9 +332,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="keyField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="123456"/>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="keyFieldActionPerformed"/>
                 <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="keyFieldKeyPressed"/>
