@@ -6,11 +6,15 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Rect;
@@ -44,8 +48,8 @@ public class FaceDetectionController {
     private CascadeClassifier faceCascade;
     private int absoluteFaceSize;
     ReportWriting rw;
-    int count=0;
-
+    int count = 0;
+static ArrayList<BufferedImage> imgarry;
     protected void init(ReportWriting rw) {
         this.capture = new VideoCapture();
         this.faceCascade = new CascadeClassifier();
@@ -53,7 +57,7 @@ public class FaceDetectionController {
         this.faceCascade.load("haarcascades/haarcascade_frontalface_alt.xml");
         originalFrame.setFitWidth(600);
         originalFrame.setPreserveRatio(true);
-        this.rw=rw;
+        this.rw = rw;
         startCamera();
     }
 
@@ -109,31 +113,36 @@ public class FaceDetectionController {
         }
         else {
             this.cameraActive = false;
-                    System.out.println(
+            System.out.println(
                     "girdiii");
             rw.submitText();
-            
+
             this.stopAcquisition();
         }
     }
 
     public void takePicture(Mat frame) {
         BufferedImage img = matToBufferedImage(frame);
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(
-                    "yyyyMMddHHmmss");
-            Date date = new Date();
-            String s = dateFormat.format(date) + ".png";
-            File outputfile = new File(s);
-
-            ImageIO.write(img, "png", outputfile);
-            rw.addText("Taked Picture");
+        imgarry=new ArrayList<BufferedImage>();
+        imgarry.add(img);
+        System.out.println("kasirgalabs.FaceDetectionController.takePicture()"+img); 
+        rw.addText("Taked Picture");
+        
+//        try {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat(
+//                    "yyyyMMddHHmmss");
+//            Date date = new Date();
+//            String s = dateFormat.format(date) + ".png";
+//            File outputfile = new File(s);
+//
+//            ImageIO.write(img, "png", outputfile);
+//            rw.addText("Taked Picture");
 
             //System.out.println("take picture");
-        }
-        catch(Exception e) {
-            System.out.println("error");
-        }
+//        }
+//        catch(Exception e) {
+//            System.out.println("error");
+//        }
 
     }
 
@@ -180,11 +189,14 @@ public class FaceDetectionController {
         if(facesArray.length == 0) {
             count++;
 
-            if(count % 50==0) {
-               // System.out.println("yüz bulunamadı");
+            if(count % 10 == 0) {
+                // System.out.println("yüz bulunamadı");
                 rw.addText("Couldn't find face... ");
                 takePicture(frame);
             }
+        }
+        else {
+            count = 0;
         }
         for(int i = 0; i < facesArray.length; i++) {
             Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(),
@@ -221,8 +233,15 @@ public class FaceDetectionController {
      * On application close, stop the acquisition from the camera
      */
     protected void setClosed() {
-
-        this.stopAcquisition();
+        try {
+            CreateVideo encoder = new CreateVideo(new File("video.mp4"));
+            encoder.createVideo(imgarry);
+            this.stopAcquisition();
+        }
+        catch(IOException ex) {
+            Logger.getLogger(FaceDetectionController.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
 
     }
 

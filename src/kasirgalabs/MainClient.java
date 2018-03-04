@@ -194,8 +194,8 @@ public class MainClient extends javax.swing.JFrame {
         });
 
         loginButton.setText("Giri\u015F Yap");
-        loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonMouseClicked(evt);
             }
         });
@@ -602,7 +602,7 @@ public class MainClient extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
+    private void loginButtonMouseClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
         // TODO add your handling code here:
         name = nameTextField.getText();
         surname = surnameTextField.getText();
@@ -793,9 +793,12 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void idTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyPressed
-        MouseEvent temp;
-        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        ActionEvent temp;
+              temp=new ActionEvent
+        (SolPanel, WIDTH, "");
+//        temp = new MouseEvent
+//        (SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -803,18 +806,25 @@ public class MainClient extends javax.swing.JFrame {
 
     private void nameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyPressed
         // TODO add your handling code here:
-        MouseEvent temp;
-        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+             ActionEvent temp;
+              temp=new ActionEvent
+        (SolPanel, WIDTH, "");
+//        MouseEvent temp;
+//        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
     }//GEN-LAST:event_nameTextFieldKeyPressed
 
     private void surnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyPressed
-        MouseEvent temp;
-        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+     ActionEvent temp;
+              temp=new ActionEvent
+        (SolPanel, WIDTH, "");
+
+//        MouseEvent temp;
+//        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -827,9 +837,13 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_idTextFieldKeyTyped
 
     private void keyFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyFieldKeyPressed
-        MouseEvent temp;
-        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+     ActionEvent temp;
+              temp=new ActionEvent
+        (SolPanel, WIDTH, "");
+
+//        MouseEvent temp;
+//        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -923,8 +937,7 @@ public class MainClient extends javax.swing.JFrame {
                 instructorKey)) {
             keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
         }
-        System.out.println(
-                    "girdiii1111");
+        
         ReportWriting rw=new ReportWriting();
         try {
             fd.stop();

@@ -100,55 +100,68 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             for(ActionListener listener : startButton.getActionListeners()) {
                 startButton.removeActionListener(listener);
             }
-            startButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent evt) {
+            startButton.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
                     System.exit(0);
                 }
-            });
-            ZipAndUpload.this.setCursor(null); //turn off the wait cursor
-            if(!task.isCancelled()) {
-                progressBar.setValue(100);
-            }
-            try {
-                get();
-            }
-            catch(Exception ex) {
-                ClientExceptionHandler.logAnException(ex);
-                Object[] option = {"Tamam"};
-                String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana"
-                        + " geldi.\nL\u00FCtfen g\u00F6zetmeni"
-                        + " \u00E7a\u011F\u0131r\u0131n\u0131z\nve program\u0131"
-                        + " yeniden ba\u015Flat\u0131n\u0131z.\n";
-                JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
-                        DEFAULT_OPTION, null,
-                        option);
-                JDialog dialog = pane.createDialog(null,
-                        "Ba\u011Flant\u0131 Hatas\u0131");
-                ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                dialog.setVisible(true);
-            }
-        }
 
-        /**
-         * Creates a zip file on the current working directory which contains
-         * file(s) specified with the parameter. Original files will not be
-         * moved and their contents will not be changed.
-         * <p>
-         * The name of the zip file will be same with the first
-         * {@link java.io.File} object's name specified with the parameter. If
-         * the file already exists it will be overwritten.
-         *
-         * @param files Array queue of {@link java.io.File} objects, which will
-         *              be zipped. All files must be in the current working
-         *              directory.
-         *
-         * @return The name of the zip file.
-         *
-         * @throws FileNotFoundException File with the specified pathname does
-         *                               not exist or is a directory.
-         * @throws IOException           If an I/O error occurs.
-         */
+            });
+        
+                ZipAndUpload.this.setCursor (
+
+                null); //turn off the wait cursor
+            if(!task.isCancelled () 
+                    ) {
+                progressBar.setValue(100);
+                }
+
+                
+                    try {
+                get();
+                }
+                catch(Exception ex
+
+                
+                    ) {
+                ClientExceptionHandler.logAnException(ex);
+                    Object[] option = {"Tamam"};
+                    String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana"
+                            + " geldi.\nL\u00FCtfen g\u00F6zetmeni"
+                            + " \u00E7a\u011F\u0131r\u0131n\u0131z\nve program\u0131"
+                            + " yeniden ba\u015Flat\u0131n\u0131z.\n";
+                    JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
+                            DEFAULT_OPTION, null,
+                            option);
+                    JDialog dialog = pane.createDialog(null,
+                            "Ba\u011Flant\u0131 Hatas\u0131");
+                    ZipAndUpload.this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+                    dialog.setVisible(true);
+                }
+            }
+            /**
+             * Creates a zip file on the current working directory which
+             * contains
+             * file(s) specified with the parameter. Original files will not be
+             * moved and their contents will not be changed.
+             * <p>
+             * The name of the zip file will be same with the first
+             * {@link java.io.File} object's name specified with the parameter.
+             * If
+             * the file already exists it will be overwritten.
+             *
+             * @param files Array queue of {@link java.io.File} objects, which
+             *              will
+             *              be zipped. All files must be in the current working
+             *              directory.
+             *
+             * @return The name of the zip file.
+             *
+             * @throws FileNotFoundException File with the specified pathname
+             *                               does
+             *                               not exist or is a directory.
+             * @throws IOException           If an I/O error occurs.
+             */
+
         private String createZipFile(File[] files) throws IOException {
             String zipFileName = videoFiles[0].getName();
             int pos = zipFileName.lastIndexOf('.');
@@ -239,7 +252,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          *                                       read access to the file.
          * @throws java.io.IOException           If an I/O error occurs.
          */
-        
         private String sendFile(String fileName, String id, String exam)
                 throws IOException {
 

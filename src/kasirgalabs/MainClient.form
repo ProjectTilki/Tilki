@@ -306,9 +306,6 @@
                   <Connection code="&quot;Giri\u015F Yap&quot;" type="code"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="loginButtonMouseClicked"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="loginLabel">
               <Properties>

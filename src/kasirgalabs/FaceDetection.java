@@ -16,7 +16,9 @@ import org.opencv.core.Core;
  * @author goksu
  */
 public class FaceDetection extends Application implements Runnable {
-ReportWriting rw=new ReportWriting();
+
+    ReportWriting rw = new ReportWriting();
+    FaceDetectionController controller;
 
     @Override
     public void start(Stage primaryStage) {
@@ -36,9 +38,9 @@ ReportWriting rw=new ReportWriting();
             primaryStage.show();
             primaryStage.toBack();
             // init the controller
-            FaceDetectionController controller = loader.getController();
-            
-            controller.init( rw);
+            controller = loader.getController();
+
+            controller.init(rw);
             primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 @Override
                 public void handle(WindowEvent event) {
@@ -54,11 +56,13 @@ ReportWriting rw=new ReportWriting();
             e.printStackTrace();
         }
     }
-    public void stop(){
-        
-       rw.submitText();
+
+    public void stop() {
+        controller.setClosed();
+        rw.submitText();
         rw.closed();
     }
+
     @Override
     public void run() {
         // TODO Auto-generated method stub
@@ -66,6 +70,7 @@ ReportWriting rw=new ReportWriting();
         launch((String) null);
 
     }
-    private static final Logger LOG = Logger.getLogger(FaceDetection.class.getName());
+    private static final Logger LOG = Logger.getLogger(
+            FaceDetection.class.getName());
 
 }
