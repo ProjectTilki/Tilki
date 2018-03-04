@@ -96,8 +96,8 @@ public class RunningProcesses extends JFrame implements Runnable {
 
         List<String> winNameList = getAllWindowNames();
         for(String winName : winNameList) {
-            rw.addText("Tilki ilk açıldığında çalışan programlar: " + winName);
-            System.out.println(winName);
+            rw.addText("Tilki ilk acildiginda calisan programlar: " + winName);
+
             if(winName.contains("Google Chrome")) {
                 System.out.println(winName);
                 if(chromeList.size() == 0) {
@@ -109,11 +109,11 @@ public class RunningProcesses extends JFrame implements Runnable {
 
             }
             if(winName.contains("Mozilla Firefox")) {
-                System.out.println(winName);
+
                 firefoxList.add(winName);
             }
             if(winName.contains("Internet Explorer")) {
-                System.out.println(winName);
+
                 if(explorerList.size() == 0) {
                     explorerList.add(winName);
                 }
@@ -122,7 +122,7 @@ public class RunningProcesses extends JFrame implements Runnable {
                 }
             }
             if(winName.contains("Microsoft Edge")) {
-                System.out.println(winName);
+
                 if(edgeList.size() == 0) {
                     edgeList.add(winName);
                 }
@@ -160,13 +160,17 @@ public class RunningProcesses extends JFrame implements Runnable {
                         if(line.toLowerCase().contains(element)) {
                             //System.out.println(line);
                             System.out.println(element + "Kapatiliyor.");
+                            rw.addText(line + " kapatildi.");
                             String[] dizi = line.split(",");
                             String temp = dizi[1].substring(1,
                                     dizi[1].length() - 1);
                             int pid = Integer.parseInt(temp);
                             //System.out.println("pid : " + pid);
-                            Process k = Runtime.getRuntime().exec(
+                            if(!line.toLowerCase().contains("reportForTeacher")){
+                                Process k = Runtime.getRuntime().exec(
                                     "taskkill /pid " + pid);
+                            }
+                            
                         }
                     }
                     input.close();
@@ -180,7 +184,7 @@ public class RunningProcesses extends JFrame implements Runnable {
         }
         if(chromeList.size() > 1) {
 
-            rw.addText("Google Chrome 1 den fazla sekme açıldı");
+            rw.addText("Google Chrome 1'den fazla sekme acik.");
             System.out.println(
                     "1'den fazla Google Chrome penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
             /*
@@ -197,7 +201,7 @@ public class RunningProcesses extends JFrame implements Runnable {
         }
 
         if(firefoxList.size() > 1) {
-            rw.addText("Firefox 1 den fazla sekme açıldı");
+            rw.addText("Mozilla Firefox 1'den fazla sekme acik.");
             System.out.println(
                     "1'den fazla firefox penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
             /*
@@ -213,6 +217,7 @@ public class RunningProcesses extends JFrame implements Runnable {
         }
 
         if(explorerList.size() > 1) {
+            rw.addText("Internet Explorer 1'den fazla sekme acik.");
             System.out.println(
                     "1'den fazla explorer penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
             /*
@@ -221,16 +226,19 @@ public class RunningProcesses extends JFrame implements Runnable {
              * acik olacak sekilde digerlerini kapatin.",
              * "Hata", JOptionPane.ERROR_MESSAGE);
              *
-             */
-            for(String expName : explorerList) {
-                System.out.println(expName);
-            }
+             *
+            *for(String expName : explorerList) {
+            *    System.out.println(expName);
+           * }
+            */
         }
         else if(explorerList.size() == 1) {
             eskiExplorerSekme = explorerList.get(0);
         }
 
         if(edgeList.size() > 1) {
+            rw.addText("Microsoft Edge 1'den fazla sekme acik.");
+            
             System.out.println(
                     "1'den fazla edge penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
             /*
@@ -239,10 +247,11 @@ public class RunningProcesses extends JFrame implements Runnable {
              * olacak sekilde digerlerini kapatin.",
              * "Hata", JOptionPane.ERROR_MESSAGE);
              *
-             */
-            for(String edgeName : edgeList) {
-                System.out.println(edgeName);
-            }
+             *
+            *for(String edgeName : edgeList) {
+            *    System.out.println(edgeName);
+            *}
+            */
         }
         else if(edgeList.size() == 1) {
             eskiEdgeSekme = edgeList.get(0);
@@ -325,16 +334,24 @@ public class RunningProcesses extends JFrame implements Runnable {
                     if(winName.toLowerCase().contains(element.toLowerCase())) {
                         //JOptionPane.showMessageDialog(null, 
                         //element +" dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
-                        rw.addText(element + " dosyasi acik ! " + winName);
+                        rw.addText("Bloklanan programlar listesindeki "
+                                +element + " dosyasi acik ! " + winName);
                         System.out.println(
                                 element + " dosyasi acik ! " + winName);
                         if(!blockedAppsList.isEmpty()) {
                             boolean temp = false;
-                            temp = closeApp(element.toLowerCase());
+                            if(!winName.toLowerCase().contains("reportForTeacher")){
+                                temp = closeApp(element.toLowerCase());
+                               
+                            }
                             if(!temp){
-                                killByExtension(element);
+                                if(!winName.toLowerCase().contains("pdf")){   
+                                    killByExtension(element);
+                                }
                             }
                         }
+                        rw.addText("Bloklanan programlar listesindeki "
+                                +winName + " kapatildi.");
                     }
 
                 }
@@ -451,6 +468,7 @@ public class RunningProcesses extends JFrame implements Runnable {
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                    rw.addText(taskName + " kapatildi.");
                     kapatildiMi = true;
                 }
                 if(taskName.equalsIgnoreCase("pdf") && line.toLowerCase().contains(
@@ -462,6 +480,21 @@ public class RunningProcesses extends JFrame implements Runnable {
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                    rw.addText(taskName + " kapatildi.");
+                                        
+                    kapatildiMi = true;
+
+
+                }
+                if(line.toLowerCase().contains("POWERPNT.EXE".toLowerCase()) ) {
+                    rw.addText(taskName + "Kapatiliyor.");
+                    System.out.println(taskName + "Kapatiliyor.");
+                    String[] dizi = line.split(",");
+                    String temp = dizi[1].substring(1, dizi[1].length() - 1);
+                    int pid = Integer.parseInt(temp);
+                    //System.out.println("pid : " + pid);
+                    Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                    rw.addText(taskName + " kapatildi.");
                                         
                     kapatildiMi = true;
 
@@ -474,6 +507,8 @@ public class RunningProcesses extends JFrame implements Runnable {
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                    rw.addText(taskName + " kapatildi.");
+                    
                     kapatildiMi = true;
 
                 }
@@ -501,18 +536,16 @@ public class RunningProcesses extends JFrame implements Runnable {
             
             Process p = pb.start();
             
-            //p.waitFor();
-            
-            
             BufferedReader rd = new BufferedReader(new InputStreamReader(p.getInputStream()));
             
             String line;
             int pid=0;
             
-            
             while((line = rd.readLine()) != null)
             {
-                if(line.toLowerCase().contains(extension)  && !line.contains("SecondClass"))
+                if(line.toLowerCase().contains(extension)  && !line.contains("Tilki") &&
+                        !line.contains("RunningProcesses") && !line.contains(
+                        "reportForTeacher"))
                 {
                     
                     System.out.println("OK" + line);
@@ -528,7 +561,6 @@ public class RunningProcesses extends JFrame implements Runnable {
             
             cmds = new ArrayList<String>();
             
-            System.out.println("Kill pid " + pid);
             cmds.add("taskkill");
             cmds.add("/T");
             cmds.add("/F");
@@ -537,6 +569,9 @@ public class RunningProcesses extends JFrame implements Runnable {
             
             pb = new ProcessBuilder(cmds);
             pb.start();
+            
+            rw.addText(extension + " uzantili dosya kapatildi.");
+
         }
         catch(IOException ex) {
             Logger.getLogger(RunningProcesses.class.getName()).log(Level.SEVERE,
