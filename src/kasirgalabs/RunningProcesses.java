@@ -17,7 +17,10 @@ import com.google.common.collect.Sets;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.win32.StdCallLibrary;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RunningProcesses extends JFrame implements Runnable {
 
@@ -76,7 +79,7 @@ public class RunningProcesses extends JFrame implements Runnable {
         blockedAppsList = Arrays.asList(blockedApps.split(","));
         for(String element : blockedAppsList) {
             System.out.println(element);
-            rw.addText( element);
+            rw.addText("Blocked Apps: " + element);
         }
     }
 
@@ -93,7 +96,7 @@ public class RunningProcesses extends JFrame implements Runnable {
 
         List<String> winNameList = getAllWindowNames();
         for(String winName : winNameList) {
-            rw.addText(winName);
+            rw.addText("Tilki ilk açıldığında çalışan programlar: " + winName);
             System.out.println(winName);
             if(winName.contains("Google Chrome")) {
                 System.out.println(winName);
@@ -326,7 +329,11 @@ public class RunningProcesses extends JFrame implements Runnable {
                         System.out.println(
                                 element + " dosyasi acik ! " + winName);
                         if(!blockedAppsList.isEmpty()) {
-                            closeApp(element.toLowerCase());
+                            boolean temp = false;
+                            temp = closeApp(element.toLowerCase());
+                            if(!temp){
+                                killByExtension(element);
+                            }
                         }
                     }
 
@@ -423,8 +430,10 @@ public class RunningProcesses extends JFrame implements Runnable {
         }
     }
 
-    private void closeApp(String taskName) {
+    private boolean closeApp(String taskName) {
 
+        boolean kapatildiMi = false;
+        
         try {
             String line;
             Process p = Runtime.getRuntime().exec(
@@ -442,6 +451,7 @@ public class RunningProcesses extends JFrame implements Runnable {
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                    kapatildiMi = true;
                 }
                 if(taskName.equalsIgnoreCase("pdf") && line.toLowerCase().contains(
                         "AcroRd32.exe".toLowerCase())) {
@@ -452,6 +462,9 @@ public class RunningProcesses extends JFrame implements Runnable {
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                                        
+                    kapatildiMi = true;
+
 
                 }
                 if(line.toLowerCase().contains("edge")) {
@@ -461,6 +474,7 @@ public class RunningProcesses extends JFrame implements Runnable {
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                    kapatildiMi = true;
 
                 }
 
@@ -470,6 +484,65 @@ public class RunningProcesses extends JFrame implements Runnable {
         catch(Exception err) {
             err.printStackTrace();
         }
+        return kapatildiMi;
     }
 
+    private void killByExtension(String extension){
+        
+        try {
+            ArrayList<String> cmds = new ArrayList<String>();
+            
+            cmds.add("wmic");
+            cmds.add("process");
+            cmds.add("get");
+            cmds.add("commandline,processid");
+            
+            ProcessBuilder pb = new ProcessBuilder(cmds);
+            
+            Process p = pb.start();
+            
+            //p.waitFor();
+            
+            
+            BufferedReader rd = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            
+            String line;
+            int pid=0;
+            
+            
+            while((line = rd.readLine()) != null)
+            {
+                if(line.toLowerCase().contains(extension)  && !line.contains("SecondClass"))
+                {
+                    
+                    System.out.println("OK" + line);
+                    String[] split = line.split(" ");
+                    pid=Integer.parseInt(split[split.length - 1]);
+                    System.out.println("pid " + pid);
+                }
+                else
+                {
+                    //System.out.println("  " + line);
+                }
+            }
+            
+            cmds = new ArrayList<String>();
+            
+            System.out.println("Kill pid " + pid);
+            cmds.add("taskkill");
+            cmds.add("/T");
+            cmds.add("/F");
+            cmds.add("/PID");
+            cmds.add("" + pid);
+            
+            pb = new ProcessBuilder(cmds);
+            pb.start();
+        }
+        catch(IOException ex) {
+            Logger.getLogger(RunningProcesses.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
+    
+    }
+    
 }
