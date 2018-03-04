@@ -112,7 +112,7 @@ public class CreateVideo {
     public void createVideo(ArrayList<BufferedImage> imgarry) {
         try {
 
-            for(int i = 10; i < imgarry.size(); i++) {
+            for(int i = 0; i < imgarry.size(); i++) {
                 encodeImage(imgarry.get(i));
             }
             finish();

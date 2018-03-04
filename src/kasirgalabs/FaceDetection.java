@@ -18,7 +18,7 @@ import org.opencv.core.Core;
 public class FaceDetection extends Application implements Runnable {
 
     ReportWriting rw = new ReportWriting();
-    FaceDetectionController controller;
+    static FaceDetectionController controller=null;
 
     @Override
     public void start(Stage primaryStage) {

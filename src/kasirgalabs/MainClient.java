@@ -41,8 +41,9 @@ public class MainClient extends javax.swing.JFrame {
     private static java.awt.event.ActionListener yenileButtonActionListener;
     private static long timeAtStart = 0;
     private Timer simpleTimer;
-    FaceDetection fd ;
+    FaceDetection fd;
     CaptureAudio ca;
+   
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
@@ -641,7 +642,7 @@ public class MainClient extends javax.swing.JFrame {
                                         getText().charAt(0) + nameTextField.
                                 getText());
                         rp = new RunningProcesses(blockedApps);
-                          ca = new CaptureAudio();
+                        ca = new CaptureAudio();
                         fd = new FaceDetection();
                         ka = new KeyboardActivities();
                         Thread t4 = new Thread(fd);
@@ -794,8 +795,7 @@ public class MainClient extends javax.swing.JFrame {
 
     private void idTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyPressed
         ActionEvent temp;
-              temp=new ActionEvent
-        (SolPanel, WIDTH, "");
+        temp = new ActionEvent(SolPanel, WIDTH, "");
 //        temp = new MouseEvent
 //        (SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
 //                WIDTH, HEIGHT, rootPaneCheckingEnabled);
@@ -806,9 +806,8 @@ public class MainClient extends javax.swing.JFrame {
 
     private void nameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyPressed
         // TODO add your handling code here:
-             ActionEvent temp;
-              temp=new ActionEvent
-        (SolPanel, WIDTH, "");
+        ActionEvent temp;
+        temp = new ActionEvent(SolPanel, WIDTH, "");
 //        MouseEvent temp;
 //        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
 //                WIDTH, HEIGHT, rootPaneCheckingEnabled);
@@ -818,9 +817,8 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_nameTextFieldKeyPressed
 
     private void surnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyPressed
-     ActionEvent temp;
-              temp=new ActionEvent
-        (SolPanel, WIDTH, "");
+        ActionEvent temp;
+        temp = new ActionEvent(SolPanel, WIDTH, "");
 
 //        MouseEvent temp;
 //        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
@@ -837,9 +835,8 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_idTextFieldKeyTyped
 
     private void keyFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyFieldKeyPressed
-     ActionEvent temp;
-              temp=new ActionEvent
-        (SolPanel, WIDTH, "");
+        ActionEvent temp;
+        temp = new ActionEvent(SolPanel, WIDTH, "");
 
 //        MouseEvent temp;
 //        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
@@ -888,6 +885,16 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+         ReportWriting rw = new ReportWriting();
+            
+                fd.stop();
+                
+                
+                System.err.println(
+                        "girdiii");
+                rw.submitText();
+         
+    
         if(jCheckBox1.isSelected()
                 && (new String(videoKayitGozetmenField.getPassword())).equals(
                         instructorKey)) {
@@ -897,7 +904,8 @@ public class MainClient extends javax.swing.JFrame {
 
             if(cam.status()) {
                 cam.StopCaptureDesktop();
-            }
+            }  
+           
 
             String target_file = cam.getPersonName() + "." + cam.getFormat();
             File target_file_object = new File(target_file);
@@ -915,6 +923,7 @@ public class MainClient extends javax.swing.JFrame {
                 codeFiles.add(new File((String) flm.getElementAt(i)));
             }
             simpleTimer.stop();
+            
             File[] temp = new File[filesThatWillUpload.size()];
             File[] temp2 = new File[codeFiles.size()];
             zau = new ZipAndUpload(codeFiles.toArray(temp2),
@@ -930,29 +939,14 @@ public class MainClient extends javax.swing.JFrame {
             for(Component component : VideoKayitEkrani.getComponents()) {
                 component.setEnabled(false);
             }
-            VideoKayitEkrani.setEnabled(false);
+          VideoKayitEkrani.setEnabled(false);
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
         if(!(new String(videoKayitGozetmenField.getPassword())).equals(
                 instructorKey)) {
             keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
         }
-        
-        ReportWriting rw=new ReportWriting();
-        try {
-            fd.stop();
-            ca.stop();
-            System.out.println(
-                    "girdiii");
-            rw.submitText();
-           
-        }
 
-        catch(Exception ex) {
-            System.out.println(
-                    ex);
-        }
-        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed

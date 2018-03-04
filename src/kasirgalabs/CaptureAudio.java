@@ -102,8 +102,5 @@ public class CaptureAudio implements Runnable{
         recorder.start();
     }
 
-    void stop() {
-  
-    line.stop();
-    }
+   
 }
