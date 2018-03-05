@@ -166,10 +166,10 @@ public class RunningProcesses extends JFrame implements Runnable {
                                     dizi[1].length() - 1);
                             int pid = Integer.parseInt(temp);
                             //System.out.println("pid : " + pid);
-                            if(!line.toLowerCase().contains("reportForTeacher")){
-                                Process k = Runtime.getRuntime().exec(
+                            
+                            Process k = Runtime.getRuntime().exec(
                                     "taskkill /pid " + pid);
-                            }
+                            
                             
                         }
                     }
@@ -340,12 +340,13 @@ public class RunningProcesses extends JFrame implements Runnable {
                                 element + " dosyasi acik ! " + winName);
                         if(!blockedAppsList.isEmpty()) {
                             boolean temp = false;
-                            if(!winName.toLowerCase().contains("reportForTeacher")){
+                            
                                 temp = closeApp(element.toLowerCase());
                                
-                            }
+                            
                             if(!temp){
-                                if(!winName.toLowerCase().contains("pdf")){   
+                                if(!winName.toLowerCase().contains("pdf")){
+                                    System.out.print("Deneme winname:  " +winName);
                                     killByExtension(element);
                                 }
                             }
@@ -506,7 +507,8 @@ public class RunningProcesses extends JFrame implements Runnable {
                     String temp = dizi[1].substring(1, dizi[1].length() - 1);
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
-                    Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
+                    Process k = Runtime.getRuntime().exec("taskkill /F /PID " + pid);
+                    
                     rw.addText(taskName + " kapatildi.");
                     
                     kapatildiMi = true;
@@ -558,7 +560,7 @@ public class RunningProcesses extends JFrame implements Runnable {
                     //System.out.println("  " + line);
                 }
             }
-            
+            /*
             cmds = new ArrayList<String>();
             
             cmds.add("taskkill");
@@ -569,6 +571,10 @@ public class RunningProcesses extends JFrame implements Runnable {
             
             pb = new ProcessBuilder(cmds);
             pb.start();
+            */
+            
+            String cmd = "taskkill /F /PID " + pid;
+            Runtime.getRuntime().exec(cmd);
             
             rw.addText(extension + " uzantili dosya kapatildi.");
 
