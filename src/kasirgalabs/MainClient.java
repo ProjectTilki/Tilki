@@ -950,24 +950,8 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
-        try {
-            examList = fcu.availableExams();
-            durumLabel.setEnabled(true);
-            durumLabel.setText("Ba\u011Fland\u0131");
-            durumLabel.setForeground(c);
-        }
-        catch(IOException e) {
-            //examList = null;
-            durumLabel.setText("Ba\u011Flanamad\u0131");
-            durumLabel.setForeground(Color.red);
-            durumLabel.setVisible(true);
-        }
-        catch(ClassNotFoundException e) {
-            //examList = null;
-            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
-            durumLabel.setForeground(Color.red);
-            durumLabel.setVisible(true);
-        }
+        examList = tc.listExams();
+        durumLabel.setEnabled(true);
         jList1.setModel(new ExamListModel(examList));
         jTextArea1.setText("");
     }//GEN-LAST:event_yenileButtonActionPerformed
