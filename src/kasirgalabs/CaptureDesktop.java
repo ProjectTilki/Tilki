@@ -81,8 +81,6 @@ public class CaptureDesktop implements Runnable{
             videoCapture.start();
         }
         catch(Exception e) {
-            ClientExceptionHandler.logAnException(e);
-        }
-        
+        }        
     }
 }

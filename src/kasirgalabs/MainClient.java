@@ -24,7 +24,6 @@ import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
 
-    private static String ipAddress = "localhost";
     private Exam[] examList;
     private CaptureDesktop cam;
     private RunningProcesses rp;
@@ -35,7 +34,6 @@ public class MainClient extends javax.swing.JFrame {
     private String instructorKey;
     private String blockedApps;
     private static ZipAndUpload zau;
-    private final FoxClientUtilities fcu = new FoxClientUtilities();
     private final TilkiClient tc = new TilkiClient();
     private final Color c = new Color(26, 126, 36);
     private static java.awt.event.ActionListener yenileButtonActionListener;
@@ -63,7 +61,6 @@ public class MainClient extends javax.swing.JFrame {
             setLocationRelativeTo(null);
         }
         catch(NullPointerException ex) {
-            ClientExceptionHandler.logAnException(ex);
         }
 
         yenileButtonActionListener = new java.awt.event.ActionListener() {
@@ -703,7 +700,6 @@ public class MainClient extends javax.swing.JFrame {
                                             + " se\u00E7iniz.");
                                     jTextArea2.setDropTarget(null);
                                     //jTextArea2.setEnabled(false);
-                                    ClientExceptionHandler.logAnException(ex);
                                 }
                             }
                         });
@@ -979,7 +975,6 @@ public class MainClient extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            ClientExceptionHandler.sendExceptionsToServer(number);
         }
     }
 
@@ -995,7 +990,6 @@ public class MainClient extends javax.swing.JFrame {
                     "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
         }
         catch(Exception ex) {
-            ClientExceptionHandler.logAnException(ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -1009,9 +1003,6 @@ public class MainClient extends javax.swing.JFrame {
         });
     }
 
-    public static String getIpAddress() {
-        return ipAddress;
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame FileChooserFrame;

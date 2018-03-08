@@ -110,7 +110,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 get();
             }
             catch(Exception ex) {
-                ClientExceptionHandler.logAnException(ex);
                 Object[] option = {"Tamam"};
                 String message = "\u00DCzg\u00FCn\u00FCz bir sorun meydana"
                         + " geldi.\nL\u00FCtfen g\u00F6zetmeni"
@@ -308,7 +307,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             setLocationRelativeTo(null);
         }
         catch(NullPointerException ex) {
-            ClientExceptionHandler.logAnException(ex);
         }
     }
 
