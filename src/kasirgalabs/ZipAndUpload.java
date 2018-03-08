@@ -33,7 +33,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private File[] codeFiles;
     private File logFile;
     private boolean codeFilesAreDone = false;
-    private File[] videoFiles;
+    private File[] otherFiles;
     private String name;
     private String id;
     private String codes_md5;
@@ -46,7 +46,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private ConcurrentLinkedQueue<String> queue
             = new ConcurrentLinkedQueue<String>();
     private String instructorKey;
-    private Socket socket;
 
     private class Task extends SwingWorker<String, Void> {
 
@@ -67,7 +66,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             logFile = new File("tilki.log");
 
             task.firePropertyChange("enableCloseButton", 0, 1);
-            String temp = createZipFile(videoFiles);
+            String temp = createZipFile(otherFiles);
             if(Thread.currentThread().isInterrupted()) {
                 return "";
             }
@@ -158,7 +157,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          */
 
         private String createZipFile(File[] files) throws IOException {
-            String zipFileName = videoFiles[0].getName();
+            String zipFileName = otherFiles[0].getName();
             int pos = zipFileName.lastIndexOf('.');
             if(pos > 0) {
                 zipFileName = zipFileName.substring(0, pos) + ".zip";
@@ -167,7 +166,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                 zipFileName += ".zip";
             }
             if(codeFilesAreDone) {
-                zipFileName = "videos_" + zipFileName;
+                zipFileName = "secure_" + zipFileName;
             }
             else {
                 zipFileName = "codes_" + zipFileName;
@@ -295,7 +294,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
 
     public ZipAndUpload() {
         codeFiles = null;
-        videoFiles = null;
+        otherFiles = null;
         name = null;
         id = null;
         initComponents();
@@ -314,7 +313,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             String id, String instructorKey) {
         this();
         this.codeFiles = codeFiles;
-        this.videoFiles = videoFiles;
+        this.otherFiles = videoFiles;
         this.name = name;
         this.id = id;
         this.instructorKey = instructorKey;

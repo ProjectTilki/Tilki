@@ -111,7 +111,13 @@ public class CreateVideo {
 
     public void createVideo(ArrayList<BufferedImage> imgarry) {
         try {
-
+            
+            // web kamerasi olmadan sorunsuz kullanabilmem icin 
+            if (imgarry == null){
+                return;
+            }
+            //
+            
             for(int i = 0; i < imgarry.size(); i++) {
                 encodeImage(imgarry.get(i));
             }

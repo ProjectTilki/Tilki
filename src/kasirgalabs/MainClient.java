@@ -901,7 +901,6 @@ public class MainClient extends javax.swing.JFrame {
             if(cam.status()) {
                 cam.StopCaptureDesktop();
             }  
-           
 
             String target_file = cam.getPersonName() + "." + cam.getFormat();
             File target_file_object = new File(target_file);
@@ -914,6 +913,9 @@ public class MainClient extends javax.swing.JFrame {
                     }
                 }
             }
+            filesThatWillUpload.add(new File("reportForTeacher.pdf"));
+            filesThatWillUpload.add(new File("video.mp4"));
+            
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {
                 codeFiles.add(new File((String) flm.getElementAt(i)));
