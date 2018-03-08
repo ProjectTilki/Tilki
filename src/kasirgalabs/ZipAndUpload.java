@@ -13,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.ZipEntry;
@@ -160,10 +159,10 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             String zipFileName = otherFiles[0].getName();
             int pos = zipFileName.lastIndexOf('.');
             if(pos > 0) {
-                zipFileName = zipFileName.substring(0, pos) + "_" + MainClient.examName + ".zip";
+                zipFileName = zipFileName.substring(0, pos) + "_" + MainClient.getExamName() + ".zip";
             }
             else {
-                zipFileName += MainClient.examName + ".zip";
+                zipFileName += MainClient.getExamName() + ".zip";
             }
             if(codeFilesAreDone) {
                 zipFileName = "security_" + zipFileName;

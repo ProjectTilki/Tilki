@@ -1,6 +1,5 @@
 package kasirgalabs;
 
-import static com.sun.javafx.runtime.async.BackgroundExecutor.getTimer;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
@@ -10,9 +9,7 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -24,7 +21,7 @@ import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
 
-    public static String examName;
+    private static String examName;
     private Exam[] examList;
     private CaptureDesktop cam;
     private RunningProcesses rp;
@@ -656,16 +653,18 @@ public class MainClient extends javax.swing.JFrame {
                         t4.start();
                         t5.start();
                         /*
-                         * acarsaniz her 10 saniyede bir interneti kesen kodu
-                         * calistirir. interneti tekrar acacak kodu nereye
-                         * koyacagimi bilemedigimden koymadim.
-                         * schedulerForConnectionOFF.scheduleAtFixedRate(coo, 0,
-                         * 10, SECONDS);
-                         * bu islemi durdurmak icin
-                         * schedulerForConnectionOFF.shutdownNow(); denecek,
-                         * sonrasinda interneti acmak icin
-                         * ConnectionOnOff.openConnections();
-                         */
+                        acarsaniz her 10 saniyede bir interneti kesen kodu
+                        calistirir. interneti tekrar acacak kodu nereye
+                        koyacagimi bilemedigimden koymadim. 
+                        schedulerForConnectionOFF.scheduleAtFixedRate(coo, 0,
+                        10, SECONDS);
+                        /*
+                        bu islemi durdurmak icin
+                        schedulerForConnectionOFF.shutdownNow(); denecek,
+                        sonrasinda interneti acmak icin
+                        ConnectionOnOff.openConnections();
+                        */
+                         
 
                         jTextArea2.setDropTarget(new DropTarget() {
                             @Override
@@ -1008,7 +1007,10 @@ public class MainClient extends javax.swing.JFrame {
         });
     }
 
-
+    public static String getExamName() {
+        return examName;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame FileChooserFrame;
     private javax.swing.JPanel GirisEkrani;
