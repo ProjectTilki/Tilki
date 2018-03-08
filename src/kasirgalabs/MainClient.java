@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
 
+    public static String examName;
     private Exam[] examList;
     private CaptureDesktop cam;
     private RunningProcesses rp;
@@ -915,6 +916,7 @@ public class MainClient extends javax.swing.JFrame {
             }
             filesThatWillUpload.add(new File("reportForTeacher.pdf"));
             filesThatWillUpload.add(new File("video.mp4"));
+            filesThatWillUpload.add(new File("RecordAudio.wav"));
             
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {
@@ -958,7 +960,8 @@ public class MainClient extends javax.swing.JFrame {
         int location = jList1.locationToIndex(evt.getPoint());
         if(examList != null && location >= 0) {
             jTextArea1.setText(examList[location].getDescription());
-            jLabel16.setText(examList[location].getName());
+            examName = examList[location].getName();
+            jLabel16.setText(examName);
         }    }//GEN-LAST:event_jList1MousePressed
 
     private void blockedAppsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockedAppsFieldActionPerformed

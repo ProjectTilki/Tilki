@@ -160,13 +160,13 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             String zipFileName = otherFiles[0].getName();
             int pos = zipFileName.lastIndexOf('.');
             if(pos > 0) {
-                zipFileName = zipFileName.substring(0, pos) + ".zip";
+                zipFileName = zipFileName.substring(0, pos) + "_" + MainClient.examName + ".zip";
             }
             else {
-                zipFileName += ".zip";
+                zipFileName += MainClient.examName + ".zip";
             }
             if(codeFilesAreDone) {
-                zipFileName = "secure_" + zipFileName;
+                zipFileName = "security_" + zipFileName;
             }
             else {
                 zipFileName = "codes_" + zipFileName;
