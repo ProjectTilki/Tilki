@@ -189,7 +189,7 @@ static ArrayList<BufferedImage> imgarry;
         if(facesArray.length == 0) {
             count++;
 
-            if(count % 10 == 0) {
+            if(count % 50 == 0) {
                 // System.out.println("yüz bulunamadı");
                 rw.addText("Couldn't find face... ");
                 takePicture(frame);

@@ -9,6 +9,7 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +40,13 @@ public class MainClient extends javax.swing.JFrame {
     private Timer simpleTimer;
     FaceDetection fd;
     CaptureAudio ca;
-   
+
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
+    private boolean kameraAcma = false;
+    private boolean internetiKapatma = false;
+    private boolean sesKaydiAlma = false;
 
     /**
      *
@@ -102,17 +106,18 @@ public class MainClient extends javax.swing.JFrame {
         jSeparator6 = new javax.swing.JSeparator();
         jLabel16 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        blockedAppsField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         SagPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         yenileButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         durumLabel = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        blockedAppsField = new javax.swing.JTextField();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         VideoKayitEkrani = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -190,8 +195,8 @@ public class MainClient extends javax.swing.JFrame {
         });
 
         loginButton.setText("Giri\u015F Yap");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginButtonMouseClicked(evt);
             }
         });
@@ -228,15 +233,6 @@ public class MainClient extends javax.swing.JFrame {
 
         jLabel10.setText("S\u0131nav");
 
-        blockedAppsField.setText("txt");
-        blockedAppsField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                blockedAppsFieldActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Blocked apps");
-
         javax.swing.GroupLayout SolPanelLayout = new javax.swing.GroupLayout(SolPanel);
         SolPanel.setLayout(SolPanelLayout);
         SolPanelLayout.setHorizontalGroup(
@@ -251,8 +247,7 @@ public class MainClient extends javax.swing.JFrame {
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jSeparator3)
                                     .addComponent(jSeparator5)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(SolPanelLayout.createSequentialGroup()
                                         .addGap(21, 21, 21)
@@ -270,9 +265,7 @@ public class MainClient extends javax.swing.JFrame {
                                             .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(blockedAppsField, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))
+                                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addComponent(keyLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -282,10 +275,12 @@ public class MainClient extends javax.swing.JFrame {
                         .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(SolPanelLayout.createSequentialGroup()
-                                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(SolPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         SolPanelLayout.setVerticalGroup(
@@ -335,12 +330,8 @@ public class MainClient extends javax.swing.JFrame {
                 .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(4, 4, 4)
-                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(blockedAppsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(loginButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -364,19 +355,47 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("S\u0131navlar");
 
         durumLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         durumLabel.setText("Durum");
         durumLabel.setVisible(false);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setFocusable(false);
-        jScrollPane2.setViewportView(jTextArea1);
-
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("A\u00E7\u0131klamalar");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Bloklanan Uygulamalar:");
+
+        blockedAppsField.setText("txt");
+        blockedAppsField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blockedAppsFieldActionPerformed(evt);
+            }
+        });
+
+        jRadioButton1.setText("Kamerayı Açma");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        jRadioButton2.setText("İnterneti Kapatma");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        jRadioButton3.setText("Ses Kaydı Alma");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout SagPanelLayout = new javax.swing.GroupLayout(SagPanel);
         SagPanel.setLayout(SagPanelLayout);
@@ -384,19 +403,32 @@ public class MainClient extends javax.swing.JFrame {
             SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SagPanelLayout.createSequentialGroup()
                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                        .addGroup(SagPanelLayout.createSequentialGroup()
-                            .addComponent(yenileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(durumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(SagPanelLayout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(jLabel11))
-                    .addGroup(SagPanelLayout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                                .addGroup(SagPanelLayout.createSequentialGroup()
+                                    .addComponent(yenileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(durumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(blockedAppsField))
+                            .addGroup(SagPanelLayout.createSequentialGroup()
+                                .addGap(87, 87, 87)
+                                .addComponent(jLabel11))
+                            .addGroup(SagPanelLayout.createSequentialGroup()
+                                .addGap(92, 92, 92)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(SagPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jRadioButton1)
+                                    .addComponent(jRadioButton2))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(SagPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jRadioButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SagPanelLayout.setVerticalGroup(
@@ -412,9 +444,17 @@ public class MainClient extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(blockedAppsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -441,10 +481,10 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 415, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 7, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -598,7 +638,7 @@ public class MainClient extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loginButtonMouseClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
+    private void loginButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseClicked
         // TODO add your handling code here:
         name = nameTextField.getText();
         surname = surnameTextField.getText();
@@ -637,34 +677,42 @@ public class MainClient extends javax.swing.JFrame {
                                         getText().charAt(0) + nameTextField.
                                 getText());
                         rp = new RunningProcesses(blockedApps);
-                        ca = new CaptureAudio();
-                        fd = new FaceDetection();
+                        if(sesKaydiAlma) {
+                            ca = new CaptureAudio();
+                            Thread t3 = new Thread(ca);
+                            t3.start();
+                        }
+                        if(kameraAcma) {
+                            fd = new FaceDetection();
+                            Thread t4 = new Thread(fd);
+                            t4.start();
+                        }
+                        if(internetiKapatma) {
+                            /*
+                             * acarsaniz her 10 saniyede bir interneti kesen
+                             * kodu
+                             * calistirir. interneti tekrar acacak kodu nereye
+                             * koyacagimi bilemedigimden koymadim.
+                             * schedulerForConnectionOFF.scheduleAtFixedRate(coo,
+                             * 0,
+                             * 10, SECONDS);
+                             * bu islemi durdurmak icin
+                             * schedulerForConnectionOFF.shutdownNow(); denecek,
+                             * sonrasinda interneti acmak icin
+                             * ConnectionOnOff.openConnections();
+                             */
+                        }
                         ka = new KeyboardActivities();
-                        Thread t4 = new Thread(fd);
+
                         Thread t1 = new Thread(cam);
                         Thread t2 = new Thread(rp);
-                        Thread t3 = new Thread(ca);
 
                         Thread t5 = new Thread(ka);
 
                         t1.start();
                         t2.start();
-                        t3.start();
-                        t4.start();
+
                         t5.start();
-                        /*
-                        acarsaniz her 10 saniyede bir interneti kesen kodu
-                        calistirir. interneti tekrar acacak kodu nereye
-                        koyacagimi bilemedigimden koymadim. 
-                        schedulerForConnectionOFF.scheduleAtFixedRate(coo, 0,
-                        10, SECONDS);
-                        /*
-                        bu islemi durdurmak icin
-                        schedulerForConnectionOFF.shutdownNow(); denecek,
-                        sonrasinda interneti acmak icin
-                        ConnectionOnOff.openConnections();
-                        */
-                         
 
                         jTextArea2.setDropTarget(new DropTarget() {
                             @Override
@@ -700,6 +748,7 @@ public class MainClient extends javax.swing.JFrame {
                                             + " se\u00E7iniz.");
                                     jTextArea2.setDropTarget(null);
                                     //jTextArea2.setEnabled(false);
+                                    ClientExceptionHandler.logAnException(ex);
                                 }
                             }
                         });
@@ -741,7 +790,7 @@ public class MainClient extends javax.swing.JFrame {
             else {
                 loginLabel.setVisible(false);
             }
-            loginLabel.setVisible(false);
+
         }
     }//GEN-LAST:event_loginButtonMouseClicked
 
@@ -790,11 +839,9 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void idTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idTextFieldKeyPressed
-        ActionEvent temp;
-        temp = new ActionEvent(SolPanel, WIDTH, "");
-//        temp = new MouseEvent
-//        (SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -802,23 +849,18 @@ public class MainClient extends javax.swing.JFrame {
 
     private void nameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyPressed
         // TODO add your handling code here:
-        ActionEvent temp;
-        temp = new ActionEvent(SolPanel, WIDTH, "");
-//        MouseEvent temp;
-//        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
     }//GEN-LAST:event_nameTextFieldKeyPressed
 
     private void surnameTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_surnameTextFieldKeyPressed
-        ActionEvent temp;
-        temp = new ActionEvent(SolPanel, WIDTH, "");
-
-//        MouseEvent temp;
-//        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -831,12 +873,9 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_idTextFieldKeyTyped
 
     private void keyFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_keyFieldKeyPressed
-        ActionEvent temp;
-        temp = new ActionEvent(SolPanel, WIDTH, "");
-
-//        MouseEvent temp;
-//        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
-//                WIDTH, HEIGHT, rootPaneCheckingEnabled);
+        MouseEvent temp;
+        temp = new MouseEvent(SolPanel, WIDTH, timeAtStart, ICONIFIED, WIDTH,
+                WIDTH, HEIGHT, rootPaneCheckingEnabled);
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             loginButtonMouseClicked(temp);
         }
@@ -881,16 +920,15 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-         ReportWriting rw = new ReportWriting();
-            
-                fd.stop();
-                
-                
-                System.err.println(
-                        "girdiii");
-                rw.submitText();
-         
-    
+        ReportWriting rw = new ReportWriting();
+        if(fd != null) {
+            fd.stop();
+        }
+
+        System.err.println(
+                "girdiii");
+        rw.submitText();
+
         if(jCheckBox1.isSelected()
                 && (new String(videoKayitGozetmenField.getPassword())).equals(
                         instructorKey)) {
@@ -900,7 +938,7 @@ public class MainClient extends javax.swing.JFrame {
 
             if(cam.status()) {
                 cam.StopCaptureDesktop();
-            }  
+            }
 
             String target_file = cam.getPersonName() + "." + cam.getFormat();
             File target_file_object = new File(target_file);
@@ -916,13 +954,13 @@ public class MainClient extends javax.swing.JFrame {
             filesThatWillUpload.add(new File("reportForTeacher.pdf"));
             filesThatWillUpload.add(new File("video.mp4"));
             filesThatWillUpload.add(new File("RecordAudio.wav"));
-            
+
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {
                 codeFiles.add(new File((String) flm.getElementAt(i)));
             }
             simpleTimer.stop();
-            
+
             File[] temp = new File[filesThatWillUpload.size()];
             File[] temp2 = new File[codeFiles.size()];
             zau = new ZipAndUpload(codeFiles.toArray(temp2),
@@ -938,7 +976,7 @@ public class MainClient extends javax.swing.JFrame {
             for(Component component : VideoKayitEkrani.getComponents()) {
                 component.setEnabled(false);
             }
-          VideoKayitEkrani.setEnabled(false);
+            VideoKayitEkrani.setEnabled(false);
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         }
         if(!(new String(videoKayitGozetmenField.getPassword())).equals(
@@ -952,13 +990,13 @@ public class MainClient extends javax.swing.JFrame {
         examList = tc.listExams();
         durumLabel.setEnabled(true);
         jList1.setModel(new ExamListModel(examList));
-        jTextArea1.setText("");
+
     }//GEN-LAST:event_yenileButtonActionPerformed
 
     private void jList1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MousePressed
         int location = jList1.locationToIndex(evt.getPoint());
         if(examList != null && location >= 0) {
-            jTextArea1.setText(examList[location].getDescription());
+
             examName = examList[location].getName();
             jLabel16.setText(examName);
         }    }//GEN-LAST:event_jList1MousePressed
@@ -974,6 +1012,21 @@ public class MainClient extends javax.swing.JFrame {
     private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameTextFieldActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+        kameraAcma = true;
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+        internetiKapatma = true;
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        // TODO add your handling code here:
+        sesKaydiAlma = true;
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private static class ShutDownHook extends Thread {
 
@@ -1010,7 +1063,7 @@ public class MainClient extends javax.swing.JFrame {
     public static String getExamName() {
         return examName;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame FileChooserFrame;
     private javax.swing.JPanel GirisEkrani;
@@ -1043,8 +1096,10 @@ public class MainClient extends javax.swing.JFrame {
     private static javax.swing.JLabel jLabel9;
     private javax.swing.JList<String> jList1;
     private javax.swing.JProgressBar jProgressBar2;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -1052,7 +1107,6 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel keyAcceptedLabel;
     private javax.swing.JPasswordField keyField;

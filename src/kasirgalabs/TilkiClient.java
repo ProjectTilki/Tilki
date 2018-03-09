@@ -167,7 +167,7 @@ public class TilkiClient {
     public String replaceSpaceInString(String s){
     int i;
     for (i=0;i<s.length();i++){
-        System.out.println("i is "+i);
+        //System.out.println("i is "+i);
         if (s.charAt(i)==(int)32){
             s=s.substring(0, i)+"%20"+s.substring(i+1, s.length());
             i=i+2;              

@@ -101,7 +101,7 @@ public class ReportWriting {
                 //System.out.println(total);
                 Chunk chunk = new Chunk(total, font);
                   document.add(chunk);
-                  System.out.println("chuunkkkkkkk "+chunk);
+                 // System.out.println("chuunkkkkkkk "+chunk);
                 
             }
              document.close();
