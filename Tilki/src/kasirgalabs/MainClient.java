@@ -72,9 +72,10 @@ public class MainClient extends javax.swing.JFrame {
         FileChooserFrame = new javax.swing.JFrame();
         jFileChooser1 = new javax.swing.JFileChooser();
         jProgressBar2 = new javax.swing.JProgressBar();
-        jFrame1 = new javax.swing.JFrame();
+        serverConnectionFrame = new javax.swing.JFrame();
+        serverConnectionFrame.setVisible(true);
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        ipAddressJTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         GirisEkrani = new javax.swing.JPanel();
@@ -138,55 +139,62 @@ public class MainClient extends javax.swing.JFrame {
         });
         FileChooserFrame.getContentPane().add(jFileChooser1, java.awt.BorderLayout.CENTER);
 
+        serverConnectionFrame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        serverConnectionFrame.setTitle("Server Bağlantısı");
+        serverConnectionFrame.setLocation(new java.awt.Point(960, 540));
+        serverConnectionFrame.setMinimumSize(new java.awt.Dimension(480, 220));
+        serverConnectionFrame.setPreferredSize(new java.awt.Dimension(480, 220));
+        serverConnectionFrame.setResizable(false);
+
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kasirgalabs/images/100x100_Tilki.png"))); // NOI18N
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        ipAddressJTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                ipAddressJTextField1ActionPerformed(evt);
             }
         });
 
         jButton1.setText("Tamam");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                serverConnectionJButtonActionPerformed(evt);
             }
         });
 
         jLabel12.setText("Server Ip :");
 
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame1Layout.createSequentialGroup()
+        javax.swing.GroupLayout serverConnectionFrameLayout = new javax.swing.GroupLayout(serverConnectionFrame.getContentPane());
+        serverConnectionFrame.getContentPane().setLayout(serverConnectionFrameLayout);
+        serverConnectionFrameLayout.setHorizontalGroup(
+            serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(serverConnectionFrameLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
                 .addComponent(jLabel2)
-                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame1Layout.createSequentialGroup()
+                .addGroup(serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(serverConnectionFrameLayout.createSequentialGroup()
                         .addGap(73, 73, 73)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jFrame1Layout.createSequentialGroup()
+                    .addGroup(serverConnectionFrameLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ipAddressJTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame1Layout.createSequentialGroup()
+        serverConnectionFrameLayout.setVerticalGroup(
+            serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(serverConnectionFrameLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jFrame1Layout.createSequentialGroup()
+                .addGroup(serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(serverConnectionFrameLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ipAddressJTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -958,13 +966,19 @@ public class MainClient extends javax.swing.JFrame {
             jLabel16.setText(examList[location].getName());
         }    }//GEN-LAST:event_jList1MousePressed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void ipAddressJTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAddressJTextField1ActionPerformed
+        ipAddress=ipAddressJTextField1.getText();
+        yenileButtonActionPerformed(evt);
+        serverConnectionFrame.dispose();
+        setVisible(true);
+    }//GEN-LAST:event_ipAddressJTextField1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void serverConnectionJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverConnectionJButtonActionPerformed
+        ipAddress=ipAddressJTextField1.getText();
+        yenileButtonActionPerformed(evt);
+        serverConnectionFrame.dispose();
+        setVisible(true);
+    }//GEN-LAST:event_serverConnectionJButtonActionPerformed
 
     private static class ShutDownHook extends Thread {
 
@@ -992,7 +1006,7 @@ public class MainClient extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainClient().setVisible(true);
+                new MainClient().setVisible(false);
                 Timer timer = new Timer(100, yenileButtonActionListener);
                 timer.setRepeats(false);
                 timer.start();
@@ -1014,13 +1028,13 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JList<String> dosyaListesi;
     private javax.swing.JLabel durumLabel;
     private javax.swing.JTextField idTextField;
+    private javax.swing.JTextField ipAddressJTextField1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1049,13 +1063,13 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel keyAcceptedLabel;
     private javax.swing.JPasswordField keyField;
     private javax.swing.JLabel keyLabel;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel loginLabel;
     private javax.swing.JTextField nameTextField;
+    private javax.swing.JFrame serverConnectionFrame;
     private javax.swing.JTextField surnameTextField;
     private javax.swing.JPasswordField videoKayitGozetmenField;
     private javax.swing.JLabel videoKayitGozetmenLabel;
