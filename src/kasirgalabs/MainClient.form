@@ -550,7 +550,7 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButton1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kameray&#x131; A&#xe7;ma"/>
+                <Property name="text" type="java.lang.String" value="Kameray&#x131; A&#xe7;"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
@@ -558,7 +558,7 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButton2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#x130;nterneti Kapatma"/>
+                <Property name="text" type="java.lang.String" value="&#x130;nterneti Kapat"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton2ActionPerformed"/>
@@ -566,7 +566,7 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRadioButton3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ses Kayd&#x131; Alma"/>
+                <Property name="text" type="java.lang.String" value="Ses Kayd&#x131; Al"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton3ActionPerformed"/>

@@ -44,9 +44,9 @@ public class MainClient extends javax.swing.JFrame {
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
-    private boolean kameraAcma = false;
-    private boolean internetiKapatma = false;
-    private boolean sesKaydiAlma = false;
+    private boolean kameraAc = false;
+    private boolean internetiKapat = false;
+    private boolean sesKaydiAl = false;
 
     /**
      *
@@ -376,21 +376,21 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton1.setText("Kamerayı Açma");
+        jRadioButton1.setText("Kamerayı Aç");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("İnterneti Kapatma");
+        jRadioButton2.setText("İnterneti Kapat");
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton2ActionPerformed(evt);
             }
         });
 
-        jRadioButton3.setText("Ses Kaydı Alma");
+        jRadioButton3.setText("Ses Kaydı Al");
         jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton3ActionPerformed(evt);
@@ -677,41 +677,29 @@ public class MainClient extends javax.swing.JFrame {
                                         getText().charAt(0) + nameTextField.
                                 getText());
                         rp = new RunningProcesses(blockedApps);
-                        if(sesKaydiAlma) {
+                        if(sesKaydiAl) {
                             ca = new CaptureAudio();
                             Thread t3 = new Thread(ca);
                             t3.start();
                         }
-                        if(kameraAcma) {
+                        if(kameraAc) {
                             fd = new FaceDetection();
                             Thread t4 = new Thread(fd);
                             t4.start();
                         }
-                        if(internetiKapatma) {
-                            /*
-                             * acarsaniz her 10 saniyede bir interneti kesen
-                             * kodu
-                             * calistirir. interneti tekrar acacak kodu nereye
-                             * koyacagimi bilemedigimden koymadim.
-                             * schedulerForConnectionOFF.scheduleAtFixedRate(coo,
-                             * 0,
-                             * 10, SECONDS);
-                             * bu islemi durdurmak icin
-                             * schedulerForConnectionOFF.shutdownNow(); denecek,
-                             * sonrasinda interneti acmak icin
-                             * ConnectionOnOff.openConnections();
-                             */
+                        if(internetiKapat) {
+                            schedulerForConnectionOFF.scheduleAtFixedRate(coo,
+                              0,
+                              10, SECONDS);
                         }
                         ka = new KeyboardActivities();
 
                         Thread t1 = new Thread(cam);
                         Thread t2 = new Thread(rp);
-
                         Thread t5 = new Thread(ka);
 
                         t1.start();
                         t2.start();
-
                         t5.start();
 
                         jTextArea2.setDropTarget(new DropTarget() {
@@ -748,7 +736,7 @@ public class MainClient extends javax.swing.JFrame {
                                             + " se\u00E7iniz.");
                                     jTextArea2.setDropTarget(null);
                                     //jTextArea2.setEnabled(false);
-                                    ClientExceptionHandler.logAnException(ex);
+                                    //ClientExceptionHandler.logAnException(ex);
                                 }
                             }
                         });
@@ -924,9 +912,6 @@ public class MainClient extends javax.swing.JFrame {
         if(fd != null) {
             fd.stop();
         }
-
-        System.err.println(
-                "girdiii");
         rw.submitText();
 
         if(jCheckBox1.isSelected()
@@ -935,11 +920,15 @@ public class MainClient extends javax.swing.JFrame {
             FileChooserFrame.setVisible(false);
             ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
             FileListModel flm = (FileListModel) dosyaListesi.getModel();
-
+            
             if(cam.status()) {
                 cam.StopCaptureDesktop();
             }
-
+            if(internetiKapat){
+                schedulerForConnectionOFF.shutdownNow();
+                ConnectionOnOff.openConnections();
+            }
+            
             String target_file = cam.getPersonName() + "." + cam.getFormat();
             File target_file_object = new File(target_file);
             if(target_file_object.exists()) {
@@ -952,9 +941,13 @@ public class MainClient extends javax.swing.JFrame {
                 }
             }
             filesThatWillUpload.add(new File("reportForTeacher.pdf"));
-            filesThatWillUpload.add(new File("video.mp4"));
-            filesThatWillUpload.add(new File("RecordAudio.wav"));
-
+            if(kameraAc){
+                filesThatWillUpload.add(new File("webcam.wmv"));
+            }
+            if(sesKaydiAl){
+                filesThatWillUpload.add(new File("RecordAudio.wav"));
+            }
+            
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {
                 codeFiles.add(new File((String) flm.getElementAt(i)));
@@ -1015,17 +1008,17 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        kameraAcma = true;
+        kameraAc = true;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        internetiKapatma = true;
+        internetiKapat = true;
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
         // TODO add your handling code here:
-        sesKaydiAlma = true;
+        sesKaydiAl = true;
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private static class ShutDownHook extends Thread {

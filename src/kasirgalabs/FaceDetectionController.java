@@ -49,7 +49,7 @@ public class FaceDetectionController {
     private int absoluteFaceSize;
     ReportWriting rw;
     int count = 0;
-static ArrayList<BufferedImage> imgarry;
+static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
     protected void init(ReportWriting rw) {
         this.capture = new VideoCapture();
         this.faceCascade = new CascadeClassifier();
@@ -123,7 +123,6 @@ static ArrayList<BufferedImage> imgarry;
 
     public void takePicture(Mat frame) {
         BufferedImage img = matToBufferedImage(frame);
-        imgarry=new ArrayList<BufferedImage>();
         imgarry.add(img);
         System.out.println("kasirgalabs.FaceDetectionController.takePicture()"+img); 
         rw.addText("Taked Picture");
@@ -202,7 +201,6 @@ static ArrayList<BufferedImage> imgarry;
             Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(),
                     new Scalar(0, 255, 0), 3);
         }
-
     }
 
     private void stopAcquisition() {
@@ -233,16 +231,8 @@ static ArrayList<BufferedImage> imgarry;
      * On application close, stop the acquisition from the camera
      */
     protected void setClosed() {
-        try {
-            CreateVideo encoder = new CreateVideo(new File("video.mp4"));
-            encoder.createVideo(imgarry);
-            this.stopAcquisition();
-        }
-        catch(IOException ex) {
-            Logger.getLogger(FaceDetectionController.class.getName()).log(Level.SEVERE,
-                    null, ex);
-        }
-
+        CreateVideo.createVideo(imgarry);
+        this.stopAcquisition();
     }
 
     public static Image mat2Image(Mat frame) {
