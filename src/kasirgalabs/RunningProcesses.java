@@ -1,18 +1,12 @@
 package kasirgalabs;
 
-import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import com.google.common.collect.Sets;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -22,6 +16,10 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author daghan
+ */
 public class RunningProcesses extends JFrame implements Runnable {
 
     public static JFrame frame3 = null;
@@ -29,6 +27,7 @@ public class RunningProcesses extends JFrame implements Runnable {
     List<String> acilanUygulamalar = new ArrayList<String>();
     List<String> blockedAppsList = new ArrayList<String>();
     ReportWriting rw = new ReportWriting();
+    TrustScore ts;
 
     public List<String> getKapatilan() {
         return this.kapatilanUygulamalar;
@@ -81,6 +80,8 @@ public class RunningProcesses extends JFrame implements Runnable {
             System.out.println(element);
             rw.addText("Blocked Apps: " + element);
         }
+
+        ts = new TrustScore();
     }
 
     public static void main(String[] args) {
@@ -166,11 +167,12 @@ public class RunningProcesses extends JFrame implements Runnable {
                                     dizi[1].length() - 1);
                             int pid = Integer.parseInt(temp);
                             //System.out.println("pid : " + pid);
-                            
+
                             Process k = Runtime.getRuntime().exec(
                                     "taskkill /pid " + pid);
-                            
-                            
+
+                            ts.skorAzalt(2);
+
                         }
                     }
                     input.close();
@@ -184,6 +186,7 @@ public class RunningProcesses extends JFrame implements Runnable {
         }
         if(chromeList.size() > 1) {
 
+            ts.skorAzalt(2);
             rw.addText("Google Chrome 1'den fazla sekme acik.");
             System.out.println(
                     "1'den fazla Google Chrome penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
@@ -201,6 +204,8 @@ public class RunningProcesses extends JFrame implements Runnable {
         }
 
         if(firefoxList.size() > 1) {
+
+            ts.skorAzalt(2);
             rw.addText("Mozilla Firefox 1'den fazla sekme acik.");
             System.out.println(
                     "1'den fazla firefox penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
@@ -217,6 +222,8 @@ public class RunningProcesses extends JFrame implements Runnable {
         }
 
         if(explorerList.size() > 1) {
+
+            ts.skorAzalt(2);
             rw.addText("Internet Explorer 1'den fazla sekme acik.");
             System.out.println(
                     "1'den fazla explorer penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
@@ -227,18 +234,20 @@ public class RunningProcesses extends JFrame implements Runnable {
              * "Hata", JOptionPane.ERROR_MESSAGE);
              *
              *
-            *for(String expName : explorerList) {
-            *    System.out.println(expName);
-           * }
-            */
+             * for(String expName : explorerList) {
+             * System.out.println(expName);
+             * }
+             */
         }
         else if(explorerList.size() == 1) {
             eskiExplorerSekme = explorerList.get(0);
         }
 
         if(edgeList.size() > 1) {
+
+            ts.skorAzalt(2);
             rw.addText("Microsoft Edge 1'den fazla sekme acik.");
-            
+
             System.out.println(
                     "1'den fazla edge penceresi acik. Sadece 1 pencere acik olacak sekilde digerlerini kapatin.");
             /*
@@ -248,10 +257,10 @@ public class RunningProcesses extends JFrame implements Runnable {
              * "Hata", JOptionPane.ERROR_MESSAGE);
              *
              *
-            *for(String edgeName : edgeList) {
-            *    System.out.println(edgeName);
-            *}
-            */
+             * for(String edgeName : edgeList) {
+             * System.out.println(edgeName);
+             * }
+             */
         }
         else if(edgeList.size() == 1) {
             eskiEdgeSekme = edgeList.get(0);
@@ -335,24 +344,24 @@ public class RunningProcesses extends JFrame implements Runnable {
                         //JOptionPane.showMessageDialog(null, 
                         //element +" dosyasi acik !", "Hata", JOptionPane.ERROR_MESSAGE);
                         rw.addText("Bloklanan programlar listesindeki "
-                                +element + " dosyasi acik ! " + winName);
+                                + element + " dosyasi acik ! " + winName);
                         System.out.println(
                                 element + " dosyasi acik ! " + winName);
                         if(!blockedAppsList.isEmpty()) {
                             boolean temp = false;
-                            
-                                temp = closeApp(element.toLowerCase());
-                               
-                            
-                            if(!temp){
-                                if(!winName.toLowerCase().contains("pdf")){
-                                    System.out.print("Deneme winname:  " +winName);
+
+                            temp = closeApp(element.toLowerCase());
+
+                            if(!temp) {
+                                if(!winName.toLowerCase().contains("pdf")) {
+                                    System.out.print(
+                                            "Deneme winname:  " + winName);
                                     killByExtension(element);
                                 }
                             }
                         }
                         rw.addText("Bloklanan programlar listesindeki "
-                                +winName + " kapatildi.");
+                                + winName + " kapatildi.");
                     }
 
                 }
@@ -380,6 +389,7 @@ public class RunningProcesses extends JFrame implements Runnable {
                 rw.addText("Eski sekme: " + eskiChromeSekme);
                 rw.addText("Yeni sekme: " + yeniChromeSekme);
                 System.out.println("Google Chrome sekmesi degistirildi !!!");
+                ts.skorAzalt(2);
 
                 System.out.println("Eski sekme: " + eskiChromeSekme);
                 System.out.println("Yeni sekme: " + yeniChromeSekme);
@@ -398,6 +408,8 @@ public class RunningProcesses extends JFrame implements Runnable {
                 rw.addText("Yeni sekme: " + yeniFirefoxSekme);
                 System.out.println("Mozilla Firefox sekmesi degistirildi !!!");
 
+                ts.skorAzalt(2);
+
                 System.out.println("Eski sekme: " + eskiFirefoxSekme);
                 System.out.println("Yeni sekme: " + yeniFirefoxSekme);
                 eskiFirefoxSekme = yeniFirefoxSekme;
@@ -413,6 +425,8 @@ public class RunningProcesses extends JFrame implements Runnable {
                 rw.addText("Eski sekme: " + eskiExplorerSekme);
                 rw.addText("Yeni sekme: " + yeniExplorerSekme);
                 System.out.println("Explorer sekmesi degistirildi !!!");
+
+                ts.skorAzalt(2);
 
                 System.out.println("Eski sekme: " + eskiExplorerSekme);
                 System.out.println("Yeni sekme: " + yeniExplorerSekme);
@@ -431,11 +445,14 @@ public class RunningProcesses extends JFrame implements Runnable {
                 rw.addText("Yeni sekme: " + yeniEdgeSekme);
                 System.out.println("Microsoft Edge sekmesi degistirildi !!!");
 
+                ts.skorAzalt(2);
+
                 System.out.println("Eski sekme: " + eskiEdgeSekme);
                 System.out.println("Yeni sekme: " + yeniEdgeSekme);
                 eskiEdgeSekme = yeniEdgeSekme;
 
             }
+            System.out.println("Running Process Score : " + ts.getSkor());
             try {
                 Thread.sleep(1000);
             }
@@ -451,7 +468,7 @@ public class RunningProcesses extends JFrame implements Runnable {
     private boolean closeApp(String taskName) {
 
         boolean kapatildiMi = false;
-        
+
         try {
             String line;
             Process p = Runtime.getRuntime().exec(
@@ -470,6 +487,8 @@ public class RunningProcesses extends JFrame implements Runnable {
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
                     rw.addText(taskName + " kapatildi.");
+                    ts.skorAzalt(2);
+
                     kapatildiMi = true;
                 }
                 if(taskName.equalsIgnoreCase("pdf") && line.toLowerCase().contains(
@@ -482,12 +501,11 @@ public class RunningProcesses extends JFrame implements Runnable {
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
                     rw.addText(taskName + " kapatildi.");
-                                        
+                    ts.skorAzalt(2);
                     kapatildiMi = true;
 
-
                 }
-                if(line.toLowerCase().contains("POWERPNT.EXE".toLowerCase()) ) {
+                if(line.toLowerCase().contains("POWERPNT.EXE".toLowerCase())) {
                     rw.addText(taskName + "Kapatiliyor.");
                     System.out.println(taskName + "Kapatiliyor.");
                     String[] dizi = line.split(",");
@@ -496,9 +514,9 @@ public class RunningProcesses extends JFrame implements Runnable {
                     //System.out.println("pid : " + pid);
                     Process k = Runtime.getRuntime().exec("taskkill /pid " + pid);
                     rw.addText(taskName + " kapatildi.");
-                                        
-                    kapatildiMi = true;
+                    ts.skorAzalt(2);
 
+                    kapatildiMi = true;
 
                 }
                 if(line.toLowerCase().contains("edge")) {
@@ -507,10 +525,12 @@ public class RunningProcesses extends JFrame implements Runnable {
                     String temp = dizi[1].substring(1, dizi[1].length() - 1);
                     int pid = Integer.parseInt(temp);
                     //System.out.println("pid : " + pid);
-                    Process k = Runtime.getRuntime().exec("taskkill /F /PID " + pid);
-                    
+                    Process k = Runtime.getRuntime().exec(
+                            "taskkill /F /PID " + pid);
+
                     rw.addText(taskName + " kapatildi.");
-                    
+                    ts.skorAzalt(2);
+
                     kapatildiMi = true;
 
                 }
@@ -524,58 +544,58 @@ public class RunningProcesses extends JFrame implements Runnable {
         return kapatildiMi;
     }
 
-    private void killByExtension(String extension){
-        
+    private void killByExtension(String extension) {
+
         try {
             ArrayList<String> cmds = new ArrayList<String>();
-            
+
             cmds.add("wmic");
             cmds.add("process");
             cmds.add("get");
             cmds.add("commandline,processid");
-            
+
             ProcessBuilder pb = new ProcessBuilder(cmds);
-            
+
             Process p = pb.start();
-            
-            BufferedReader rd = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(
+                    p.getInputStream()));
+
             String line;
-            int pid=0;
-            
-            while((line = rd.readLine()) != null)
-            {
-                if(line.toLowerCase().contains(extension)  && !line.contains("Tilki") &&
-                        !line.contains("RunningProcesses") && !line.contains(
-                        "reportForTeacher"))
-                {
-                    
+            int pid = 0;
+
+            while((line = rd.readLine()) != null) {
+                if(line.toLowerCase().contains(extension) && !line.contains(
+                        "Tilki")
+                        && !line.contains("RunningProcesses") && !line.contains(
+                        "reportForTeacher")) {
+
                     System.out.println("OK" + line);
                     String[] split = line.split(" ");
-                    pid=Integer.parseInt(split[split.length - 1]);
+                    pid = Integer.parseInt(split[split.length - 1]);
                     System.out.println("pid " + pid);
                 }
-                else
-                {
+                else {
                     //System.out.println("  " + line);
                 }
             }
             /*
-            cmds = new ArrayList<String>();
-            
-            cmds.add("taskkill");
-            cmds.add("/T");
-            cmds.add("/F");
-            cmds.add("/PID");
-            cmds.add("" + pid);
-            
-            pb = new ProcessBuilder(cmds);
-            pb.start();
-            */
-            
+             * cmds = new ArrayList<String>();
+             *
+             * cmds.add("taskkill");
+             * cmds.add("/T");
+             * cmds.add("/F");
+             * cmds.add("/PID");
+             * cmds.add("" + pid);
+             *
+             * pb = new ProcessBuilder(cmds);
+             * pb.start();
+             */
+
             String cmd = "taskkill /F /PID " + pid;
             Runtime.getRuntime().exec(cmd);
-            
+            ts.skorAzalt(2);
+
             rw.addText(extension + " uzantili dosya kapatildi.");
 
         }
@@ -583,7 +603,7 @@ public class RunningProcesses extends JFrame implements Runnable {
             Logger.getLogger(RunningProcesses.class.getName()).log(Level.SEVERE,
                     null, ex);
         }
-    
+
     }
-    
+
 }

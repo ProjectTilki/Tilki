@@ -49,6 +49,8 @@ public class FaceDetectionController {
     private int absoluteFaceSize;
     ReportWriting rw;
     int count = 0;
+    TrustScore faceDetectScore = new TrustScore();
+
 static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
     protected void init(ReportWriting rw) {
         this.capture = new VideoCapture();
@@ -190,6 +192,8 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
 
             if(count % 50 == 0) {
                 // System.out.println("yüz bulunamadı");
+                
+                faceDetectScore.skorAzalt(2);
                 rw.addText("Couldn't find face... ");
                 takePicture(frame);
             }
@@ -201,6 +205,8 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
             Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(),
                     new Scalar(0, 255, 0), 3);
         }
+        System.out.println("Face Detection Score : " + faceDetectScore.getSkor());
+
     }
 
     private void stopAcquisition() {
