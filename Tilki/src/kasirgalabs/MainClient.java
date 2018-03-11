@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -141,7 +143,7 @@ public class MainClient extends javax.swing.JFrame {
 
         serverConnectionFrame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         serverConnectionFrame.setTitle("Server Bağlantısı");
-        serverConnectionFrame.setLocation(new java.awt.Point(960, 540));
+        serverConnectionFrame.setLocation(new java.awt.Point(720, 430));
         serverConnectionFrame.setMinimumSize(new java.awt.Dimension(480, 220));
         serverConnectionFrame.setPreferredSize(new java.awt.Dimension(480, 220));
         serverConnectionFrame.setResizable(false);
@@ -458,7 +460,7 @@ public class MainClient extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(SagPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addGap(14, 14, 14))
         );
         GirisEkraniLayout.setVerticalGroup(
             GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,10 +470,10 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 4, Short.MAX_VALUE)))
+                        .addGap(0, 26, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -563,7 +565,7 @@ public class MainClient extends javax.swing.JFrame {
                                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                                         .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGap(0, 36, Short.MAX_VALUE))
                                     .addComponent(dosyaEksikLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -583,7 +585,7 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
@@ -616,7 +618,7 @@ public class MainClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         getContentPane().add(VideoKayitEkrani, "card3");
@@ -968,15 +970,30 @@ public class MainClient extends javax.swing.JFrame {
 
     private void ipAddressJTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAddressJTextField1ActionPerformed
         ipAddress=ipAddressJTextField1.getText();
-        yenileButtonActionPerformed(evt);
         serverConnectionFrame.dispose();
+        new javax.swing.SwingWorker<Boolean,String>(){
+            @Override
+            public Boolean doInBackground(){
+                yenileButtonActionPerformed(evt);
+                return true;
+            }
+        }.execute();         
         setVisible(true);
+
+        
+        
     }//GEN-LAST:event_ipAddressJTextField1ActionPerformed
 
     private void serverConnectionJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverConnectionJButtonActionPerformed
         ipAddress=ipAddressJTextField1.getText();
-        yenileButtonActionPerformed(evt);
         serverConnectionFrame.dispose();
+        new javax.swing.SwingWorker<Boolean,String>(){
+            @Override
+            public Boolean doInBackground(){
+                yenileButtonActionPerformed(evt);
+                return true;
+            }
+        }.execute();
         setVisible(true);
     }//GEN-LAST:event_serverConnectionJButtonActionPerformed
 
@@ -1007,9 +1024,6 @@ public class MainClient extends javax.swing.JFrame {
             @Override
             public void run() {
                 new MainClient().setVisible(false);
-                Timer timer = new Timer(100, yenileButtonActionListener);
-                timer.setRepeats(false);
-                timer.start();
             }
         });
     }
