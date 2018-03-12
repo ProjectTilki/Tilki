@@ -80,7 +80,15 @@ public class RunningProcesses extends JFrame implements Runnable {
             System.out.println(element);
             rw.addText( element,1);
         }
-
+        
+        try {
+            Process k = Runtime.getRuntime().exec(
+                    "reg add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced /v HideFileExt /t REG_DWORD /d 0 /f");
+        }
+        catch(IOException ex) {
+            Logger.getLogger(RunningProcesses.class.getName()).log(Level.SEVERE,
+                    null, ex);
+        }
         ts = new TrustScore();
     }
 
@@ -521,6 +529,21 @@ public class RunningProcesses extends JFrame implements Runnable {
                 }
                 if(line.toLowerCase().contains("edge")) {
                     System.out.println("Edge Kapatiliyor.");
+                    String[] dizi = line.split(",");
+                    String temp = dizi[1].substring(1, dizi[1].length() - 1);
+                    int pid = Integer.parseInt(temp);
+                    //System.out.println("pid : " + pid);
+                    Process k = Runtime.getRuntime().exec(
+                            "taskkill /F /PID " + pid);
+
+                    rw.addText(taskName + " kapatildi.",3);
+                    ts.skorAzalt(2);
+
+                    kapatildiMi = true;
+
+                }
+                if(line.toLowerCase().contains("notepad")) {
+                    System.out.println("Notepad Kapatiliyor.");
                     String[] dizi = line.split(",");
                     String temp = dizi[1].substring(1, dizi[1].length() - 1);
                     int pid = Integer.parseInt(temp);
