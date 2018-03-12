@@ -147,7 +147,6 @@ public class MainClient extends javax.swing.JFrame {
         serverConnectionFrame.setTitle("Server Bağlantısı");
         serverConnectionFrame.setLocation(new java.awt.Point(720, 430));
         serverConnectionFrame.setMinimumSize(new java.awt.Dimension(480, 220));
-        serverConnectionFrame.setPreferredSize(new java.awt.Dimension(480, 220));
         serverConnectionFrame.setResizable(false);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kasirgalabs/images/100x100_Tilki.png"))); // NOI18N
@@ -471,7 +470,7 @@ public class MainClient extends javax.swing.JFrame {
                         .addGap(14, 14, 14))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(serverIpjLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
@@ -988,32 +987,33 @@ public class MainClient extends javax.swing.JFrame {
     private void ipAddressJTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAddressJTextField1ActionPerformed
         ipAddress=ipAddressJTextField1.getText();
         serverConnectionFrame.dispose();
-        serverIpjLabel13.setText(ipAddress);       
+        serverIpjLabel13.setText(ipAddress);
+        setVisible(true);
         new javax.swing.SwingWorker<Boolean,String>(){
             @Override
             public Boolean doInBackground(){
-                yenileButtonActionPerformed(evt);
-                return true;
+                Timer timer = new Timer(100, yenileButtonActionListener);
+                timer.setRepeats(false);
+                timer.start();
+                return true; 
             }
         }.execute();
-        
-        setVisible(true);
- 
     }//GEN-LAST:event_ipAddressJTextField1ActionPerformed
 
     private void serverConnectionJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverConnectionJButtonActionPerformed
         ipAddress=ipAddressJTextField1.getText();
         serverConnectionFrame.dispose();
         serverIpjLabel13.setText(ipAddress);
+        setVisible(true);
         new javax.swing.SwingWorker<Boolean,String>(){
             @Override
             public Boolean doInBackground(){
-                yenileButtonActionPerformed(evt);
+                Timer timer = new Timer(100, yenileButtonActionListener);
+                timer.setRepeats(false);
+                timer.start();
                 return true;
             }
         }.execute();
-        
-        setVisible(true);
     }//GEN-LAST:event_serverConnectionJButtonActionPerformed
 
     private static class ShutDownHook extends Thread {
