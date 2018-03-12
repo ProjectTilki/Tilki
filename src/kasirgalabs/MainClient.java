@@ -750,7 +750,7 @@ public class MainClient extends javax.swing.JFrame {
                         simpleTimer.start();
                     }
                     else {
-                        loginLabel.setText("Bilinmeyen hata.");
+                        loginLabel.setText("Ogrenci Bilgileri Yanlis.");
                     }
                 }
             }

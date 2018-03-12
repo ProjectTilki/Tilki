@@ -37,7 +37,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private String id;
     private String codes_md5;
     private String videos_md5;
-    private String xor_md5;
     private ZipAndUpload.Task task;
     private JDialog dialog1;
     private JDialog dialog2;
@@ -63,7 +62,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     + " \u00F6nce\n" + "kullan\u0131m verilerinizin"
                     + " kar\u015F\u0131ya y\u00FCklenmesini bekleyiniz.\n\n");
             logFile = new File("tilki.log");
-
             task.firePropertyChange("enableCloseButton", 0, 1);
             String temp = createZipFile(otherFiles);
             if(Thread.currentThread().isInterrupted()) {
@@ -74,7 +72,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
                     "Kullan\u0131m verileriniz kar\u015F\u0131ya"
                     + " y\u00FCklenmi\u015Ftir.\n\n");
             queue.add("Do\u011Frulama kodu:");
-            queue.add("\n" + xor_md5 + "\n");
+            queue.add("\n" + codes_md5 + " " + videos_md5 + "\n");
             queue.add("Do\u011Frulama kodunuz kaydedilmi\u015Ftir:");
             queue.add("\n" + logFile.getAbsolutePath() + "\n");
             queue.add("Belirtilen dizinde bulabilirsiniz.\n\n");
@@ -461,9 +459,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             String message = "L\u00FCtfen a\u015Fa\u011F\u0131daki kodu"
                     + " imza ka\u011F\u0131d\u0131ndaki bo\u015F yere"
                     + " yaz\u0131n\u0131z.\n\n";
-            message += codes_md5.substring(0, 5) + " - " + codes_md5.
-                    substring(5, 10) + " - " + codes_md5.
-                    substring(10, 15);
+            message += codes_md5 + " " + videos_md5;
             JOptionPane pane = new JOptionPane(message, WARNING_MESSAGE,
                     DEFAULT_OPTION, null,
                     option);
