@@ -111,6 +111,8 @@ public class MainClient extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        serverIpjLabel13 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
         VideoKayitEkrani = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -449,6 +451,10 @@ public class MainClient extends javax.swing.JFrame {
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator1.setPreferredSize(new java.awt.Dimension(6, 472));
 
+        serverIpjLabel13.setText(ipAddress);
+
+        jLabel17.setText("Server IP:");
+
         javax.swing.GroupLayout GirisEkraniLayout = new javax.swing.GroupLayout(GirisEkrani);
         GirisEkrani.setLayout(GirisEkraniLayout);
         GirisEkraniLayout.setHorizontalGroup(
@@ -457,23 +463,34 @@ public class MainClient extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SagPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(GirisEkraniLayout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SagPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GirisEkraniLayout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(serverIpjLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         GirisEkraniLayout.setVerticalGroup(
             GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addComponent(SagPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(serverIpjLabel13)
+                    .addComponent(jLabel17))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
+                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 26, Short.MAX_VALUE)))
+                        .addGap(0, 29, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -585,7 +602,7 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
@@ -618,7 +635,7 @@ public class MainClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         getContentPane().add(VideoKayitEkrani, "card3");
@@ -971,22 +988,7 @@ public class MainClient extends javax.swing.JFrame {
     private void ipAddressJTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAddressJTextField1ActionPerformed
         ipAddress=ipAddressJTextField1.getText();
         serverConnectionFrame.dispose();
-        new javax.swing.SwingWorker<Boolean,String>(){
-            @Override
-            public Boolean doInBackground(){
-                yenileButtonActionPerformed(evt);
-                return true;
-            }
-        }.execute();         
-        setVisible(true);
-
-        
-        
-    }//GEN-LAST:event_ipAddressJTextField1ActionPerformed
-
-    private void serverConnectionJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverConnectionJButtonActionPerformed
-        ipAddress=ipAddressJTextField1.getText();
-        serverConnectionFrame.dispose();
+        serverIpjLabel13.setText(ipAddress);       
         new javax.swing.SwingWorker<Boolean,String>(){
             @Override
             public Boolean doInBackground(){
@@ -994,6 +996,23 @@ public class MainClient extends javax.swing.JFrame {
                 return true;
             }
         }.execute();
+        
+        setVisible(true);
+ 
+    }//GEN-LAST:event_ipAddressJTextField1ActionPerformed
+
+    private void serverConnectionJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverConnectionJButtonActionPerformed
+        ipAddress=ipAddressJTextField1.getText();
+        serverConnectionFrame.dispose();
+        serverIpjLabel13.setText(ipAddress);
+        new javax.swing.SwingWorker<Boolean,String>(){
+            @Override
+            public Boolean doInBackground(){
+                yenileButtonActionPerformed(evt);
+                return true;
+            }
+        }.execute();
+        
         setVisible(true);
     }//GEN-LAST:event_serverConnectionJButtonActionPerformed
 
@@ -1056,6 +1075,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1084,6 +1104,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel loginLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JFrame serverConnectionFrame;
+    private javax.swing.JLabel serverIpjLabel13;
     private javax.swing.JTextField surnameTextField;
     private javax.swing.JPasswordField videoKayitGozetmenField;
     private javax.swing.JLabel videoKayitGozetmenLabel;
