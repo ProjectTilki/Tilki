@@ -46,8 +46,8 @@ public class ReportWriting {
         Font f = new Font(FontFamily.HELVETICA, size, Font.BOLD);
         Paragraph p = new Paragraph();
         p.setAlignment(Element.ALIGN_CENTER);
-      
-        Chunk c=new Chunk(s,f);
+        p.setFont(f);
+        Chunk c=new Chunk("\n"+s+"\n",f);
         
         p.add(c+"\n");
         return p;
@@ -92,33 +92,33 @@ public class ReportWriting {
             document.open();
             Font font = FontFactory.getFont(FontFactory.TIMES, 14,
                     BaseColor.BLACK);
-            document.add(printHead("E-XAM REPORT FOR TEACHER", 18));
+            document.add(printHead("E-XAM REPORT FOR TEACHER", 22));
             if(total != "") {
-                Paragraph p =printHead("Moments when face can not be found", 16);//0
+                Paragraph p =printHead("Moments when face can not be found", 18);//0
                 Chunk chunk = new Chunk(total, font);
                 document.add(p);
                 document.add(chunk);
             }
             if(total1 != "") {
-                Paragraph p =printHead("Blocked Apps", 16);//1
+                Paragraph p =printHead("Blocked Apps", 18);//1
                 Chunk chunk1 = new Chunk(total1, font);
                 document.add(p);
                 document.add(chunk1);
             }
              if(total2 != "") {
-                Paragraph p =printHead("Opened or Open Applications", 16);//2
+                Paragraph p =printHead("Opened or Open Applications", 18);//2
                 Chunk chunk2 = new Chunk(total2, font);
                 document.add(p);
                 document.add(chunk2);
             }
              if(total3 != "") {
-                Paragraph p =printHead("Closed Apps", 16);//3
+                Paragraph p =printHead("Closed Apps", 18);//3
                 Chunk chunk3 = new Chunk(total3, font);
                 document.add(p);
                 document.add(chunk3);
             }
              if(total4 != "") {
-                Paragraph p =printHead("Internet- Tab Information", 16);//4
+                Paragraph p =printHead("Internet- Tab Information", 18);//4
                 Chunk chunk4 = new Chunk(total4, font);
                 document.add(p);
                 document.add(chunk4);
