@@ -1,110 +1,129 @@
 package kasirgalabs;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class ReportWriting {
 
     private static final String FILE_NAME = "reportForTeacher.pdf";
     Document document;
     public static String total = "";
+    public static String total1 = "";
+    public static String total2 = "";
+    private static String total3 = "";
+    private static String total4 = "";
 
     public ReportWriting() {
-        document = new Document();
+     
+    }
+    private void createDocument(){
+               document = new Document();
         try {
             PdfWriter.getInstance(document, new FileOutputStream(new File(
                     FILE_NAME)));
+
         }
-        catch(FileNotFoundException e) {
+        catch(FileNotFoundException | DocumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        catch(DocumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        document.open();
-        printHead("E-XAM REPORT FOR TEACHER");
+        // TODO Auto-generated catch block
     }
 
     // pdf e baslik icin
-    public void printHead(String s) {
-        document.open();
-        Font f = new Font();
-        f.setStyle(Font.BOLD);
-        f.setSize(16);
+    public Paragraph printHead(String s, int size) {
+        //document.open();
+        Font f = new Font(FontFamily.HELVETICA, size, Font.BOLD);
         Paragraph p = new Paragraph();
         p.setAlignment(Element.ALIGN_CENTER);
-        p.add(new Paragraph(s, f));
-        try {
-            document.add(p);
-        }
-        catch(DocumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+      
+        Chunk c=new Chunk(s,f);
+        
+        p.add(c+"\n");
+        return p;
 
     }
 
-    public void addImage(String path) {
-        document.open();
-        Image image1 = null;
-        try {
-
-            try {
-                image1 = Image.getInstance(path);
-            }
-            catch(BadElementException ex) {
-                Logger.getLogger(ReportWriting.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
-            catch(IOException ex) {
-                Logger.getLogger(ReportWriting.class.getName()).log(Level.SEVERE,
-                        null, ex);
-            }
-            document.add(image1);
-
-        }
-        catch(DocumentException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-    }
 
     // metin icin
-    public void addText(String s) {
+    public void addText(String s, int i) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         if(s != null) {
-            total = dateFormat.format(date) + "    " + s + "\n" + total;
-            //System.out.println(total);
+            switch(i) {
+                case 0:
+                    total = total + "\n" + dateFormat.format(date) + "    " + s;
+                    //System.out.println(total);
+                    break;
+                case 1:
+                    total1 = total1 + "\n" + s;
+                    break;
+                case 2:
+                    total2 = total2 + "\n" + s;
+                    break;
+                case 3:
+                    total3 = total3 + "\n" + s;
+                    break;
+                case 4:
+                    total4 = total4 + "\n" + dateFormat.format(date) + "    " + s;
+                default:
+                    break;
+            }
         }
+
     }
 
+    /**
+     * eklemeler yapıldıktan sonra pdf e submit edilir
+     */
     public void submitText() {
+        createDocument();
         try {
             document.open();
-            Font font = FontFactory.getFont(FontFactory.COURIER, 14,
+            Font font = FontFactory.getFont(FontFactory.TIMES, 14,
                     BaseColor.BLACK);
-            if(total != null) {
-                //System.out.println(total);
+            document.add(printHead("E-XAM REPORT FOR TEACHER", 18));
+            if(total != "") {
+                Paragraph p =printHead("Moments when face can not be found", 16);//0
                 Chunk chunk = new Chunk(total, font);
-                  document.add(chunk);
-                 // System.out.println("chuunkkkkkkk "+chunk);
-                
+                document.add(p);
+                document.add(chunk);
             }
-             document.close();
+            if(total1 != "") {
+                Paragraph p =printHead("Blocked Apps", 16);//1
+                Chunk chunk1 = new Chunk(total1, font);
+                document.add(p);
+                document.add(chunk1);
+            }
+             if(total2 != "") {
+                Paragraph p =printHead("Opened or Open Applications", 16);//2
+                Chunk chunk2 = new Chunk(total2, font);
+                document.add(p);
+                document.add(chunk2);
+            }
+             if(total3 != "") {
+                Paragraph p =printHead("Closed Apps", 16);//3
+                Chunk chunk3 = new Chunk(total3, font);
+                document.add(p);
+                document.add(chunk3);
+            }
+             if(total4 != "") {
+                Paragraph p =printHead("Internet- Tab Information", 16);//4
+                Chunk chunk4 = new Chunk(total4, font);
+                document.add(p);
+                document.add(chunk4);
+            }
+            document.close();
         }
         catch(DocumentException e) {
             // TODO Auto-generated catch block
@@ -117,4 +136,29 @@ public class ReportWriting {
         document.close();
     }
 
+//    public void addImage(String path) {
+//        document.open();
+//        Image image1 = null;
+//        try {
+//
+//            try {
+//                image1 = Image.getInstance(path);
+//            }
+//            catch(BadElementException ex) {
+//                Logger.getLogger(ReportWriting.class.getName()).log(Level.SEVERE,
+//                        null, ex);
+//            }
+//            catch(IOException ex) {
+//                Logger.getLogger(ReportWriting.class.getName()).log(Level.SEVERE,
+//                        null, ex);
+//            }
+//            document.add(image1);
+//
+//        }
+//        catch(DocumentException e1) {
+//            // TODO Auto-generated catch block
+//            e1.printStackTrace();
+//        }
+//
+//    }
 }

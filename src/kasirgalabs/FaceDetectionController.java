@@ -127,7 +127,7 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
         BufferedImage img = matToBufferedImage(frame);
         imgarry.add(img);
         System.out.println("kasirgalabs.FaceDetectionController.takePicture()"+img); 
-        rw.addText("Taked Picture");
+        //rw.addText("Taked Picture",0);
         
 //        try {
 //            SimpleDateFormat dateFormat = new SimpleDateFormat(
@@ -194,7 +194,7 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
                 // System.out.println("yüz bulunamadı");
                 
                 faceDetectScore.skorAzalt(2);
-                rw.addText("Couldn't find face... ");
+                rw.addText("Couldn't find face ",0);
                 takePicture(frame);
             }
         }
