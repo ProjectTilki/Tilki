@@ -193,7 +193,7 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
             if(count % 50 == 0) {
                 // System.out.println("yüz bulunamadı");
                 
-                faceDetectScore.skorAzalt(2);
+                faceDetectScore.skorArttir(2);
                 rw.addText("Couldn't find face ",0);
                 takePicture(frame);
             }

@@ -676,7 +676,7 @@ public class MainClient extends javax.swing.JFrame {
                                 surnameTextField.
                                         getText().charAt(0) + nameTextField.
                                 getText());
-                        rp = new RunningProcesses(blockedApps);
+                        rp = new RunningProcesses(blockedApps,internetiKapat);
                         if(sesKaydiAl) {
                             ca = new CaptureAudio();
                             Thread t3 = new Thread(ca);
@@ -912,6 +912,13 @@ public class MainClient extends javax.swing.JFrame {
         if(fd != null) {
             fd.stop();
         }
+       //.addText(name, WIDTH);  
+       //System.out.println("RunningProcess skor:  " + rp.ts.getSkor());
+
+       //rw.addText(name, WIDTH);
+       //System.out.println("FaceDetect skor:  " + rp.ts.getSkor());
+
+       
         rw.submitText();
 
         if(jCheckBox1.isSelected()
@@ -977,6 +984,8 @@ public class MainClient extends javax.swing.JFrame {
             keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
         }
 
+
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed

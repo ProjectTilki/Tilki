@@ -14,12 +14,12 @@ public class TrustScore {
     private int skor;
 
     public TrustScore() {
-        this.skor = 100;
+        this.skor = 0;
     }
 
-    public void skorAzalt(int ceza) {
-        System.out.println("Skor " + ceza + " puan azaltildi !");
-        this.skor -= ceza;
+    public void skorArttir(int ceza) {
+        System.out.println("Skor " + ceza + " puan arttirildi !");
+        this.skor += ceza;
     }
 
     public int getSkor() {
