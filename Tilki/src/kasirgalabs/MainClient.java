@@ -48,6 +48,7 @@ public class MainClient extends javax.swing.JFrame {
             ImageIcon img = new ImageIcon(getClass().getResource(
                     "images/Tilki.png"));
             setIconImage(img.getImage());
+            serverConnectionFrame.setIconImage(img.getImage());
             setLocationRelativeTo(null);
         }
         catch(NullPointerException ex) {
@@ -154,6 +155,11 @@ public class MainClient extends javax.swing.JFrame {
         ipAddressJTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ipAddressJTextField1ActionPerformed(evt);
+            }
+        });
+        ipAddressJTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ipAddressJTextField1KeyPressed(evt);
             }
         });
 
@@ -1000,9 +1006,6 @@ public class MainClient extends javax.swing.JFrame {
         Timer timer = new Timer(100, yenileButtonActionListener);
         timer.setRepeats(false);
         timer.start();
- 
-     
-
     }//GEN-LAST:event_ipAddressJTextField1ActionPerformed
 
     private void serverConnectionJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverConnectionJButtonActionPerformed
@@ -1010,16 +1013,15 @@ public class MainClient extends javax.swing.JFrame {
         serverConnectionFrame.dispose();
         serverIpjLabel13.setText(ipAddress);
         setVisible(true);
-        new javax.swing.SwingWorker<Boolean,String>(){
-            @Override
-            public Boolean doInBackground(){
-                Timer timer = new Timer(100, yenileButtonActionListener);
-                timer.setRepeats(false);
-                timer.start();
-                return true;
-            }
-        }.execute();
+        Timer timer = new Timer(100, yenileButtonActionListener);
+        timer.setRepeats(false);
+        timer.start();
+
     }//GEN-LAST:event_serverConnectionJButtonActionPerformed
+
+    private void ipAddressJTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ipAddressJTextField1KeyPressed
+        
+    }//GEN-LAST:event_ipAddressJTextField1KeyPressed
 
     private static class ShutDownHook extends Thread {
 

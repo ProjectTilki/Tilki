@@ -143,7 +143,7 @@ public class FoxClientUtilities {
         Exam[] examList = null;
         try {
             // Connect to the host.
-            socket = new Socket(MainClient.getIpAddress(), 50101);
+            socket = new Socket(MainClient.getIpAddress(),50101);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
             // Tell host which operation will occur.
