@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.awt.Dimension;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -104,6 +105,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
 
+        setMinimumSize(new Dimension(600,500));
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tilki");
 
