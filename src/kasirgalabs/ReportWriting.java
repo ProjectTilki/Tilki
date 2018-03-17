@@ -12,7 +12,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 public class ReportWriting {
 
     private static final String FILE_NAME = "reportForTeacher.pdf";
@@ -22,12 +21,14 @@ public class ReportWriting {
     public static String total2 = "";
     private static String total3 = "";
     private static String total4 = "";
+    private static String total5 = "";
 
     public ReportWriting() {
-     
+
     }
-    private void createDocument(){
-               document = new Document();
+
+    private void createDocument() {
+        document = new Document();
         try {
             PdfWriter.getInstance(document, new FileOutputStream(new File(
                     FILE_NAME)));
@@ -47,13 +48,12 @@ public class ReportWriting {
         Paragraph p = new Paragraph();
         p.setAlignment(Element.ALIGN_CENTER);
         p.setFont(f);
-        Chunk c=new Chunk("\n"+s+"\n",f);
-        
-        p.add(c+"\n");
+        Chunk c = new Chunk("\n" + s + "\n", f);
+
+        p.add(c + "\n");
         return p;
 
     }
-
 
     // metin icin
     public void addText(String s, int i) {
@@ -76,7 +76,12 @@ public class ReportWriting {
                     break;
                 case 4:
                     total4 = total4 + "\n" + dateFormat.format(date) + "    " + s;
+                    break;
+                case 5:
+                    total5 = total5 + "\n" + s;
+                    break;
                 default:
+
                     break;
             }
         }
@@ -93,36 +98,43 @@ public class ReportWriting {
             Font font = FontFactory.getFont(FontFactory.TIMES, 14,
                     BaseColor.BLACK);
             document.add(printHead("E-XAM REPORT FOR TEACHER", 22));
+            if(total5 != "") {
+                Paragraph p = printHead("Score", 18);//4
+                Chunk chunk5 = new Chunk(total5, font);
+                document.add(p);
+                document.add(chunk5);
+            }
             if(total != "") {
-                Paragraph p =printHead("Moments when face can not be found", 18);//0
+                Paragraph p = printHead("Moments when face can not be found", 18);//0
                 Chunk chunk = new Chunk(total, font);
                 document.add(p);
                 document.add(chunk);
             }
             if(total1 != "") {
-                Paragraph p =printHead("Blocked Apps", 18);//1
+                Paragraph p = printHead("Blocked Apps", 18);//1
                 Chunk chunk1 = new Chunk(total1, font);
                 document.add(p);
                 document.add(chunk1);
             }
-             if(total2 != "") {
-                Paragraph p =printHead("Opened or Open Applications", 18);//2
+            if(total2 != "") {
+                Paragraph p = printHead("Opened or Open Applications", 18);//2
                 Chunk chunk2 = new Chunk(total2, font);
                 document.add(p);
                 document.add(chunk2);
             }
-             if(total3 != "") {
-                Paragraph p =printHead("Closed Apps", 18);//3
+            if(total3 != "") {
+                Paragraph p = printHead("Closed Apps", 18);//3
                 Chunk chunk3 = new Chunk(total3, font);
                 document.add(p);
                 document.add(chunk3);
             }
-             if(total4 != "") {
-                Paragraph p =printHead("Internet- Tab Information", 18);//4
+            if(total4 != "") {
+                Paragraph p = printHead("Internet- Tab Information", 18);//4
                 Chunk chunk4 = new Chunk(total4, font);
                 document.add(p);
                 document.add(chunk4);
             }
+
             document.close();
         }
         catch(DocumentException e) {

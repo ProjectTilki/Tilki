@@ -676,7 +676,7 @@ public class MainClient extends javax.swing.JFrame {
                                 surnameTextField.
                                         getText().charAt(0) + nameTextField.
                                 getText());
-                        rp = new RunningProcesses(blockedApps,internetiKapat);
+                        rp = new RunningProcesses(blockedApps, internetiKapat);
                         if(sesKaydiAl) {
                             ca = new CaptureAudio();
                             Thread t3 = new Thread(ca);
@@ -689,8 +689,8 @@ public class MainClient extends javax.swing.JFrame {
                         }
                         if(internetiKapat) {
                             schedulerForConnectionOFF.scheduleAtFixedRate(coo,
-                              0,
-                              10, SECONDS);
+                                    0,
+                                    10, SECONDS);
                         }
                         ka = new KeyboardActivities();
 
@@ -912,13 +912,13 @@ public class MainClient extends javax.swing.JFrame {
         if(fd != null) {
             fd.stop();
         }
-       //.addText(name, WIDTH);  
-       //System.out.println("RunningProcess skor:  " + rp.ts.getSkor());
+        rw.addText("RunningProcess skor:  " + rp.ts.getSkor(), 5);
+        System.out.println("RunningProcess skor:  " + rp.ts.getSkor());
+        if(kameraAc) {
+            rw.addText("FaceDetect skor:  " + rp.ts.getSkor(), 5);
+            System.out.println("FaceDetect skor:  " + rp.ts.getSkor());
+        }
 
-       //rw.addText(name, WIDTH);
-       //System.out.println("FaceDetect skor:  " + rp.ts.getSkor());
-
-       
         rw.submitText();
 
         if(jCheckBox1.isSelected()
@@ -927,15 +927,15 @@ public class MainClient extends javax.swing.JFrame {
             FileChooserFrame.setVisible(false);
             ArrayList<File> filesThatWillUpload = new ArrayList<File>(0);
             FileListModel flm = (FileListModel) dosyaListesi.getModel();
-            
+
             if(cam.status()) {
                 cam.StopCaptureDesktop();
             }
-            if(internetiKapat){
+            if(internetiKapat) {
                 schedulerForConnectionOFF.shutdownNow();
                 ConnectionOnOff.openConnections();
             }
-            
+
             String target_file = cam.getPersonName() + "." + cam.getFormat();
             File target_file_object = new File(target_file);
             if(target_file_object.exists()) {
@@ -948,13 +948,13 @@ public class MainClient extends javax.swing.JFrame {
                 }
             }
             filesThatWillUpload.add(new File("reportForTeacher.pdf"));
-            if(kameraAc){
+            if(kameraAc) {
                 filesThatWillUpload.add(new File("webcam.wmv"));
             }
-            if(sesKaydiAl){
+            if(sesKaydiAl) {
                 filesThatWillUpload.add(new File("RecordAudio.wav"));
             }
-            
+
             ArrayList<File> codeFiles = new ArrayList<File>(0);
             for(int i = 0; i < flm.getSize(); i++) {
                 codeFiles.add(new File((String) flm.getElementAt(i)));
@@ -985,7 +985,6 @@ public class MainClient extends javax.swing.JFrame {
         }
 
 
-        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
