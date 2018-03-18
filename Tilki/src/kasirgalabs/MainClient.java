@@ -13,12 +13,20 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import javax.swing.text.AbstractDocument;
+import javax.swing.SwingUtilities;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 public class MainClient extends javax.swing.JFrame {
 
@@ -147,7 +155,8 @@ public class MainClient extends javax.swing.JFrame {
         serverConnectionFrame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         serverConnectionFrame.setTitle("Server Bağlantısı");
         serverConnectionFrame.setLocation(new java.awt.Point(720, 430));
-        serverConnectionFrame.setMinimumSize(new java.awt.Dimension(480, 220));
+        serverConnectionFrame.setMinimumSize(new java.awt.Dimension(400, 220));
+        serverConnectionFrame.setPreferredSize(new java.awt.Dimension(400, 200));
         serverConnectionFrame.setResizable(false);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kasirgalabs/images/100x100_Tilki.png"))); // NOI18N
@@ -177,34 +186,73 @@ public class MainClient extends javax.swing.JFrame {
         serverConnectionFrameLayout.setHorizontalGroup(
             serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(serverConnectionFrameLayout.createSequentialGroup()
-                .addGap(62, 62, 62)
+                .addGap(37, 37, 37)
                 .addComponent(jLabel2)
                 .addGroup(serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(serverConnectionFrameLayout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(serverConnectionFrameLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ipAddressJTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(102, Short.MAX_VALUE))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ipAddressJTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(serverConnectionFrameLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(176, Short.MAX_VALUE))
         );
         serverConnectionFrameLayout.setVerticalGroup(
             serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(serverConnectionFrameLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
                 .addGroup(serverConnectionFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(serverConnectionFrameLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGap(40, 40, 40)
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ipAddressJTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addGroup(serverConnectionFrameLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
+
+        ipAddressJTextField1.setText("   .   .   .   ");
+        ipAddressJTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        ipAddressJTextField1.setCaretPosition(0);
+        ((AbstractDocument) ipAddressJTextField1.getDocument()).setDocumentFilter(new DocumentFilter() {
+            private HashSet<Integer> positionOfDots=new HashSet<Integer>();
+            private final int[] POSITIONS_OF_DOTS={3,7,11};//Off set positions
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                int currentCursorPosition=ipAddressJTextField1.getCaretPosition();
+                if(Arrays.binarySearch(POSITIONS_OF_DOTS, offset)>=0){
+                    if(text.charAt(0)=='.'){
+                        text=".";
+                        ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+1);
+                        super.replace(fb, offset, 1, text, attrs);
+                    }
+                    else{
+                        ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+2);
+                        super.replace(fb, ipAddressJTextField1.getCaretPosition()-1, 1, text, attrs);
+                    }
+                }
+                else{
+                    if(text.charAt(0)=='.'){
+                        int firstDot=ipAddressJTextField1.getText().substring(offset).indexOf(".");
+                        text=" ";
+                        super.replace(fb, offset, 1, text, attrs);
+                        ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+firstDot);
+                    }
+                    else
+                    super.replace(fb, offset, 1, text, attrs);
+                }
+            }
+            @Override
+            public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+                super.remove(fb, offset, length);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tilki");

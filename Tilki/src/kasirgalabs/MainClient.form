@@ -39,7 +39,10 @@
           <Point value="[720, 430]"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[480, 220]"/>
+          <Dimension value="[400, 220]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[400, 200]"/>
         </Property>
         <Property name="resizable" type="boolean" value="false"/>
       </Properties>
@@ -51,42 +54,44 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="90" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="ipAddressJTextField1" min="-2" pref="205" max="-2" attributes="0"/>
                               <Component id="jLabel12" min="-2" pref="77" max="-2" attributes="0"/>
+                              <Component id="ipAddressJTextField1" min="-2" pref="149" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="jButton1" min="-2" pref="94" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="102" max="32767" attributes="0"/>
+                  <EmptySpace pref="176" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="jLabel12" min="-2" pref="19" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="ipAddressJTextField1" min="-2" pref="40" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jButton1" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel2" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" pref="100" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="64" max="32767" attributes="0"/>
+                  <EmptySpace pref="56" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -104,6 +109,9 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ipAddressJTextField1ActionPerformed"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ipAddressJTextField1KeyPressed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ipAddressJTextField1.setText(&quot;   .   .   .   &quot;);&#xa;ipAddressJTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);&#xa;ipAddressJTextField1.setCaretPosition(0);&#xa;((AbstractDocument) ipAddressJTextField1.getDocument()).setDocumentFilter(new DocumentFilter() {&#xa;    private HashSet&lt;Integer&gt; positionOfDots=new HashSet&lt;Integer&gt;();&#xa;    private final int[] POSITIONS_OF_DOTS={3,7,11};//Off set positions&#xa;            &#xa;    @Override&#xa;    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {&#xa;        int currentCursorPosition=ipAddressJTextField1.getCaretPosition();&#xa;        if(Arrays.binarySearch(POSITIONS_OF_DOTS, offset)&gt;=0){&#xa;            if(text.charAt(0)==&apos;.&apos;){&#xa;                text=&quot;.&quot;;&#xa;                ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+1);&#xa;                super.replace(fb, offset, 1, text, attrs);&#xa;            }&#xa;            else{&#xa;                ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+2);&#xa;                super.replace(fb, ipAddressJTextField1.getCaretPosition()-1, 1, text, attrs);                           &#xa;            }&#xa;        }&#xa;        else{&#xa;            if(text.charAt(0)==&apos;.&apos;){&#xa;                int firstDot=ipAddressJTextField1.getText().substring(offset).indexOf(&quot;.&quot;);&#xa;                text=&quot; &quot;;&#xa;                super.replace(fb, offset, 1, text, attrs);&#xa;                ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+firstDot);&#xa;            }&#xa;            else&#xa;                super.replace(fb, offset, 1, text, attrs);&#xa;        }&#xa;    }&#xa;    @Override&#xa;    public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {&#xa;        super.remove(fb, offset, length);&#xa;    }&#xa;});"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
