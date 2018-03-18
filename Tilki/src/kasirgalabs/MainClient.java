@@ -156,11 +156,11 @@ public class MainClient extends javax.swing.JFrame {
         serverConnectionFrame.setTitle("Server Bağlantısı");
         serverConnectionFrame.setLocation(new java.awt.Point(720, 430));
         serverConnectionFrame.setMinimumSize(new java.awt.Dimension(400, 220));
-        serverConnectionFrame.setPreferredSize(new java.awt.Dimension(400, 200));
         serverConnectionFrame.setResizable(false);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/kasirgalabs/images/100x100_Tilki.png"))); // NOI18N
 
+        ipAddressJTextField1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         ipAddressJTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ipAddressJTextField1ActionPerformed(evt);
@@ -220,37 +220,48 @@ public class MainClient extends javax.swing.JFrame {
         ipAddressJTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ipAddressJTextField1.setCaretPosition(0);
         ((AbstractDocument) ipAddressJTextField1.getDocument()).setDocumentFilter(new DocumentFilter() {
-            private HashSet<Integer> positionOfDots=new HashSet<Integer>();
             private final int[] POSITIONS_OF_DOTS={3,7,11};//Off set positions
 
             @Override
             public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-                int currentCursorPosition=ipAddressJTextField1.getCaretPosition();
-                if(Arrays.binarySearch(POSITIONS_OF_DOTS, offset)>=0){
-                    if(text.charAt(0)=='.'){
-                        text=".";
-                        ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+1);
-                        super.replace(fb, offset, 1, text, attrs);
+                if(isValid(text)){
+                    if(offset==3||offset==7||offset==11){
+                        if(text.charAt(0)=='.'){
+                            text=".";
+                            ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+1);
+                            super.replace(fb, offset, 1, text, attrs);
+                        }
+                        else{
+                            ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+2);
+                            super.replace(fb, ipAddressJTextField1.getCaretPosition()-1, 1, text, attrs);
+                        }
                     }
                     else{
-                        ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+2);
-                        super.replace(fb, ipAddressJTextField1.getCaretPosition()-1, 1, text, attrs);
+                        if(text.charAt(0)=='.'){
+                            int firstDot=ipAddressJTextField1.getText().substring(offset).indexOf(".");
+                            text=" ";
+                            super.replace(fb, offset, 1, text, attrs);
+                            ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+firstDot);
+                        }
+                        else
+                        super.replace(fb, offset, 1, text, attrs);
                     }
                 }
                 else{
-                    if(text.charAt(0)=='.'){
-                        int firstDot=ipAddressJTextField1.getText().substring(offset).indexOf(".");
-                        text=" ";
-                        super.replace(fb, offset, 1, text, attrs);
-                        ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+firstDot);
-                    }
-                    else
-                    super.replace(fb, offset, 1, text, attrs);
+                    return;
                 }
+
             }
             @Override
             public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
                 super.remove(fb, offset, length);
+            }
+
+            private boolean isValid(String text){
+                int ascii=(int)text.charAt(0);
+                if((ascii>=48&&ascii<=57)||ascii==46)
+                return true;
+                return false;
             }
         });
 
@@ -1047,7 +1058,7 @@ public class MainClient extends javax.swing.JFrame {
         }    }//GEN-LAST:event_jList1MousePressed
 
     private void ipAddressJTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAddressJTextField1ActionPerformed
-        ipAddress=ipAddressJTextField1.getText();
+        ipAddress=ipAddressJTextField1.getText().replaceAll(" ","");
         serverConnectionFrame.dispose();
         serverIpjLabel13.setText(ipAddress);
         setVisible(true);
@@ -1057,7 +1068,7 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_ipAddressJTextField1ActionPerformed
 
     private void serverConnectionJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverConnectionJButtonActionPerformed
-        ipAddress=ipAddressJTextField1.getText();
+        ipAddress=ipAddressJTextField1.getText().replaceAll(" ","");
         serverConnectionFrame.dispose();
         serverIpjLabel13.setText(ipAddress);
         setVisible(true);
