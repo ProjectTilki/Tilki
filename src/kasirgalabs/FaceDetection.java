@@ -70,6 +70,11 @@ public class FaceDetection extends Application implements Runnable {
         launch((String) null);
 
     }
+    
+    public int getFDControllerScore(){
+        return controller.faceDetectScore.getSkor();
+    }
+    
     private static final Logger LOG = Logger.getLogger(
             FaceDetection.class.getName());
 

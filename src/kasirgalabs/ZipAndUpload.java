@@ -44,6 +44,8 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private ConcurrentLinkedQueue<String> queue
             = new ConcurrentLinkedQueue<String>();
     private String instructorKey;
+    private int rpSkor;
+    private int fdSkor;
 
     private class Task extends SwingWorker<String, Void> {
 
@@ -307,13 +309,16 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     }
 
     public ZipAndUpload(File[] codeFiles, File[] videoFiles, String name,
-            String id, String instructorKey) {
+            String id, String instructorKey, int rpskor, int fdskor) {
         this();
         this.codeFiles = codeFiles;
         this.otherFiles = videoFiles;
         this.name = name;
         this.id = id;
         this.instructorKey = instructorKey;
+        this.rpSkor = rpskor;
+        this.fdSkor = fdskor;
+        
     }
 
     /**

@@ -915,8 +915,8 @@ public class MainClient extends javax.swing.JFrame {
         rw.addText("RunningProcess skor:  " + rp.ts.getSkor(), 5);
         System.out.println("RunningProcess skor:  " + rp.ts.getSkor());
         if(kameraAc) {
-            rw.addText("FaceDetect skor:  " + rp.ts.getSkor(), 5);
-            System.out.println("FaceDetect skor:  " + rp.ts.getSkor());
+            rw.addText("FaceDetect skor:  " + fd.getFDControllerScore(), 5);
+            System.out.println("FaceDetect skor:  " + fd.getFDControllerScore());
         }
 
         rw.submitText();
@@ -967,7 +967,8 @@ public class MainClient extends javax.swing.JFrame {
                     filesThatWillUpload.toArray(
                             temp), number,
                     jLabel16.getText(),
-                    instructorKey);
+                    instructorKey,rp.ts.getSkor(),
+                    fd.getFDControllerScore());
             zau.setVisible(true);
             for(Component component : dosyaListesi.getComponents()) {
                 component.setEnabled(false);
