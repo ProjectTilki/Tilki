@@ -909,6 +909,7 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         ReportWriting rw = new ReportWriting();
+        int fdScore = 0;
         if(fd != null) {
             fd.stop();
         }
@@ -917,6 +918,7 @@ public class MainClient extends javax.swing.JFrame {
         if(kameraAc) {
             rw.addText("FaceDetect skor:  " + fd.getFDControllerScore(), 5);
             System.out.println("FaceDetect skor:  " + fd.getFDControllerScore());
+            fdScore = fd.getFDControllerScore();
         }
 
         rw.submitText();
@@ -968,7 +970,7 @@ public class MainClient extends javax.swing.JFrame {
                             temp), number,
                     jLabel16.getText(),
                     instructorKey,rp.ts.getSkor(),
-                    fd.getFDControllerScore());
+                    fdScore);
             zau.setVisible(true);
             for(Component component : dosyaListesi.getComponents()) {
                 component.setEnabled(false);
