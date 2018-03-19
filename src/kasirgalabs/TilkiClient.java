@@ -6,7 +6,6 @@
 package kasirgalabs;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,7 +24,6 @@ public class TilkiClient {
         Exam[] examList = null;
         
         try {
-            //This url will be changed after heroku deploy.
             String url = "https://examwebserver.herokuapp.com/tilki/list_exams.json";
 
             URL obj = new URL(url);
@@ -76,6 +74,7 @@ public class TilkiClient {
 
             String url = "https://examwebserver.herokuapp.com/tilki/check_in.json";
 
+            
             url += "?name=" + name;
             url += "&surname=" + surname;
             url += "&number=" + number;
@@ -123,7 +122,6 @@ public class TilkiClient {
         try {
 
             String url = "https://examwebserver.herokuapp.com/tilki/verify_key.json";
-
             url += "?exam=" + exam;
             url += "&key=" + key;
             url = replaceSpaceInString(url);

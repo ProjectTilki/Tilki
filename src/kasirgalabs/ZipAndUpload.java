@@ -12,9 +12,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.ImageIcon;
@@ -55,7 +60,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         @Override
         public String doInBackground() throws IOException {
             String zipName = createZipFile(codeFiles);
-            codes_md5 = sendFile(zipName, name, id);
+            codes_md5 = sendFile(zipName, name, id, rpSkor, fdSkor);
             codeFilesAreDone = true;
             codes_md5 = codes_md5.toUpperCase();
             queue.add(
@@ -69,7 +74,14 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             if(Thread.currentThread().isInterrupted()) {
                 return "";
             }
-            videos_md5 = sendFile(temp, name, id);
+            videos_md5 = sendFile(temp, name, id, rpSkor, fdSkor);
+            
+            logFile.createNewFile();
+            FileWriter writer = new FileWriter(logFile); 
+            writer.write(codes_md5 + " " + videos_md5); 
+            writer.flush();
+            writer.close();
+            
             queue.add(
                     "Kullan\u0131m verileriniz kar\u015F\u0131ya"
                     + " y\u00FCklenmi\u015Ftir.\n\n");
@@ -245,21 +257,48 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          *                                       read access to the file.
          * @throws java.io.IOException           If an I/O error occurs.
          */
-        private String sendFile(String fileName, String id, String exam)
+        private String sendFile(String fileName, String id, String exam, int rpSkor, int fdSkor)
                 throws IOException {
 
             URL url = new URL(
                     "https://examwebserver.herokuapp.com/tilki/upload");
+            
             File uploadFile = new File(fileName);
             final MultipartUtility http = new MultipartUtility(url);
             task.firePropertyChange("connectionEstablished", 0, 1);
             http.addFormField("number", id);
             http.addFormField("exam", exam);
+            http.addFormField("rpSkor", rpSkor+"");
+            http.addFormField("fdSkor", fdSkor+"");
+            
+            StringBuffer hexString = new StringBuffer();
+            MessageDigest md;
+            try {
+                md = MessageDigest.getInstance("MD5");
+                md.update(fileName.getBytes());
+                byte[] byteHash = md.digest();
+                for (int i = 0; i < byteHash.length; i++) {
+                    if ((0xff & byteHash[i]) < 0x10) {
+                        hexString.append("0"
+                            + Integer.toHexString((0xFF & byteHash[i])));
+                    } else {
+                        hexString.append(Integer.toHexString(0xFF & byteHash[i]));
+                    }
+                }
+            }
+            catch(NoSuchAlgorithmException ex) {
+                Logger.getLogger(ZipAndUpload.class.getName()).log(Level.SEVERE,
+                        null, ex);
+            }
+   
+            http.addFormField("hash", hexString.toString().substring(0,8));
             http.addFormField("someButton", "Submit");
             http.addFilePart("fileName", uploadFile);
+
             final byte[] bytes = http.finish();
-            String hash = bytes.toString();
-            return hash;
+   
+            
+            return hexString.toString().substring(0,8);
         }
 
         private String xorHex(String a, String b) {
