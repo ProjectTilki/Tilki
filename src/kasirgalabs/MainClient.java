@@ -913,11 +913,11 @@ public class MainClient extends javax.swing.JFrame {
         if(fd != null) {
             fd.stop();
         }
-        rw.addText("RunningProcess skor:  " + rp.ts.getSkor(), 5);
-        System.out.println("RunningProcess skor:  " + rp.ts.getSkor());
+        rw.addText("Program activities on comnputer score:  " + rp.ts.getSkor(), 5);
+        //System.out.println("RunningProcess skor:  " + rp.ts.getSkor());
         if(kameraAc) {
-            rw.addText("FaceDetect skor:  " + fd.getFDControllerScore(), 5);
-            System.out.println("FaceDetect skor:  " + fd.getFDControllerScore());
+            rw.addText("Face Detection score:  " + fd.getFDControllerScore(), 5);
+            //System.out.println("FaceDetect skor:  " + fd.getFDControllerScore());
             fdScore = fd.getFDControllerScore();
         }
 

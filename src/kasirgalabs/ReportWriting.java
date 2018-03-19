@@ -22,6 +22,7 @@ public class ReportWriting {
     private static String total3 = "";
     private static String total4 = "";
     private static String total5 = "";
+    private static String total6 = "";
 
     public ReportWriting() {
 
@@ -80,6 +81,8 @@ public class ReportWriting {
                 case 5:
                     total5 = total5 + "\n" + s;
                     break;
+                case 6:
+                    total6 = total6 + "\n" + s;
                 default:
 
                     break;
@@ -117,7 +120,7 @@ public class ReportWriting {
                 document.add(chunk1);
             }
             if(total2 != "") {
-                Paragraph p = printHead("Opened or Open Applications", 18);//2
+                Paragraph p = printHead("Already Running Programs", 18);//2
                 Chunk chunk2 = new Chunk(total2, font);
                 document.add(p);
                 document.add(chunk2);
@@ -133,6 +136,12 @@ public class ReportWriting {
                 Chunk chunk4 = new Chunk(total4, font);
                 document.add(p);
                 document.add(chunk4);
+            }
+            if(total6 != "") {
+                Paragraph p = printHead("Newly Opened Programs", 18);//4
+                Chunk chunk6 = new Chunk(total6, font);
+                document.add(p);
+                document.add(chunk6);
             }
 
             document.close();
