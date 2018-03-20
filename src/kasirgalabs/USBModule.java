@@ -1,32 +1,24 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package kasirgalabs;
 
-
-import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Advapi32Util;
-import com.sun.jna.platform.win32.Shell32;
 import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
 import static com.sun.jna.platform.win32.WinReg.HKEY_LOCAL_MACHINE;
+
 
 /**
  *
  * @author Kerim
  */
-
-
-
 public class USBModule {   
-
-interface MyShell32 extends Shell32{
-	boolean IsUserAnAdmin();
-}
-
     
     public USBModule() {
        
     }
-    
-    static MyShell32 myShell32 = (MyShell32) Native.loadLibrary("shell32",MyShell32.class);
-
     
     /**
      * This method should be called when the application starts.
@@ -36,8 +28,17 @@ interface MyShell32 extends Shell32{
      * @return adminRights
      */    
     public static boolean checkAdminRights() {
-        return myShell32.IsUserAnAdmin();
+        boolean adminRights = false;
+        String groups[] = (new com.sun.security.auth.module.NTSystem()).getGroupIDs();
+            for (String group : groups) {
+                if (group.equals("S-1-5-32-544")){
+                    adminRights = true;
+                    return adminRights;
+                }                    
+            }
+        return adminRights;
     }
+    
     
     /**
      * This method will check if USB devices' mode.

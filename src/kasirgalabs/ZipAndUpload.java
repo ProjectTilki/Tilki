@@ -51,7 +51,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     private String instructorKey;
     private int rpSkor;
     private int fdSkor;
-    private String usbState;
 
     private class Task extends SwingWorker<String, Void> {
 
@@ -61,7 +60,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         @Override
         public String doInBackground() throws IOException {
             String zipName = createZipFile(codeFiles);
-            codes_md5 = sendFile(zipName, name, id, rpSkor, fdSkor, usbState);
+            codes_md5 = sendFile(zipName, name, id, rpSkor, fdSkor);
             codeFilesAreDone = true;
             codes_md5 = codes_md5.toUpperCase();
             queue.add(
@@ -75,7 +74,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             if(Thread.currentThread().isInterrupted()) {
                 return "";
             }
-            videos_md5 = sendFile(temp, name, id, rpSkor, fdSkor, usbState);
+            videos_md5 = sendFile(temp, name, id, rpSkor, fdSkor);
             
             logFile.createNewFile();
             FileWriter writer = new FileWriter(logFile); 
@@ -258,7 +257,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
          *                                       read access to the file.
          * @throws java.io.IOException           If an I/O error occurs.
          */
-        private String sendFile(String fileName, String id, String exam, int rpSkor, int fdSkor, String usbState)
+        private String sendFile(String fileName, String id, String exam, int rpSkor, int fdSkor)
                 throws IOException {
 
             URL url = new URL(
@@ -271,7 +270,6 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
             http.addFormField("exam", exam);
             http.addFormField("rpSkor", rpSkor+"");
             http.addFormField("fdSkor", fdSkor+"");
-            http.addFormField("usbState", usbState);
             
             StringBuffer hexString = new StringBuffer();
             MessageDigest md;
@@ -350,7 +348,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
     }
 
     public ZipAndUpload(File[] codeFiles, File[] videoFiles, String name,
-            String id, String instructorKey, int rpskor, int fdskor, String usbState) {
+            String id, String instructorKey, int rpskor, int fdskor) {
         this();
         this.codeFiles = codeFiles;
         this.otherFiles = videoFiles;
@@ -359,7 +357,7 @@ public class ZipAndUpload extends javax.swing.JFrame implements ActionListener,
         this.instructorKey = instructorKey;
         this.rpSkor = rpskor;
         this.fdSkor = fdskor;
-        this.usbState = usbState;
+        
     }
 
     /**

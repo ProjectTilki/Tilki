@@ -32,12 +32,10 @@ public class MainClient extends javax.swing.JFrame {
     private String surname;
     private String instructorKey;
     private String blockedApps;
-    private String usbState = "Kontrol Yapilmadi";
     private static ZipAndUpload zau;
     private final TilkiClient tc = new TilkiClient();
     private final Color c = new Color(26, 126, 36);
     private static java.awt.event.ActionListener yenileButtonActionListener;
-    private USBModule usb = new USBModule();
     private static long timeAtStart = 0;
     private Timer simpleTimer;
     FaceDetection fd;
@@ -658,11 +656,6 @@ public class MainClient extends javax.swing.JFrame {
                             isEmpty()) {
                 //int status = 4;
 
-                if(usb.checkAdminRights()){
-                    usbState = "Kontrol Yapildi";
-                    usb.disableUSB();                            
-                }
-                
                 int studentStatus = tc.checkIn(name, surname, Integer.parseInt(
                         number), className);
                 int instructorStatus = tc.verifyInstructorKey(className,
@@ -915,9 +908,6 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        if(usb.checkAdminRights()){
-            usb.enableUSB();
-        }
         ReportWriting rw = new ReportWriting();
         int fdScore = 0;
         if(fd != null) {
@@ -980,7 +970,7 @@ public class MainClient extends javax.swing.JFrame {
                             temp), number,
                     jLabel16.getText(),
                     instructorKey,rp.ts.getSkor(),
-                    fdScore, usbState);
+                    fdScore);
             zau.setVisible(true);
             for(Component component : dosyaListesi.getComponents()) {
                 component.setEnabled(false);
