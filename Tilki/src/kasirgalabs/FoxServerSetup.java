@@ -56,7 +56,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         catch(IOException e) {
             examList = null;
             jList6.setModel(new ExamListModel(examList));
-            jLabel19.setText("Ba\u011Flanamad\u0131.");
+            jLabel19.setText("Bağlanamadı.");
             jLabel19.setVisible(true);
         }
         catch(ClassNotFoundException e) {
@@ -96,6 +96,10 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+       
+        /*Aşkım Akdağ*/
+        examStatus_Button = new javax.swing.JButton();
+        
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -107,9 +111,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tilki");
 
-        jLabel1.setText("S\u0131nav Ad\u0131");
+        jLabel1.setText("Sınav Adı");
 
-        jLabel3.setText("G\u00F6zetmen \u015Eifresi");
+        jLabel3.setText("Gözetmen Şifresi");
 
         jButton7.setText("Yenile");
         jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -140,11 +144,11 @@ public class FoxServerSetup extends javax.swing.JFrame {
         });
         jScrollPane13.setViewportView(jList6);
 
-        jLabel20.setText("S\u0131navlar");
+        jLabel20.setText("Sınavlar");
 
-        jLabel21.setText("A\u00E7\u0131klamalar");
+        jLabel21.setText("Açıklamalar");
 
-        jLabel4.setText("S\u0131nav A\u00E7\u0131klamas\u0131");
+        jLabel4.setText("Sınav Açıklaması");
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -152,37 +156,45 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jButton1.setText("S\u0131nav Olu\u015Ftur");
+        jButton1.setText("Sınav Oluştur");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("S\u0131nav\u0131 Kald\u0131r");
+        jButton2.setText("Sınavı Kaldır");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("D\u00FCzenle");
+        jButton3.setText("Düzenle");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        jRadioButton1.setText("\u015Eifreyi G\u00F6ster");
+        
+        /*Aşkım Akdağ*/
+        examStatus_Button.setText("Sınav Aktif/Pasif");
+        examStatus_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	examStatus_ButtonActionPerformed(evt);
+            }
+        });
+        
+        jRadioButton1.setText("Şifreyi Göster");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("<html>S\u0131nav olu\u015Fturmak i\u00E7in sol paneli, var olan <br> bir s\u0131nav\u0131 kald\u0131rmak ya da d\u00FCzenlemek i\u00E7in <br> sa\u011Fa paneli kullanabilirsiniz. </html>");
+        jLabel5.setText("<html>Sınav oluşturmak için sol paneli, var olan <br> bir sınavı kaldırmak ya da düzenlemek için <br> sağa paneli kullanabilirsiniz. </html>");
 
-        jButton4.setText("De\u011Fi\u015Fiklikleri Uygula");
+        jButton4.setText("Değişiklikleri Uygula");
         jButton4.setEnabled(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,9 +202,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
+        jLabel6.setText("Sınav Oluşturma Modu");
 
-        jButton5.setText("Vazge\u00E7");
+        jButton5.setText("Vazgeç");
         jButton5.setEnabled(false);
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +214,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
+       
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -242,12 +255,16 @@ public class FoxServerSetup extends javax.swing.JFrame {
                             .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
+                    /*Aşkım Akdağ*/
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING,layout.createSequentialGroup()
+                    		.addComponent(examStatus_Button))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -276,6 +293,10 @@ public class FoxServerSetup extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
+                /*Aşkım Akdağ*/
+                		.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                				.addComponent(examStatus_Button))
+                		.addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel21)
                     .addComponent(jLabel4))
@@ -313,7 +334,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
         catch(IOException e) {
             examList = null;
-            jLabel19.setText("Ba\u011Flanamad\u0131.");
+            jLabel19.setText("Bağlanamadı.");
             jLabel19.setVisible(true);
         }
         catch(ClassNotFoundException e) {
@@ -332,7 +353,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
         catch(IOException e) {
             examList = null;
-            jLabel19.setText("Ba\u011Flanamad\u0131.");
+            jLabel19.setText("Bağlanamadı.");
             jLabel19.setVisible(true);
         }
         catch(ClassNotFoundException e) {
@@ -353,9 +374,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
     }//GEN-LAST:event_jList6MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int dialogResult = JOptionPane.showConfirmDialog(null,
-                "S\u0131nav\u0131 olu\u015Fturmak istedi\u011Finize emin" +
-                " misiniz?", "Tilki", 1);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Sınavı oluşturmak istediğinize emin" + " misiniz?", "Tilki", 1);
         if(dialogResult == JOptionPane.YES_OPTION) {
             examName = jTextField1.getText();
             examKey = new String(jPasswordField1.getPassword());
@@ -364,28 +383,24 @@ public class FoxServerSetup extends javax.swing.JFrame {
             exam = new File(examName);
             exam.mkdir();
 
-            try(PrintWriter out = new PrintWriter(new BufferedWriter(
+            try( PrintWriter out = new PrintWriter(new BufferedWriter(
                     new FileWriter(filePath + "/exam_list.txt", true)))) {
                 PrintWriter out1 = new PrintWriter(new BufferedWriter(
-                        new FileWriter(
-                                exam.getAbsolutePath() + "/exam_description.txt"
-                                ,true)));
+                        new FileWriter( exam.getAbsolutePath() + "/exam_description.txt", true)));
                 PrintWriter out2 = new PrintWriter(new BufferedWriter(
-                        new FileWriter(exam.getAbsolutePath() + "/exam_key.txt",
-                                true)));
+                        new FileWriter(exam.getAbsolutePath() + "/exam_key.txt", true)));
+                
                 out.println(examName);
                 out1.println(examDescription);
                 out2.println(examKey);
                 out.close();
                 out1.close();
                 out2.close();
-                JOptionPane.showMessageDialog(null,
-                        "S\u0131nav basar\u0131yla olusturuldu.",
-                        "Tilki", 1);
+                JOptionPane.showMessageDialog(null, "Sınav basarıyla olusturuldu.", "Tilki", 1);
             }
             catch(IOException e) {
                 JOptionPane.showMessageDialog(null,
-                        "S\u0131nav olu\u015Fturulamad\u0131.",
+                        "Sınav oluşturulamadı.",
                         "Tilki", 1);
                 System.err.println(e);
             }
@@ -419,21 +434,21 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
         String lineToRemove = examList[jList6.getSelectedIndex()].getName();
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                "Se\u00E7ili s\u0131nav\u0131 kald\u0131rmak" + 
-                " istedi\u011Finize emin misiniz?", "Tilki", 1);
+                "Seçili sınavı kaldırmak" + 
+                " istediğinize emin misiniz?", "Tilki", 1);
         exam = new File("");
         if(dialogResult == JOptionPane.YES_OPTION) {
             File file = new File(exam.getAbsolutePath() + "/" + examList[jList6.
                     getSelectedIndex()].getName());
             if(deleteDirectory(file)) {
                 JOptionPane.showMessageDialog(null,
-                        "Silme i\u015Flemi ba\u015Far\u0131l\u0131.",
+                        "Silme işlemi başarılı.",
                         "Tilki", 1);
             }
             else {
                 JOptionPane.
                         showMessageDialog(null,
-                                "Silme i\u015Flemi ba\u015Far\u0131lamad\u0131."
+                                "Silme işlemi başarılamadı."
                                 ,"Tilki", 1);
             }
         }
@@ -513,12 +528,12 @@ public class FoxServerSetup extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jButton2.setEnabled(false);
-        jLabel3.setText("G\u00F6zetmen \u015Eifresi (\u015Eifre Ekle)");
+        jLabel3.setText("Gözetmen Şifresi (Şifre Ekle)");
         jButton5.setEnabled(true);
         jTextField1.setEnabled(false);
         jList6.setEnabled(false);
         jButton4.setEnabled(true);
-        jLabel6.setText("S\u0131nav D\u00FCzenleme Modu");
+        jLabel6.setText("Sınav Düzenleme Modu");
         jButton1.setEnabled(false);
         reset();
 
@@ -538,26 +553,32 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void examStatus_ButtonActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_examStatus_ButtonActionPerformed
+    		// exam stutu bilgisi seçilen sınavlar için gerçekleştirilecek.
+    	
+    	
+    }
+    
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jButton2.setEnabled(true);
-        jLabel3.setText("G\u00F6zetmen \u015Eifresi");
+        jLabel3.setText("Gözetmen Şifresi");
         jList6.setEnabled(true);
         reset();
         jButton1.setEnabled(true);
         jButton4.setEnabled(false);
-        jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
+        jLabel6.setText("Sınav Oluşturma Modu");
         jTextField1.setEnabled(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         int dialogResult = JOptionPane.showConfirmDialog(null,
-                "De\u011Fi\u015Fiklikleri uygulamak istedi\u011Finize" + 
+                "Değişiklikleri uygulamak istediğinize" + 
                 " emin misiniz?", "Tilki", 1);
         if(dialogResult == JOptionPane.YES_OPTION) {
             jButton1.setEnabled(true);
-            jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
-            jLabel3.setText("G\u00F6zetmen \u015Eifresi");
+            jLabel6.setText("Sınav Oluşturma Modu");
+            jLabel3.setText("Gözetmen Şifresi");
             jList6.setEnabled(true);
             jTextField1.setEnabled(true);
             jButton5.setEnabled(false);
@@ -657,6 +678,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton examStatus_Button;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
