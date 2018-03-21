@@ -2,6 +2,7 @@ package kasirgalabs;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
@@ -47,6 +48,7 @@ public class MainClient extends javax.swing.JFrame {
     private boolean kameraAc = false;
     private boolean internetiKapat = false;
     private boolean sesKaydiAl = false;
+    private boolean secili = false;
 
     /**
      *
@@ -118,6 +120,7 @@ public class MainClient extends javax.swing.JFrame {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
         VideoKayitEkrani = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -397,6 +400,13 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
+        jRadioButton4.setText("Kullanıcı kamera görüşünden çıkınca bildir");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout SagPanelLayout = new javax.swing.GroupLayout(SagPanel);
         SagPanel.setLayout(SagPanelLayout);
         SagPanelLayout.setHorizontalGroup(
@@ -423,13 +433,14 @@ public class MainClient extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jRadioButton1)
-                                    .addComponent(jRadioButton2))))
+                                    .addComponent(jRadioButton2)))
+                            .addGroup(SagPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jRadioButton3)
+                                    .addComponent(jRadioButton4))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(SagPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jRadioButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         SagPanelLayout.setVerticalGroup(
             SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,7 +461,9 @@ public class MainClient extends javax.swing.JFrame {
                 .addComponent(jRadioButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(blockedAppsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -683,6 +696,20 @@ public class MainClient extends javax.swing.JFrame {
                             t3.start();
                         }
                         if(kameraAc) {
+                            EventQueue.invokeLater(new Runnable() {
+                                public void run() {
+                                    try {
+                                        JustCamFrame frame = new JustCamFrame();
+                                        frame.setVisible(true);
+                                    }
+                                    catch(Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        
+                        }
+                        if(secili) {
                             fd = new FaceDetection();
                             Thread t4 = new Thread(fd);
                             t4.start();
@@ -913,7 +940,8 @@ public class MainClient extends javax.swing.JFrame {
         if(fd != null) {
             fd.stop();
         }
-        rw.addText("Program activities on comnputer score:  " + rp.ts.getSkor(), 5);
+        rw.addText("Program activities on comnputer score:  " + rp.ts.getSkor(),
+                5);
         //System.out.println("RunningProcess skor:  " + rp.ts.getSkor());
         if(kameraAc) {
             rw.addText("Face Detection score:  " + fd.getFDControllerScore(), 5);
@@ -969,7 +997,7 @@ public class MainClient extends javax.swing.JFrame {
                     filesThatWillUpload.toArray(
                             temp), number,
                     jLabel16.getText(),
-                    instructorKey,rp.ts.getSkor(),
+                    instructorKey, rp.ts.getSkor(),
                     fdScore);
             zau.setVisible(true);
             for(Component component : dosyaListesi.getComponents()) {
@@ -1031,6 +1059,12 @@ public class MainClient extends javax.swing.JFrame {
         // TODO add your handling code here:
         sesKaydiAl = true;
     }//GEN-LAST:event_jRadioButton3ActionPerformed
+
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+        // TODO add your handling code here:
+        secili = true;
+
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private static class ShutDownHook extends Thread {
 
@@ -1103,6 +1137,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;

@@ -95,14 +95,14 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
                     }
 
                 };
-                Thread t1 = new Thread(frameGrabber);
+               // Thread t1 = new Thread(frameGrabber);
                 Thread t2 = new Thread(takePhoto);
 
-                t1.start();
+               // t1.start();
                 t2.start();
                 this.timer = Executors.newSingleThreadScheduledExecutor();
-                this.timer.scheduleAtFixedRate(frameGrabber, 0, 33,
-                        TimeUnit.MILLISECONDS);
+               // this.timer.scheduleAtFixedRate(frameGrabber, 0, 33,
+                ///        TimeUnit.MILLISECONDS);
 
             }
             else {
