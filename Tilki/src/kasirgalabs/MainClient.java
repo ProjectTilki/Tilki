@@ -20,7 +20,7 @@ import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
 
-    private static String ipAddress = "10.5.147.210";
+    private static String ipAddress = "127.0.0.1";
     private Exam[] examList;
     private CaptureDesktop cam;
     private static String number;
@@ -173,7 +173,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        loginButton.setText("Giri\u015F Yap");
+        loginButton.setText("Giriş Yap");
         loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 loginButtonMouseClicked(evt);
@@ -185,7 +185,7 @@ public class MainClient extends javax.swing.JFrame {
         loginLabel.setPreferredSize(new java.awt.Dimension(259, 49));
         loginLabel.setVisible(true);
 
-        jLabel4.setText("<html>S\u0131nava ba\u015Flamak i\u00E7in l\u00FCtfen gerekli bilgileri<br> doldurun ve s\u0131nav\u0131n\u0131z\u0131 se\u00E7in.<html/>\n");
+        jLabel4.setText("<html>Sınava başlamak i\u00E7in l\u00FCtfen gerekli bilgileri<br> doldurun ve sınavınızı se\u00E7in.<html/>\n");
 
         keyField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -193,19 +193,19 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        keyLabel.setText("\u015Eifre");
+        keyLabel.setText("şifre");
 
         jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
-        jLabel5.setText("\u00D6\u011Frenci");
+        jLabel5.setText("\u00D6ğrenci");
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jLabel8.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel8.setText("G\u00F6zetmen");
         jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
+        jLabel16.setText("L\u00FCtfen bir sınav se\u00E7iniz.");
 
-        jLabel10.setText("S\u0131nav");
+        jLabel10.setText("Sınav");
 
         javax.swing.GroupLayout SolPanelLayout = new javax.swing.GroupLayout(SolPanel);
         SolPanel.setLayout(SolPanelLayout);
@@ -327,7 +327,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("S\u0131navlar");
+        jLabel6.setText("Sınavlar");
 
         durumLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         durumLabel.setText("Durum");
@@ -339,7 +339,7 @@ public class MainClient extends javax.swing.JFrame {
         jTextArea1.setFocusable(false);
         jScrollPane2.setViewportView(jTextArea1);
 
-        jLabel11.setText("A\u00E7\u0131klamalar");
+        jLabel11.setText("A\u00E7ıklamalar");
 
         javax.swing.GroupLayout SagPanelLayout = new javax.swing.GroupLayout(SagPanel);
         SagPanel.setLayout(SagPanelLayout);
@@ -429,7 +429,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("S\u0131nav\u0131 Bitir");
+        jButton7.setText("Sınavı Bitir");
         jButton7.setEnabled(false);
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -437,7 +437,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Se\u00E7ili Dosyalar\u0131 Sil");
+        jButton4.setText("Se\u00E7ili Dosyaları Sil");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton4MouseClicked(evt);
@@ -447,7 +447,7 @@ public class MainClient extends javax.swing.JFrame {
         jTextArea2.setEditable(false);
         jTextArea2.setColumns(8);
         jTextArea2.setRows(5);
-        jTextArea2.setText("\n\n\t                       Dosyalar\u0131\n\t                 S\u00FCr\u00FCkleyebilirsiniz.");
+        jTextArea2.setText("\n\n\t                       Dosyaları\n\t                 S\u00FCr\u00FCkleyebilirsiniz.");
         jTextArea2.setAutoscrolls(false);
         jTextArea2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTextArea2.setFocusable(false);
@@ -456,11 +456,11 @@ public class MainClient extends javax.swing.JFrame {
         jLabel14.setText("Ge\u00E7en S\u00FCre");
 
         jLabel15.setFont(new java.awt.Font("Ubuntu", 0, 16)); // NOI18N
-        jLabel15.setText("<html>S\u0131nav\u0131 bitirmek i\u00E7in g\u00F6ndermek istedi\u011Finiz dosyalar\u0131 \"G\u00F6zat\" butonunu kullanarak ya da <br>s\u00FCr\u00FCkleyerek se\u00E7iniz ve \"S\u0131nav\u0131 Bitir\" tu\u015Funa bas\u0131niz.</html>");
+        jLabel15.setText("<html>Sınavı bitirmek i\u00E7in g\u00F6ndermek istediğiniz dosyaları \"G\u00F6zat\" butonunu kullanarak ya da <br>s\u00FCr\u00FCkleyerek se\u00E7iniz ve \"Sınavı Bitir\" tuşuna basıniz.</html>");
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jCheckBox1.setText("S\u0131nav\u0131 bitirmeye haz\u0131r\u0131m.");
+        jCheckBox1.setText("Sınavı bitirmeye hazırım.");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
@@ -571,7 +571,7 @@ public class MainClient extends javax.swing.JFrame {
 
         if(!(name.isEmpty()) && !(surname.isEmpty())
                 && !(number.isEmpty()) && !(className.equals(
-                "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) && !instructorKey.
+                "L\u00FCtfen bir sınav se\u00E7iniz.")) && !instructorKey.
                         isEmpty()) {
             int status = 4;
             try {
@@ -579,7 +579,7 @@ public class MainClient extends javax.swing.JFrame {
                         className, instructorKey);
                 if(status == 2) {
                     loginLabel.setText(
-                            "<html>\u015Eifre kabul edilmedi, ve kayda "
+                            "<html>şifre kabul edilmedi, ve kayda "
                             + "ge\u00E7ildi.<br>" + "L\u00FCtfen tekrar"
                             + " deneyiniz.</html>");
                 }
@@ -613,14 +613,14 @@ public class MainClient extends javax.swing.JFrame {
                             catch(Exception ex) {
                                 jTextArea2.setForeground(Color.RED);
                                 jTextArea2.setText(
-                                        "\u0130\u015Fletim sisteminiz"
-                                        + " s\u00FCr\u00FCkle b\u0131rak"
-                                        + " \u00F6zelli\u011Fini destek"
+                                        "\u0130şletim sisteminiz"
+                                        + " s\u00FCr\u00FCkle bırak"
+                                        + " \u00F6zelliğini destek"
                                         + "lemiyor.\n");
                                 jTextArea2.append(
                                         "L\u00FCtfen dosya"
-                                        + "lar\u0131n\u0131z\u0131 \"G\u00F6z"
-                                        + "at\" butonuna t\u0131klayarak"
+                                        + "larınızı \"G\u00F6z"
+                                        + "at\" butonuna tıklayarak"
                                         + " se\u00E7iniz.");
                                 jTextArea2.setDropTarget(null);
                                 //jTextArea2.setEnabled(false);
@@ -642,10 +642,10 @@ public class MainClient extends javax.swing.JFrame {
                 }
             }
             catch(IOException ex) {
-                durumLabel.setText("Ba\u011Flanamad\u0131");
+                durumLabel.setText("Bağlanamadı");
                 durumLabel.setForeground(Color.red);
                 durumLabel.setVisible(true);
-                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
+                loginLabel.setText("Sunucuya erişilemiyor.");
                 loginLabel.setVisible(true);
                 examList = null;
                 jList1.setModel(new ExamListModel(examList));
@@ -659,10 +659,10 @@ public class MainClient extends javax.swing.JFrame {
                 jList1.setModel(new ExamListModel(examList));
             }
             else if(status == 4) {
-                durumLabel.setText("Ba\u011Flanamad\u0131");
+                durumLabel.setText("Bağlanamadı");
                 durumLabel.setForeground(Color.red);
                 durumLabel.setVisible(true);
-                loginLabel.setText("Sunucuya eri\u015Filemiyor.");
+                loginLabel.setText("Sunucuya erişilemiyor.");
                 loginLabel.setVisible(true);
                 examList = null;
                 jTextArea1.setText("");
@@ -670,24 +670,24 @@ public class MainClient extends javax.swing.JFrame {
             }
         }
         else if(name.isEmpty()) {
-            loginLabel.setText("Ad k\u0131sm\u0131 eksik.");
+            loginLabel.setText("Ad kısmı eksik.");
             loginLabel.setVisible(true);
         }
         else if(surname.isEmpty()) {
-            loginLabel.setText("Soyad k\u0131sm\u0131 eksik.");
+            loginLabel.setText("Soyad kısmı eksik.");
             loginLabel.setVisible(true);
         }
         else if(number.isEmpty()) {
-            loginLabel.setText("Numara k\u0131sm\u0131 eksik.");
+            loginLabel.setText("Numara kısmı eksik.");
             loginLabel.setVisible(true);
         }
-        else if(className.equals("L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
-            loginLabel.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
+        else if(className.equals("L\u00FCtfen bir sınav se\u00E7iniz.")) {
+            loginLabel.setText("Yandaki listeden sınav se\u00E7iniz.");
             loginLabel.setVisible(true);
-            jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
+            jLabel16.setText("L\u00FCtfen bir sınav se\u00E7iniz.");
         }
         else if(instructorKey.isEmpty()) {
-            loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
+            loginLabel.setText("G\u00F6zetmen şifresi eksik.");
             loginLabel.setVisible(true);
         }
         else {
@@ -868,7 +868,7 @@ public class MainClient extends javax.swing.JFrame {
         }
         if(!(new String(videoKayitGozetmenField.getPassword())).equals(
                 instructorKey)) {
-            keyAcceptedLabel.setText("\u015Eifre yanl\u0131\u015F");
+            keyAcceptedLabel.setText("Şifre yanlış");
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -876,18 +876,18 @@ public class MainClient extends javax.swing.JFrame {
         try {
             examList = fcu.availableExams();
             durumLabel.setEnabled(true);
-            durumLabel.setText("Ba\u011Fland\u0131");
+            durumLabel.setText("Bağlandı");
             durumLabel.setForeground(c);
         }
         catch(IOException e) {
             examList = null;
-            durumLabel.setText("Ba\u011Flanamad\u0131");
+            durumLabel.setText("Bağlanamadı");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
         }
         catch(ClassNotFoundException e) {
             examList = null;
-            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
+            durumLabel.setText("Program dosyalarınız eksik.");
             durumLabel.setForeground(Color.red);
             durumLabel.setVisible(true);
         }

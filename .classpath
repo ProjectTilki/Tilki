@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Tilki/src"/>
+	<classpathentry kind="lib" path="Tilki/lib/jniwrap-3.11.jar"/>
+	<classpathentry kind="lib" path="Tilki/lib/jxcapture-3.4.jar"/>
+	<classpathentry kind="lib" path="Tilki/lib/jxcapturedemo.jar"/>
+	<classpathentry kind="lib" path="Tilki/lib/slf4j-api-1.5.8.jar"/>
+	<classpathentry kind="lib" path="Tilki/lib/slf4j-simple-1.5.8.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
