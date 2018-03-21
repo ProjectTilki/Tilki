@@ -36,23 +36,22 @@ public class JustCamFrame extends JFrame {
         };
         Thread t1 = new Thread(repaint);
         t1.start();
-//        Runnable takePhoto = new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Mat frame1 = new Mat();
-//                        capture.read(frame1);
-//                        takePicture(frame1);
-//                        try {
-//                            Thread.sleep(600000);// 10 dk
-//                        }
-//                        catch(InterruptedException e) {
-//                            // TODO Auto-generated catch block
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                };
-//                Thread t2 = new Thread(takePhoto);
-//                t2.start();
+        Runnable takePhoto = new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("TAKE PİCTURE");
+                        //takePicture(videoCap.getOneFrame());
+                        try {
+                            Thread.sleep(600000);// 10 dk
+                        }
+                        catch(InterruptedException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Thread t2 = new Thread(takePhoto);
+                t2.start();
     }
 
     JustCam videoCap = new JustCam();

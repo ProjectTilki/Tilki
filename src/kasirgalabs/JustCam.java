@@ -2,6 +2,7 @@ package kasirgalabs;
 import java.awt.image.BufferedImage;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 
 public class JustCam {
@@ -26,6 +27,7 @@ public class JustCam {
   
     public void getSpace(Mat mat) {
         this.mat = mat;
+        Imgproc.cvtColor (mat, mat, Imgproc.COLOR_RGB2BGR);
         int w = mat.cols(), h = mat.rows();
         if (dat == null || dat.length != w * h * 3)
             dat = new byte[w * h * 3];
