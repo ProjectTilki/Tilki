@@ -96,6 +96,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        examStatus_Button = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -172,6 +173,14 @@ public class FoxServerSetup extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
+        
+        	examStatus_Button.setText("S\u0131nav Aktif/Pasif");
+        		examStatus_Button.addActionListener(new java.awt.event.ActionListener() {
+        			public void actionPerformed(java.awt.event.ActionEvent evt) {
+        				examStatus_ButtonActionPerformed(evt);
+        	            }
+        	        });
+        
 
         jRadioButton1.setText("\u015Eifreyi G\u00F6ster");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -242,6 +251,8 @@ public class FoxServerSetup extends javax.swing.JFrame {
                             .addComponent(jLabel21, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING,layout.createSequentialGroup()
+                    		.addComponent(examStatus_Button))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -276,6 +287,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
+                	.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                		.addComponent(examStatus_Button))
+                	    .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel21)
                     .addComponent(jLabel4))
@@ -538,6 +552,11 @@ public class FoxServerSetup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void examStatus_ButtonActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_examStatus_ButtonActionPerformed
+    	    	
+    	    	
+    	}
+    
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jButton2.setEnabled(true);
         jLabel3.setText("G\u00F6zetmen \u015Eifresi");
@@ -657,6 +676,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton examStatus_Button;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;

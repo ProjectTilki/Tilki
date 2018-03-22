@@ -20,7 +20,7 @@ import javax.swing.UIManager;
 
 public class MainClient extends javax.swing.JFrame {
 
-    private static String ipAddress = "10.5.147.210";
+    private static String ipAddress = "127.0.0.1";
     private Exam[] examList;
     private CaptureDesktop cam;
     private static String number;
