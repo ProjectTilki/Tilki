@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,7 +152,7 @@ public class MainClient extends javax.swing.JFrame {
         FileChooserFrame.getContentPane().add(jFileChooser1, java.awt.BorderLayout.CENTER);
 
         serverConnectionFrame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        serverConnectionFrame.setTitle("Server Bağlantısı");
+        serverConnectionFrame.setTitle("Server Ba\u011Flant\u0131s\u0131");
         serverConnectionFrame.setLocation(new java.awt.Point(720, 430));
         serverConnectionFrame.setMinimumSize(new java.awt.Dimension(400, 220));
         serverConnectionFrame.setResizable(false);
@@ -224,7 +223,7 @@ public class MainClient extends javax.swing.JFrame {
 
             @Override
             public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-                if(isValid(text)){
+                if(isValidText(text)){
                     if(offset==3||offset==7||offset==11){
                         if(text.charAt(0)=='.'){
                             text=".";
@@ -254,15 +253,36 @@ public class MainClient extends javax.swing.JFrame {
             }
             @Override
             public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
-                super.remove(fb, offset, length);
+                super.replace(fb, offset, length, generateBlank(length), null);
+                ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()-length);
+                insertDots(fb);
             }
 
-            private boolean isValid(String text){
+            private boolean isValidText(String text){
                 int ascii=(int)text.charAt(0);
                 if((ascii>=48&&ascii<=57)||ascii==46)
                 return true;
                 return false;
             }
+            private void insertDots(FilterBypass fb){
+                try{
+                    super.remove(fb,3,1);
+                    super.insertString(fb, 3, ".", null);
+                    super.remove(fb,7,1);
+                    super.insertString(fb, 7, ".", null);
+                    super.remove(fb,11,1);
+                    super.insertString(fb, 11, ".", null);
+                }
+                catch(BadLocationException e){e.printStackTrace();}
+            }
+            private String generateBlank(int length){
+                String blank="";
+                for(int i=1;i<=length;i++){
+                    blank=blank+" ";
+                }
+                return blank;
+            }
+
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
