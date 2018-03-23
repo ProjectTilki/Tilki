@@ -19,6 +19,9 @@ import org.opencv.core.Mat;
 public class JustCamFrame extends JFrame implements Runnable {
 
     private JPanel contentPane;
+    ReportWriting rw = new ReportWriting();
+    TrustScore justFaceScore = new TrustScore();
+    
 static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
     private ScheduledExecutorService timer;
     /**
@@ -51,8 +54,10 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
         Runnable takePhoto = new Runnable() {
                     @Override
                     public void run() {
-                          
+                        justFaceScore.skorArttir(2);
+                        rw.addText("Couldn't find face ",0);
                         System.out.println("TAKE PİCTURE");
+                        
                         imgarry.add(videoCap.getOneFrame());
                         try {
                             Thread.sleep(1000);// 10 dk
@@ -81,5 +86,9 @@ public void stop(){
     
     
 }
+
+public int getJustFaceScore(){
+        return justFaceScore.getSkor();
+    }
 
 }

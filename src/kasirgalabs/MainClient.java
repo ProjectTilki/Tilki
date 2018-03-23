@@ -951,13 +951,15 @@ public class MainClient extends javax.swing.JFrame {
         if(fd != null) {
             fd.stop();
             if(kameraAc) {
-                 rw.addText("Face Detection score:  " + fd.getFDControllerScore(), 5);
+                 //rw.addText("Face Detection score:  " + fd.getFDControllerScore(), 5);
                  fdScore = fd.getFDControllerScore();
+                 rw.addText("Just Face Detection score:  " + frame.justFaceScore.getSkor(), 5);
+                 //justFaceScore = frame.justFaceScore;
             }
         }if(frame!=null){
             frame.stop();
         }
-        rw.addText("Program activities on comnputer score:  " + rp.ts.getSkor(), 5);
+        rw.addText("Program activities on computer score:  " + rp.ts.getSkor(), 5);
         rw.submitText();
 
         if(jCheckBox1.isSelected()
