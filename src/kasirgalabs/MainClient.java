@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -47,10 +48,10 @@ public class MainClient extends javax.swing.JFrame {
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
-    private boolean kameraAc = false;
+    private boolean yuzTanikameraAc = false;
     private boolean internetiKapat = false;
     private boolean sesKaydiAl = false;
-    private boolean secili = false;
+    private boolean sadeceKameraAc = false;
 
     /**
      *
@@ -123,6 +124,7 @@ public class MainClient extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
+        jSeparator7 = new javax.swing.JSeparator();
         jSeparator1 = new javax.swing.JSeparator();
         VideoKayitEkrani = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -280,12 +282,10 @@ public class MainClient extends javax.swing.JFrame {
                         .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(SolPanelLayout.createSequentialGroup()
-                                .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(SolPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(SolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(loginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         SolPanelLayout.setVerticalGroup(
@@ -381,7 +381,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton1.setText("Kamerayı Aç");
+        jRadioButton1.setText("Sadece kamera aç");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -402,7 +402,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton4.setText("Kullanıcı kamera görüşünden çıkınca bildir");
+        jRadioButton4.setText("Yüz tanı ve kamera aç");
         jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton4ActionPerformed(evt);
@@ -416,31 +416,33 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(SagPanelLayout.createSequentialGroup()
                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SagPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jRadioButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRadioButton4))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                    .addGroup(SagPanelLayout.createSequentialGroup()
+                        .addComponent(yenileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(durumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(blockedAppsField)
+                    .addGroup(SagPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator7))
                     .addGroup(SagPanelLayout.createSequentialGroup()
                         .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                                .addGroup(SagPanelLayout.createSequentialGroup()
-                                    .addComponent(yenileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(durumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(blockedAppsField))
-                            .addGroup(SagPanelLayout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addComponent(jLabel11))
                             .addGroup(SagPanelLayout.createSequentialGroup()
                                 .addGap(92, 92, 92)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(SagPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jRadioButton1)
-                                    .addComponent(jRadioButton2)))
+                                .addGap(91, 91, 91)
+                                .addComponent(jLabel11))
                             .addGroup(SagPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jRadioButton3)
-                                    .addComponent(jRadioButton4))))
+                                    .addComponent(jRadioButton2))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -455,19 +457,21 @@ public class MainClient extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton1)
+                .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jRadioButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRadioButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(blockedAppsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -492,14 +496,14 @@ public class MainClient extends javax.swing.JFrame {
             GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addComponent(SagPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 30, Short.MAX_VALUE))
             .addGroup(GirisEkraniLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(GirisEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(GirisEkraniLayout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(SolPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -611,7 +615,7 @@ public class MainClient extends javax.swing.JFrame {
             VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                 .addGap(12, 12, 12)
                 .addGroup(VideoKayitEkraniLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(VideoKayitEkraniLayout.createSequentialGroup()
@@ -644,7 +648,7 @@ public class MainClient extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         getContentPane().add(VideoKayitEkrani, "card3");
@@ -702,7 +706,7 @@ public class MainClient extends javax.swing.JFrame {
                             Thread t3 = new Thread(ca);
                             t3.start();
                         }
-                        if(kameraAc) {
+                        if(sadeceKameraAc) {
                             frame = new JustCamFrame();
                             frame.setVisible(true);
                             Thread t5 = new Thread(frame);
@@ -710,7 +714,7 @@ public class MainClient extends javax.swing.JFrame {
 
                         }
                     
-                    if(secili) {
+                    if(yuzTanikameraAc) {
                         fd = new FaceDetection();
                         Thread t4 = new Thread(fd);
                         t4.start();
@@ -950,10 +954,10 @@ public class MainClient extends javax.swing.JFrame {
         int fdScore = 0;
         if(fd != null) {
             fd.stop();
-            if(kameraAc) {
-                 //rw.addText("Face Detection score:  " + fd.getFDControllerScore(), 5);
+            if(yuzTanikameraAc) {
+                 rw.addText("Face Detection score:  " + fd.getFDControllerScore(), 5);
                  fdScore = fd.getFDControllerScore();
-                 rw.addText("Just Face Detection score:  " + frame.justFaceScore.getSkor(), 5);
+                 //rw.addText("Just Face Detection score:  " + frame.justFaceScore.getSkor(), 5);
                  //justFaceScore = frame.justFaceScore;
             }
         }if(frame!=null){
@@ -989,7 +993,7 @@ public class MainClient extends javax.swing.JFrame {
                 }
             }
             filesThatWillUpload.add(new File("reportForTeacher.pdf"));
-            if(kameraAc) {
+            if(sadeceKameraAc|| yuzTanikameraAc) {
                 filesThatWillUpload.add(new File("webcam.wmv"));
             }
             if(sesKaydiAl) {
@@ -1058,7 +1062,7 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        kameraAc = true;
+        sadeceKameraAc = true;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -1073,7 +1077,7 @@ public class MainClient extends javax.swing.JFrame {
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
-        secili = true;
+        yuzTanikameraAc = true;
 
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
@@ -1157,6 +1161,7 @@ public static void main(String args[]) {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel keyAcceptedLabel;
     private javax.swing.JPasswordField keyField;

@@ -21,15 +21,16 @@ public class JustCamFrame extends JFrame implements Runnable {
     private JPanel contentPane;
     ReportWriting rw = new ReportWriting();
     TrustScore justFaceScore = new TrustScore();
-    
-static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
+    static boolean durdur = false;
+    static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
     private ScheduledExecutorService timer;
+
     /**
      * Create the frame.
      */
     public void run() {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-         
+
         setLocationRelativeTo(null);
         setBounds(100, 100, 650, 490);
         contentPane = new JPanel();
@@ -39,7 +40,7 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
         Runnable repaint = new Runnable() {
             @Override
             public void run() {
-                for(;;) {
+                while(!durdur) {
                     repaint();
                     try {
                         Thread.sleep(30);
@@ -52,25 +53,38 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
         Thread t1 = new Thread(repaint);
         t1.start();
         Runnable takePhoto = new Runnable() {
-                    @Override
-                    public void run() {
-                        justFaceScore.skorArttir(2);
-                        rw.addText("Couldn't find face ",0);
-                        System.out.println("TAKE PİCTURE");
-                        
-                        imgarry.add(videoCap.getOneFrame());
-                        try {
-                            Thread.sleep(1000);// 10 dk
-                        }
-                        catch(InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+            @Override
+
+            public void run() {
+                   int i=0;
+                while(!durdur) {
+                    //justFaceScore.skorArttir(2);
+                    //rw.addText("Couldn't find face ",0);
+                    System.out.println("TAKE PİCTURE");
+                    File outputfile = new File("image"+i+++".jpg");
+                    try {
+                        ImageIO.write(videoCap.getOneFrame(), "jpg", outputfile);
                     }
-                };
-                Thread t2 = new Thread(takePhoto);
-                t2.start();
-                 this.timer = Executors.newSingleThreadScheduledExecutor();
+                    catch(IOException ex) {
+                        Logger.getLogger(JustCamFrame.class.getName()).log(
+                                Level.SEVERE,
+                                null, ex);
+                    }
+
+                    imgarry.add(videoCap.getOneFrame());
+                    try {
+                        Thread.sleep(1000);// 10 dk
+                    }
+                    catch(InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread t2 = new Thread(takePhoto);
+        t2.start();
+        this.timer = Executors.newSingleThreadScheduledExecutor();
     }
 
     JustCam videoCap = new JustCam();
@@ -79,15 +93,16 @@ static ArrayList<BufferedImage> imgarry = new ArrayList<BufferedImage>();
         g = contentPane.getGraphics();
         g.drawImage(videoCap.getOneFrame(), 0, 0, this);
     }
-public void stop(){
-   
-    CreateVideo.createVideo(imgarry);
-    setVisible(false);
-    
-    
-}
 
-public int getJustFaceScore(){
+    public void stop() {
+        System.out.println("kasirgalabs.JustCamFrame.stop()");
+        durdur = true;
+        CreateVideo.createVideo(imgarry);
+        setVisible(false);
+
+    }
+
+    public int getJustFaceScore() {
         return justFaceScore.getSkor();
     }
 
