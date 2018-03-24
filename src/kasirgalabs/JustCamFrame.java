@@ -1,6 +1,5 @@
 package kasirgalabs;
 
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -60,10 +59,11 @@ public class JustCamFrame extends JFrame implements Runnable {
                 while(!durdur) {
                     //justFaceScore.skorArttir(2);
                     //rw.addText("Couldn't find face ",0);
+                    BufferedImage img=videoCap.getOneFrame();
                     System.out.println("TAKE PİCTURE");
                     File outputfile = new File("image"+i+++".jpg");
                     try {
-                        ImageIO.write(videoCap.getOneFrame(), "jpg", outputfile);
+                        ImageIO.write(img, "jpg", outputfile);
                     }
                     catch(IOException ex) {
                         Logger.getLogger(JustCamFrame.class.getName()).log(
@@ -71,9 +71,9 @@ public class JustCamFrame extends JFrame implements Runnable {
                                 null, ex);
                     }
 
-                    imgarry.add(videoCap.getOneFrame());
+                    imgarry.add(img);
                     try {
-                        Thread.sleep(1000);// 10 dk
+                        Thread.sleep(600000);// 10 dk
                     }
                     catch(InterruptedException e) {
                         // TODO Auto-generated catch block

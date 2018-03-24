@@ -380,7 +380,9 @@ public class MainClient extends javax.swing.JFrame {
                 blockedAppsFieldActionPerformed(evt);
             }
         });
-
+		ButtonGroup group = new ButtonGroup();
+		group.add(jRadioButton1);
+		group.add(jRadioButton4);
         jRadioButton1.setText("Sadece kamera aç");
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
