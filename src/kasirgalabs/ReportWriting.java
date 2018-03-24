@@ -2,7 +2,6 @@ package kasirgalabs;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
@@ -11,7 +10,9 @@ import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/*
+ * author: Göksu Begüm Bingöl
+ */
 public class ReportWriting {
 
     private static final String FILE_NAME = "reportForTeacher.pdf";

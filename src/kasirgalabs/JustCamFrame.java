@@ -13,8 +13,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import org.opencv.core.Mat;
 
+/*
+ * author: Göksu Begüm Bingöl
+ */
 public class JustCamFrame extends JFrame implements Runnable {
 
     private JPanel contentPane;

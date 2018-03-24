@@ -4,7 +4,9 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
-
+/*
+ * author: Göksu Begüm Bingöl
+ */
 public class JustCam {
     Mat mat = new Mat();
     BufferedImage img;

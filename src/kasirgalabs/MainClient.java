@@ -1065,6 +1065,7 @@ public class MainClient extends javax.swing.JFrame {
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
         sadeceKameraAc = true;
+        yuzTanikameraAc=false;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -1080,6 +1081,7 @@ public class MainClient extends javax.swing.JFrame {
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
         yuzTanikameraAc = true;
+        sadeceKameraAc=false;
 
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
