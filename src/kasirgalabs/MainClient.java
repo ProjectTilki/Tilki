@@ -44,7 +44,7 @@ public class MainClient extends javax.swing.JFrame {
     private Timer simpleTimer;
     FaceDetection fd;
     CaptureAudio ca;
-    CaptureWebcam cw;
+    CaptureWebcam cw = new CaptureWebcam();
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
@@ -710,8 +710,6 @@ public class MainClient extends javax.swing.JFrame {
                             t3.start();
                         }
                         if(sadeceKameraAc) {
-
-                            cw = new CaptureWebcam();
                             Thread t5 = new Thread(cw);
                             t5.start();
 
