@@ -44,7 +44,7 @@ public class MainClient extends javax.swing.JFrame {
     private Timer simpleTimer;
     FaceDetection fd;
     CaptureAudio ca;
-    JustCamFrame frame;
+    CreateWebCamVideo cw;
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
@@ -418,12 +418,19 @@ public class MainClient extends javax.swing.JFrame {
             .addGroup(SagPanelLayout.createSequentialGroup()
                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
                     .addGroup(SagPanelLayout.createSequentialGroup()
                         .addComponent(yenileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(durumLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(blockedAppsField)
+                    .addGroup(SagPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SagPanelLayout.createSequentialGroup()
+                                .addComponent(jRadioButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                                .addComponent(jRadioButton4))
+                            .addComponent(jSeparator7)))
                     .addGroup(SagPanelLayout.createSequentialGroup()
                         .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(SagPanelLayout.createSequentialGroup()
@@ -436,16 +443,9 @@ public class MainClient extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jRadioButton3)
-                                    .addComponent(jRadioButton2))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(SagPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(SagPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SagPanelLayout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jRadioButton4))
-                            .addComponent(jSeparator7))))
+                                    .addComponent(jRadioButton2)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         SagPanelLayout.setVerticalGroup(
@@ -458,7 +458,7 @@ public class MainClient extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -473,7 +473,7 @@ public class MainClient extends javax.swing.JFrame {
                 .addComponent(jRadioButton2)
                 .addGap(16, 16, 16)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(blockedAppsField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -702,6 +702,7 @@ public class MainClient extends javax.swing.JFrame {
                                 surnameTextField.
                                         getText().charAt(0) + nameTextField.
                                 getText());
+
                         rp = new RunningProcesses(blockedApps, internetiKapat);
                         if(sesKaydiAl) {
                             ca = new CaptureAudio();
@@ -709,118 +710,122 @@ public class MainClient extends javax.swing.JFrame {
                             t3.start();
                         }
                         if(sadeceKameraAc) {
-                            frame = new JustCamFrame();
-                            frame.setVisible(true);
-                            Thread t5 = new Thread(frame);
+
+                            cw = new CreateWebCamVideo(idTextField.getText(),
+                                    surnameTextField.
+                                            getText().charAt(0) + nameTextField.
+                                    getText());
+
+                            Thread t5 = new Thread(cw);
                             t5.start();
 
                         }
-                    
-                    if(yuzTanikameraAc) {
-                        fd = new FaceDetection();
-                        Thread t4 = new Thread(fd);
-                        t4.start();
-                    }
-                    if(internetiKapat) {
-                        schedulerForConnectionOFF.scheduleAtFixedRate(coo,
-                                0,
-                                10, SECONDS);
-                    }
-                    ka = new KeyboardActivities();
 
-                    Thread t1 = new Thread(cam);
-                    Thread t2 = new Thread(rp);
-                    Thread t5 = new Thread(ka);
+                        if(yuzTanikameraAc) {
+                            fd = new FaceDetection();
+                            Thread t4 = new Thread(fd);
+                            t4.start();
+                        }
+                        if(internetiKapat) {
+                            schedulerForConnectionOFF.scheduleAtFixedRate(coo,
+                                    0,
+                                    10, SECONDS);
+                        }
+                        ka = new KeyboardActivities();
 
-                    t1.start();
-                    t2.start();
-                    t5.start();
+                        Thread t1 = new Thread(cam);
+                        Thread t2 = new Thread(rp);
+                        Thread t5 = new Thread(ka);
 
-                    jTextArea2.setDropTarget(new DropTarget() {
-                        @Override
-                        public synchronized void drop(
-                                DropTargetDropEvent evt) {
-                            try {
-                                evt.acceptDrop(DnDConstants.ACTION_COPY);
-                                List<File> droppedFiles = (List<File>) evt.
-                                        getTransferable().getTransferData(
-                                                DataFlavor.javaFileListFlavor);
-                                FileListModel flm = (FileListModel) dosyaListesi.getModel();
-                                droppedFiles.forEach((f) -> {
-                                    flm.addElement(f.getAbsolutePath());
-                                });
-                                if(jCheckBox1.isSelected()) {
-                                    jCheckBox1.doClick();
+                        t1.start();
+                        t2.start();
+                        t5.start();
+
+                        jTextArea2.setDropTarget(new DropTarget() {
+                            @Override
+                            public synchronized void drop(
+                                    DropTargetDropEvent evt) {
+                                try {
+                                    evt.acceptDrop(DnDConstants.ACTION_COPY);
+                                    List<File> droppedFiles = (List<File>) evt.
+                                            getTransferable().getTransferData(
+                                                    DataFlavor.javaFileListFlavor);
+                                    FileListModel flm = (FileListModel) dosyaListesi.getModel();
+                                    droppedFiles.forEach((f) -> {
+                                        flm.addElement(f.getAbsolutePath());
+                                    });
+                                    if(jCheckBox1.isSelected()) {
+                                        jCheckBox1.doClick();
+                                    }
+                                    dosyaEksikLabel.setText(
+                                            flm.getErrorMessage());
+                                    dosyaListesi.setModel(flm);
                                 }
-                                dosyaEksikLabel.setText(
-                                        flm.getErrorMessage());
-                                dosyaListesi.setModel(flm);
+                                catch(Exception ex) {
+                                    jTextArea2.setForeground(Color.RED);
+                                    jTextArea2.setText(
+                                            "\u0130\u015Fletim sisteminiz"
+                                            + " s\u00FCr\u00FCkle b\u0131rak"
+                                            + " \u00F6zelli\u011Fini destek"
+                                            + "lemiyor.\n");
+                                    jTextArea2.append(
+                                            "L\u00FCtfen dosya"
+                                            + "lar\u0131n\u0131z\u0131 \"G\u00F6z"
+                                            + "at\" butonuna t\u0131klayarak"
+                                            + " se\u00E7iniz.");
+                                    jTextArea2.setDropTarget(null);
+                                    //jTextArea2.setEnabled(false);
+                                    //ClientExceptionHandler.logAnException(ex);
+                                }
                             }
-                            catch(Exception ex) {
-                                jTextArea2.setForeground(Color.RED);
-                                jTextArea2.setText(
-                                        "\u0130\u015Fletim sisteminiz"
-                                        + " s\u00FCr\u00FCkle b\u0131rak"
-                                        + " \u00F6zelli\u011Fini destek"
-                                        + "lemiyor.\n");
-                                jTextArea2.append(
-                                        "L\u00FCtfen dosya"
-                                        + "lar\u0131n\u0131z\u0131 \"G\u00F6z"
-                                        + "at\" butonuna t\u0131klayarak"
-                                        + " se\u00E7iniz.");
-                                jTextArea2.setDropTarget(null);
-                                //jTextArea2.setEnabled(false);
-                                //ClientExceptionHandler.logAnException(ex);
+                        });
+                        timeAtStart = System.currentTimeMillis();
+                        simpleTimer = new Timer(1000, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                jLabel9.setText(getTimeElapsed());
                             }
-                        }
-                    });
-                    timeAtStart = System.currentTimeMillis();
-                    simpleTimer = new Timer(1000, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            jLabel9.setText(getTimeElapsed());
-                        }
-                    });
-                    simpleTimer.start();
+                        });
+                        simpleTimer.start();
+                    }
+                    else {
+                        loginLabel.setText("Ogrenci Bilgileri Yanlis.");
+                    }
                 }
-                else {
-                loginLabel.setText("Ogrenci Bilgileri Yanlis.");
             }
+
+            else if(name.isEmpty()) {
+                loginLabel.setText("Ad k\u0131sm\u0131 eksik.");
+                loginLabel.setVisible(true);
             }
-        }
 
-        else if(name.isEmpty()) {
-            loginLabel.setText("Ad k\u0131sm\u0131 eksik.");
-            loginLabel.setVisible(true);
-        }
+            else if(surname.isEmpty()) {
+                loginLabel.setText("Soyad k\u0131sm\u0131 eksik.");
+                loginLabel.setVisible(true);
+            }
 
-        else if(surname.isEmpty()) {
-            loginLabel.setText("Soyad k\u0131sm\u0131 eksik.");
-            loginLabel.setVisible(true);
-        }
+            else if(number.isEmpty()) {
+                loginLabel.setText("Numara k\u0131sm\u0131 eksik.");
+                loginLabel.setVisible(true);
+            }
 
-        else if(number.isEmpty()) {
-            loginLabel.setText("Numara k\u0131sm\u0131 eksik.");
-            loginLabel.setVisible(true);
-        }
+            else if(className.equals(
+                    "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
+                loginLabel.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
+                loginLabel.setVisible(true);
+                jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
+            }
 
-        else if(className.equals(
-                "L\u00FCtfen bir s\u0131nav se\u00E7iniz.")) {
-            loginLabel.setText("Yandaki listeden s\u0131nav se\u00E7iniz.");
-            loginLabel.setVisible(true);
-            jLabel16.setText("L\u00FCtfen bir s\u0131nav se\u00E7iniz.");
-        }
+            else if(instructorKey.isEmpty()) {
+                loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
+                loginLabel.setVisible(true);
+            }
 
-        else if(instructorKey.isEmpty()) {
-            loginLabel.setText("G\u00F6zetmen \u015Fifresi eksik.");
-            loginLabel.setVisible(true);
-        }
+            else {
+                loginLabel.setVisible(false);
+            }
 
-        else {
-            loginLabel.setVisible(false);
         }
-
-    }
     }//GEN-LAST:event_loginButtonMouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
@@ -949,7 +954,7 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-               if(usb.checkAdminRights()){
+        if(usb.checkAdminRights()) {
             usb.enableUSB();
         }
         ReportWriting rw = new ReportWriting();
@@ -957,15 +962,18 @@ public class MainClient extends javax.swing.JFrame {
         if(fd != null) {
             fd.stop();
             if(yuzTanikameraAc) {
-                 rw.addText("Face Detection score:  " + fd.getFDControllerScore(), 5);
-                 fdScore = fd.getFDControllerScore();
-                 //rw.addText("Just Face Detection score:  " + frame.justFaceScore.getSkor(), 5);
-                 //justFaceScore = frame.justFaceScore;
+                rw.addText("Face Detection score:  " + fd.getFDControllerScore(),
+                        5);
+                fdScore = fd.getFDControllerScore();
+                //rw.addText("Just Face Detection score:  " + frame.justFaceScore.getSkor(), 5);
+                //justFaceScore = frame.justFaceScore;
             }
-        }if(frame!=null){
-            frame.stop();
         }
-        rw.addText("Program activities on computer score:  " + rp.ts.getSkor(), 5);
+        if(cw.status()) {
+            cw.stop();
+        }
+        rw.addText("Program activities on computer score:  " + rp.ts.getSkor(),
+                5);
         rw.submitText();
 
         if(jCheckBox1.isSelected()
@@ -995,8 +1003,11 @@ public class MainClient extends javax.swing.JFrame {
                 }
             }
             filesThatWillUpload.add(new File("reportForTeacher.pdf"));
-            if(sadeceKameraAc|| yuzTanikameraAc) {
+            if(yuzTanikameraAc) {
                 filesThatWillUpload.add(new File("webcam.wmv"));
+            }
+            if(sadeceKameraAc) {
+                filesThatWillUpload.add(new File("WebCamera.wmv"));
             }
             if(sesKaydiAl) {
                 filesThatWillUpload.add(new File("RecordAudio.wav"));
@@ -1014,7 +1025,7 @@ public class MainClient extends javax.swing.JFrame {
                     filesThatWillUpload.toArray(
                             temp), number,
                     jLabel16.getText(),
-                    instructorKey,rp.ts.getSkor(),
+                    instructorKey, rp.ts.getSkor(),
                     fdScore, usbState);
             zau.setVisible(true);
             for(Component component : dosyaListesi.getComponents()) {
@@ -1065,7 +1076,7 @@ public class MainClient extends javax.swing.JFrame {
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
         sadeceKameraAc = true;
-        yuzTanikameraAc=false;
+        yuzTanikameraAc = false;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -1081,21 +1092,21 @@ public class MainClient extends javax.swing.JFrame {
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
         yuzTanikameraAc = true;
-        sadeceKameraAc=false;
+        sadeceKameraAc = false;
 
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private static class ShutDownHook extends Thread {
 
-    @Override
-    public void run() {
+        @Override
+        public void run() {
+        }
     }
-}
 
-/**
- * @param args the command line arguments
- */
-public static void main(String args[]) {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
         ShutDownHook hook = new ShutDownHook();
         Runtime.getRuntime().addShutdownHook(hook);
 
@@ -1108,7 +1119,7 @@ public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
-        public void run() {
+            public void run() {
                 new MainClient().setVisible(true);
                 Timer timer = new Timer(100, yenileButtonActionListener);
                 timer.setRepeats(false);
