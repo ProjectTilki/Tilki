@@ -9,8 +9,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -84,8 +87,10 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jScrollPane12 = new javax.swing.JScrollPane();
         jTextArea7 = new javax.swing.JTextArea();
         jScrollPane13 = new javax.swing.JScrollPane();
+        jScrollPane14 = new javax.swing.JScrollPane();
         jList6 = new javax.swing.JList<>();
         jLabel20 = new javax.swing.JLabel();
+        jLabel20_1 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -97,6 +102,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         examStatus_Button = new javax.swing.JButton();
+        examStatus_Button_2 = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -140,8 +146,11 @@ public class FoxServerSetup extends javax.swing.JFrame {
             }
         });
         jScrollPane13.setViewportView(jList6);
+        jScrollPane14.setViewportView(jList7);
 
-        jLabel20.setText("S\u0131navlar");
+        jLabel20.setText("Aktif s\u0131navlar");
+        jLabel20_1.setText("Pasif s\u0131navlar");
+
 
         jLabel21.setText("A\u00E7\u0131klamalar");
 
@@ -174,10 +183,16 @@ public class FoxServerSetup extends javax.swing.JFrame {
             }
         });
         
-        	examStatus_Button.setText("S\u0131nav Aktif/Pasif");
+        	examStatus_Button.setText("S\u0131nav Pasif");
         		examStatus_Button.addActionListener(new java.awt.event.ActionListener() {
         			public void actionPerformed(java.awt.event.ActionEvent evt) {
         				examStatus_ButtonActionPerformed(evt);
+        	            }
+        	        });
+        		
+        		examStatus_Button_2.setText("S\u0131nav Aktif");
+        		examStatus_Button_2.addActionListener(new java.awt.event.ActionListener() {
+        			public void actionPerformed(java.awt.event.ActionEvent evt) {
         	            }
         	        });
         
@@ -245,6 +260,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5))
                     .addComponent(jScrollPane13, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -253,12 +269,19 @@ public class FoxServerSetup extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING,layout.createSequentialGroup()
                     		.addComponent(examStatus_Button))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING,layout.createSequentialGroup()
+                    		.addComponent(examStatus_Button_2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING,layout.createSequentialGroup()
+                    		.addComponent(jLabel20_1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+        
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -284,20 +307,24 @@ public class FoxServerSetup extends javax.swing.JFrame {
                             .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel20)
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                	.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                		.addComponent(examStatus_Button))
-                	    .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        		.addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        		.addComponent(examStatus_Button)
+                        		.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE))
+                        .addComponent(jLabel20_1)
+                        .addGap(5, 5, 5)
+                        .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(examStatus_Button_2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)))
+                .addGroup(layout.createSequentialGroup()
                     .addComponent(jLabel21)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -307,7 +334,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4)))
-                .addGap(9, 9, 9)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -553,8 +580,15 @@ public class FoxServerSetup extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void examStatus_ButtonActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_examStatus_ButtonActionPerformed
-    	    	
-    	    	
+	    	if(jList6.getSelectedIndex() < 0) {
+	            return;
+	        }
+	    	
+	    	int selectedIndex = jList6.getSelectedIndex();
+	    	if (selectedIndex != -1) {
+	    		((DefaultListModel) jList6.getModel()).setElementAt(examList[jList6.getSelectedIndex()].getName() , selectedIndex);
+	    	}
+	    	
     	}
     
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -677,20 +711,24 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton examStatus_Button;
+    private javax.swing.JButton examStatus_Button_2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel20_1;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JList<String> jList6;
+    private javax.swing.JList<String> jList7;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
