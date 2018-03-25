@@ -44,7 +44,7 @@ public class MainClient extends javax.swing.JFrame {
     private Timer simpleTimer;
     FaceDetection fd;
     CaptureAudio ca;
-    CreateWebCamVideo cw;
+    CaptureWebcam cw;
     private static final ScheduledExecutorService schedulerForConnectionOFF = Executors.newScheduledThreadPool(
             1);
     private ConnectionOnOff coo = new ConnectionOnOff();
@@ -711,11 +711,7 @@ public class MainClient extends javax.swing.JFrame {
                         }
                         if(sadeceKameraAc) {
 
-                            cw = new CreateWebCamVideo(idTextField.getText(),
-                                    surnameTextField.
-                                            getText().charAt(0) + nameTextField.
-                                    getText());
-
+                            cw = new CaptureWebcam();
                             Thread t5 = new Thread(cw);
                             t5.start();
 
@@ -970,7 +966,7 @@ public class MainClient extends javax.swing.JFrame {
             }
         }
         if(cw.status()) {
-            cw.stop();
+            cw.stopCaptureWebcam();
         }
         rw.addText("Program activities on computer score:  " + rp.ts.getSkor(),
                 5);
