@@ -31,6 +31,107 @@
     </Container>
     <Component class="javax.swing.JProgressBar" name="jProgressBar2">
     </Component>
+    <Container class="javax.swing.JFrame" name="serverConnectionFrame">
+      <Properties>
+        <Property name="defaultCloseOperation" type="int" value="3"/>
+        <Property name="title" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="&quot;Server Ba\u011Flant\u0131s\u0131&quot;" type="code"/>
+        </Property>
+        <Property name="location" type="java.awt.Point" editor="org.netbeans.beaninfo.editors.PointEditor">
+          <Point value="[720, 430]"/>
+        </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[400, 220]"/>
+        </Property>
+        <Property name="resizable" type="boolean" value="false"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="serverConnectionFrame.setVisible(true);"/>
+        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="MainClient_serverConnectionFrame"/>
+      </AuxValues>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel12" min="-2" pref="77" max="-2" attributes="0"/>
+                              <Component id="ipAddressJTextField1" min="-2" pref="149" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="jButton1" min="-2" pref="94" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace pref="176" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="jLabel12" min="-2" pref="19" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="ipAddressJTextField1" min="-2" pref="40" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jButton1" min="-2" pref="36" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="jLabel2" min="-2" pref="100" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace pref="56" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/kasirgalabs/images/100x100_Tilki.png"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="ipAddressJTextField1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="15" style="0"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ipAddressJTextField1ActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ipAddressJTextField1KeyPressed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ipAddressJTextField1.setText(&quot;   .   .   .   &quot;);&#xa;ipAddressJTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);&#xa;ipAddressJTextField1.setCaretPosition(0);&#xa;((AbstractDocument) ipAddressJTextField1.getDocument()).setDocumentFilter(new DocumentFilter() {&#xa;    private final int[] POSITIONS_OF_DOTS={3,7,11};//Off set positions&#xa;            &#xa;    @Override&#xa;    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {&#xa;         if(isValidText(text)){&#xa;            if(offset==3||offset==7||offset==11){&#xa;                if(text.charAt(0)==&apos;.&apos;){&#xa;                    text=&quot;.&quot;;&#xa;                    ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+1);&#xa;                    super.replace(fb, offset, 1, text, attrs);&#xa;                }&#xa;                else{&#xa;                    ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+2);&#xa;                    super.replace(fb, ipAddressJTextField1.getCaretPosition()-1, 1, text, attrs);                           &#xa;                }&#xa;            }&#xa;            else{&#xa;                if(text.charAt(0)==&apos;.&apos;){&#xa;                    int firstDot=ipAddressJTextField1.getText().substring(offset).indexOf(&quot;.&quot;);&#xa;                    text=&quot; &quot;;&#xa;                    super.replace(fb, offset, 1, text, attrs);&#xa;                    ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()+firstDot);&#xa;                }&#xa;                else&#xa;                    super.replace(fb, offset, 1, text, attrs);&#xa;            }&#xa;        }&#xa;        else{&#xa;            return;&#xa;        }&#xa;&#xa;    }&#xa;    @Override&#xa;    public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {&#xa;        super.replace(fb, offset, length, generateBlank(length), null);&#xa;        ipAddressJTextField1.setCaretPosition(ipAddressJTextField1.getCaretPosition()-length);&#xa;        insertDots(fb);&#xa;    }&#xa;    &#xa;    private boolean isValidText(String text){&#xa;        int ascii=(int)text.charAt(0);&#xa;        if((ascii&gt;=48&amp;&amp;ascii&lt;=57)||ascii==46)&#xa;            return true;&#xa;        return false;&#xa;    }&#xa;    private void insertDots(FilterBypass fb){&#xa;        try{&#xa;            super.remove(fb,3,1);&#xa;            super.insertString(fb, 3, &quot;.&quot;, null);&#xa;            super.remove(fb,7,1);&#xa;            super.insertString(fb, 7, &quot;.&quot;, null);       &#xa;            super.remove(fb,11,1);&#xa;            super.insertString(fb, 11, &quot;.&quot;, null);&#xa;        }&#xa;           catch(BadLocationException e){e.printStackTrace();}&#xa;    }&#xa;    private String generateBlank(int length){&#xa;        String blank=&quot;&quot;;&#xa;        for(int i=1;i&lt;=length;i++){&#xa;            blank=blank+&quot; &quot;;&#xa;        }&#xa;        return blank;&#xa;    }&#xa;&#xa;});"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Tamam"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serverConnectionJButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel12">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Server Ip :"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
@@ -54,7 +155,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-75,0,0,2,118"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,-49,0,0,2,120"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
@@ -89,10 +190,20 @@
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="SolPanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jSeparator1" min="-2" pref="12" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="SagPanel" min="-2" pref="283" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jSeparator1" min="-2" pref="12" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="SagPanel" min="-2" pref="283" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="serverIpjLabel13" min="-2" pref="125" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -100,15 +211,20 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Component id="SagPanel" min="-2" pref="426" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="serverIpjLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="SolPanel" pref="414" max="32767" attributes="0"/>
+                      <Component id="SolPanel" pref="437" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="jSeparator1" min="-2" pref="408" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="4" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="29" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -522,6 +638,18 @@
             </Property>
           </Properties>
         </Component>
+        <Component class="javax.swing.JLabel" name="serverIpjLabel13">
+          <Properties>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="ipAddress" type="code"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel17">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Server IP:"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="VideoKayitEkrani">
@@ -568,7 +696,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="jCheckBox1" min="-2" pref="305" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="36" max="32767" attributes="0"/>
                                       </Group>
                                       <Component id="dosyaEksikLabel" alignment="0" max="32767" attributes="0"/>
                                   </Group>
@@ -595,7 +723,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel15" max="32767" attributes="0"/>
+                  <Component id="jLabel15" pref="33" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
@@ -636,7 +764,7 @@
                           <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="28" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
