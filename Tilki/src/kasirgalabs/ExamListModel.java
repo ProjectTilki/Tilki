@@ -1,12 +1,14 @@
 package kasirgalabs;
 
+import java.util.ArrayList;
+
 import javax.swing.AbstractListModel;
 
 public class ExamListModel extends AbstractListModel {
 
-    private final Exam[] examList;
+    private final ArrayList<Exam> examList;
 
-    public ExamListModel(Exam[] examList) {
+    public ExamListModel(ArrayList<Exam> examList) {
         this.examList = examList;
     }
 
@@ -15,7 +17,7 @@ public class ExamListModel extends AbstractListModel {
         if(examList == null) {
             return 0;
         }
-        return examList.length;
+        return examList.size();
     }
 
     @Override
@@ -23,7 +25,7 @@ public class ExamListModel extends AbstractListModel {
         if(examList == null) {
             return "";
         }
-        return examList[index].getName();
+        return examList.get(index).getName();
     }
 
 }

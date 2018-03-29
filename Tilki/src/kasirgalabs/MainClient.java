@@ -21,7 +21,7 @@ import javax.swing.UIManager;
 public class MainClient extends javax.swing.JFrame {
 
     private static String ipAddress = "127.0.0.1";
-    private Exam[] examList;
+    private ArrayList<Exam> examList;
     private CaptureDesktop cam;
     private static String number;
     private String name;
@@ -898,8 +898,8 @@ public class MainClient extends javax.swing.JFrame {
     private void jList1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MousePressed
         int location = jList1.locationToIndex(evt.getPoint());
         if(examList != null && location >= 0) {
-            jTextArea1.setText(examList[location].getDescription());
-            jLabel16.setText(examList[location].getName());
+            jTextArea1.setText(examList.get(location).getDescription());
+            jLabel16.setText(examList.get(location).getName());
         }    }//GEN-LAST:event_jList1MousePressed
 
     private static class ShutDownHook extends Thread {
