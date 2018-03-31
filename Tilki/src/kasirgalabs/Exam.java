@@ -10,10 +10,12 @@ public class Exam implements Serializable {
     private static final long serialVersionUID = 1L;
     private final String name;
     private final String description;
+    private Boolean examStatus;
 
-    public Exam(String name, String description) {
+    public Exam(String name, String description, Boolean examStatus) {
         this.name = name;
         this.description = description;
+        this.examStatus = examStatus;
     }
 
     /**
@@ -29,4 +31,21 @@ public class Exam implements Serializable {
     public String getDescription() {
         return description;
     }
+    
+    /**
+     * @return ExamStatus of the exam.
+     */
+    public Boolean getExamStatus() {
+        return examStatus;
+    }
+    
+    /**
+     * sets ExamStatus of the exam.
+     */
+    public void setExamStatus(Boolean examStatus) {
+    		this.examStatus = examStatus;
+    }
+    
+    
+    
 }

@@ -21,7 +21,7 @@ import javax.swing.UIManager;
 public class MainClient extends javax.swing.JFrame {
 
     private static String ipAddress = "127.0.0.1";
-    private ArrayList<Exam> examList;
+    private static ArrayList<Exam> examList;
     private CaptureDesktop cam;
     private static String number;
     private String name;
@@ -874,7 +874,7 @@ public class MainClient extends javax.swing.JFrame {
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
         try {
-            examList = fcu.availableExams();
+            examList = fcu.availableExams(false);
             durumLabel.setEnabled(true);
             durumLabel.setText("Ba\u011Fland\u0131");
             durumLabel.setForeground(c);
@@ -936,7 +936,23 @@ public class MainClient extends javax.swing.JFrame {
         });
     }
 
-    public static String getIpAddress() {
+    public static ArrayList<Exam> getExamList() {
+		return examList;
+	}
+
+	public static void setExamList(ArrayList<Exam> examList) {
+		MainClient.examList = examList;
+	}
+	
+	public static javax.swing.JList<String> getjList1() {
+		return jList1;
+	}
+
+	public static void setjList1(javax.swing.JList<String> jList1) {
+		MainClient.jList1 = jList1;
+	}
+
+	public static String getIpAddress() {
         return ipAddress;
     }
 
@@ -968,7 +984,7 @@ public class MainClient extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private static javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
+    private static javax.swing.JList<String> jList1;
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

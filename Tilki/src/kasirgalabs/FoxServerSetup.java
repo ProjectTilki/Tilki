@@ -36,6 +36,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private String examName;
     private String examDescription;
     private String examKey;
+    private Boolean examStatus;
     private File exam;
 
     /**
@@ -54,8 +55,16 @@ public class FoxServerSetup extends javax.swing.JFrame {
             setLocationRelativeTo(null);
         }
         try {
-            examList = fcu.availableExams();
+            examList = fcu.availableExams(true);
             examList2 = new ArrayList<Exam>(); 
+            
+            for(int i=0; i< examList.size() ; i++) 
+        		if(!examList.get(i).getExamStatus()) 
+        			examList2.add(examList.get(i));
+        
+	        for(Exam e: examList2)
+	        		examList.remove(e);
+            	
             jList6.setModel(new ExamListModel(examList));
             jList7.setModel(new ExamListModel(examList2));
         }
@@ -364,29 +373,40 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
         try {
-            examList = fcu.availableExams();
+            examList = fcu.availableExams(true);
+            examList2 = new ArrayList<Exam>();
+            
+            for(int i=0; i<examList.size() ; i++) 
+	        		if(!examList.get(i).getExamStatus()) 
+	        			examList2.add(examList.get(i));
+            
+            for(Exam e : examList2)
+            		examList.remove(e);
+
+            jList6.setModel(new ExamListModel(examList));
+            jList7.setModel(new ExamListModel(examList2));
+            
             jLabel19.setVisible(false);
         }
         catch(IOException e) {
             examList = null;
+            examList2 = null;
             jLabel19.setText("Ba\u011Flanamad\u0131.");
             jLabel19.setVisible(true);
         }
         catch(ClassNotFoundException e) {
             examList = null;
+            examList2 = null;
             jLabel19.setText("Eksik dosya.");
             jLabel19.setVisible(true);
         }
-        jList6.setModel(new ExamListModel(examList));
-        jList7.setModel(new ExamListModel(examList2));
 
-//        jList7.setModel(model);
         jTextArea7.setText("");
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         try {
-            examList = fcu.availableExams();
+            examList = fcu.availableExams(true);
             jLabel19.setVisible(false);
         }
         catch(IOException e) {
@@ -427,6 +447,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
             examName = jTextField1.getText();
             examKey = new String(jPasswordField1.getPassword());
             examDescription = jTextArea1.getText();
+            examStatus = true;
             String filePath = new File("").getAbsolutePath();
             exam = new File(examName);
             exam.mkdir();
@@ -440,12 +461,17 @@ public class FoxServerSetup extends javax.swing.JFrame {
                 PrintWriter out2 = new PrintWriter(new BufferedWriter(
                         new FileWriter(exam.getAbsolutePath() + "/exam_key.txt",
                                 true)));
+                PrintWriter out3 = new PrintWriter(new BufferedWriter(
+                        new FileWriter(exam.getAbsolutePath() + "/exam_status.txt",
+                                true)));
                 out.println(examName);
                 out1.println(examDescription);
                 out2.println(examKey);
+                out3.println(examStatus);
                 out.close();
                 out1.close();
                 out2.close();
+                out3.close();
                 JOptionPane.showMessageDialog(null,
                         "S\u0131nav basar\u0131yla olusturuldu.",
                         "Tilki", 1);
@@ -590,9 +616,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
         reset();
 
         try {
-            jTextField1.setText(fcu.availableExams().get(jList6.getSelectedIndex()).
+            jTextField1.setText(fcu.availableExams(true).get(jList6.getSelectedIndex()).
                     getName());
-            jTextArea1.setText(fcu.availableExams().get(jList6.getSelectedIndex()).
+            jTextArea1.setText(fcu.availableExams(true).get(jList6.getSelectedIndex()).
                     getDescription());
         }
         catch(IOException ex) {
@@ -609,24 +635,44 @@ public class FoxServerSetup extends javax.swing.JFrame {
 	    	if(jList6.getSelectedIndex() < 0) {
 	            return;
 	        }
-	    		
+	    
+	    	try {
+	    	 	exam = new File(examList.get(jList6.getSelectedIndex()).getName() + "/exam_status.txt");
+		    	BufferedWriter writer = new BufferedWriter(new FileWriter(exam));
+		    writer.write("false");
+		    writer.close();
+
+	    	} catch(Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	
+	    	examList.get(jList6.getSelectedIndex()).setExamStatus(false);
 	    	examList2.add(examList.get(jList6.getSelectedIndex()));
 	    	examList.remove(jList6.getSelectedIndex());
 	    	jList6.setModel(new ExamListModel(examList));
-
 	    	jList7.setModel(new ExamListModel(examList2));
-	    
+	    	
     	}//GEN-LAST:event_jButton8ActionPerformed
     
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton9ActionPerformed
-    	if(jList7.getSelectedIndex() < 0) {
-            return;
-        }
-    		
-    	examList.add(examList2.get(jList7.getSelectedIndex()));
-    	examList2.remove(jList7.getSelectedIndex());
-    	jList7.setModel(new ExamListModel(examList2));
-    	jList6.setModel(new ExamListModel(examList));
+	    	if(jList7.getSelectedIndex() < 0) {
+	            return;
+	        }
+	    	
+	    	try {
+	    	 	exam = new File(examList2.get(jList7.getSelectedIndex()).getName() + "/exam_status.txt");
+		    	BufferedWriter writer = new BufferedWriter(new FileWriter(exam));
+		    writer.write("true");
+		    writer.close();
+
+	    	} catch(Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	
+	    	examList.add(examList2.get(jList7.getSelectedIndex()));
+	    	examList2.remove(jList7.getSelectedIndex());
+	    	jList7.setModel(new ExamListModel(examList2));
+	    	jList6.setModel(new ExamListModel(examList));
     	
 	}//GEN-LAST:event_jButton9ActionPerformed
     
