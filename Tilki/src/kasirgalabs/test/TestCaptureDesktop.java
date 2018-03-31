@@ -21,7 +21,7 @@ public class TestCaptureDesktop {
 		desktop.StartCaptureDesktop("personTest", "dummy");
 	}
 	
-	@Test(expected=RuntimeException.class)
+	@Test(expected=Exception.class)
 	public void testCaptureDesktopFailsWithOneNullParameter() {
 		nullDesktop = new CaptureDesktop();
 

@@ -78,18 +78,21 @@ public class TestFoxClientUtilities {
 	@Test
 	 public void verifyInstructorKeyTest(){
 		     // Connect to the host.
-	        String dataOutputString = "Key verify";
-	        DataInputStream in = testHost(dataOutputString);
+		HostSimulator hostSimulator = new HostSimulator();
+		String[] s = {"1"};
+	    DataInputStream in = hostSimulator.getDataInputStreamFor(s);
 	        
 			try {
 				 String status = in.readUTF(); // Read the status code.
 			        if(status != null) {
 			            char c = status.charAt(0);
-			            assertEquals(Character.getNumericValue(c),'1');
+			            assertEquals(Character.getNumericValue(c),1);
 			        }
-			} catch (IOException e) {
-				e.printStackTrace();
-			} // Read the status code.
+			} catch (Exception e) {
+				
+			}finally {
+				hostSimulator.closeHostSimulatorResouces();
+			}
 	        
 	    }
 	
@@ -134,7 +137,6 @@ public class TestFoxClientUtilities {
 		}
 		return testFiles;
 	}
-	
 	public File createTestFile(String fileName) {
 		BufferedWriter writer = null;
 		File testFile = new File(fileName);
@@ -153,19 +155,5 @@ public class TestFoxClientUtilities {
 		return testFile;
 	}
 	
-	///////////////////////////////////////////////
-	private DataInputStream testHost(String out){
-		if (out.equals("Key verify")){
-			return new DataInputStream(getInputStream("1x1xxxxxxxxxxx"));
-		}
-		return null;
-	}
 	
-	private InputStream getInputStream(String content){
-		InputStream stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
-		return stream;
-	}
-	
-
-	///////////////////////////////////////////////
 }
