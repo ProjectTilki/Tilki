@@ -354,8 +354,10 @@ public class FoxServiceThread implements Callable<Integer> {
                 // Look for the descripton.
                 if(!new File(exam, "exam_description.txt").exists()) {
                     examDescription = null;
+//                    continue;
                 }
                 else {
+                		examDescription = "";
                 		BufferedReader description = new BufferedReader(new FileReader(
                             new File(exam, "exam_description.txt")));
                 		 boolean firstLine = true;
@@ -367,8 +369,8 @@ public class FoxServiceThread implements Callable<Integer> {
                                  continue;
                              }
                              examDescription += "\n" + temp;
-                             description.close();
                          }
+                         description.close();
                 }
                 
                 if(!new File(exam, "exam_status.txt").exists()) {

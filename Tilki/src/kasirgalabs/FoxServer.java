@@ -43,12 +43,12 @@ public class FoxServer {
                 FoxServerLogManager.class.getName());
         LOG_MANAGER = (FoxServerLogManager) LogManager.getLogManager();
         LOGGER = Logger.getLogger(FoxServer.class.getName());
-
+        
         try {
             FileHandler fh = new FileHandler("server.log", true);
             LOGGER.addHandler(fh);
             fh.setFormatter(new SimpleFormatter());
-
+            
             ConsoleHandler ch = new ConsoleHandler();
             ch.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(ch);
