@@ -346,7 +346,6 @@ public class FoxServiceThread implements Callable<Integer> {
         // Array list of Exam object contains available exams.
         ArrayList<Exam> examList = new ArrayList<Exam>();
         String exam;
-        
         String examDescription = "";
         String temp;
         Boolean examStatus;
@@ -385,9 +384,10 @@ public class FoxServiceThread implements Callable<Integer> {
                 		}
                 		else
                 			examStatus = false;
-                			
+                		
+                		examStatus_br.close();
+
                 }
-                	
                 examList.add(new Exam(exam, examDescription,examStatus));
             }
         }

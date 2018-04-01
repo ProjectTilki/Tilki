@@ -874,7 +874,12 @@ public class MainClient extends javax.swing.JFrame {
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
         try {
-            examList = fcu.availableExams(false);
+            examList = fcu.availableExams();
+            
+            for(int i=0; i< examList.size() ; i++) 
+        		if(!examList.get(i).getExamStatus()) 
+        			examList.remove(i);
+            
             durumLabel.setEnabled(true);
             durumLabel.setText("Ba\u011Fland\u0131");
             durumLabel.setForeground(c);

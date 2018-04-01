@@ -55,12 +55,12 @@ public class FoxServerSetup extends javax.swing.JFrame {
             setLocationRelativeTo(null);
         }
         try {
-            examList = fcu.availableExams(true);
+            examList = fcu.availableExams();
             examList2 = new ArrayList<Exam>(); 
             
             for(int i=0; i< examList.size() ; i++) 
-        		if(!examList.get(i).getExamStatus()) 
-        			examList2.add(examList.get(i));
+	        		if(!examList.get(i).getExamStatus()) 
+	        			examList2.add(examList.get(i));
         
 	        for(Exam e: examList2)
 	        		examList.remove(e);
@@ -373,16 +373,17 @@ public class FoxServerSetup extends javax.swing.JFrame {
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         // TODO add your handling code here:
         try {
-            examList = fcu.availableExams(true);
+            examList = fcu.availableExams();
             examList2 = new ArrayList<Exam>();
-            
-            for(int i=0; i<examList.size() ; i++) 
+
+            for(int i=0; i<examList.size() ; i++)
 	        		if(!examList.get(i).getExamStatus()) 
 	        			examList2.add(examList.get(i));
             
             for(Exam e : examList2)
             		examList.remove(e);
-
+            
+          	jList6.setModel(new ExamListModel(new ArrayList<Exam>()));
             jList6.setModel(new ExamListModel(examList));
             jList7.setModel(new ExamListModel(examList2));
             
@@ -406,7 +407,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         try {
-            examList = fcu.availableExams(true);
+            examList = fcu.availableExams();
             jLabel19.setVisible(false);
         }
         catch(IOException e) {
@@ -616,9 +617,9 @@ public class FoxServerSetup extends javax.swing.JFrame {
         reset();
 
         try {
-            jTextField1.setText(fcu.availableExams(true).get(jList6.getSelectedIndex()).
+            jTextField1.setText(fcu.availableExams().get(jList6.getSelectedIndex()).
                     getName());
-            jTextArea1.setText(fcu.availableExams(true).get(jList6.getSelectedIndex()).
+            jTextArea1.setText(fcu.availableExams().get(jList6.getSelectedIndex()).
                     getDescription());
         }
         catch(IOException ex) {

@@ -139,7 +139,7 @@ public class FoxClientUtilities {
      *                                          exceptions.
      * @see Exam
      */
-    public ArrayList<Exam> availableExams(Boolean getAll) throws IOException, ClassNotFoundException {
+    public ArrayList<Exam> availableExams( ) throws IOException, ClassNotFoundException {
         Socket socket = null;
         ArrayList<Exam> examList = new ArrayList<Exam>();
         try {
@@ -150,21 +150,17 @@ public class FoxClientUtilities {
             // Tell host which operation will occur.
             out.writeUTF("List exams");
             out.flush();
-
+            
             ObjectInputStream ois = new ObjectInputStream(
                     socket.getInputStream());
             Object examListObject = ois.readObject();
+            ois.close();
+            
             Exam[] x = (Exam[])examListObject;
             
             if(examListObject!=null)
             		for(int i=0 ; i<x.length;i++)
-            			if(!getAll) {
-	            			if(x[i].getExamStatus())
-	            				examList.add(x[i]);
-            			}
-            			else {
-            				examList.add(x[i]);
-            			}
+            			examList.add(x[i]);
             
         }
         catch(IOException | ClassNotFoundException e) {
