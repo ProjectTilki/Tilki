@@ -22,4 +22,4 @@ Server IP can be edited from MainClient(Defaultly localhost). <br> <br>
 <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
 ## Continuous Integration
-[![Build Status](https://travis-ci.org/nuyageva/Tilki.svg?branch=newBranch)](https://travis-ci.org/nuyageva/Tilki)
+[![Build Status](https://travis-ci.org/kasirgalabs/Tilki.svg?branch=master)](https://travis-ci.org/kasirgalabs/Tilki)
