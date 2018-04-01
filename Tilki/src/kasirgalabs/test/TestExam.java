@@ -9,7 +9,7 @@ import kasirgalabs.Exam;
 public class TestExam {
 
 	@Test
-	public void testExamConstructer() {
+	public void test() {
 		Exam exam = new Exam("Junit", "Test");
 		assertEquals(exam.getName(), "Junit");
 		assertEquals(exam.getDescription(), "Test");

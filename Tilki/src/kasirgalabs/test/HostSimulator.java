@@ -1,35 +1,35 @@
 package kasirgalabs.test;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class HostSimulator {
-	   
-      InputStream is = null;
-      DataInputStream dis = null;
-      FileOutputStream fos = null;
-      DataOutputStream dos = null;
-
+	FileOutputStream fos;
+	DataOutputStream dos;
+	InputStream is;
+	DataInputStream dis;
+	
       public  DataInputStream getDataInputStreamFor( String[] s){
 	      try {
-	    	 String fileName = System.getProperty("java.io.tmpdir")+"HostSimulatorTestFile.txt";
-	         File f = new File(fileName);
-	         if (f.exists()){
-	        	 f.delete();
+	    	 String fileName = "HostSimulatorTestFile.txt";
+	         File f1 = new File(fileName);
+	         if (f1.exists()){
+	        	 f1.delete();
 	         }
-	         f = new File(fileName);
-	         
+	         File f = new File(fileName);
+	         f.createNewFile();
 	         
 	         // create file output stream
-	         fos = new FileOutputStream(fileName);
+	          fos = new FileOutputStream(fileName);
 	           
 	         // create data output stream
-	         dos = new DataOutputStream(fos);
+	          dos = new DataOutputStream(fos);
 	           
 	         // write string encoded as modified UTF-8
 	         for(String j:s) {
@@ -42,49 +42,36 @@ public class HostSimulator {
 	         dos.flush();
 	         
 	         // create file input stream
-	         is = new FileInputStream(fileName);
+	          is = new FileInputStream(fileName);
 	         
 	         // create new data input stream
-	         dis = new DataInputStream(is);
+	          dis = new DataInputStream(is);
+	         
+	         return dis;
 	         	        
 	      } catch(Exception e) {
-	      
-	         // if any error occurs
-	         e.printStackTrace();
-	      } finally {
-	         
-	         // releases all system resources from the streams
-	         try {
-				if(is!=null)
-				    is.close();
-				 if(dis!=null)
-				    dis.close();
-				 if(fos!=null)
-				    fos.close();
-				 if(dos!=null)
-				    dos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+	       System.out.println("Error on getDataInputStreamFor");
 	      }
-	      return dis;
+		return null; 
+	      
 	}
 
 	public void closeHostSimulatorResouces() {
 		// releases all system resources from the streams
         try {
-       	 	 if(is!=null)
-       	 		 is.close();
-			 if(dis!=null)
-				 dis.close();
-			 if(fos!=null)
-				 fos.close();
-			 if(dos!=null)
-				 dos.close();
-		} catch (Exception e) {}
+       	 	 if(is!=null)	{is.close();}
+			 if(dis!=null)	{dis.close();}
+			 if(fos!=null)	{fos.close();}
+			 if(dos!=null)	{dos.close();}
+		} catch (Exception e) {
+			System.out.println("Error on closeHostSimulatorResouces");
+		}
 		
+	}
+
+	public InputStream getInputStream(String s) {
+		InputStream is = new ByteArrayInputStream( s.getBytes(StandardCharsets.UTF_8) );
+		return is;
 	}
 
 

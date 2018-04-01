@@ -5,18 +5,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import org.junit.Test;
 
@@ -24,10 +16,11 @@ import kasirgalabs.Exam;
 import kasirgalabs.FoxClientUtilities;
 
 public class TestFoxClientUtilities {
-	FoxClientUtilities foxClientUtilities = new FoxClientUtilities();
+	
 	@Test
 	public void checkInForNull() {
 		try {
+			FoxClientUtilities foxClientUtilities = new FoxClientUtilities();
 			foxClientUtilities.checkIn(null, "surname", "id", "exam");
 			foxClientUtilities.checkIn("name", null, "id", "exam");
 			foxClientUtilities.checkIn("name", "surname", null, "exam");
@@ -39,15 +32,17 @@ public class TestFoxClientUtilities {
 	}
 	@Test
 	public void checkInForDummy() {
+		FoxClientUtilities foxClientUtilities = new FoxClientUtilities();
 			try {
 				int result = foxClientUtilities.checkIn("name", "surname", "id", "exam");
 				assertEquals(result, -1);
 			} catch (IOException e) {
-				
+				System.out.println("Error on checkInForDummy");
 			}
 	}
 	@Test
 	public void verifyInstructorKeyForNull() {
+		FoxClientUtilities foxClientUtilities = new FoxClientUtilities();
 		try {
 			int result =foxClientUtilities.verifyInstructorKey(null, "surname", "id", "exam", "instructorKey");
 			assertEquals(result, -1);
@@ -66,16 +61,17 @@ public class TestFoxClientUtilities {
 	
 	@Test
 	public void verifyInstructorKeyForDummy() {
+		FoxClientUtilities foxClientUtilities = new FoxClientUtilities();
 			try {
 				int result = foxClientUtilities.verifyInstructorKey("name", "surname", "id", "exam", "instructorKey");
 				assertEquals(result, -1);
 			} catch (IOException e) {
-				
+				System.out.println("Error on verifyInstructorKeyForDummy");
 			}
 	}
 	
 	
-	@Test
+	@Test()
 	 public void verifyInstructorKeyTest(){
 		     // Connect to the host.
 		HostSimulator hostSimulator = new HostSimulator();
@@ -89,7 +85,7 @@ public class TestFoxClientUtilities {
 			            assertEquals(Character.getNumericValue(c),1);
 			        }
 			} catch (Exception e) {
-				
+				System.out.println("Error on verifyInstructorKeyTest");
 			}finally {
 				hostSimulator.closeHostSimulatorResouces();
 			}
@@ -100,17 +96,18 @@ public class TestFoxClientUtilities {
 	
 	 @Test
 		public void availableExamsGettingTest() {
-			Exam[] examList;
+		 FoxClientUtilities foxClientUtilities = new FoxClientUtilities();
 			try {
-				examList = foxClientUtilities.availableExams();
+				Exam[] examList = foxClientUtilities.availableExams();
 				assertNotEquals(examList.length, 0);
 			} catch (Exception e) {
-
+				System.out.println("Error on availableExamsGettingTest");
 			}
 		}
 	
 	@Test
 	public void createZipFileTest() {
+		 FoxClientUtilities foxClientUtilities = new FoxClientUtilities();
 		int numberOfFile = 3;
 		File[] testFiles = createTestFileList(numberOfFile);
 		try {
@@ -118,7 +115,7 @@ public class TestFoxClientUtilities {
 			if(new File(zipFileName).exists()) // File exists
 		    {
 				File f = new File(zipFileName);
-				assert(f.exists());
+				assertEquals(f.exists(),true);
 				f.delete();
 				for (int i = 0; i < numberOfFile; i++) {
 					f = new File("testFile"+Integer.toString(i)+".txt");
@@ -127,13 +124,15 @@ public class TestFoxClientUtilities {
 				 
 		    }
 		} catch (Exception e) {
+			System.out.println("Error on createZipFileTest");
 		}
 	}
 	
 	public File[] createTestFileList(int numberOfFile) {
 		File[] testFiles = new File[numberOfFile];
 		for (int i = 0; i < numberOfFile; i++) {
-			testFiles[i]= createTestFile("testFile"+Integer.toString(i)+".txt");
+			String fname = "testFile"+Integer.toString(i)+".txt";
+			testFiles[i]= createTestFile(fname);
 		}
 		return testFiles;
 	}
@@ -150,6 +149,7 @@ public class TestFoxClientUtilities {
             try {
                 writer.close();
             } catch (Exception e) {
+            	System.out.println("Error on createTestFile");
             }
         }
 		return testFile;

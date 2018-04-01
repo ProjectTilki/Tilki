@@ -1,5 +1,7 @@
 package kasirgalabs.test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,8 +12,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.junit.Test;
-
-import kasirgalabs.ZipAndUpload;
 
 public class TestZipAndUpload {
 
@@ -48,7 +48,7 @@ public class TestZipAndUpload {
              String fileName;
              long fileSize;
              for(File file : files) {
-                 int progress = 0;
+              //   int progress = 0;
                  long sentBytes = 0;
                  fileName = file.getName();
                  fileSize = file.length();
@@ -92,7 +92,7 @@ public class TestZipAndUpload {
          if(new File(zipFileName).exists()) // File exists
 		    {
 				File f = new File(zipFileName);
-				assert(f.exists());
+				assertEquals(f.exists(),true);
 				f.delete();
 				for (int i = 0; i < numberOfFile; i++) {
 					f = new File("testFile"+Integer.toString(i)+".txt");
@@ -106,25 +106,21 @@ public class TestZipAndUpload {
 	public File[] createTestFileList(int numberOfFile) {
 		File[] testFiles = new File[numberOfFile];
 		for (int i = 0; i < numberOfFile; i++) {
-			testFiles[i]= createTestFile("testFile"+Integer.toString(i)+".txt");
+			String fname = "testFile"+Integer.toString(i)+".txt";
+			testFiles[i]= createTestFile(fname);
 		}
 		return testFiles;
 	}
 	public File createTestFile(String fileName) {
-		BufferedWriter writer = null;
+
 		File testFile = new File(fileName);
 		 try {
-			writer = new BufferedWriter(new FileWriter(testFile));
+			 BufferedWriter writer = new BufferedWriter(new FileWriter(testFile));
 			 writer.write("This is a sample text.");
 			 writer.close();
 		} catch (Exception e) {
-
-		} finally {
-            try {
-                writer.close();
-            } catch (Exception e) {
-            }
-        }
+			System.out.println("Error on createTestFile");
+		} 
 		return testFile;
 	}
 }
