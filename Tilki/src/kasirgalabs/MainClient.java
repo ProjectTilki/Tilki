@@ -29,8 +29,8 @@ import javax.swing.text.DocumentFilter;
 
 public class MainClient extends javax.swing.JFrame {
 
-    private static String ipAddress ;
-    private Exam[] examList;
+	private static String ipAddress = "127.0.0.1";
+    private static ArrayList<Exam> examList;
     private CaptureDesktop cam;
     private static String number;
     private String name;
@@ -1040,43 +1040,52 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
-        new javax.swing.SwingWorker<Boolean,String>(){
-            @Override
-            protected Boolean doInBackground() throws Exception {
-                try {
-                    examList = fcu.availableExams();
-                    durumLabel.setEnabled(true);
-                    durumLabel.setText("Ba\u011Fland\u0131");
-                    durumLabel.setForeground(c);
-                }
-                catch(IOException e) {
-                    examList = null;
-                    durumLabel.setText("Ba\u011Flanamad\u0131");
-                    durumLabel.setForeground(Color.red);
-                    durumLabel.setVisible(true);
-                }
-                catch(ClassNotFoundException e) {
-                    examList = null;
-                    durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
-                    durumLabel.setForeground(Color.red);
-                    durumLabel.setVisible(true);
-                }
-            jList1.setModel(new ExamListModel(examList));
-            jTextArea1.setText("");
-            return null;
-            }
-
-        }.execute();
-               
+	    	new javax.swing.SwingWorker<Boolean,String>(){
+		        @Override
+		        protected Boolean doInBackground() throws Exception {
+			    		try {
+			            examList = fcu.availableExams();
+			            ArrayList<Exam> examList2 = new ArrayList<Exam>(); 
+			
+			            for(int i=0; i< examList.size() ; i++) 
+			        			if(!examList.get(i).getExamStatus()) 
+			        				examList2.add(examList.get(i));
+			    
+			            for(Exam e: examList2)
+			        			examList.remove(e);
+			            
+			            durumLabel.setEnabled(true);
+			            durumLabel.setText("Ba\u011Fland\u0131");
+			            durumLabel.setForeground(c);
+				        }
+				        catch(IOException e) {
+				            examList = null;
+				            durumLabel.setText("Ba\u011Flanamad\u0131");
+				            durumLabel.setForeground(Color.red);
+				            durumLabel.setVisible(true);
+				        }
+				        catch(ClassNotFoundException e) {
+				            examList = null;
+				            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
+				            durumLabel.setForeground(Color.red);
+				            durumLabel.setVisible(true);
+				        }
+				        jList1.setModel(new ExamListModel(examList));
+				        jTextArea1.setText("");
+				        return null;
+		        	}
+		      }.execute();
+           
     }//GEN-LAST:event_yenileButtonActionPerformed
 
     private void jList1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MousePressed
         int location = jList1.locationToIndex(evt.getPoint());
         if(examList != null && location >= 0) {
-            jTextArea1.setText(examList[location].getDescription());
-            jLabel16.setText(examList[location].getName());
-        }    }//GEN-LAST:event_jList1MousePressed
-
+            jTextArea1.setText(examList.get(location).getDescription());
+            jLabel16.setText(examList.get(location).getName());
+        }    
+    }//GEN-LAST:event_jList1MousePressed
+    
     private void ipAddressJTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipAddressJTextField1ActionPerformed
         ipAddress=ipAddressJTextField1.getText().replaceAll(" ","");
         serverConnectionFrame.dispose();
