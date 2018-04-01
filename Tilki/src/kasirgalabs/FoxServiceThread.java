@@ -354,7 +354,6 @@ public class FoxServiceThread implements Callable<Integer> {
                 // Look for the descripton.
                 if(!new File(exam, "exam_description.txt").exists()) {
                     examDescription = null;
-//                    continue;
                 }
                 else {
                 		examDescription = "";

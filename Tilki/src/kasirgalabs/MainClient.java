@@ -917,7 +917,8 @@ public class MainClient extends javax.swing.JFrame {
         if(examList != null && location >= 0) {
             jTextArea1.setText(examList.get(location).getDescription());
             jLabel16.setText(examList.get(location).getName());
-        }    }//GEN-LAST:event_jList1MousePressed
+        }    
+    }//GEN-LAST:event_jList1MousePressed
 
     private static class ShutDownHook extends Thread {
 

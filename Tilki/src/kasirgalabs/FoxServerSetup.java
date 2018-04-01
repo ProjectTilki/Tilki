@@ -43,7 +43,6 @@ public class FoxServerSetup extends javax.swing.JFrame {
      * Creates new form FoxServerSetup
      */
     public FoxServerSetup() {
-
         this.jLabel2 = new JLabel("sa");
         fcu = new FoxClientUtilities();
         initComponents();
@@ -59,11 +58,13 @@ public class FoxServerSetup extends javax.swing.JFrame {
             examList2 = new ArrayList<Exam>(); 
             
             for(int i=0; i< examList.size() ; i++) 
-	        		if(!examList.get(i).getExamStatus()) 
+	        		if(!examList.get(i).getExamStatus()) {
 	        			examList2.add(examList.get(i));
+	        		}
         
-	        for(Exam e: examList2)
+	        for(Exam e: examList2) {
 	        		examList.remove(e);
+	        }
             	
             jList6.setModel(new ExamListModel(examList));
             jList7.setModel(new ExamListModel(examList2));
@@ -622,7 +623,6 @@ public class FoxServerSetup extends javax.swing.JFrame {
 	    		e.printStackTrace();
 	    	}
 	    	
-//	    	examList.get(jList6.getSelectedIndex()).setExamStatus(false);
 	    	examList2.add(examList.get(jList6.getSelectedIndex()));
 	    	examList.remove(jList6.getSelectedIndex());
 	    	jList6.setModel(new ExamListModel(examList));
