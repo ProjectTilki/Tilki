@@ -873,35 +873,43 @@ public class MainClient extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void yenileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yenileButtonActionPerformed
-        try {
-            examList = fcu.availableExams();
-            ArrayList<Exam> examList2 = new ArrayList<Exam>(); 
-
-            for(int i=0; i< examList.size() ; i++) 
-        			if(!examList.get(i).getExamStatus()) 
-        				examList2.add(examList.get(i));
-    
-            for(Exam e: examList2)
-        			examList.remove(e);
+    	new javax.swing.SwingWorker<Boolean,String>(){
+            @Override
+            protected Boolean doInBackground() throws Exception {
+            	
+		    		try {
+		            examList = fcu.availableExams();
+		            ArrayList<Exam> examList2 = new ArrayList<Exam>(); 
+		
+		            for(int i=0; i< examList.size() ; i++) 
+		        			if(!examList.get(i).getExamStatus()) 
+		        				examList2.add(examList.get(i));
+		    
+		            for(Exam e: examList2)
+		        			examList.remove(e);
+		            
+		            durumLabel.setEnabled(true);
+		            durumLabel.setText("Ba\u011Fland\u0131");
+		            durumLabel.setForeground(c);
+			        }
+			        catch(IOException e) {
+			            examList = null;
+			            durumLabel.setText("Ba\u011Flanamad\u0131");
+			            durumLabel.setForeground(Color.red);
+			            durumLabel.setVisible(true);
+			        }
+			        catch(ClassNotFoundException e) {
+			            examList = null;
+			            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
+			            durumLabel.setForeground(Color.red);
+			            durumLabel.setVisible(true);
+			        }
+			        jList1.setModel(new ExamListModel(examList));
+			        jTextArea1.setText("");
+			        return null;
+            	}
             
-            durumLabel.setEnabled(true);
-            durumLabel.setText("Ba\u011Fland\u0131");
-            durumLabel.setForeground(c);
-        }
-        catch(IOException e) {
-            examList = null;
-            durumLabel.setText("Ba\u011Flanamad\u0131");
-            durumLabel.setForeground(Color.red);
-            durumLabel.setVisible(true);
-        }
-        catch(ClassNotFoundException e) {
-            examList = null;
-            durumLabel.setText("Program dosyalar\u0131n\u0131z eksik.");
-            durumLabel.setForeground(Color.red);
-            durumLabel.setVisible(true);
-        }
-        jList1.setModel(new ExamListModel(examList));
-        jTextArea1.setText("");
+      }.execute();
     }//GEN-LAST:event_yenileButtonActionPerformed
 
     private void jList1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MousePressed
