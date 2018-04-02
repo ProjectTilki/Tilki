@@ -346,29 +346,50 @@ public class FoxServiceThread implements Callable<Integer> {
         // Array list of Exam object contains available exams.
         ArrayList<Exam> examList = new ArrayList<Exam>();
         String exam;
+        String examDescription = "";
+        String temp;
+        Boolean examStatus;
         while((exam = fileIn.readLine()) != null) { // Read exam list.
             if(new File(exam).exists()) {
                 // Look for the descripton.
                 if(!new File(exam, "exam_description.txt").exists()) {
-                    examList.add(new Exam(exam, null));
-                    continue;
+                    examDescription = null;
                 }
-                BufferedReader description = new BufferedReader(new FileReader(
-                        new File(exam, "exam_description.txt")));
-                String examDescription = "";
-                String temp;
-                boolean firstLine = true;
-                // Description is available.
-                while((temp = description.readLine()) != null) {
-                    if(firstLine) {
-                        examDescription += temp;
-                        firstLine = false;
-                        continue;
-                    }
-                    examDescription += "\n" + temp;
+                else {
+                		examDescription = "";
+                		BufferedReader description = new BufferedReader(new FileReader(
+                            new File(exam, "exam_description.txt")));
+                		 boolean firstLine = true;
+                         // Description is available.
+                         while((temp = description.readLine()) != null) {
+                             if(firstLine) {
+                                 examDescription += temp;
+                                 firstLine = false;
+                                 continue;
+                             }
+                             examDescription += "\n" + temp;
+                         }
+                         description.close();
                 }
-                examList.add(new Exam(exam, examDescription));
-                description.close();
+                
+                if(!new File(exam, "exam_status.txt").exists()) {
+                		examStatus = false;
+                }
+                else {
+                		BufferedReader examStatus_br = new BufferedReader(new FileReader(
+                            new File(exam, "exam_status.txt")));
+                		temp = examStatus_br.readLine();
+                		
+                		if(temp.equals("true")) {
+                			examStatus = true;
+                		}
+                		else
+                			examStatus = false;
+                		
+                		examStatus_br.close();
+
+                }
+                examList.add(new Exam(exam, examDescription,examStatus));
             }
         }
         fileIn.close();

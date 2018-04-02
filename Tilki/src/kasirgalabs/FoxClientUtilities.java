@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.JProgressBar;
@@ -138,22 +139,29 @@ public class FoxClientUtilities {
      *                                          exceptions.
      * @see Exam
      */
-    public Exam[] availableExams() throws IOException, ClassNotFoundException {
+    public ArrayList<Exam> availableExams( ) throws IOException, ClassNotFoundException {
         Socket socket = null;
-        Exam[] examList = null;
+        ArrayList<Exam> examList = new ArrayList<Exam>();
         try {
             // Connect to the host.
-            socket = new Socket(MainClient.getIpAddress(),50101);
+            socket = new Socket(MainClient.getIpAddress(), 50101);
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
             // Tell host which operation will occur.
             out.writeUTF("List exams");
             out.flush();
-
+            
             ObjectInputStream ois = new ObjectInputStream(
                     socket.getInputStream());
             Object examListObject = ois.readObject();
-            examList = (Exam[]) examListObject;
+            ois.close();
+            
+            Exam[] x = (Exam[])examListObject;
+            
+            if(examListObject!=null)
+            		for(int i=0 ; i<x.length;i++)
+            			examList.add(x[i]);
+            
         }
         catch(IOException | ClassNotFoundException e) {
             throw e;
