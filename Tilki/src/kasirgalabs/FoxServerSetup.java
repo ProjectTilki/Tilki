@@ -16,6 +16,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -137,7 +139,11 @@ public class FoxServerSetup extends javax.swing.JFrame {
                 jButton7MouseClicked(evt);
             }
         });
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> 7e761e381bc288d4b9563ce4375afc522cbf3af0
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("Durum");
         jLabel2.setVisible(false);
@@ -150,6 +156,45 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jList6.setName("jList1"); // NOI18N
         jList6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+<<<<<<< HEAD
+                jList6MouseClicked();
+        			jList7.clearSelection();
+            }
+        });
+        
+        jList6.addFocusListener(new FocusListener() {
+        		public void focusGained(FocusEvent e) {
+        			jList6MouseClicked();
+        			jList7.clearSelection();
+              }
+            
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+        });
+        
+        jList7.setName("jList2"); // NOI18N
+        jList7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            		jList6.clearSelection();
+            }
+        });
+        
+        jList7.addFocusListener(new FocusListener() {
+        	
+            public void focusGained(FocusEvent e) {
+        			jList7MouseClicked();
+        			jList6.clearSelection();
+              }
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+        });
+        
+=======
                 jList6MouseClicked(evt);
         			jList7.clearSelection();
             }
@@ -163,6 +208,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
             }
         });
         
+>>>>>>> 7e761e381bc288d4b9563ce4375afc522cbf3af0
         jScrollPane13.setViewportView(jList6);
         jScrollPane14.setViewportView(jList7);
 
@@ -394,21 +440,41 @@ public class FoxServerSetup extends javax.swing.JFrame {
             jLabel19.setText("Eksik dosya.");
             jLabel19.setVisible(true);
         }
+<<<<<<< HEAD
+        
+        jList6.setFocusable(true);
+        jList6.setEnabled(true);
+        jList7.setFocusable(true);
+        jList7.setEnabled(true);
+=======
 
+>>>>>>> 7e761e381bc288d4b9563ce4375afc522cbf3af0
         jTextArea7.setText("");
+        jList6.clearSelection();
+		jList7.clearSelection();
     }//GEN-LAST:event_jButton7MouseClicked
 
+<<<<<<< HEAD
+    private void jList6MouseClicked() {//GEN-FIRST:event_jList6MouseClicked
+=======
     private void jList6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList6MouseClicked
+>>>>>>> 7e761e381bc288d4b9563ce4375afc522cbf3af0
         // TODO add your handling code here:
-        int location = jList6.locationToIndex(evt.getPoint());
+        int location = jList6.getSelectedIndex();
         if(examList != null && location >= 0) {
             jTextArea7.setText(examList.get(location).getDescription());
         }
     }//GEN-LAST:event_jList6MouseClicked
     
+<<<<<<< HEAD
+    private void jList7MouseClicked() {//GEN-FIRST:event_jList7MouseClicked
+        // TODO add your handling code here:
+        int location = jList7.getSelectedIndex();
+=======
     private void jList7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList7MouseClicked
         // TODO add your handling code here:
         int location = jList7.locationToIndex(evt.getPoint());
+>>>>>>> 7e761e381bc288d4b9563ce4375afc522cbf3af0
         if(examList2 != null && location >= 0) {
             jTextArea7.setText(examList2.get(location).getDescription());
         }
@@ -579,6 +645,48 @@ public class FoxServerSetup extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+<<<<<<< HEAD
+
+    		if(jList6.getSelectedIndex()>=0) {
+    			jButton2.setEnabled(false);
+    	        jLabel3.setText("G\u00F6zetmen \u015Eifresi (\u015Eifre Ekle)");
+    	        jButton5.setEnabled(true);
+    	        jTextField1.setEnabled(false);
+    	        jButton4.setEnabled(true);
+    	        jLabel6.setText("S\u0131nav D\u00FCzenleme Modu");
+    	        jButton1.setEnabled(false);
+    	        jButton7.setEnabled(false);
+    	        jButton8.setEnabled(false);
+            jButton9.setEnabled(false);
+    	        reset();
+    			jTextField1.setText(examList.get(jList6.getSelectedIndex()).getName());
+    			jTextArea1.setText(examList.get(jList6.getSelectedIndex()).getDescription());
+    	        jList6.setEnabled(false);
+    	        jList7.setEnabled(false);
+    	        jList6.setFocusable(false);
+    	        jList7.setFocusable(false);
+    		} 
+    		else if(jList7.getSelectedIndex()>=0) {
+    			jButton2.setEnabled(false);
+    	        jLabel3.setText("G\u00F6zetmen \u015Eifresi (\u015Eifre Ekle)");
+    	        jButton5.setEnabled(true);
+    	        jTextField1.setEnabled(false);
+    	        jButton4.setEnabled(true);
+    	        jLabel6.setText("S\u0131nav D\u00FCzenleme Modu");
+    	        jButton1.setEnabled(false);
+    	        jButton7.setEnabled(false);
+    	        reset();
+    			jTextField1.setText(examList2.get(jList7.getSelectedIndex()).getName());
+    			jTextArea1.setText(examList2.get(jList7.getSelectedIndex()).getDescription());
+    	        jList7.setEnabled(false);
+    	        jList6.setEnabled(false);
+    	        jList6.setFocusable(false);
+    	        jList7.setFocusable(false);
+    	        jButton8.setEnabled(false);
+            jButton9.setEnabled(false);
+    		}
+            
+=======
     	jButton2.setEnabled(false);
         jLabel3.setText("G\u00F6zetmen \u015Eifresi (\u015Eifre Ekle)");
         jButton5.setEnabled(true);
@@ -603,6 +711,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
             Logger.getLogger(FoxServerSetup.class.getName()).log(Level.SEVERE,
                     null, ex);
         }
+>>>>>>> 7e761e381bc288d4b9563ce4375afc522cbf3af0
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_jButton8ActionPerformed
@@ -653,11 +762,17 @@ public class FoxServerSetup extends javax.swing.JFrame {
         jButton2.setEnabled(true);
         jLabel3.setText("G\u00F6zetmen \u015Eifresi");
         jList6.setEnabled(true);
+        jList7.setEnabled(true);
+        jButton7.setEnabled(true);
+        jButton8.setEnabled(true);
+        jButton9.setEnabled(true);
         reset();
         jButton1.setEnabled(true);
         jButton4.setEnabled(false);
         jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
         jTextField1.setEnabled(true);
+		jList6.clearSelection();
+		jList7.clearSelection();
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -670,9 +785,13 @@ public class FoxServerSetup extends javax.swing.JFrame {
             jLabel6.setText("S\u0131nav Olu\u015Fturma Modu");
             jLabel3.setText("G\u00F6zetmen \u015Eifresi");
             jList6.setEnabled(true);
+            jList7.setEnabled(true);
             jTextField1.setEnabled(true);
             jButton5.setEnabled(false);
             jButton2.setEnabled(true);
+            jButton7.setEnabled(true);
+            jButton8.setEnabled(true);
+            jButton9.setEnabled(true);
             String newPas = new String(jPasswordField1.getPassword());
             String newDesc = jTextArea1.getText();
             exam = new File("");
@@ -695,6 +814,7 @@ public class FoxServerSetup extends javax.swing.JFrame {
                 Logger.getLogger(FoxServerSetup.class.getName()).log(
                         Level.SEVERE, null, ex);
             }
+            jButton4.setEnabled(false);
             jButton7.doClick();
             reset();
         }
